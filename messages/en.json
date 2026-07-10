@@ -1,0 +1,20 @@
+{
+  "Auth": {
+    "login": {
+      "title": "Sign in to Obvious",
+      "description": "Sign in to Obvious to access your account."
+    },
+    "register": {
+      "title": "Create an account",
+      "description": "Join Obvious to manage your tasks efficiently."
+    }
+  },
+  "Validation": {
+    "invalid_email": "Invalid email address",
+    "required_password": "Password is required",
+    "min_password": "Password must be at least 6 characters",
+    "min_username": "Username must be at least 3 characters",
+    "required_code": "OTP is required",
+    "min_code": "OTP must be at least 6 characters"
+  }
+}

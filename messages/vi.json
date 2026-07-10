@@ -1,0 +1,20 @@
+{
+  "Auth": {
+    "login": {
+      "title": "Đăng nhập vào Obvious",
+      "description": "Đăng nhập vào Obvious để truy cập tài khoản của bạn."
+    },
+    "register": {
+      "title": "Tạo tài khoản",
+      "description": "Tham gia Obvious để quản lý công việc hiệu quả."
+    }
+  },
+  "Validation": {
+    "invalid_email": "Địa chỉ email không hợp lệ",
+    "required_password": "Vui lòng nhập mật khẩu",
+    "min_password": "Mật khẩu phải có ít nhất 6 ký tự",
+    "min_username": "Tên đăng nhập phải có ít nhất 3 ký tự",
+    "required_code": "Vui lòng nhập mã OTP",
+    "min_code": "Mã OTP phải có ít nhất 6 ký tự"
+  }
+}

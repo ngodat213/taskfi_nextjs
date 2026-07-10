@@ -1,0 +1,15 @@
+export const API_ENDPOINTS = {
+  AUTH: {
+    LOGIN: "/auth/login",
+    SIGNUP: "/auth/signup",
+    VERIFY_EMAIL: "/auth/verify-email",
+    RESEND_SIGNUP_OTP: "/auth/resend-signup-otp",
+    FORGOT_PASSWORD: "/auth/forgot-password",
+    RESET_PASSWORD: "/auth/reset-password",
+    LOGOUT: "/auth/logout",
+    ME: "/auth/me",
+    FCM_TOKEN: "/auth/fcm-token",
+    ACCOUNT: "/auth/account",
+    REFRESH: "/auth/refresh",
+  },
+} as const;
