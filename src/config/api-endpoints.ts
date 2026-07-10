@@ -12,4 +12,11 @@ export const API_ENDPOINTS = {
     ACCOUNT: "/auth/account",
     REFRESH: "/auth/refresh",
   },
+  WORKSPACES: {
+    LIST: "/workspaces",
+    CREATE: "/workspaces",
+  },
+  UPLOADS: {
+    IMAGE: "/uploads/image",
+  },
 } as const;

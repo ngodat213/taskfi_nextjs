@@ -95,17 +95,22 @@ apiClient.interceptors.response.use(
         { refreshToken },
       );
 
-      const { accessToken, refreshToken: newRefreshToken } = response.data.data;
+      const {
+        accessToken,
+        token,
+        refreshToken: newRefreshToken,
+      } = response.data.data;
+      const newToken = token || accessToken;
 
       // Lưu token mới
-      setAuth(accessToken, newRefreshToken);
+      setAuth(newToken, newRefreshToken);
 
       // Xử lý các request đang chờ
-      processQueue(null, accessToken);
+      processQueue(null, newToken);
 
       // Thực hiện lại request ban đầu
       if (originalRequest.headers) {
-        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
       }
       return apiClient(originalRequest);
     } catch (err) {

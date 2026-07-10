@@ -35,7 +35,8 @@ export interface UserResponseDto {
 }
 
 export interface TokenResponseDto {
-  accessToken: string;
+  accessToken?: string;
+  token?: string;
   refreshToken: string;
 }
 

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Sidebar } from "@/components/layout/sidebar";
 import { TopNav } from "@/components/layout/top-nav";
-import { usePathname } from "@/i18n/routing";
+import { usePathname, useRouter } from "@/i18n/routing";
+import { useWorkspaceStore } from "@/store/workspace.store";
 
 export default function DashboardLayout({
   children,
@@ -13,10 +14,23 @@ export default function DashboardLayout({
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
   const [prevPathname, setPrevPathname] = useState(pathname);
+  
+  const router = useRouter();
+  const activeWorkspaceId = useWorkspaceStore((state) => state.activeWorkspaceId);
+
+  useEffect(() => {
+    if (!activeWorkspaceId) {
+      router.push("/workspaces");
+    }
+  }, [activeWorkspaceId, router]);
 
   if (pathname !== prevPathname) {
     setPrevPathname(pathname);
     setSidebarOpen(false);
+  }
+
+  if (!activeWorkspaceId) {
+    return null;
   }
 
   return (

@@ -11,7 +11,8 @@ export function useLogin() {
     mutationFn: authService.login,
     onSuccess: (res) => {
       if (res.data) {
-        setAuth(res.data.accessToken, res.data.refreshToken);
+        const token = res.data.token || res.data.accessToken;
+        setAuth(token as string, res.data.refreshToken);
         router.push("/workspaces");
       }
     },

@@ -14,6 +14,10 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 import { usePathname } from "@/i18n/routing";
+import { useWorkspaceStore } from "@/store/workspace.store";
+import { useWorkspaces } from "@/features/workspaces/hooks/use-workspaces";
+import Image from "next/image";
+import { Workspace } from "@/features/workspaces/types/workspace.types";
 
 const navItems = [
   { icon: Folder, label: "Projects", href: "/projects" },
@@ -34,6 +38,17 @@ export function Sidebar({
   onClose?: () => void;
 }) {
   const pathname = usePathname();
+  const currentWorkspaceId = useWorkspaceStore(
+    (state) => state.activeWorkspaceId,
+  );
+  const { data: response } = useWorkspaces();
+  const workspaces = Array.isArray(response?.data)
+    ? response.data
+    : response?.data?.data || [];
+
+  const currentWorkspace = workspaces.find(
+    (w: Workspace) => w.id === currentWorkspaceId,
+  );
 
   return (
     <>
@@ -45,6 +60,7 @@ export function Sidebar({
         />
       )}
 
+      {/* Sidebar Content */}
       <aside
         className={cn(
           "w-[260px] flex-shrink-0 border-r border-slate-200/60 bg-white/70 md:bg-white/50 backdrop-blur-md flex flex-col h-full select-none group transition-transform duration-300 z-50",
@@ -53,10 +69,47 @@ export function Sidebar({
         )}
       >
         {/* Project Header */}
-        <div className="p-4 pt-6 flex items-start gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-400 to-emerald-600 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+        <Link
+          href="/workspaces"
+          className="p-4 pt-6 flex items-center gap-3 hover:bg-slate-50/80 transition-colors cursor-pointer group"
+        >
+          {currentWorkspace?.logoUrl ? (
+            <Image
+              src={currentWorkspace.logoUrl.replace("hhttps", "https")}
+              alt={currentWorkspace.name}
+              width={40}
+              height={40}
+              className="w-10 h-10 rounded-xl object-cover shrink-0 shadow-sm bg-slate-100 group-hover:shadow-md transition-shadow"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-400 to-emerald-600 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm group-hover:shadow-md transition-shadow">
+              <svg
+                className="w-5 h-5 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
+              </svg>
+            </div>
+          )}
+          <div className="flex flex-col overflow-hidden flex-1">
+            <span className="text-[14px] font-semibold text-slate-800 truncate tracking-tight group-hover:text-blue-600 transition-colors">
+              {currentWorkspace?.name}
+            </span>
+            <span className="text-[12.5px] text-slate-500 truncate font-medium">
+              {currentWorkspace?.description}
+            </span>
+          </div>
+
+          <div className="w-6 h-6 rounded-md flex items-center justify-center bg-slate-100/0 group-hover:bg-slate-200/50 transition-colors">
             <svg
-              className="w-5 h-5 text-white"
+              className="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition-colors"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -64,20 +117,12 @@ export function Sidebar({
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2.5}
-                d="M4 6h16M4 12h16m-7 6h7"
+                strokeWidth={2}
+                d="M8 9l4-4 4 4m0 6l-4 4-4-4"
               />
             </svg>
           </div>
-          <div className="flex flex-col overflow-hidden">
-            <span className="text-[14px] font-semibold text-slate-800 truncate tracking-tight">
-              Frontend App
-            </span>
-            <span className="text-[12.5px] text-slate-500 truncate font-medium">
-              Software project
-            </span>
-          </div>
-        </div>
+        </Link>
 
         {/* Navigation */}
         <div className="px-3 py-2 flex-1 flex flex-col gap-1 overflow-y-auto">
