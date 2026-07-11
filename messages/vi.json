@@ -23,7 +23,10 @@
     "tabs": {
       "members": "Thành viên",
       "groups": "Nhóm",
-      "roles": "Vai trò"
+      "roles": "Vai trò",
+      "departments": "Phòng ban",
+      "employmentTypes": "Loại hình công việc",
+      "teams": "Đội nhóm"
     },
     "actions": {
       "addNew": "Thêm mới",
@@ -31,6 +34,8 @@
       "searchMembers": "Tìm kiếm thành viên...",
       "searchGroups": "Tìm kiếm nhóm...",
       "searchRoles": "Tìm kiếm vai trò...",
+      "searchDepartments": "Tìm kiếm phòng ban...",
+      "searchEmploymentTypes": "Tìm kiếm loại hình...",
       "cancel": "Hủy",
       "save": "Lưu",
       "create": "Tạo",
@@ -64,10 +69,20 @@
         "type": "Loại",
         "actions": "Hành động",
         "emptyTitle": "Không tìm thấy vai trò nào",
-        "emptyDesc": "Chưa có vai trò tùy chỉnh nào được định nghĩa trong không gian làm việc này.",
+        "emptyDesc": "Chưa có vai trò tùy chỉnh nào được tạo.",
         "system": "Hệ thống",
         "custom": "Tùy chỉnh",
         "noDescription": "Không có mô tả"
+      },
+      "departments": {
+        "departmentName": "Tên phòng ban",
+        "emptyTitle": "Chưa có phòng ban",
+        "emptyDesc": "Không gian làm việc của bạn chưa có phòng ban nào."
+      },
+      "employmentTypes": {
+        "employmentTypeName": "Tên loại hình",
+        "emptyTitle": "Chưa có loại hình công việc",
+        "emptyDesc": "Không gian làm việc của bạn chưa có loại hình công việc nào."
       }
     },
     "modals": {
@@ -80,6 +95,10 @@
         "roleLabel": "Gán vai trò",
         "fullNameLabel": "Họ và tên",
         "fullNamePlaceholder": "VD: Dat Ngo",
+        "phoneLabel": "Số điện thoại",
+        "phonePlaceholder": "VD: 0912345678",
+        "locationLabel": "Vị trí",
+        "locationPlaceholder": "VD: Hà Nội, Việt Nam",
         "jobTitleLabel": "Chức danh",
         "jobTitlePlaceholder": "VD: Kỹ sư Frontend cao cấp",
         "departmentLabel": "Phòng ban",
@@ -149,6 +168,32 @@
       "editRole": {
         "title": "Chỉnh sửa vai trò",
         "subtitle": "Cập nhật vai trò tùy chỉnh"
+      },
+      "addDepartment": {
+        "title": "Tạo phòng ban mới",
+        "subtitle": "Thêm phòng ban mới vào không gian làm việc",
+        "nameLabel": "Tên phòng ban",
+        "namePlaceholder": "VD: Engineering",
+        "descLabel": "Mô tả",
+        "descPlaceholder": "Mô tả ngắn gọn về phòng ban...",
+        "btn": "Tạo mới phòng ban"
+      },
+      "editDepartment": {
+        "title": "Chỉnh sửa phòng ban",
+        "subtitle": "Cập nhật thông tin phòng ban hiện tại."
+      },
+      "addEmploymentType": {
+        "title": "Tạo loại hình công việc",
+        "subtitle": "Thêm một loại hình công việc mới vào không gian làm việc của bạn.",
+        "nameLabel": "Tên loại hình",
+        "namePlaceholder": "Ví dụ: Toàn thời gian, Bán thời gian...",
+        "descLabel": "Mô tả",
+        "descPlaceholder": "Mô tả chi tiết về loại hình công việc này",
+        "btn": "Tạo mới loại hình"
+      },
+      "editEmploymentType": {
+        "title": "Chỉnh sửa loại hình",
+        "subtitle": "Cập nhật thông tin loại hình công việc hiện tại."
       }
     }
   },

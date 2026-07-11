@@ -7,6 +7,12 @@ export interface BaseResponse<T = unknown> {
   details?: unknown;
 }
 
+export interface BaseEntity {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface PaginationData<T> {
   data: T[];
   total: number;

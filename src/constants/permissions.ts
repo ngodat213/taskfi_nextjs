@@ -30,6 +30,26 @@ export const PERMISSION_MATRIX = [
     },
   },
   {
+    resource: "Department",
+    label: "Departments",
+    permissions: {
+      create: "department:create",
+      update: "department:update",
+      delete: "department:delete",
+      other: null,
+    },
+  },
+  {
+    resource: "Employment Type",
+    label: "Employment Types",
+    permissions: {
+      create: "employmentType:create",
+      update: "employmentType:update",
+      delete: "employmentType:delete",
+      other: null,
+    },
+  },
+  {
     resource: "Team",
     label: "Teams",
     permissions: {

@@ -119,10 +119,14 @@ export const ModalBody = React.forwardRef<
 ));
 ModalBody.displayName = "ModalBody";
 
-export interface ModalScrollAreaProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
+export interface ModalScrollAreaProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "title"
+> {
   title?: React.ReactNode;
   description?: React.ReactNode;
   rightElement?: React.ReactNode;
+  errorMessage?: React.ReactNode;
 }
 
 export const ModalScrollArea = React.forwardRef<
@@ -130,7 +134,15 @@ export const ModalScrollArea = React.forwardRef<
   ModalScrollAreaProps
 >(
   (
-    { className, children, title, description, rightElement, ...props },
+    {
+      className,
+      children,
+      title,
+      description,
+      rightElement,
+      errorMessage,
+      ...props
+    },
     ref,
   ) => (
     <div
@@ -141,20 +153,29 @@ export const ModalScrollArea = React.forwardRef<
       )}
       {...props}
     >
-      {(title || description || rightElement) && (
-        <div className="mb-6">
-          <div className="flex items-start justify-between">
-            {title && (
-              <h2 className="text-[18px] font-semibold text-slate-900 tracking-tight">
-                {title}
-              </h2>
-            )}
-            {rightElement && (
-              <div className="flex-shrink-0 ml-4">{rightElement}</div>
+      {(title || description || rightElement || errorMessage) && (
+        <div className="mb-6 flex flex-col gap-4">
+          <div>
+            <div className="flex items-start justify-between">
+              {title && (
+                <h2 className="text-[18px] font-semibold text-slate-900 tracking-tight">
+                  {title}
+                </h2>
+              )}
+              {rightElement && (
+                <div className="flex-shrink-0 ml-4">{rightElement}</div>
+              )}
+            </div>
+            {description && (
+              <p className="text-[13.5px] text-slate-500 mt-1.5">
+                {description}
+              </p>
             )}
           </div>
-          {description && (
-            <p className="text-[13.5px] text-slate-500 mt-1.5">{description}</p>
+          {errorMessage && (
+            <div className="p-3 text-[13px] text-red-600 bg-red-50 border border-red-100 rounded-md">
+              {errorMessage}
+            </div>
           )}
         </div>
       )}

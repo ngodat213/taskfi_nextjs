@@ -25,10 +25,8 @@ import {
   InviteUserFormData,
 } from "@/features/workspace-settings/schema/user.schema";
 import { TRANSLATION_KEYS } from "@/constants/translations";
-import {
-  DEPARTMENTS,
-  EMPLOYMENT_TYPES,
-} from "@/features/workspace-settings/constants/user.constants";
+import { useDepartments } from "@/features/departments/hooks/use-departments";
+import { useEmploymentTypes } from "@/features/employment-types/hooks/use-employment-types";
 import { Label } from "@/components/ui/forms/label";
 
 interface AddNewUserModalProps {
@@ -47,9 +45,20 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
   const { data: rolesResponse } = useWorkspaceRoles(
     activeWorkspaceId as string,
   );
-  const roles = useMemo(
-    () => rolesResponse?.data?.data || [],
-    [rolesResponse?.data?.data],
+  const roles = useMemo(() => rolesResponse?.data?.data || [], [rolesResponse]);
+
+  const { data: departmentsResponse, isLoading: isLoadingDepartments } =
+    useDepartments();
+  const departments = useMemo(
+    () => departmentsResponse?.data || [],
+    [departmentsResponse],
+  );
+
+  const { data: employmentTypesResponse, isLoading: isLoadingEmploymentTypes } =
+    useEmploymentTypes();
+  const employmentTypes = useMemo(
+    () => employmentTypesResponse?.data || [],
+    [employmentTypesResponse],
   );
 
   const inviteMutation = useInviteWorkspaceMember();
@@ -59,6 +68,7 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
     handleSubmit,
     control,
     reset,
+    setError,
     formState: { errors },
   } = useForm<InviteUserFormData>({
     resolver: zodResolver(inviteUserSchema),
@@ -91,11 +101,30 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
     try {
       await inviteMutation.mutateAsync({
         workspaceId: activeWorkspaceId,
-        data: { email: data.email, roleId: data.roleId },
+        data: {
+          username: data.username,
+          email: data.email,
+          phone: data.phone,
+          location: data.location,
+          roleId: data.roleId,
+          jobTitle: data.jobTitle,
+          departmentId: data.departmentId,
+          employmentTypeId: data.employmentTypeId,
+          skills: data.skills,
+          personalNote: data.personalNote,
+        },
       });
       handleClose();
     } catch (error) {
       console.error(error);
+      const err = error as Error & {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        err.response?.data?.message ||
+        err.message ||
+        "An unexpected error occurred.";
+      setError("root", { type: "server", message });
     }
   };
 
@@ -110,7 +139,11 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
             icon={<FileText className="w-4 h-4" />}
           />
           <ModalBody>
-            <ModalScrollArea title={t(TK.subtitle)} description={t(TK.desc)}>
+            <ModalScrollArea
+              title={t(TK.subtitle)}
+              description={t(TK.desc)}
+              errorMessage={errors.root?.message}
+            >
               <div className="flex flex-col gap-5">
                 {/* Row 1: Name & Email */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
@@ -119,10 +152,10 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                     required
                     type="text"
                     placeholder={t(TK.fullNamePlaceholder)}
-                    {...register("fullName")}
+                    {...register("username")}
                     className={fieldStyle}
                     disabled={inviteMutation.isPending}
-                    error={errors.fullName?.message}
+                    error={errors.username?.message}
                   />
                   <FormInput
                     label={t(TK.emailLabel)}
@@ -136,7 +169,29 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                   />
                 </div>
 
-                {/* Row 2: Title & Department */}
+                {/* Row 2: Phone & Location */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                  <FormInput
+                    label={t(TK.phoneLabel) || "Phone Number"}
+                    type="tel"
+                    placeholder={t(TK.phonePlaceholder) || "Enter phone number"}
+                    {...register("phone")}
+                    className={fieldStyle}
+                    disabled={inviteMutation.isPending}
+                    error={errors.phone?.message}
+                  />
+                  <FormInput
+                    label={t(TK.locationLabel) || "Location"}
+                    type="text"
+                    placeholder={t(TK.locationPlaceholder) || "Enter location"}
+                    {...register("location")}
+                    className={fieldStyle}
+                    disabled={inviteMutation.isPending}
+                    error={errors.location?.message}
+                  />
+                </div>
+
+                {/* Row 3: Title & Department */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                   <FormInput
                     label={t(TK.jobTitleLabel)}
@@ -149,22 +204,26 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                     error={errors.jobTitle?.message}
                   />
                   <Controller
-                    name="department"
+                    name="departmentId"
                     control={control}
                     render={({ field, fieldState }) => (
                       <FormSelect
                         label={t(TK.departmentLabel)}
                         className={fieldStyle}
-                        disabled={inviteMutation.isPending}
+                        disabled={
+                          inviteMutation.isPending || isLoadingDepartments
+                        }
                         error={fieldState.error?.message}
                         {...field}
                       >
                         <option value="" disabled>
-                          {t(TK.departmentOptions.placeholder)}
+                          {isLoadingDepartments
+                            ? t(TK.loadingRoles) // We can reuse loading text or fallback
+                            : t(TK.departmentOptions.placeholder)}
                         </option>
-                        {DEPARTMENTS.map((d) => (
-                          <option key={d.value} value={d.value}>
-                            {t(d.label)}
+                        {departments.map((d) => (
+                          <option key={d.id} value={d.id}>
+                            {d.name}
                           </option>
                         ))}
                       </FormSelect>
@@ -172,7 +231,7 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                   />
                 </div>
 
-                {/* Row 3: Role & Type */}
+                {/* Row 4: Role & Type */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                   <Controller
                     name="roleId"
@@ -200,19 +259,26 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                     )}
                   />
                   <Controller
-                    name="employmentType"
+                    name="employmentTypeId"
                     control={control}
                     render={({ field, fieldState }) => (
                       <FormSelect
                         label={t(TK.employmentTypeLabel)}
                         className={fieldStyle}
-                        disabled={inviteMutation.isPending}
+                        disabled={
+                          inviteMutation.isPending || isLoadingEmploymentTypes
+                        }
                         error={fieldState.error?.message}
                         {...field}
                       >
-                        {EMPLOYMENT_TYPES.map((e) => (
-                          <option key={e.value} value={e.value}>
-                            {t(e.label)}
+                        <option value="" disabled>
+                          {isLoadingEmploymentTypes
+                            ? t(TK.loadingRoles)
+                            : t(TK.departmentOptions.placeholder)}
+                        </option>
+                        {employmentTypes.map((e) => (
+                          <option key={e.id} value={e.id}>
+                            {e.name}
                           </option>
                         ))}
                       </FormSelect>
@@ -220,7 +286,7 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                   />
                 </div>
 
-                {/* Row 4: Skills/Tags */}
+                {/* Row 5: Skills/Tags */}
                 <FormInput
                   label={t(TK.skillsLabel)}
                   type="text"
@@ -231,7 +297,7 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                   error={errors.skills?.message}
                 />
 
-                {/* Row 5: Personal Note */}
+                {/* Row 6: Personal Note */}
                 <div className="flex flex-col gap-1.5">
                   <div className="flex items-center justify-between">
                     <Label>{t(TK.noteLabel)}</Label>
@@ -245,7 +311,7 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                   </div>
                   <Textarea
                     placeholder={t(TK.notePlaceholder)}
-                    {...register("note")}
+                    {...register("personalNote")}
                     className="focus:border-blue-500 focus:ring-blue-500"
                     disabled={inviteMutation.isPending}
                   />

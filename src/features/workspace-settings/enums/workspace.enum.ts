@@ -1,5 +1,9 @@
 export enum WorkspaceSettingsTab {
-  MEMBERS = "members",
-  GROUPS = "groups",
+  GENERAL = "general",
   ROLES = "roles",
+  GROUPS = "groups",
+  TEAMS = "teams",
+  MEMBERS = "members",
+  DEPARTMENTS = "departments",
+  EMPLOYMENT_TYPES = "employment_types",
 }

@@ -24,7 +24,7 @@ export function GroupsTable({ onEdit }: GroupsTableProps) {
   const t = useTranslations("WorkspaceSettings");
   const TK = TRANSLATION_KEYS.tables.groups;
   const { data: groupsResponse, isLoading } = useGroups();
-  const groups = Array.isArray(groupsResponse?.data) ? groupsResponse.data : [];
+  const groups = groupsResponse?.data || [];
 
   if (isLoading) {
     return (

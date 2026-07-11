@@ -4,14 +4,14 @@ import { useForm } from "react-hook-form";
 import { Link } from "@/i18n/routing";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, ButtonVariant, ButtonSize } from "@/components/ui/actions/button";
+import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { Input } from "@/components/ui/forms/input";
 import { Label } from "@/components/ui/forms/label";
 import { useLogin } from "@/features/auth/hooks/use-auth";
 import { handleFormError } from "@/utils/error";
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 const getLoginSchema = (t: ReturnType<typeof useTranslations>) =>
   z.object({
@@ -24,6 +24,7 @@ type LoginFormValues = z.infer<ReturnType<typeof getLoginSchema>>;
 export function LoginForm() {
   const t = useTranslations("Validation");
   const loginSchema = useMemo(() => getLoginSchema(t), [t]);
+  const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
 
   const {
     register,
@@ -38,14 +39,30 @@ export function LoginForm() {
   const { mutate: login, isPending: isLoading } = useLogin();
 
   const onSubmit = (data: LoginFormValues) => {
+    setUnverifiedEmail(null);
     login(data, {
-      onError: (err) => handleFormError(err, setError),
+      onError: (err) => {
+        const error = err as { response?: { data?: { errorCode?: string } } };
+        if (error?.response?.data?.errorCode === "EMAIL_NOT_VERIFIED") {
+          setUnverifiedEmail(data.email);
+          setError("root", {
+            type: "server",
+            message: "Your email is not verified.",
+          });
+          return;
+        }
+        handleFormError(err, setError);
+      },
     });
   };
 
   return (
     <div className="w-full">
-      <Button variant={ButtonVariant.Outline} className="w-full py-2 mb-6" type="button">
+      <Button
+        variant={ButtonVariant.Outline}
+        className="w-full py-2 mb-6"
+        type="button"
+      >
         <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
           <path
             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -76,7 +93,17 @@ export function LoginForm() {
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         {errors.root && (
           <div className="p-3 text-[13px] text-red-500 bg-red-50/50 border border-red-200/50 rounded-lg">
-            {errors.root.message}
+            {errors.root.message}{" "}
+            {unverifiedEmail && (
+              <Link
+                href={`/verify-otp?email=${encodeURIComponent(
+                  unverifiedEmail,
+                )}`}
+                className="font-medium underline hover:text-red-700"
+              >
+                Verify now
+              </Link>
+            )}
           </div>
         )}
 

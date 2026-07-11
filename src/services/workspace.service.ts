@@ -9,6 +9,12 @@ import {
   WorkspaceRole,
   CreateRoleRequest,
   UpdateRoleRequest,
+  Department,
+  CreateDepartmentRequest,
+  UpdateDepartmentRequest,
+  EmploymentType,
+  CreateEmploymentTypeRequest,
+  UpdateEmploymentTypeRequest,
 } from "@/types/workspace.types";
 import {
   BaseResponse,
@@ -103,6 +109,104 @@ export const workspaceService = {
   deleteWorkspaceRole: async (id: string, roleId: string) => {
     const response = await apiClient.delete<BaseResponse<string>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${id}/roles/${roleId}`,
+    );
+    return response.data;
+  },
+
+  // Department endpoints
+  getDepartments: async (workspaceId: string, params?: PaginationParams) => {
+    const response = await apiClient.get<BaseResponse<Department[]>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/departments`,
+      { params },
+    );
+    return response.data;
+  },
+
+  getDepartment: async (workspaceId: string, departmentId: string) => {
+    const response = await apiClient.get<BaseResponse<Department>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/departments/${departmentId}`,
+    );
+    return response.data;
+  },
+
+  createDepartment: async (
+    workspaceId: string,
+    data: CreateDepartmentRequest,
+  ) => {
+    const response = await apiClient.post<BaseResponse<Department>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/departments`,
+      data,
+    );
+    return response.data;
+  },
+
+  updateDepartment: async (
+    workspaceId: string,
+    departmentId: string,
+    data: UpdateDepartmentRequest,
+  ) => {
+    const response = await apiClient.put<BaseResponse<Department>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/departments/${departmentId}`,
+      data,
+    );
+    return response.data;
+  },
+
+  deleteDepartment: async (workspaceId: string, departmentId: string) => {
+    const response = await apiClient.delete<BaseResponse<null>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/departments/${departmentId}`,
+    );
+    return response.data;
+  },
+
+  // Employment Type endpoints
+  getEmploymentTypes: async (
+    workspaceId: string,
+    params?: PaginationParams,
+  ) => {
+    const response = await apiClient.get<BaseResponse<EmploymentType[]>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/employment-types`,
+      { params },
+    );
+    return response.data;
+  },
+
+  getEmploymentType: async (workspaceId: string, employmentTypeId: string) => {
+    const response = await apiClient.get<BaseResponse<EmploymentType>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/employment-types/${employmentTypeId}`,
+    );
+    return response.data;
+  },
+
+  createEmploymentType: async (
+    workspaceId: string,
+    data: CreateEmploymentTypeRequest,
+  ) => {
+    const response = await apiClient.post<BaseResponse<EmploymentType>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/employment-types`,
+      data,
+    );
+    return response.data;
+  },
+
+  updateEmploymentType: async (
+    workspaceId: string,
+    employmentTypeId: string,
+    data: UpdateEmploymentTypeRequest,
+  ) => {
+    const response = await apiClient.put<BaseResponse<EmploymentType>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/employment-types/${employmentTypeId}`,
+      data,
+    );
+    return response.data;
+  },
+
+  deleteEmploymentType: async (
+    workspaceId: string,
+    employmentTypeId: string,
+  ) => {
+    const response = await apiClient.delete<BaseResponse<null>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/employment-types/${employmentTypeId}`,
     );
     return response.data;
   },

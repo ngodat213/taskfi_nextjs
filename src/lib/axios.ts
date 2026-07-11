@@ -54,10 +54,14 @@ apiClient.interceptors.response.use(
     };
 
     // Bỏ qua nếu không phải lỗi 401 hoặc request đã được retry trước đó
+    // Bỏ qua nếu là request đang gọi tới các endpoint auth (login, register...)
+    const isAuthEndpoint = originalRequest.url?.includes("/auth/login") || originalRequest.url?.includes("/auth/register");
+    
     if (
       error.response?.status !== 401 ||
       !originalRequest ||
-      originalRequest._retry
+      originalRequest._retry ||
+      isAuthEndpoint
     ) {
       return Promise.reject(error);
     }
