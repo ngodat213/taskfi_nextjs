@@ -39,8 +39,16 @@ export interface WorkspaceMember {
 }
 
 export interface InviteWorkspaceMemberRequest {
+  username: string;
   email: string;
+  phone?: string;
+  location?: string;
   roleId: string;
+  jobTitle?: string;
+  departmentId?: string;
+  employmentTypeId?: string;
+  skills?: string;
+  personalNote?: string;
 }
 
 export interface WorkspaceRole {

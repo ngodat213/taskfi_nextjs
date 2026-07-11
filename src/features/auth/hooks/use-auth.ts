@@ -1,7 +1,8 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { authService } from "@/features/auth/api/auth.service";
 import { useAuthStore } from "@/store/auth.store";
 import { useRouter } from "@/i18n/routing";
+import { useWorkspaceStore } from "@/store/workspace.store";
 
 export function useLogin() {
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -21,12 +22,15 @@ export function useLogin() {
 
 export function useLogout() {
   const logout = useAuthStore((state) => state.logout);
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   return useMutation({
     mutationFn: authService.logout,
     onSettled: () => {
       logout();
+      useWorkspaceStore.getState().clearWorkspace();
+      queryClient.clear();
       router.push("/login");
     },
   });

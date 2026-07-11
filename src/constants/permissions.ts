@@ -43,9 +43,9 @@ export const PERMISSION_MATRIX = [
     resource: "Employment Type",
     label: "Employment Types",
     permissions: {
-      create: "employment_type:create",
-      update: "employment_type:update",
-      delete: "employment_type:delete",
+      create: "employmentType:create",
+      update: "employmentType:update",
+      delete: "employmentType:delete",
       other: null,
     },
   },

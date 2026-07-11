@@ -14,9 +14,11 @@ export default function DashboardLayout({
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
   const [prevPathname, setPrevPathname] = useState(pathname);
-  
+
   const router = useRouter();
-  const activeWorkspaceId = useWorkspaceStore((state) => state.activeWorkspaceId);
+  const activeWorkspaceId = useWorkspaceStore(
+    (state) => state.activeWorkspaceId,
+  );
 
   useEffect(() => {
     if (!activeWorkspaceId) {
