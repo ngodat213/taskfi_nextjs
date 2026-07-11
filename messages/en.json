@@ -23,7 +23,10 @@
     "tabs": {
       "members": "Members",
       "groups": "Groups",
-      "roles": "Roles"
+      "roles": "Roles",
+      "departments": "Departments",
+      "employmentTypes": "Employment Types",
+      "teams": "Teams"
     },
     "actions": {
       "addNew": "Add new",
@@ -31,6 +34,8 @@
       "searchMembers": "Search members...",
       "searchGroups": "Search groups...",
       "searchRoles": "Search roles...",
+      "searchDepartments": "Search departments...",
+      "searchEmploymentTypes": "Search employment types...",
       "cancel": "Cancel",
       "save": "Save",
       "create": "Create",
@@ -64,10 +69,20 @@
         "type": "Type",
         "actions": "Actions",
         "emptyTitle": "No roles found",
-        "emptyDesc": "There are no custom roles defined in this workspace yet.",
+        "emptyDesc": "No custom roles have been created yet.",
         "system": "System",
         "custom": "Custom",
-        "noDescription": "No description provided"
+        "noDescription": "No description"
+      },
+      "departments": {
+        "departmentName": "Department Name",
+        "emptyTitle": "No departments found",
+        "emptyDesc": "No departments exist in this workspace yet."
+      },
+      "employmentTypes": {
+        "employmentTypeName": "Employment Type Name",
+        "emptyTitle": "No employment types found",
+        "emptyDesc": "No employment types exist in this workspace yet."
       }
     },
     "modals": {
@@ -149,6 +164,32 @@
       "editRole": {
         "title": "Edit Role",
         "subtitle": "Update custom role"
+      },
+      "addDepartment": {
+        "title": "Create new department",
+        "subtitle": "Add a new department to the workspace",
+        "nameLabel": "Department Name",
+        "namePlaceholder": "e.g. Engineering",
+        "descLabel": "Description",
+        "descPlaceholder": "Briefly describe the department...",
+        "btn": "Create Department"
+      },
+      "editDepartment": {
+        "title": "Edit Department",
+        "subtitle": "Update department details"
+      },
+      "addEmploymentType": {
+        "title": "Create new employment type",
+        "subtitle": "Add a new employment type to the workspace",
+        "nameLabel": "Employment Type Name",
+        "namePlaceholder": "e.g. Full-time, Part-time",
+        "descLabel": "Description",
+        "descPlaceholder": "Briefly describe the employment type...",
+        "btn": "Create Employment Type"
+      },
+      "editEmploymentType": {
+        "title": "Edit Employment Type",
+        "subtitle": "Update employment type details"
       }
     }
   },

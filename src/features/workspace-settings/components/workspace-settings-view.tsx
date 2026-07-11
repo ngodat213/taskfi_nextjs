@@ -1,8 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Users, Shield, UserCog, Plus, Search } from "lucide-react";
-import { Button, ButtonVariant, ButtonSize } from "@/components/ui/actions/button";
+import { Users, Shield, LayoutGrid, Building2, Briefcase, Plus, Search } from "lucide-react";
+import {
+  Button,
+  ButtonVariant,
+  ButtonSize,
+} from "@/components/ui/actions/button";
 import { TRANSLATION_KEYS } from "@/constants/translations";
 import { Input } from "@/components/ui/forms/input";
 import { PageHeader } from "@/components/ui/layout/page-header";
@@ -16,8 +20,17 @@ import { RolesTable } from "./roles-table";
 import { AddNewUserModal } from "./add-new-user-modal";
 import { AddNewGroupModal } from "./add-new-group-modal";
 import { AddNewRoleModal } from "./add-new-role-modal";
+import { DepartmentsTable } from "@/features/workspace-settings/components/departments-table";
+import { AddNewDepartmentModal } from "@/features/workspace-settings/components/add-new-department-modal";
+import { EmploymentTypesTable } from "@/features/workspace-settings/components/employment-types-table";
+import { AddNewEmploymentTypeModal } from "@/features/workspace-settings/components/add-new-employment-type-modal";
 import { Group } from "@/types/group.types";
-import { WorkspaceRole } from "@/types/workspace.types";
+import {
+  WorkspaceRole,
+  Department,
+  EmploymentType,
+} from "@/types/workspace.types";
+
 
 export function WorkspaceSettingsView() {
   const t = useTranslations("WorkspaceSettings");
@@ -34,15 +47,31 @@ export function WorkspaceSettingsView() {
     {
       id: WorkspaceSettingsTab.GROUPS,
       label: t(TK_TABS.groups),
-      icon: UserCog,
+      icon: LayoutGrid,
     },
     { id: WorkspaceSettingsTab.ROLES, label: t(TK_TABS.roles), icon: Shield },
+    {
+      id: WorkspaceSettingsTab.DEPARTMENTS,
+      label: t(TK_TABS.departments),
+      icon: Building2,
+    },
+    {
+      id: WorkspaceSettingsTab.EMPLOYMENT_TYPES,
+      label: t(TK_TABS.employmentTypes),
+      icon: Briefcase,
+    },
   ];
 
   const searchPlaceholders: Record<WorkspaceSettingsTab, string> = {
+    [WorkspaceSettingsTab.GENERAL]: "",
+    [WorkspaceSettingsTab.TEAMS]: "",
     [WorkspaceSettingsTab.MEMBERS]: t(TK_ACTIONS.searchMembers),
     [WorkspaceSettingsTab.GROUPS]: t(TK_ACTIONS.searchGroups),
     [WorkspaceSettingsTab.ROLES]: t(TK_ACTIONS.searchRoles),
+    [WorkspaceSettingsTab.DEPARTMENTS]: t(TK_ACTIONS.searchDepartments),
+    [WorkspaceSettingsTab.EMPLOYMENT_TYPES]: t(
+      TK_ACTIONS.searchEmploymentTypes,
+    ),
   };
   const [activeTab, setActiveTab] = useState<WorkspaceSettingsTab>(
     WorkspaceSettingsTab.MEMBERS,
@@ -50,13 +79,24 @@ export function WorkspaceSettingsView() {
   const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
   const [isAddGroupModalOpen, setIsAddGroupModalOpen] = useState(false);
   const [isAddRoleModalOpen, setIsAddRoleModalOpen] = useState(false);
+  const [isAddDepartmentModalOpen, setIsAddDepartmentModalOpen] =
+    useState(false);
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
   const [selectedRole, setSelectedRole] = useState<WorkspaceRole | null>(null);
+  const [selectedDepartment, setSelectedDepartment] =
+    useState<Department | null>(null);
+  const [isAddEmploymentTypeOpen, setIsAddEmploymentTypeOpen] = useState(false);
+  const [selectedEmploymentType, setSelectedEmploymentType] =
+    useState<EmploymentType | null>(null);
 
   const handleAddNew = () => {
     if (activeTab === WorkspaceSettingsTab.MEMBERS) setIsAddUserModalOpen(true);
     if (activeTab === WorkspaceSettingsTab.GROUPS) setIsAddGroupModalOpen(true);
     if (activeTab === WorkspaceSettingsTab.ROLES) setIsAddRoleModalOpen(true);
+    if (activeTab === WorkspaceSettingsTab.DEPARTMENTS)
+      setIsAddDepartmentModalOpen(true);
+    if (activeTab === WorkspaceSettingsTab.EMPLOYMENT_TYPES)
+      setIsAddEmploymentTypeOpen(true);
   };
 
   return (
@@ -128,6 +168,22 @@ export function WorkspaceSettingsView() {
                 }}
               />
             )}
+            {activeTab === WorkspaceSettingsTab.DEPARTMENTS && (
+              <DepartmentsTable
+                onEdit={(department) => {
+                  setSelectedDepartment(department);
+                  setIsAddDepartmentModalOpen(true);
+                }}
+              />
+            )}
+            {activeTab === WorkspaceSettingsTab.EMPLOYMENT_TYPES && (
+              <EmploymentTypesTable
+                onEdit={(et) => {
+                  setSelectedEmploymentType(et);
+                  setIsAddEmploymentTypeOpen(true);
+                }}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -151,6 +207,22 @@ export function WorkspaceSettingsView() {
           setSelectedRole(null);
         }}
         initialData={selectedRole}
+      />
+      <AddNewDepartmentModal
+        isOpen={isAddDepartmentModalOpen}
+        onClose={() => {
+          setIsAddDepartmentModalOpen(false);
+          setSelectedDepartment(null);
+        }}
+        initialData={selectedDepartment}
+      />
+      <AddNewEmploymentTypeModal
+        isOpen={isAddEmploymentTypeOpen}
+        onClose={() => {
+          setIsAddEmploymentTypeOpen(false);
+          setSelectedEmploymentType(null);
+        }}
+        initialData={selectedEmploymentType}
       />
     </div>
   );

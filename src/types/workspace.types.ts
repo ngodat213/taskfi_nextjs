@@ -1,3 +1,5 @@
+import { BaseEntity } from "./api.types";
+
 export interface Workspace {
   id: string;
   name: string;
@@ -63,4 +65,36 @@ export interface UpdateRoleRequest {
   name?: string;
   description?: string;
   permissions?: string[];
+}
+
+export interface Department extends BaseEntity {
+  workspaceId: string;
+  name: string;
+  description?: string;
+}
+
+export interface CreateDepartmentRequest {
+  name: string;
+  description?: string;
+}
+
+export interface UpdateDepartmentRequest {
+  name?: string;
+  description?: string;
+}
+
+export interface EmploymentType extends BaseEntity {
+  workspaceId: string;
+  name: string;
+  description?: string;
+}
+
+export interface CreateEmploymentTypeRequest {
+  name: string;
+  description?: string;
+}
+
+export interface UpdateEmploymentTypeRequest {
+  name?: string;
+  description?: string;
 }

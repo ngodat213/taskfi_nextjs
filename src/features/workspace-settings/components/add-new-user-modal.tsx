@@ -25,10 +25,8 @@ import {
   InviteUserFormData,
 } from "@/features/workspace-settings/schema/user.schema";
 import { TRANSLATION_KEYS } from "@/constants/translations";
-import {
-  DEPARTMENTS,
-  EMPLOYMENT_TYPES,
-} from "@/features/workspace-settings/constants/user.constants";
+import { useDepartments } from "@/features/departments/hooks/use-departments";
+import { useEmploymentTypes } from "@/features/employment-types/hooks/use-employment-types";
 import { Label } from "@/components/ui/forms/label";
 
 interface AddNewUserModalProps {
@@ -47,9 +45,20 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
   const { data: rolesResponse } = useWorkspaceRoles(
     activeWorkspaceId as string,
   );
-  const roles = useMemo(
-    () => rolesResponse?.data?.data || [],
-    [rolesResponse?.data?.data],
+  const roles = useMemo(() => rolesResponse?.data?.data || [], [rolesResponse]);
+
+  const { data: departmentsResponse, isLoading: isLoadingDepartments } =
+    useDepartments();
+  const departments = useMemo(
+    () => departmentsResponse?.data || [],
+    [departmentsResponse],
+  );
+
+  const { data: employmentTypesResponse, isLoading: isLoadingEmploymentTypes } =
+    useEmploymentTypes();
+  const employmentTypes = useMemo(
+    () => employmentTypesResponse?.data || [],
+    [employmentTypesResponse],
   );
 
   const inviteMutation = useInviteWorkspaceMember();
@@ -155,16 +164,20 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                       <FormSelect
                         label={t(TK.departmentLabel)}
                         className={fieldStyle}
-                        disabled={inviteMutation.isPending}
+                        disabled={
+                          inviteMutation.isPending || isLoadingDepartments
+                        }
                         error={fieldState.error?.message}
                         {...field}
                       >
                         <option value="" disabled>
-                          {t(TK.departmentOptions.placeholder)}
+                          {isLoadingDepartments
+                            ? t(TK.loadingRoles) // We can reuse loading text or fallback
+                            : t(TK.departmentOptions.placeholder)}
                         </option>
-                        {DEPARTMENTS.map((d) => (
-                          <option key={d.value} value={d.value}>
-                            {t(d.label)}
+                        {departments.map((d) => (
+                          <option key={d.id} value={d.name}>
+                            {d.name}
                           </option>
                         ))}
                       </FormSelect>
@@ -206,13 +219,18 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                       <FormSelect
                         label={t(TK.employmentTypeLabel)}
                         className={fieldStyle}
-                        disabled={inviteMutation.isPending}
+                        disabled={inviteMutation.isPending || isLoadingEmploymentTypes}
                         error={fieldState.error?.message}
                         {...field}
                       >
-                        {EMPLOYMENT_TYPES.map((e) => (
-                          <option key={e.value} value={e.value}>
-                            {t(e.label)}
+                        <option value="" disabled>
+                          {isLoadingEmploymentTypes
+                            ? t(TK.loadingRoles)
+                            : t(TK.departmentOptions.placeholder)}
+                        </option>
+                        {employmentTypes.map((e) => (
+                          <option key={e.id} value={e.name}>
+                            {e.name}
                           </option>
                         ))}
                       </FormSelect>
