@@ -1,5 +1,3 @@
-import { PaginatedResponse } from "@/types/api.types";
-
 export interface Workspace {
   id: string;
   name: string;
@@ -8,8 +6,6 @@ export interface Workspace {
   createdAt: string;
   updatedAt: string;
 }
-
-export type WorkspaceResponse = PaginatedResponse<Workspace>;
 
 export interface CreateWorkspaceRequest {
   name: string;
@@ -31,6 +27,12 @@ export interface WorkspaceMember {
   username: string;
   email: string;
   roleName: string;
+  phone?: string;
+  location?: string;
+  jobTitle?: string;
+  department?: string;
+  status?: string;
+  tags?: string[];
   createdAt: string;
 }
 

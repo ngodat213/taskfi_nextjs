@@ -17,7 +17,7 @@ import { usePathname } from "@/i18n/routing";
 import { useWorkspaceStore } from "@/store/workspace.store";
 import { useWorkspaces } from "@/features/workspaces/hooks/use-workspaces";
 import Image from "next/image";
-import { Workspace } from "@/features/workspaces/types/workspace.types";
+import { Workspace } from "@/types/workspace.types";
 
 const navItems = [
   { icon: Folder, label: "Projects", href: "/projects" },

@@ -1,6 +1,5 @@
 import { useState } from "react";
-import Image from "next/image";
-import { Plus, Briefcase, Loader2 } from "lucide-react";
+import { Briefcase, Loader2 } from "lucide-react";
 import {
   Modal,
   ModalContent,
@@ -8,10 +7,10 @@ import {
   ModalBody,
   ModalScrollArea,
   ModalFooter,
-} from "@/components/ui/modal";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+} from "@/components/ui/layout/modal";
+import { LogoPicker } from "@/components/ui/forms/logo-picker";
+import { FormInput } from "@/components/ui/forms/form-input";
+import { FormTextarea } from "@/components/ui/forms/form-textarea";
 import { useCreateWorkspace } from "@/features/workspaces/hooks/use-workspaces";
 import { uploadService } from "@/services/upload.service";
 
@@ -32,14 +31,6 @@ export function CreateWorkspaceModal({
 
   const { mutate: createWorkspace, isPending: isCreating } =
     useCreateWorkspace();
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setLogoFile(file);
-      setLogoPreview(URL.createObjectURL(file));
-    }
-  };
 
   const handleRemoveLogo = () => {
     setLogoFile(null);
@@ -99,70 +90,38 @@ export function CreateWorkspaceModal({
           icon={<Briefcase className="w-4 h-4" />}
         />
         <ModalBody>
-          <ModalScrollArea>
-            <div className="mb-6">
-              <div className="flex items-start justify-between">
-                <h2 className="text-[18px] font-semibold text-slate-900 tracking-tight">
-                  Workspace details
-                </h2>
-              </div>
-              <p className="text-[13.5px] text-slate-500 mt-1.5">
-                Create a new workspace for your team.
-              </p>
-            </div>
-
+          <ModalScrollArea
+            title="Workspace details"
+            description="Create a new workspace for your team."
+          >
             <div className="flex flex-col gap-5">
-              <div className="flex justify-center mb-2">
-                <div className="relative w-[72px] h-[72px] rounded-full bg-slate-50 border border-dashed border-slate-300 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 hover:text-blue-600 transition-all cursor-pointer group overflow-hidden shadow-sm">
-                  {logoPreview ? (
-                    <>
-                      <Image
-                        src={logoPreview}
-                        alt="Workspace logo"
-                        fill
-                        className="object-cover"
-                      />
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                        <span className="text-white text-[11px] font-medium">
-                          Change
-                        </span>
-                      </div>
-                    </>
-                  ) : (
-                    <Plus className="w-6 h-6 text-slate-400 group-hover:text-blue-500 transition-colors" />
-                  )}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
-                    onChange={handleFileChange}
-                  />
-                </div>
-              </div>
+              <LogoPicker
+                previewUrl={logoPreview}
+                changeLabel="Change"
+                onChange={(file) => {
+                  setLogoFile(file);
+                  setLogoPreview(URL.createObjectURL(file));
+                }}
+              />
 
-              <div className="flex flex-col gap-1.5">
-                <Label>
-                  Workspace name <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  autoFocus
-                  type="text"
-                  value={newWorkspaceName}
-                  onChange={(e) => setNewWorkspaceName(e.target.value)}
-                  placeholder="e.g. Design new landing page"
-                  className="h-9 text-[13px] focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/15 transition-all"
-                />
-              </div>
+              <FormInput
+                label="Workspace name"
+                required
+                autoFocus
+                type="text"
+                value={newWorkspaceName}
+                onChange={(e) => setNewWorkspaceName(e.target.value)}
+                placeholder="e.g. Design new landing page"
+                className="h-9 text-[13px] focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/15 transition-all"
+              />
 
-              <div className="flex flex-col gap-1.5">
-                <Label>Description</Label>
-                <Textarea
-                  value={newWorkspaceDesc}
-                  onChange={(e) => setNewWorkspaceDesc(e.target.value)}
-                  placeholder="Briefly describe what this workspace is for..."
-                  className="min-h-[80px] resize-y text-[13px] focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/15 transition-all"
-                />
-              </div>
+              <FormTextarea
+                label="Description"
+                value={newWorkspaceDesc}
+                onChange={(e) => setNewWorkspaceDesc(e.target.value)}
+                placeholder="Briefly describe what this workspace is for..."
+                className="min-h-[80px] resize-y text-[13px] focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/15 transition-all"
+              />
             </div>
           </ModalScrollArea>
 

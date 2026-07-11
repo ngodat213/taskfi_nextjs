@@ -11,9 +11,9 @@ import {
   CalendarOff,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { PageHeader } from "@/components/ui/page-header";
-import { SegmentedControl } from "@/components/ui/segmented-control";
+import { Button, ButtonVariant, ButtonSize } from "@/components/ui/actions/button";
+import { PageHeader } from "@/components/ui/layout/page-header";
+import { SegmentedControl } from "@/components/ui/forms/segmented-control";
 import { MyTasksList } from "./my-tasks-list";
 import { AddTaskModal } from "./add-task-modal";
 
@@ -43,8 +43,8 @@ export function MyTasksView() {
           description="Manage your daily work"
           actions={
             <Button
-              variant="primary"
-              size="sm"
+              variant={ButtonVariant.Primary}
+              size={ButtonSize.Sm}
               className="w-fit"
               onClick={() => setIsAddTaskModalOpen(true)}
             >

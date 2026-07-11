@@ -3,15 +3,15 @@
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/actions/button";
+import { Input } from "@/components/ui/forms/input";
+import { Label } from "@/components/ui/forms/label";
 import { useResetPassword } from "@/features/auth/hooks/use-auth";
 import { handleFormError } from "@/utils/error";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/routing";
-import { ErrorTooltip } from "@/components/ui/error-tooltip";
-import { PasswordStrength } from "@/components/ui/password-strength";
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { PasswordStrength } from "@/components/ui/forms/password-strength";
 import { Suspense, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 

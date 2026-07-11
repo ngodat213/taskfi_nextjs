@@ -19,4 +19,19 @@ export const API_ENDPOINTS = {
   UPLOADS: {
     IMAGE: "/uploads/image",
   },
+  GROUPS: {
+    BASE: "/groups",
+  },
+  PROJECTS: {
+    BASE: "/projects",
+  },
+  TEAMS: {
+    BASE: "/teams",
+  },
+  ISSUES: {
+    BASE: "/issues",
+  },
+  NOTIFICATIONS: {
+    BASE: "/notifications",
+  },
 } as const;

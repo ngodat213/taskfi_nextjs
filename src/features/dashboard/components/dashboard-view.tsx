@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { Plus, Search, Activity } from "lucide-react";
 import { tabs } from "./mock-data";
-import { SegmentedControl } from "@/components/ui/segmented-control";
-import { PageHeader } from "@/components/ui/page-header";
-import { Select } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { SegmentedControl } from "@/components/ui/forms/segmented-control";
+import { PageHeader } from "@/components/ui/layout/page-header";
+import { Select } from "@/components/ui/forms/select";
+import { Button, ButtonVariant, ButtonSize } from "@/components/ui/actions/button";
+import { Input } from "@/components/ui/forms/input";
 import { DashboardBoardTab } from "./dashboard-board-tab";
 import { DashboardBacklogTab } from "./dashboard-backlog-tab";
 import { DashboardIssuesTab } from "./dashboard-issues-tab";
@@ -26,8 +26,8 @@ export function DashboardView() {
   return (
     <div className="flex flex-col h-full bg-[#FAFAFA]">
       {/* Project Header Area */}
-      <div className="bg-white border-b border-slate-200/80 flex-shrink-0 flex justify-center">
-        <div className="w-full max-w-[1500px] px-6 pt-5">
+      <div className="bg-white border-b border-slate-200/80 flex-shrink-0">
+        <div className="w-full px-6 pt-5">
           <PageHeader
             title={
               <>
@@ -45,10 +45,10 @@ export function DashboardView() {
             description="Kanban flow"
             actions={
               <>
-                <Button variant="outline" size="sm">
+                <Button variant={ButtonVariant.Outline} size={ButtonSize.Sm}>
                   <Activity className="w-3.5 h-3.5" strokeWidth={2.5} /> Standup
                 </Button>
-                <Button variant="primary" size="sm">
+                <Button variant={ButtonVariant.Primary} size={ButtonSize.Sm}>
                   <Plus className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Task
                 </Button>
               </>
@@ -95,8 +95,8 @@ export function DashboardView() {
       </div>
 
       {/* Tab Content Area */}
-      <div className="flex-1 flex justify-center overflow-hidden">
-        <div className="w-full max-w-[1500px] h-full flex flex-col">
+      <div className="flex-1 overflow-hidden">
+        <div className="w-full h-full flex flex-col">
           {activeTab === "Board" ? (
             <DashboardBoardTab q={q} />
           ) : activeTab === "Backlog" ? (

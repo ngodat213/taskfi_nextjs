@@ -19,8 +19,8 @@ import {
   TableRow,
   TableHead,
   TableCell,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+} from "@/components/ui/data-display/table";
+import { Badge } from "@/components/ui/data-display/badge";
 import { isToday, isOverdue, formatDueDate } from "@/utils/date";
 
 export function MyTasksList({ activeTab }: { activeTab: string }) {

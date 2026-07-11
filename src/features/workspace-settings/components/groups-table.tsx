@@ -1,4 +1,4 @@
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Users, Pencil } from "lucide-react";
 import {
   Table,
   TableHeader,
@@ -6,52 +6,93 @@ import {
   TableRow,
   TableHead,
   TableCell,
-} from "@/components/ui/table";
+} from "@/components/ui/data-display/table";
+import { useGroups } from "@/features/groups/hooks/use-groups";
+import { EmptyState } from "@/components/ui/data-display/empty-state";
+import { Avatar } from "@/components/ui/data-display/avatar";
+import { TableActionBtn } from "@/components/ui/data-display/table-action-btn";
+import { Group } from "@/types/group.types";
+import { useTranslations } from "next-intl";
+import { Loader2 } from "lucide-react";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 
-export function GroupsTable() {
-  const groups = [
-    {
-      name: "Frontend Team",
-      members: 12,
-      desc: "UI/UX and frontend engineering",
-    },
-    { name: "Backend Team", members: 8, desc: "API and database engineering" },
-    {
-      name: "Designers",
-      members: 4,
-      desc: "Product designers and researchers",
-    },
-  ];
+interface GroupsTableProps {
+  onEdit?: (group: Group) => void;
+}
+
+export function GroupsTable({ onEdit }: GroupsTableProps) {
+  const t = useTranslations("WorkspaceSettings");
+  const TK = TRANSLATION_KEYS.tables.groups;
+  const { data: groupsResponse, isLoading } = useGroups();
+  const groups = Array.isArray(groupsResponse?.data) ? groupsResponse.data : [];
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center p-8 min-h-[200px]">
+        <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
+      </div>
+    );
+  }
+
+  if (groups.length === 0) {
+    return (
+      <EmptyState
+        icon={Users}
+        title={t(TK.emptyTitle)}
+        description={t(TK.emptyDesc)}
+      />
+    );
+  }
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Group Name</TableHead>
-          <TableHead className="hidden sm:table-cell">Members</TableHead>
+          <TableHead>{t(TK.groupName)}</TableHead>
+          <TableHead className="hidden sm:table-cell">
+            {t(TK.members)}
+          </TableHead>
           <TableHead className="w-10" />
         </TableRow>
       </TableHeader>
       <TableBody>
-        {groups.map((g, i) => (
-          <TableRow key={i} className="group">
+        {groups.map((g) => (
+          <TableRow key={g.id} className="group">
             <TableCell>
-              <div className="flex flex-col">
-                <span className="text-[13.5px] font-medium text-slate-800">
-                  {g.name}
-                </span>
-                <span className="text-[12px] text-slate-500">{g.desc}</span>
-                <span className="text-[11px] text-slate-500 mt-1 sm:hidden">
-                  {g.members} members
-                </span>
+              <div className="flex items-center gap-3">
+                <Avatar
+                  src={g.logoUrl}
+                  alt={g.name}
+                  fallback={g.name.charAt(0)}
+                  size="md"
+                />
+                <div className="flex flex-col">
+                  <span className="text-[13.5px] font-medium text-slate-800">
+                    {g.name}
+                  </span>
+                  {g.description && (
+                    <span className="text-[12px] text-slate-500">
+                      {g.description}
+                    </span>
+                  )}
+                  <span className="text-[11px] text-slate-500 mt-1 sm:hidden">
+                    0 {t("tables.groups.members").toLowerCase()}
+                  </span>
+                </div>
               </div>
             </TableCell>
             <TableCell className="hidden sm:table-cell">
-              <span className="text-[13px] text-slate-600">{g.members}</span>
+              <span className="text-[13px] text-slate-600">0</span>
             </TableCell>
             <TableCell className="text-right">
-              <button className="opacity-0 group-hover:opacity-100 p-1.5 text-slate-400 hover:text-slate-700 rounded-md hover:bg-slate-200/60 transition-all">
-                <MoreHorizontal className="w-4 h-4" />
-              </button>
+              <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <TableActionBtn onClick={() => onEdit?.(g)}>
+                  <Pencil className="w-4 h-4" />
+                </TableActionBtn>
+                <TableActionBtn>
+                  <MoreHorizontal className="w-4 h-4" />
+                </TableActionBtn>
+              </div>
             </TableCell>
           </TableRow>
         ))}

@@ -119,21 +119,49 @@ export const ModalBody = React.forwardRef<
 ));
 ModalBody.displayName = "ModalBody";
 
+export interface ModalScrollAreaProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
+  title?: React.ReactNode;
+  description?: React.ReactNode;
+  rightElement?: React.ReactNode;
+}
+
 export const ModalScrollArea = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, children, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "p-5 sm:p-6 flex flex-col max-h-[75vh] overflow-y-auto custom-scrollbar",
-      className,
-    )}
-    {...props}
-  >
-    {children}
-  </div>
-));
+  ModalScrollAreaProps
+>(
+  (
+    { className, children, title, description, rightElement, ...props },
+    ref,
+  ) => (
+    <div
+      ref={ref}
+      className={cn(
+        "p-5 sm:p-6 flex flex-col max-h-[75vh] overflow-y-auto custom-scrollbar",
+        className,
+      )}
+      {...props}
+    >
+      {(title || description || rightElement) && (
+        <div className="mb-6">
+          <div className="flex items-start justify-between">
+            {title && (
+              <h2 className="text-[18px] font-semibold text-slate-900 tracking-tight">
+                {title}
+              </h2>
+            )}
+            {rightElement && (
+              <div className="flex-shrink-0 ml-4">{rightElement}</div>
+            )}
+          </div>
+          {description && (
+            <p className="text-[13.5px] text-slate-500 mt-1.5">{description}</p>
+          )}
+        </div>
+      )}
+      {children}
+    </div>
+  ),
+);
 ModalScrollArea.displayName = "ModalScrollArea";
 
 export const ModalFooter = React.forwardRef<

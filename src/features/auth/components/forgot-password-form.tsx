@@ -3,9 +3,9 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/actions/button";
+import { Input } from "@/components/ui/forms/input";
+import { Label } from "@/components/ui/forms/label";
 import { useForgotPassword } from "@/features/auth/hooks/use-auth";
 import { handleFormError } from "@/utils/error";
 import { useState, useMemo } from "react";

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Plus, Briefcase, ChevronRight, Loader2 } from "lucide-react";
-import { Workspace } from "@/features/workspaces/types/workspace.types";
+import { Workspace } from "@/types/workspace.types";
 
 interface WorkspaceListProps {
   workspaces: Workspace[];

@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form";
 import { Link } from "@/i18n/routing";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button, ButtonVariant, ButtonSize } from "@/components/ui/actions/button";
+import { Input } from "@/components/ui/forms/input";
+import { Label } from "@/components/ui/forms/label";
 import { useLogin } from "@/features/auth/hooks/use-auth";
 import { handleFormError } from "@/utils/error";
-import { ErrorTooltip } from "@/components/ui/error-tooltip";
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 
@@ -45,7 +45,7 @@ export function LoginForm() {
 
   return (
     <div className="w-full">
-      <Button variant="outline" className="w-full py-2 mb-6" type="button">
+      <Button variant={ButtonVariant.Outline} className="w-full py-2 mb-6" type="button">
         <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
           <path
             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"

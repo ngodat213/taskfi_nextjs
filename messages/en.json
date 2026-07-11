@@ -16,5 +16,148 @@
     "min_username": "Username must be at least 3 characters",
     "required_code": "OTP is required",
     "min_code": "OTP must be at least 6 characters"
+  },
+  "WorkspaceSettings": {
+    "title": "Workspace Settings",
+    "description": "Manage members, roles, and groups",
+    "tabs": {
+      "members": "Members",
+      "groups": "Groups",
+      "roles": "Roles"
+    },
+    "actions": {
+      "addNew": "Add new",
+      "add": "Add",
+      "searchMembers": "Search members...",
+      "searchGroups": "Search groups...",
+      "searchRoles": "Search roles...",
+      "cancel": "Cancel",
+      "save": "Save",
+      "create": "Create",
+      "invite": "Invite",
+      "change": "Change",
+      "saving": "Saving...",
+      "creating": "Creating..."
+    },
+    "tables": {
+      "members": {
+        "member": "Member",
+        "position": "Position",
+        "details": "Details",
+        "user": "User",
+        "role": "Role",
+        "status": "Status",
+        "dateAdded": "Date Added",
+        "emptyTitle": "No members found",
+        "emptyDesc": "There are no members in this workspace yet."
+      },
+      "groups": {
+        "groupName": "Group Name",
+        "members": "Members",
+        "description": "Description",
+        "createdAt": "Created At",
+        "emptyTitle": "No groups found",
+        "emptyDesc": "There are no groups in this workspace yet."
+      },
+      "roles": {
+        "roleName": "Role Name",
+        "type": "Type",
+        "actions": "Actions",
+        "emptyTitle": "No roles found",
+        "emptyDesc": "There are no custom roles defined in this workspace yet.",
+        "system": "System",
+        "custom": "Custom",
+        "noDescription": "No description provided"
+      }
+    },
+    "modals": {
+      "addUser": {
+        "title": "Invite new member",
+        "subtitle": "Add Member",
+        "desc": "Invite a new member to join your workspace.",
+        "emailLabel": "Email address",
+        "emailPlaceholder": "e.g. member@acme.com",
+        "roleLabel": "Assign role",
+        "fullNameLabel": "Full name",
+        "fullNamePlaceholder": "e.g. Dat Ngo",
+        "jobTitleLabel": "Job title",
+        "jobTitlePlaceholder": "e.g. Senior Frontend Engineer",
+        "departmentLabel": "Department",
+        "departmentOptions": {
+          "placeholder": "Select department",
+          "engineering": "Engineering",
+          "design": "Design",
+          "marketing": "Marketing",
+          "product": "Product",
+          "sales": "Sales"
+        },
+        "workspaceRoleLabel": "Workspace Role",
+        "loadingRoles": "Loading roles...",
+        "employmentTypeLabel": "Employment Type",
+        "employmentOptions": {
+          "fullTime": "Full-time",
+          "partTime": "Part-time",
+          "contractor": "Contractor"
+        },
+        "skillsLabel": "Skills / Tags (comma separated)",
+        "skillsPlaceholder": "e.g. React, Node.js, Figma",
+        "noteLabel": "Personal note (optional)",
+        "generateAi": "Generate with AI",
+        "notePlaceholder": "Brief summary of what this invitation is for...",
+        "btn": "Send Invite"
+      },
+      "addGroup": {
+        "titleCreate": "Create new group",
+        "titleUpdate": "Update group",
+        "subtitleCreate": "New Group",
+        "subtitleUpdate": "Edit Group",
+        "descCreate": "Create a new group to organize workspace members.",
+        "descUpdate": "Update group details.",
+        "nameLabel": "Group name",
+        "namePlaceholder": "e.g. Engineering Team",
+        "descLabel": "Description",
+        "descPlaceholder": "Briefly describe the purpose of this group...",
+        "btnCreate": "Create Group",
+        "btnUpdate": "Save Changes"
+      },
+      "addRole": {
+        "title": "Create new role",
+        "subtitle": "New Custom Role",
+        "desc": "Define a custom role with specific permissions to fit your workspace needs.",
+        "nameLabel": "Role name",
+        "namePlaceholder": "e.g. Project Manager",
+        "baseRoleLabel": "Base role to copy permissions from",
+        "baseRoleOptions": {
+          "admin": "Workspace Admin (Full access)",
+          "member": "Member (Standard access)",
+          "viewer": "Viewer (Read-only)",
+          "none": "None (Start from scratch)"
+        },
+        "descLabel": "Description",
+        "generateAi": "Generate with AI",
+        "descPlaceholder": "Briefly describe what users with this role can do...",
+        "matrixTitle": "Permissions Matrix",
+        "matrix": {
+          "resource": "Resource",
+          "create": "Create",
+          "update": "Update",
+          "delete": "Delete",
+          "other": "Other"
+        },
+        "btn": "Create Role"
+      },
+      "editRole": {
+        "title": "Edit Role",
+        "subtitle": "Update custom role"
+      }
+    }
+  },
+  "Pagination": {
+    "showing": "Showing",
+    "to": "to",
+    "of": "of",
+    "results": "results",
+    "previous": "Previous",
+    "next": "Next"
   }
 }

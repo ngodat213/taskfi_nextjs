@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { columns, Issue } from "./mock-data";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/data-display/badge";
 import {
   Table,
   TableBody,
@@ -8,7 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/ui/data-display/table";
 import {
   Bookmark,
   CheckSquare,

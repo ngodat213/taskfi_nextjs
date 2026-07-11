@@ -3,9 +3,9 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/actions/button";
+import { Input } from "@/components/ui/forms/input";
+import { Label } from "@/components/ui/forms/label";
 import {
   useVerifyEmail,
   useResendSignupOtp,
@@ -13,7 +13,7 @@ import {
 import { handleFormError } from "@/utils/error";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/routing";
-import { ErrorTooltip } from "@/components/ui/error-tooltip";
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { Suspense, useEffect, useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 

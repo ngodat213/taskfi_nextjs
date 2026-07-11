@@ -6,11 +6,12 @@ import {
   ModalBody,
   ModalScrollArea,
   ModalFooter,
-} from "@/components/ui/modal";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+} from "@/components/ui/layout/modal";
+import { Input } from "@/components/ui/forms/input";
+import { Label } from "@/components/ui/forms/label";
+import { InputLabel } from "@/components/ui/forms/input-label";
+import { Select } from "@/components/ui/forms/select";
+import { Textarea } from "@/components/ui/forms/textarea";
 
 interface AddTaskModalProps {
   isOpen: boolean;
@@ -26,18 +27,10 @@ export function AddTaskModal({ isOpen, onClose }: AddTaskModalProps) {
           icon={<CheckSquare className="w-4 h-4" />}
         />
         <ModalBody>
-          <ModalScrollArea>
-            <div className="mb-6">
-              <div className="flex items-start justify-between">
-                <h2 className="text-[18px] font-semibold text-slate-900 tracking-tight">
-                  Task details
-                </h2>
-              </div>
-              <p className="text-[13.5px] text-slate-500 mt-1.5">
-                Create a new task and assign it to a project and team member.
-              </p>
-            </div>
-
+          <ModalScrollArea
+            title="Task details"
+            description="Create a new task and assign it to a project and team member."
+          >
             <AddTaskForm />
           </ModalScrollArea>
 
@@ -67,9 +60,7 @@ function AddTaskForm() {
       {/* Left Column: Main Content */}
       <div className="flex-1 flex flex-col gap-5">
         <div className="flex flex-col gap-1.5">
-          <Label>
-            Task name <span className="text-red-500">*</span>
-          </Label>
+          <InputLabel required>Task name</InputLabel>
           <Input
             type="text"
             placeholder="e.g. Design new landing page"

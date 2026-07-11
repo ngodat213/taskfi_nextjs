@@ -4,7 +4,7 @@ import { useRouter } from "@/i18n/routing";
 import { useWorkspaceStore } from "@/store/workspace.store";
 import { Command, ArrowRight } from "lucide-react";
 import { useState } from "react";
-import { AnimatedBackground } from "@/components/ui/animated-background";
+import { AnimatedBackground } from "@/components/ui/layout/animated-background";
 import { useLogout } from "@/features/auth/hooks/use-auth";
 import { useWorkspaces } from "@/features/workspaces/hooks/use-workspaces";
 import { CreateWorkspaceModal } from "@/features/workspaces/components/create-workspace-modal";

@@ -1,7 +1,6 @@
 import { apiClient } from "@/lib/axios";
 import { API_ENDPOINTS } from "@/config/api-endpoints";
 import {
-  WorkspaceResponse,
   CreateWorkspaceRequest,
   UpdateWorkspaceRequest,
   Workspace,
@@ -10,13 +9,18 @@ import {
   WorkspaceRole,
   CreateRoleRequest,
   UpdateRoleRequest,
-} from "@/features/workspaces/types/workspace.types";
-import { BaseResponse, PaginatedResponse } from "@/types/api.types";
+} from "@/types/workspace.types";
+import {
+  BaseResponse,
+  PaginatedResponse,
+  PaginationParams,
+} from "@/types/api.types";
 
 export const workspaceService = {
-  getWorkspaces: async (page = 1, limit = 10) => {
-    const response = await apiClient.get<WorkspaceResponse>(
-      `${API_ENDPOINTS.WORKSPACES.LIST}?page=${page}&limit=${limit}`,
+  getWorkspaces: async (params?: PaginationParams) => {
+    const response = await apiClient.get<PaginatedResponse<Workspace>>(
+      API_ENDPOINTS.WORKSPACES.LIST,
+      { params },
     );
     return response.data;
   },
@@ -51,16 +55,12 @@ export const workspaceService = {
     return response.data;
   },
 
-  getWorkspaceMembers: async (
-    id: string,
-    page = 1,
-    limit = 10,
-    search?: string,
-  ) => {
-    let url = `${API_ENDPOINTS.WORKSPACES.LIST}/${id}/members?page=${page}&limit=${limit}`;
-    if (search) url += `&search=${encodeURIComponent(search)}`;
-    const response =
-      await apiClient.get<PaginatedResponse<WorkspaceMember>>(url);
+  // MEMBERS
+  getWorkspaceMembers: async (id: string, params?: PaginationParams) => {
+    const response = await apiClient.get<PaginatedResponse<WorkspaceMember>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${id}/members`,
+      { params },
+    );
     return response.data;
   },
 
@@ -74,7 +74,7 @@ export const workspaceService = {
 
   // ROLES
   getWorkspaceRoles: async (id: string) => {
-    const response = await apiClient.get<BaseResponse<WorkspaceRole[]>>(
+    const response = await apiClient.get<PaginatedResponse<WorkspaceRole>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${id}/roles`,
     );
     return response.data;
