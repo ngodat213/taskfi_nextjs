@@ -1,0 +1,163 @@
+{
+  "Auth": {
+    "login": {
+      "title": "Đăng nhập vào Obvious",
+      "description": "Đăng nhập vào Obvious để truy cập tài khoản của bạn."
+    },
+    "register": {
+      "title": "Tạo tài khoản",
+      "description": "Tham gia Obvious để quản lý công việc hiệu quả."
+    }
+  },
+  "Validation": {
+    "invalid_email": "Địa chỉ email không hợp lệ",
+    "required_password": "Vui lòng nhập mật khẩu",
+    "min_password": "Mật khẩu phải có ít nhất 6 ký tự",
+    "min_username": "Tên đăng nhập phải có ít nhất 3 ký tự",
+    "required_code": "Vui lòng nhập mã OTP",
+    "min_code": "Mã OTP phải có ít nhất 6 ký tự"
+  },
+  "WorkspaceSettings": {
+    "title": "Cài đặt Không gian làm việc",
+    "description": "Quản lý thành viên, vai trò và nhóm",
+    "tabs": {
+      "members": "Thành viên",
+      "groups": "Nhóm",
+      "roles": "Vai trò"
+    },
+    "actions": {
+      "addNew": "Thêm mới",
+      "add": "Thêm",
+      "searchMembers": "Tìm kiếm thành viên...",
+      "searchGroups": "Tìm kiếm nhóm...",
+      "searchRoles": "Tìm kiếm vai trò...",
+      "cancel": "Hủy",
+      "save": "Lưu",
+      "create": "Tạo",
+      "invite": "Mời",
+      "change": "Thay đổi",
+      "saving": "Đang lưu...",
+      "creating": "Đang tạo..."
+    },
+    "tables": {
+      "members": {
+        "member": "Thành viên",
+        "position": "Chức vụ",
+        "details": "Chi tiết",
+        "user": "Người dùng",
+        "role": "Vai trò",
+        "status": "Trạng thái",
+        "dateAdded": "Ngày tham gia",
+        "emptyTitle": "Không tìm thấy thành viên nào",
+        "emptyDesc": "Chưa có thành viên nào trong không gian làm việc này."
+      },
+      "groups": {
+        "groupName": "Tên Nhóm",
+        "members": "Thành viên",
+        "description": "Mô tả",
+        "createdAt": "Ngày tạo",
+        "emptyTitle": "Không tìm thấy nhóm nào",
+        "emptyDesc": "Chưa có nhóm nào trong không gian làm việc này."
+      },
+      "roles": {
+        "roleName": "Tên Vai trò",
+        "type": "Loại",
+        "actions": "Hành động",
+        "emptyTitle": "Không tìm thấy vai trò nào",
+        "emptyDesc": "Chưa có vai trò tùy chỉnh nào được định nghĩa trong không gian làm việc này.",
+        "system": "Hệ thống",
+        "custom": "Tùy chỉnh",
+        "noDescription": "Không có mô tả"
+      }
+    },
+    "modals": {
+      "addUser": {
+        "title": "Mời thành viên mới",
+        "subtitle": "Thêm Thành viên",
+        "desc": "Mời một thành viên mới tham gia vào không gian làm việc của bạn.",
+        "emailLabel": "Địa chỉ email",
+        "emailPlaceholder": "VD: member@acme.com",
+        "roleLabel": "Gán vai trò",
+        "fullNameLabel": "Họ và tên",
+        "fullNamePlaceholder": "VD: Dat Ngo",
+        "jobTitleLabel": "Chức danh",
+        "jobTitlePlaceholder": "VD: Kỹ sư Frontend cao cấp",
+        "departmentLabel": "Phòng ban",
+        "departmentOptions": {
+          "placeholder": "Chọn phòng ban",
+          "engineering": "Kỹ thuật",
+          "design": "Thiết kế",
+          "marketing": "Tiếp thị",
+          "product": "Sản phẩm",
+          "sales": "Bán hàng"
+        },
+        "workspaceRoleLabel": "Vai trò trong không gian làm việc",
+        "loadingRoles": "Đang tải vai trò...",
+        "employmentTypeLabel": "Loại việc làm",
+        "employmentOptions": {
+          "fullTime": "Toàn thời gian",
+          "partTime": "Bán thời gian",
+          "contractor": "Nhà thầu"
+        },
+        "skillsLabel": "Kỹ năng / Thẻ (ngăn cách bằng dấu phẩy)",
+        "skillsPlaceholder": "VD: React, Node.js, Figma",
+        "noteLabel": "Ghi chú cá nhân (tùy chọn)",
+        "generateAi": "Tạo bằng AI",
+        "notePlaceholder": "Mô tả ngắn gọn mục đích của lời mời này...",
+        "btn": "Gửi lời mời"
+      },
+      "addGroup": {
+        "titleCreate": "Tạo nhóm mới",
+        "titleUpdate": "Cập nhật nhóm",
+        "subtitleCreate": "Nhóm Mới",
+        "subtitleUpdate": "Sửa Nhóm",
+        "descCreate": "Tạo một nhóm mới để tổ chức các thành viên trong không gian làm việc.",
+        "descUpdate": "Cập nhật chi tiết nhóm.",
+        "nameLabel": "Tên nhóm",
+        "namePlaceholder": "VD: Đội Kỹ Thuật",
+        "descLabel": "Mô tả",
+        "descPlaceholder": "Mô tả ngắn gọn mục đích của nhóm này...",
+        "btnCreate": "Tạo Nhóm",
+        "btnUpdate": "Lưu Thay Đổi"
+      },
+      "addRole": {
+        "title": "Tạo vai trò mới",
+        "subtitle": "Vai trò tùy chỉnh mới",
+        "desc": "Định nghĩa một vai trò tùy chỉnh với các quyền cụ thể phù hợp với nhu cầu của bạn.",
+        "nameLabel": "Tên vai trò",
+        "namePlaceholder": "VD: Quản lý dự án",
+        "baseRoleLabel": "Vai trò cơ sở để sao chép quyền",
+        "baseRoleOptions": {
+          "admin": "Quản trị viên (Toàn quyền)",
+          "member": "Thành viên (Quyền cơ bản)",
+          "viewer": "Người xem (Chỉ xem)",
+          "none": "Không (Bắt đầu từ đầu)"
+        },
+        "descLabel": "Mô tả",
+        "generateAi": "Tạo bằng AI",
+        "descPlaceholder": "Mô tả ngắn gọn những gì người dùng với vai trò này có thể làm...",
+        "matrixTitle": "Ma trận Quyền",
+        "matrix": {
+          "resource": "Tài nguyên",
+          "create": "Tạo",
+          "update": "Sửa",
+          "delete": "Xóa",
+          "other": "Khác"
+        },
+        "btn": "Tạo Vai trò"
+      },
+      "editRole": {
+        "title": "Chỉnh sửa vai trò",
+        "subtitle": "Cập nhật vai trò tùy chỉnh"
+      }
+    }
+  },
+  "Pagination": {
+    "showing": "Hiển thị",
+    "to": "đến",
+    "of": "trong số",
+    "results": "kết quả",
+    "previous": "Trước",
+    "next": "Tiếp"
+  }
+}

@@ -1,0 +1,157 @@
+"use client";
+
+import { useState } from "react";
+import { Users, Shield, UserCog, Plus, Search } from "lucide-react";
+import { Button, ButtonVariant, ButtonSize } from "@/components/ui/actions/button";
+import { TRANSLATION_KEYS } from "@/constants/translations";
+import { Input } from "@/components/ui/forms/input";
+import { PageHeader } from "@/components/ui/layout/page-header";
+import { SegmentedControl } from "@/components/ui/forms/segmented-control";
+import { useTranslations } from "next-intl";
+
+import { WorkspaceSettingsTab } from "@/features/workspace-settings/enums/workspace.enum";
+import { MembersTable } from "./members-table";
+import { GroupsTable } from "./groups-table";
+import { RolesTable } from "./roles-table";
+import { AddNewUserModal } from "./add-new-user-modal";
+import { AddNewGroupModal } from "./add-new-group-modal";
+import { AddNewRoleModal } from "./add-new-role-modal";
+import { Group } from "@/types/group.types";
+import { WorkspaceRole } from "@/types/workspace.types";
+
+export function WorkspaceSettingsView() {
+  const t = useTranslations("WorkspaceSettings");
+  const TK_TABS = TRANSLATION_KEYS.tabs;
+  const TK_VIEW = TRANSLATION_KEYS.view;
+  const TK_ACTIONS = TRANSLATION_KEYS.actions;
+
+  const tabs = [
+    {
+      id: WorkspaceSettingsTab.MEMBERS,
+      label: t(TK_TABS.members),
+      icon: Users,
+    },
+    {
+      id: WorkspaceSettingsTab.GROUPS,
+      label: t(TK_TABS.groups),
+      icon: UserCog,
+    },
+    { id: WorkspaceSettingsTab.ROLES, label: t(TK_TABS.roles), icon: Shield },
+  ];
+
+  const searchPlaceholders: Record<WorkspaceSettingsTab, string> = {
+    [WorkspaceSettingsTab.MEMBERS]: t(TK_ACTIONS.searchMembers),
+    [WorkspaceSettingsTab.GROUPS]: t(TK_ACTIONS.searchGroups),
+    [WorkspaceSettingsTab.ROLES]: t(TK_ACTIONS.searchRoles),
+  };
+  const [activeTab, setActiveTab] = useState<WorkspaceSettingsTab>(
+    WorkspaceSettingsTab.MEMBERS,
+  );
+  const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+  const [isAddGroupModalOpen, setIsAddGroupModalOpen] = useState(false);
+  const [isAddRoleModalOpen, setIsAddRoleModalOpen] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
+  const [selectedRole, setSelectedRole] = useState<WorkspaceRole | null>(null);
+
+  const handleAddNew = () => {
+    if (activeTab === WorkspaceSettingsTab.MEMBERS) setIsAddUserModalOpen(true);
+    if (activeTab === WorkspaceSettingsTab.GROUPS) setIsAddGroupModalOpen(true);
+    if (activeTab === WorkspaceSettingsTab.ROLES) setIsAddRoleModalOpen(true);
+  };
+
+  return (
+    <div className="relative flex flex-col h-full bg-[#FCFCFD] overflow-y-auto">
+      {/* Subtle Top Mesh Gradient */}
+      <div className="absolute top-0 left-0 right-0 h-[600px] bg-gradient-to-br from-rose-100/50 via-blue-50/30 to-transparent blur-[100px] pointer-events-none -z-10 opacity-70" />
+      <div className="absolute top-0 right-0 w-[600px] h-[500px] bg-gradient-to-bl from-indigo-50/50 via-purple-50/20 to-transparent blur-[100px] pointer-events-none -z-10 opacity-70" />
+
+      {/* Main Container - Responsive padding */}
+      <div className="flex-1 w-full px-4 sm:px-6 md:px-8 pt-5 pb-6">
+        {/* Header Area */}
+        <PageHeader
+          className="mb-4"
+          title={t(TK_VIEW.title)}
+          description={t(TK_VIEW.description)}
+          actions={
+            <Button
+              variant={ButtonVariant.Primary}
+              size={ButtonSize.Sm}
+              onClick={handleAddNew}
+              className="w-fit"
+            >
+              <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
+              <span className="hidden sm:inline">{t(TK_ACTIONS.addNew)}</span>
+              <span className="sm:hidden">{t(TK_ACTIONS.add)}</span>
+            </Button>
+          }
+        >
+          {/* Filters & Tabs Row */}
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 lg:gap-0">
+            {/* Tabs - Segmented Control */}
+            <SegmentedControl
+              tabs={tabs}
+              activeTab={activeTab}
+              onTabChange={(id) => setActiveTab(id as WorkspaceSettingsTab)}
+            />
+
+            {/* Quick Actions / Filters for Settings */}
+            <div className="flex flex-wrap items-center gap-2.5">
+              <div className="relative group">
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                <Input
+                  type="text"
+                  placeholder={searchPlaceholders[activeTab]}
+                  className="w-full sm:w-[220px] h-8 pl-8"
+                />
+              </div>
+            </div>
+          </div>
+        </PageHeader>
+
+        {/* Content Area */}
+        <div className="bg-white border border-slate-200/60 rounded-lg shadow-sm overflow-hidden flex flex-col w-full h-fit">
+          <div className="flex-1 p-0 overflow-x-auto">
+            {activeTab === WorkspaceSettingsTab.MEMBERS && <MembersTable />}
+            {activeTab === WorkspaceSettingsTab.GROUPS && (
+              <GroupsTable
+                onEdit={(group) => {
+                  setSelectedGroup(group);
+                  setIsAddGroupModalOpen(true);
+                }}
+              />
+            )}
+            {activeTab === WorkspaceSettingsTab.ROLES && (
+              <RolesTable
+                onEdit={(role) => {
+                  setSelectedRole(role);
+                  setIsAddRoleModalOpen(true);
+                }}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
+      <AddNewUserModal
+        isOpen={isAddUserModalOpen}
+        onClose={() => setIsAddUserModalOpen(false)}
+      />
+      <AddNewGroupModal
+        isOpen={isAddGroupModalOpen}
+        onClose={() => {
+          setIsAddGroupModalOpen(false);
+          setSelectedGroup(null);
+        }}
+        initialData={selectedGroup}
+      />
+      <AddNewRoleModal
+        isOpen={isAddRoleModalOpen}
+        onClose={() => {
+          setIsAddRoleModalOpen(false);
+          setSelectedRole(null);
+        }}
+        initialData={selectedRole}
+      />
+    </div>
+  );
+}
