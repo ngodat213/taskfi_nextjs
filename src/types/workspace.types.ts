@@ -1,4 +1,4 @@
-import { BaseEntity } from "./api.types";
+import { BaseEntity, PaginationParams } from "./api.types";
 
 export interface Workspace {
   id: string;
@@ -32,24 +32,38 @@ export interface WorkspaceMember {
   phone?: string;
   location?: string;
   jobTitle?: string;
+  departmentId?: string;
   department?: string;
+  employmentTypeId?: string;
+  skills?: string;
+  personalNote?: string;
   status?: string;
   tags?: string[];
   createdAt: string;
 }
 
+export interface WorkspaceMemberQueryParams extends PaginationParams {
+  roleId?: string;
+  departmentId?: string;
+  employmentTypeId?: string;
+  groupId?: string;
+}
+
 export interface InviteWorkspaceMemberRequest {
-  username: string;
   email: string;
+  roleId: string;
+  username?: string;
   phone?: string;
   location?: string;
-  roleId: string;
   jobTitle?: string;
   departmentId?: string;
   employmentTypeId?: string;
   skills?: string;
   personalNote?: string;
 }
+
+export type UpdateWorkspaceMemberRequest =
+  Partial<InviteWorkspaceMemberRequest>;
 
 export interface WorkspaceRole {
   id: string;

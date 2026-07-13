@@ -5,6 +5,8 @@ import {
   Folder,
   Users,
   Loader2,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import { useState } from "react";
 import {
@@ -21,13 +23,19 @@ import { Avatar } from "@/components/ui/data-display/avatar";
 import { TablePagination } from "@/components/ui/data-display/table-pagination";
 import { TableActionBtn } from "@/components/ui/data-display/table-action-btn";
 
-import { useWorkspaceMembers } from "@/features/workspaces/hooks/use-workspaces";
+import {
+  useWorkspaceMembers,
+  useRemoveWorkspaceMember,
+} from "@/features/workspaces/hooks/use-workspaces";
 import { useWorkspaceStore } from "@/store/workspace.store";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { AddNewUserModal } from "./add-new-user-modal";
 import { TRANSLATION_KEYS } from "@/constants/translations";
+import { WorkspaceMember } from "@/types/workspace.types";
 
 export function MembersTable() {
   const t = useTranslations("WorkspaceSettings");
+  const locale = useLocale();
   const TK = TRANSLATION_KEYS.tables.members;
   const activeWorkspaceId = useWorkspaceStore(
     (state) => state.activeWorkspaceId,
@@ -35,10 +43,31 @@ export function MembersTable() {
   const [page, setPage] = useState(1);
   const limit = 10;
 
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [memberToEdit, setMemberToEdit] = useState<WorkspaceMember | null>(
+    null,
+  );
+
   const { data, isLoading } = useWorkspaceMembers(activeWorkspaceId as string, {
     page,
     limit,
   });
+
+  const removeMutation = useRemoveWorkspaceMember();
+
+  const handleRemoveMember = async (memberId: string) => {
+    if (
+      confirm(
+        t("messages.removeConfirm") ||
+          "Are you sure you want to remove this member?",
+      )
+    ) {
+      await removeMutation.mutateAsync({
+        workspaceId: activeWorkspaceId as string,
+        memberId,
+      });
+    }
+  };
 
   if (isLoading) {
     return (
@@ -97,7 +126,7 @@ export function MembersTable() {
                           {m.username}
                         </span>
                         <span className="text-[9px] px-1.5 py-[1px] rounded bg-slate-100 text-slate-500 font-bold tracking-wider uppercase hidden lg:inline-block">
-                          Full-time
+                          {t(TK.fullTime)}
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5 mt-[1px]">
@@ -127,17 +156,17 @@ export function MembersTable() {
                   <div className="flex flex-col">
                     <div className="flex items-center gap-1.5">
                       <span className="text-slate-700 font-medium text-[12.5px]">
-                        {m.jobTitle || "Member"}
+                        {m.jobTitle || t(TK.memberRoleDefault)}
                       </span>
                       <span className="text-slate-300 text-[10px]">•</span>
                       <span className="text-slate-500 text-[12px]">
-                        {m.department || "General"}
+                        {m.department || t(TK.departmentDefault)}
                       </span>
                     </div>
                     <div className="flex items-center gap-1.5 mt-1">
                       <Folder className="w-3.5 h-3.5 text-slate-400" />
                       <span className="text-slate-500 text-[11.5px]">
-                        0 projects
+                        {t(TK.projectsCount, { count: 0 })}
                       </span>
                     </div>
                     <div className="flex flex-wrap gap-1.5 mt-2.5">
@@ -159,13 +188,13 @@ export function MembersTable() {
                   <div className="flex flex-col gap-1.5 text-[12.5px]">
                     <div className="flex items-center gap-2 text-slate-500">
                       <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                      <span>{m.location || "N/A"}</span>
+                      <span>{m.location || t(TK.notAvailable)}</span>
                     </div>
                     <div className="flex items-center gap-2 text-slate-500">
                       <Calendar className="w-3.5 h-3.5 text-slate-400" />
                       <span>
-                        Joined{" "}
-                        {new Date(m.createdAt).toLocaleDateString("en-US", {
+                        {t(TK.joined)}{" "}
+                        {new Date(m.createdAt).toLocaleDateString(locale, {
                           month: "short",
                           year: "numeric",
                         })}
@@ -195,13 +224,35 @@ export function MembersTable() {
                     }
                     className="text-[11px] font-medium px-2 py-0.5 rounded-full capitalize"
                   >
-                    {m.status || "Active"}
+                    {m.status === "pending"
+                      ? t(TK.statusPending)
+                      : (m.status || "active") === "active"
+                        ? t(TK.statusActive)
+                        : t(TK.statusInactive)}
                   </Badge>
                 </TableCell>
 
                 {/* Actions */}
                 <TableCell className="text-right align-top md:align-middle pr-4">
                   <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <TableActionBtn
+                      onClick={() => {
+                        setMemberToEdit(m);
+                        setIsEditModalOpen(true);
+                      }}
+                    >
+                      <Pencil className="w-4 h-4 text-blue-500" />
+                    </TableActionBtn>
+                    <TableActionBtn
+                      onClick={() => handleRemoveMember(m.userId)}
+                      disabled={removeMutation.isPending}
+                    >
+                      {removeMutation.isPending ? (
+                        <Loader2 className="w-4 h-4 text-red-500 animate-spin" />
+                      ) : (
+                        <Trash2 className="w-4 h-4 text-red-500" />
+                      )}
+                    </TableActionBtn>
                     <TableActionBtn>
                       <MoreHorizontal className="w-4 h-4" />
                     </TableActionBtn>
@@ -221,6 +272,16 @@ export function MembersTable() {
         hasPreviousPage={data?.data?.hasPreviousPage || false}
         hasNextPage={data?.data?.hasNextPage || false}
         onPageChange={setPage}
+      />
+
+      <AddNewUserModal
+        isOpen={isEditModalOpen}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setMemberToEdit(null);
+        }}
+        mode="edit"
+        memberToEdit={memberToEdit}
       />
     </div>
   );

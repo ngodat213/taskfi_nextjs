@@ -101,11 +101,11 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
           disabled={disabled}
           onClick={() => !disabled && setIsOpen(!isOpen)}
           className={cn(
-            "flex w-full items-center justify-between h-9 px-3 bg-white border border-slate-200 shadow-sm rounded-md text-[13px] font-medium focus:outline-none focus:ring-2 focus:ring-slate-100 focus:border-blue-500 transition-all cursor-pointer hover:border-slate-300 disabled:cursor-not-allowed disabled:opacity-50",
+            "flex w-full items-center justify-between h-10 px-3 bg-white border border-slate-200 shadow-sm rounded-md text-[13px] font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all cursor-pointer hover:border-slate-300 disabled:cursor-not-allowed disabled:opacity-50",
             !selectedOption || selectedOption.value === ""
               ? "text-slate-500"
               : "text-slate-700",
-            isOpen && "border-blue-500 ring-[3px] ring-blue-500/15",
+            isOpen && "border-blue-500 ring-2 ring-blue-500",
             className,
           )}
         >

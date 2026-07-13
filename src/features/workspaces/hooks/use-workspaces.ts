@@ -5,7 +5,9 @@ import { PaginationParams } from "@/types/api.types";
 import {
   InviteWorkspaceMemberRequest,
   CreateRoleRequest,
+  UpdateWorkspaceMemberRequest,
 } from "@/types/workspace.types";
+import { WorkspaceMemberQueryParams } from "@/types/workspace.types";
 
 export function useWorkspaces(params?: PaginationParams) {
   const accessToken = useAuthStore((state) => state.accessToken);
@@ -30,7 +32,7 @@ export function useCreateWorkspace() {
 
 export function useWorkspaceMembers(
   workspaceId: string,
-  params?: PaginationParams,
+  params?: WorkspaceMemberQueryParams,
 ) {
   const accessToken = useAuthStore((state) => state.accessToken);
 
@@ -81,6 +83,46 @@ export function useInviteWorkspaceMember() {
       workspaceId: string;
       data: InviteWorkspaceMemberRequest;
     }) => workspaceService.inviteMember(workspaceId, data),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["workspace-members", variables.workspaceId],
+      });
+    },
+  });
+}
+
+export function useUpdateWorkspaceMember() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      workspaceId,
+      memberId,
+      data,
+    }: {
+      workspaceId: string;
+      memberId: string;
+      data: UpdateWorkspaceMemberRequest;
+    }) => workspaceService.updateWorkspaceMember(workspaceId, memberId, data),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["workspace-members", variables.workspaceId],
+      });
+    },
+  });
+}
+
+export function useRemoveWorkspaceMember() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      workspaceId,
+      memberId,
+    }: {
+      workspaceId: string;
+      memberId: string;
+    }) => workspaceService.removeWorkspaceMember(workspaceId, memberId),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: ["workspace-members", variables.workspaceId],

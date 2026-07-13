@@ -37,10 +37,6 @@ const eslintConfig = defineConfig([
       eqeqeq: ["error", "always"],
       "no-console": ["warn", { allow: ["warn", "error"] }],
       "prefer-const": "error",
-      "max-lines": [
-        "warn",
-        { max: 300, skipBlankLines: true, skipComments: true },
-      ],
     },
   },
 ]);

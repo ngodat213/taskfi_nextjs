@@ -18,6 +18,7 @@ import { useWorkspaceStore } from "@/store/workspace.store";
 import {
   useWorkspaceRoles,
   useInviteWorkspaceMember,
+  useUpdateWorkspaceMember,
 } from "@/features/workspaces/hooks/use-workspaces";
 import { useTranslations } from "next-intl";
 import {
@@ -28,13 +29,21 @@ import { TRANSLATION_KEYS } from "@/constants/translations";
 import { useDepartments } from "@/features/departments/hooks/use-departments";
 import { useEmploymentTypes } from "@/features/employment-types/hooks/use-employment-types";
 import { Label } from "@/components/ui/forms/label";
+import { WorkspaceMember } from "@/types/workspace.types";
 
 interface AddNewUserModalProps {
   isOpen: boolean;
   onClose: () => void;
+  mode?: "add" | "edit";
+  memberToEdit?: WorkspaceMember | null;
 }
 
-export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
+export function AddNewUserModal({
+  isOpen,
+  onClose,
+  mode = "add",
+  memberToEdit,
+}: AddNewUserModalProps) {
   const t = useTranslations("WorkspaceSettings");
   const TK = TRANSLATION_KEYS.modals.addUser;
   const ACT = TRANSLATION_KEYS.actions;
@@ -42,6 +51,7 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
   const activeWorkspaceId = useWorkspaceStore(
     (state) => state.activeWorkspaceId,
   );
+
   const { data: rolesResponse } = useWorkspaceRoles(
     activeWorkspaceId as string,
   );
@@ -62,6 +72,10 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
   );
 
   const inviteMutation = useInviteWorkspaceMember();
+  const updateMutation = useUpdateWorkspaceMember();
+
+  const isEditMode = mode === "edit";
+  const isPending = inviteMutation.isPending || updateMutation.isPending;
 
   const {
     register,
@@ -79,16 +93,38 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
   });
 
   useEffect(() => {
-    if (isOpen && roles.length > 0) {
-      reset((formValues) => ({
-        ...formValues,
-        roleId: formValues.roleId || roles[0].id,
-      }));
-    }
-    if (!isOpen) {
+    if (isOpen) {
+      if (isEditMode && memberToEdit) {
+        reset({
+          username: memberToEdit.username || "",
+          email: memberToEdit.email || "",
+          phone: memberToEdit.phone || "",
+          location: memberToEdit.location || "",
+          jobTitle: memberToEdit.jobTitle || "",
+          roleId: memberToEdit.roleId || "",
+          departmentId: memberToEdit.departmentId || undefined,
+          employmentTypeId: memberToEdit.employmentTypeId || undefined,
+          skills: memberToEdit.skills || "",
+          personalNote: memberToEdit.personalNote || "",
+        });
+      } else {
+        reset(() => ({
+          username: "",
+          email: "",
+          phone: "",
+          location: "",
+          jobTitle: "",
+          roleId: roles.length > 0 ? roles[0].id : "",
+          departmentId: undefined,
+          employmentTypeId: undefined,
+          skills: "",
+          personalNote: "",
+        }));
+      }
+    } else {
       reset();
     }
-  }, [isOpen, roles, reset]);
+  }, [isOpen, isEditMode, memberToEdit, roles, reset]);
 
   const handleClose = () => {
     reset();
@@ -99,21 +135,31 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
     if (!activeWorkspaceId) return;
 
     try {
-      await inviteMutation.mutateAsync({
-        workspaceId: activeWorkspaceId,
-        data: {
-          username: data.username,
-          email: data.email,
-          phone: data.phone,
-          location: data.location,
-          roleId: data.roleId,
-          jobTitle: data.jobTitle,
-          departmentId: data.departmentId,
-          employmentTypeId: data.employmentTypeId,
-          skills: data.skills,
-          personalNote: data.personalNote,
-        },
-      });
+      if (isEditMode && memberToEdit) {
+        await updateMutation.mutateAsync({
+          workspaceId: activeWorkspaceId,
+          memberId: memberToEdit.userId,
+          data: {
+            ...data,
+          },
+        });
+      } else {
+        await inviteMutation.mutateAsync({
+          workspaceId: activeWorkspaceId,
+          data: {
+            username: data.username,
+            email: data.email,
+            phone: data.phone,
+            location: data.location,
+            roleId: data.roleId,
+            jobTitle: data.jobTitle,
+            departmentId: data.departmentId,
+            employmentTypeId: data.employmentTypeId,
+            skills: data.skills,
+            personalNote: data.personalNote,
+          },
+        });
+      }
       handleClose();
     } catch (error) {
       console.error(error);
@@ -128,20 +174,20 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
     }
   };
 
-  const fieldStyle = "h-10 focus:border-blue-500 focus:ring-blue-500";
-
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
       <ModalContent maxWidth="max-w-[600px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader
-            title={t(TK.title)}
+            title={isEditMode ? "Edit Member" : t(TK.title)}
             icon={<FileText className="w-4 h-4" />}
           />
           <ModalBody>
             <ModalScrollArea
-              title={t(TK.subtitle)}
-              description={t(TK.desc)}
+              title={isEditMode ? "Update Member Details" : t(TK.subtitle)}
+              description={
+                isEditMode ? "Modify member details below" : t(TK.desc)
+              }
               errorMessage={errors.root?.message}
             >
               <div className="flex flex-col gap-5">
@@ -153,7 +199,6 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                     type="text"
                     placeholder={t(TK.fullNamePlaceholder)}
                     {...register("username")}
-                    className={fieldStyle}
                     disabled={inviteMutation.isPending}
                     error={errors.username?.message}
                   />
@@ -161,10 +206,9 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                     label={t(TK.emailLabel)}
                     required
                     type="email"
+                    disabled={isEditMode || inviteMutation.isPending}
                     placeholder={t(TK.emailPlaceholder)}
                     {...register("email")}
-                    className={fieldStyle}
-                    disabled={inviteMutation.isPending}
                     error={errors.email?.message}
                   />
                 </div>
@@ -176,7 +220,6 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                     type="tel"
                     placeholder={t(TK.phonePlaceholder) || "Enter phone number"}
                     {...register("phone")}
-                    className={fieldStyle}
                     disabled={inviteMutation.isPending}
                     error={errors.phone?.message}
                   />
@@ -185,7 +228,6 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                     type="text"
                     placeholder={t(TK.locationPlaceholder) || "Enter location"}
                     {...register("location")}
-                    className={fieldStyle}
                     disabled={inviteMutation.isPending}
                     error={errors.location?.message}
                   />
@@ -199,7 +241,6 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                     type="text"
                     placeholder={t(TK.jobTitlePlaceholder)}
                     {...register("jobTitle")}
-                    className={fieldStyle}
                     disabled={inviteMutation.isPending}
                     error={errors.jobTitle?.message}
                   />
@@ -209,7 +250,6 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                     render={({ field, fieldState }) => (
                       <FormSelect
                         label={t(TK.departmentLabel)}
-                        className={fieldStyle}
                         disabled={
                           inviteMutation.isPending || isLoadingDepartments
                         }
@@ -218,7 +258,7 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                       >
                         <option value="" disabled>
                           {isLoadingDepartments
-                            ? t(TK.loadingRoles) // We can reuse loading text or fallback
+                            ? t(TK.loadingRoles)
                             : t(TK.departmentOptions.placeholder)}
                         </option>
                         {departments.map((d) => (
@@ -240,7 +280,6 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                       <FormSelect
                         label={t(TK.workspaceRoleLabel)}
                         required
-                        className={fieldStyle}
                         disabled={inviteMutation.isPending}
                         error={fieldState.error?.message}
                         {...field}
@@ -264,7 +303,6 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                     render={({ field, fieldState }) => (
                       <FormSelect
                         label={t(TK.employmentTypeLabel)}
-                        className={fieldStyle}
                         disabled={
                           inviteMutation.isPending || isLoadingEmploymentTypes
                         }
@@ -292,7 +330,6 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                   type="text"
                   placeholder={t(TK.skillsPlaceholder)}
                   {...register("skills")}
-                  className={fieldStyle}
                   disabled={inviteMutation.isPending}
                   error={errors.skills?.message}
                 />
@@ -312,7 +349,6 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                   <Textarea
                     placeholder={t(TK.notePlaceholder)}
                     {...register("personalNote")}
-                    className="focus:border-blue-500 focus:ring-blue-500"
                     disabled={inviteMutation.isPending}
                   />
                 </div>
@@ -324,19 +360,17 @@ export function AddNewUserModal({ isOpen, onClose }: AddNewUserModalProps) {
                 type="button"
                 variant={ButtonVariant.Outline}
                 onClick={handleClose}
-                disabled={inviteMutation.isPending}
+                disabled={isPending}
               >
                 {t(ACT.cancel)}
               </Button>
               <Button
                 type="submit"
                 variant={ButtonVariant.Primary}
-                disabled={inviteMutation.isPending}
+                disabled={isPending}
               >
-                {inviteMutation.isPending && (
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                )}
-                {t(TK.btn)}
+                {isPending && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                {isEditMode ? "Save Changes" : t(TK.btn)}
               </Button>
             </ModalFooter>
           </ModalBody>

@@ -54,7 +54,16 @@
         "status": "Trạng thái",
         "dateAdded": "Ngày tham gia",
         "emptyTitle": "Không tìm thấy thành viên nào",
-        "emptyDesc": "Chưa có thành viên nào trong không gian làm việc này."
+        "emptyDesc": "Chưa có thành viên nào trong không gian làm việc này.",
+        "projectsCount": "{count} dự án",
+        "joined": "Tham gia",
+        "notAvailable": "N/A",
+        "memberRoleDefault": "Thành viên",
+        "departmentDefault": "Chung",
+        "statusActive": "Hoạt động",
+        "statusPending": "Đang chờ",
+        "statusInactive": "Không hoạt động",
+        "fullTime": "Toàn thời gian"
       },
       "groups": {
         "groupName": "Tên Nhóm",
@@ -158,6 +167,7 @@
         "matrixTitle": "Ma trận Quyền",
         "matrix": {
           "resource": "Tài nguyên",
+          "read": "Đọc",
           "create": "Tạo",
           "update": "Sửa",
           "delete": "Xóa",

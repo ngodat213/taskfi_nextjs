@@ -6,6 +6,8 @@ import {
   Workspace,
   WorkspaceMember,
   InviteWorkspaceMemberRequest,
+  UpdateWorkspaceMemberRequest,
+  WorkspaceMemberQueryParams,
   WorkspaceRole,
   CreateRoleRequest,
   UpdateRoleRequest,
@@ -62,7 +64,10 @@ export const workspaceService = {
   },
 
   // MEMBERS
-  getWorkspaceMembers: async (id: string, params?: PaginationParams) => {
+  getWorkspaceMembers: async (
+    id: string,
+    params?: WorkspaceMemberQueryParams,
+  ) => {
     const response = await apiClient.get<PaginatedResponse<WorkspaceMember>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${id}/members`,
       { params },
@@ -75,6 +80,25 @@ export const workspaceService = {
       `${API_ENDPOINTS.WORKSPACES.LIST}/${id}/members/invite`,
       data,
     );
+    return response.data;
+  },
+
+  updateWorkspaceMember: async (
+    workspaceId: string,
+    memberId: string,
+    data: UpdateWorkspaceMemberRequest,
+  ) => {
+    const response = await apiClient.put<BaseResponse<WorkspaceMember>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/members/${memberId}`,
+      data,
+    );
+    return response.data;
+  },
+
+  removeWorkspaceMember: async (workspaceId: string, memberId: string) => {
+    const response = await apiClient.delete<
+      BaseResponse<{ status: string; message: string }>
+    >(`${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/members/${memberId}`);
     return response.data;
   },
 

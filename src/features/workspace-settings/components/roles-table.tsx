@@ -1,4 +1,4 @@
-import { MoreHorizontal, Shield, Pencil } from "lucide-react";
+import { MoreHorizontal, Shield, Pencil, Loader2 } from "lucide-react";
 import { useWorkspaceStore } from "@/store/workspace.store";
 import { useWorkspaceRoles } from "@/features/workspaces/hooks/use-workspaces";
 import { cn } from "@/utils/cn";
@@ -13,7 +13,7 @@ import {
 import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { TableActionBtn } from "@/components/ui/data-display/table-action-btn";
 import { useTranslations } from "next-intl";
-import { Loader2 } from "lucide-react";
+import { EntityMemberCount } from "@/features/workspace-settings/components/entity-member-count";
 
 import { WorkspaceRole } from "@/types/workspace.types";
 import { SYSTEM_ROLES } from "@/features/workspace-settings/constants/role.constants";
@@ -56,6 +56,9 @@ export function RolesTable({
         <TableRow>
           <TableHead>{t(TK.roleName)}</TableHead>
           <TableHead className="hidden sm:table-cell">{t(TK.type)}</TableHead>
+          <TableHead className="hidden sm:table-cell">
+            {t(TK.members)}
+          </TableHead>
           <TableHead className="w-10" />
         </TableRow>
       </TableHeader>
@@ -89,6 +92,13 @@ export function RolesTable({
                     <span className="text-[11px] px-1.5 py-0.5 bg-slate-100 border border-slate-200/60 text-slate-600 rounded-md w-fit mt-1 sm:hidden">
                       {typeLabel}
                     </span>
+                    <span className="text-[11px] text-slate-500 mt-1 sm:hidden flex items-center gap-1.5">
+                      <EntityMemberCount
+                        workspaceId={activeWorkspaceId as string}
+                        params={{ roleId: r.id }}
+                      />{" "}
+                      {t(TK.members).toLowerCase()}
+                    </span>
                   </div>
                 </TableCell>
                 <TableCell className="hidden sm:table-cell">
@@ -101,6 +111,14 @@ export function RolesTable({
                     )}
                   >
                     {typeLabel}
+                  </span>
+                </TableCell>
+                <TableCell className="hidden sm:table-cell">
+                  <span className="text-[13px] text-slate-600">
+                    <EntityMemberCount
+                      workspaceId={activeWorkspaceId as string}
+                      params={{ roleId: r.id }}
+                    />
                   </span>
                 </TableCell>
                 <TableCell className="text-right">

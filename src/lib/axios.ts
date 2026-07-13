@@ -11,7 +11,7 @@ let isRefreshing = false;
 let failedQueue: QueuedRequest[] = [];
 
 export const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api/v1",
+  baseURL: process.env.NEXT_PUBLIC_API_URL!,
   headers: {
     "Content-Type": "application/json",
   },
@@ -38,8 +38,21 @@ const handleLogout = () => {
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const { accessToken } = useAuthStore.getState();
-    if (accessToken && config.headers) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+    if (config.headers) {
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+
+      let locale = "en";
+      if (typeof document !== "undefined") {
+        const match = document.cookie.match(/(^| )NEXT_LOCALE=([^;]+)/);
+        if (match) {
+          locale = match[2];
+        } else {
+          locale = window.location.pathname.split("/")[1] || "en";
+        }
+      }
+      config.headers["Accept-Language"] = locale;
     }
     return config;
   },
@@ -55,8 +68,10 @@ apiClient.interceptors.response.use(
 
     // Bỏ qua nếu không phải lỗi 401 hoặc request đã được retry trước đó
     // Bỏ qua nếu là request đang gọi tới các endpoint auth (login, register...)
-    const isAuthEndpoint = originalRequest.url?.includes("/auth/login") || originalRequest.url?.includes("/auth/register");
-    
+    const isAuthEndpoint =
+      originalRequest.url?.includes("/auth/login") ||
+      originalRequest.url?.includes("/auth/register");
+
     if (
       error.response?.status !== 401 ||
       !originalRequest ||

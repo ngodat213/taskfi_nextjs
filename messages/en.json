@@ -54,7 +54,16 @@
         "status": "Status",
         "dateAdded": "Date Added",
         "emptyTitle": "No members found",
-        "emptyDesc": "There are no members in this workspace yet."
+        "emptyDesc": "There are no members in this workspace yet.",
+        "projectsCount": "{count, plural, =0 {0 projects} =1 {1 project} other {# projects}}",
+        "joined": "Joined",
+        "notAvailable": "N/A",
+        "memberRoleDefault": "Member",
+        "departmentDefault": "General",
+        "statusActive": "Active",
+        "statusPending": "Pending",
+        "statusInactive": "Inactive",
+        "fullTime": "Full-time"
       },
       "groups": {
         "groupName": "Group Name",
@@ -158,6 +167,7 @@
         "matrixTitle": "Permissions Matrix",
         "matrix": {
           "resource": "Resource",
+          "read": "Read",
           "create": "Create",
           "update": "Update",
           "delete": "Delete",

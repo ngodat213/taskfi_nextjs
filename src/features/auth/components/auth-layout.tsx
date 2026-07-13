@@ -26,10 +26,10 @@ export function AuthLayout({
 
       {/* Form Container */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 1, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-        className="relative z-10 w-full max-w-[480px] p-8 md:p-10 rounded-xl"
+        className="relative z-10 w-full max-w-[480px] p-8 md:p-10 rounded-xl bg-white shadow-xl border border-slate-200/60"
       >
         <div className="flex flex-col items-center mb-8">
           <div className="w-12 h-12 flex items-center justify-center mb-5 text-slate-800">
