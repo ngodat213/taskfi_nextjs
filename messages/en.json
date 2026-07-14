@@ -214,5 +214,49 @@
     "results": "results",
     "previous": "Previous",
     "next": "Next"
+  },
+  "Projects": {
+    "allProjects": {
+      "title": "All Projects",
+      "description": "Portfolio, delivery mode, and project membership",
+      "newProject": "New Project",
+      "allGroups": "All groups",
+      "groupByProject": "Group by project",
+      "noGroupsFound": "No groups found",
+      "noGroupsDesc": "This workspace doesn't have any groups yet. Groups help you organize related projects.",
+      "projectsCount": "{count} Projects",
+      "projectName": "Project Name",
+      "type": "Type",
+      "group": "Group",
+      "projectLead": "Project Lead",
+      "noDescription": "No description",
+      "noProjects": "No projects in this group."
+    },
+    "addProject": {
+      "title": "Create New Project",
+      "detailsTitle": "Project Details",
+      "subtitle": "Enter the details for your new project. The key is used as a prefix for project issues.",
+      "logoLabel": "Project Logo (Optional)",
+      "changeLogo": "Change Logo",
+      "nameLabel": "Project Name",
+      "namePlaceholder": "e.g. Task Management System",
+      "keyLabel": "Project Key",
+      "keyPlaceholder": "e.g. TASK",
+      "typeLabel": "Project Type",
+      "typeOptions": {
+        "software": "Software Development",
+        "business": "Business",
+        "marketing": "Marketing",
+        "kanban": "Kanban"
+      },
+      "groupLabel": "Group",
+      "groupPlaceholder": "Select a group",
+      "leadLabel": "Project Lead",
+      "leadPlaceholder": "Select a project lead",
+      "descLabel": "Description",
+      "descPlaceholder": "Enter project description",
+      "cancel": "Cancel",
+      "submit": "Create Project"
+    }
   }
 }

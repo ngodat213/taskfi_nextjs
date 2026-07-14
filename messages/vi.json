@@ -214,5 +214,49 @@
     "results": "kết quả",
     "previous": "Trước",
     "next": "Tiếp"
+  },
+  "Projects": {
+    "allProjects": {
+      "title": "Tất cả dự án",
+      "description": "Danh mục, phương thức giao hàng và thành viên dự án",
+      "newProject": "Dự án mới",
+      "allGroups": "Tất cả các nhóm",
+      "groupByProject": "Nhóm theo dự án",
+      "noGroupsFound": "Không tìm thấy nhóm nào",
+      "noGroupsDesc": "Không gian làm việc này chưa có nhóm nào. Các nhóm giúp bạn sắp xếp các dự án liên quan.",
+      "projectsCount": "{count} Dự án",
+      "projectName": "Tên dự án",
+      "type": "Loại",
+      "group": "Nhóm",
+      "projectLead": "Quản lý dự án",
+      "noDescription": "Không có mô tả",
+      "noProjects": "Không có dự án nào trong nhóm này."
+    },
+    "addProject": {
+      "title": "Tạo dự án mới",
+      "detailsTitle": "Chi tiết dự án",
+      "subtitle": "Nhập thông tin cho dự án mới của bạn. Mã (Key) sẽ được dùng làm tiền tố cho các vấn đề (issues) trong dự án.",
+      "logoLabel": "Logo dự án (Không bắt buộc)",
+      "changeLogo": "Đổi Logo",
+      "nameLabel": "Tên dự án",
+      "namePlaceholder": "VD: Hệ thống Quản lý Công việc",
+      "keyLabel": "Mã dự án (Key)",
+      "keyPlaceholder": "VD: TASK",
+      "typeLabel": "Loại dự án",
+      "typeOptions": {
+        "software": "Phát triển Phần mềm",
+        "business": "Kinh doanh",
+        "marketing": "Marketing",
+        "kanban": "Kanban"
+      },
+      "groupLabel": "Nhóm",
+      "groupPlaceholder": "Chọn nhóm",
+      "leadLabel": "Quản lý dự án",
+      "leadPlaceholder": "Chọn quản lý dự án",
+      "descLabel": "Mô tả",
+      "descPlaceholder": "Nhập mô tả dự án",
+      "cancel": "Hủy",
+      "submit": "Tạo dự án"
+    }
   }
 }
