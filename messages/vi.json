@@ -258,5 +258,88 @@
       "cancel": "Hủy",
       "submit": "Tạo dự án"
     }
+  },
+  "UserSettings": {
+    "title": "Cài đặt người dùng",
+    "description": "Quản lý hồ sơ, tuỳ chọn và bảo mật của bạn",
+    "tabs": {
+      "profile": "Hồ sơ",
+      "preferences": "Tuỳ chọn",
+      "security": "Bảo mật"
+    },
+    "profile": {
+      "title": "Thông tin cá nhân",
+      "subtitle": "Cập nhật chi tiết hồ sơ của bạn",
+      "username": "Tên đăng nhập",
+      "email": "Địa chỉ Email",
+      "jobTitle": "Chức danh",
+      "bio": "Tiểu sử",
+      "save": "Lưu thay đổi"
+    },
+    "preferences": {
+      "title": "Tuỳ chọn",
+      "subtitle": "Tuỳ chỉnh trải nghiệm của bạn",
+      "theme": "Giao diện",
+      "language": "Ngôn ngữ",
+      "save": "Lưu tuỳ chọn"
+    },
+    "security": {
+      "title": "Cài đặt bảo mật",
+      "subtitle": "Quản lý mật khẩu và bảo mật",
+      "currentPassword": "Mật khẩu hiện tại",
+      "newPassword": "Mật khẩu mới",
+      "confirmPassword": "Xác nhận mật khẩu mới",
+      "save": "Cập nhật mật khẩu"
+    }
+  },
+  "Dashboard": {
+    "title": "Tất cả Dự án",
+    "loading": "Đang tải...",
+    "kanban_flow": "Luồng Kanban",
+    "standup": "Họp nhanh",
+    "add_task": "Thêm công việc",
+    "search_placeholder": "Tìm kiếm tiêu đề hoặc TEST-1...",
+    "filters": {
+      "Assignee": "Người phụ trách",
+      "Type": "Loại",
+      "Priority": "Mức độ",
+      "all": "Tất cả {filter}",
+      "mine": "{filter} của tôi"
+    },
+    "content_coming_soon": "Nội dung cho {tab} đang được cập nhật.",
+    "Tabs": {
+      "Board": "Bảng",
+      "Backlog": "Tồn đọng",
+      "Issues": "Vấn đề",
+      "Done": "Hoàn thành",
+      "Reports": "Báo cáo",
+      "Workload": "Khối lượng",
+      "Retros": "Nhìn lại",
+      "Deps": "Phụ thuộc",
+      "Archived": "Lưu trữ"
+    },
+    "CreateTaskModal": {
+      "title": "Tạo công việc",
+      "summary": "Tóm tắt",
+      "summary_placeholder": "Cần làm những gì?",
+      "description": "Mô tả",
+      "description_placeholder": "Thêm chi tiết về công việc này...",
+      "issue_type": "Loại vấn đề",
+      "status": "Trạng thái",
+      "priority": "Mức độ",
+      "assignee": "Người phụ trách",
+      "unassigned": "Chưa giao",
+      "parent_issue": "Vấn đề cha",
+      "none": "Không có",
+      "due_date": "Ngày đến hạn",
+      "story_points": "Điểm (Story Points)",
+      "story_points_placeholder": "VD: 5",
+      "original_estimate": "Ước tính ban đầu (giây)",
+      "remaining_estimate": "Ước tính còn lại (giây)",
+      "attachments": "Tệp đính kèm",
+      "cancel": "Hủy",
+      "creating": "Đang tạo...",
+      "create": "Tạo công việc"
+    }
   }
 }

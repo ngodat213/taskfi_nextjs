@@ -1,5 +1,5 @@
-import { PlaceholderView } from "@/components/ui/data-display/placeholder-view";
+import { DashboardView } from "@/features/dashboard/components/dashboard-view";
 
-export default function DashboardPlaceholderPage() {
-  return <PlaceholderView title="Dashboard" />;
+export default function GlobalDashboardPage() {
+  return <DashboardView projectId="" />;
 }

@@ -53,7 +53,7 @@ export function AvatarGroup({
       {remaining > 0 && (
         <div
           className={cn(
-            "relative rounded-full flex items-center justify-center flex-shrink-0 z-10 font-medium bg-slate-100 text-slate-500",
+            "relative rounded-full flex items-center justify-center shrink-0 z-10 font-medium bg-slate-100 text-slate-500",
             avatarClassName,
             remainingClassName,
           )}

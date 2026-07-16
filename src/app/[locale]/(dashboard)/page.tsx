@@ -1,5 +1,5 @@
-import { DashboardView } from "@/features/dashboard/components/dashboard-view";
+import { ProjectsView } from "@/features/projects/components/projects-view";
 
-export default function DashboardPage() {
-  return <DashboardView />;
+export default function DashboardRootPage() {
+  return <ProjectsView />;
 }

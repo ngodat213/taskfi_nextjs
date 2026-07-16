@@ -1,87 +1,70 @@
-import {
-  AlertCircle,
-  ChevronUp,
-  Equal,
-  ChevronDown,
-  Bookmark,
-  CheckSquare,
-  CornerDownRight,
-  BugIcon,
-} from "lucide-react";
+import { AlertCircle, ChevronUp, Equal, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/data-display/badge";
-
-export interface DashboardIssue {
-  id: string;
-  summary: string;
-  type: string;
-  priority: string;
-  assignee: string;
-}
+import { Issue } from "@/types/issue.types";
+import { TypeIcon } from "@/features/dashboard/components/issue-table-row";
 
 interface TaskCardProps {
-  issue: DashboardIssue;
+  issue: Issue;
 }
 
 export function TaskCard({ issue }: TaskCardProps) {
+  const displayId = issue.issueKey || issue.id || "";
+  const type = (issue.type || "task").toLowerCase();
+  const priority = issue.priority || "Medium";
+  const assigneeDisplay = issue.assigneeId
+    ? issue.assigneeId.substring(0, 2).toUpperCase()
+    : "UN";
+
   return (
-    <div className="bg-white p-3 rounded-lg border border-slate-200/80 hover:border-slate-300 hover:shadow-sm cursor-pointer group transition-all">
-      <div className="flex items-center justify-between mb-2">
+    <div className="bg-white p-2.5 rounded-lg border border-slate-200/80 hover:border-slate-300 hover:shadow-sm cursor-pointer group transition-all">
+      <div className="flex items-center justify-between mb-1.5">
         <div className="flex items-center gap-2">
-          {issue.type === "story" && (
-            <Bookmark className="w-4 h-4 text-emerald-500 fill-emerald-500" />
-          )}
-          {issue.type === "task" && (
-            <CheckSquare className="w-4 h-4 text-blue-500 fill-blue-50" />
-          )}
-          {issue.type === "subtask" && (
-            <CornerDownRight className="w-4 h-4 text-slate-400" />
-          )}
-          {issue.type === "bug" && <BugIcon className="w-4 h-4 text-red-500" />}
+          <TypeIcon type={type as Issue["type"]} className="w-4 h-4" />
           <span className="text-[12.5px] font-semibold text-slate-500 group-hover:text-slate-700 transition-colors">
-            {issue.id}
+            {displayId}
           </span>
         </div>
         <Badge
           variant={
-            issue.type === "story"
+            type === "story"
               ? "emerald"
-              : issue.type === "task"
+              : type === "task"
                 ? "blue"
-                : issue.type === "bug"
+                : type === "bug"
                   ? "red"
                   : "slate"
           }
           className="capitalize"
         >
-          {issue.type}
+          {type}
         </Badge>
       </div>
 
-      <p className="text-[13px] text-slate-800 font-semibold leading-snug mb-3.5 group-hover:text-blue-600 transition-colors">
+      <p className="text-[12.5px] text-slate-800 font-medium leading-snug mb-2.5 group-hover:text-blue-600 transition-colors">
         {issue.summary}
       </p>
 
       <div className="flex items-center justify-between mt-auto">
         <Badge
           variant={
-            issue.priority === "Critical"
+            priority === "Critical"
               ? "red"
-              : issue.priority === "High"
+              : priority === "High"
                 ? "orange"
-                : issue.priority === "Medium"
+                : priority === "Medium"
                   ? "amber"
                   : "blue"
           }
         >
-          {issue.priority === "Critical" && <AlertCircle className="w-3 h-3" />}
-          {issue.priority === "High" && <ChevronUp className="w-3 h-3" />}
-          {issue.priority === "Medium" && <Equal className="w-3 h-3" />}
-          {issue.priority === "Low" && <ChevronDown className="w-3 h-3" />}
-          {issue.priority}
+          {priority === "Critical" && <AlertCircle className="w-3 h-3" />}
+          {priority === "High" && <ChevronUp className="w-3 h-3" />}
+          {priority === "Medium" && <Equal className="w-3 h-3" />}
+          {priority === "Low" && <ChevronDown className="w-3 h-3" />}
+          {priority}
         </Badge>
 
-        <div className="w-6 h-6 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-[9px] font-bold text-slate-600 overflow-hidden">
-          {issue.assignee}
+        <div className="w-5 h-5 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-[8.5px] font-bold text-slate-600 overflow-hidden">
+          {assigneeDisplay}
         </div>
       </div>
     </div>

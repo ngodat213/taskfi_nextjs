@@ -43,6 +43,16 @@ export function useWorkspaceMembers(
   });
 }
 
+export function useWorkspaceConfig(workspaceId: string) {
+  const accessToken = useAuthStore((state) => state.accessToken);
+
+  return useQuery({
+    queryKey: ["workspace-config", workspaceId],
+    queryFn: () => workspaceService.getWorkspaceConfig(workspaceId),
+    enabled: !!accessToken && !!workspaceId,
+  });
+}
+
 export function useWorkspaceRoles(workspaceId: string) {
   const accessToken = useAuthStore((state) => state.accessToken);
 

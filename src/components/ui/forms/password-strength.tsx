@@ -23,7 +23,7 @@ export function PasswordStrength({ password = "" }: PasswordStrengthProps) {
       },
       {
         label: "Contains number",
-        met: /[0-9]/.test(password),
+        met: /\d/.test(password),
       },
       {
         label: "Contains special character",

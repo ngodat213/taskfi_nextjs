@@ -1,4 +1,4 @@
-import { apiClient } from "@/lib/axios";
+import { apiFetch } from "@/lib/api-fetch";
 import { API_ENDPOINTS } from "@/config/api-endpoints";
 import {
   BaseResponse,
@@ -9,17 +9,20 @@ import { Project, CreateProjectRequest } from "@/types/project.types";
 
 export const projectService = {
   getProjects: async (groupId: string, params?: PaginationParams) => {
-    const response = await apiClient.get<PaginatedResponse<Project>>(
+    return apiFetch<PaginatedResponse<Project>>(
       `${API_ENDPOINTS.GROUPS.BASE}/${groupId}/projects`,
       { params },
     );
-    return response.data;
+  },
+  getProject: async (projectId: string) => {
+    return apiFetch<BaseResponse<Project>>(
+      `${API_ENDPOINTS.PROJECTS.BASE}/${projectId}`,
+    );
   },
   createProject: async (groupId: string, data: CreateProjectRequest) => {
-    const response = await apiClient.post<BaseResponse<Project>>(
+    return apiFetch<BaseResponse<Project>>(
       `${API_ENDPOINTS.GROUPS.BASE}/${groupId}/projects`,
-      data,
+      { method: "POST", body: data },
     );
-    return response.data;
   },
 };

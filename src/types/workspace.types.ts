@@ -120,3 +120,20 @@ export interface UpdateEmploymentTypeRequest {
   name?: string;
   description?: string;
 }
+
+export interface WorkspaceStatus {
+  name: string;
+  category: string;
+  color: string;
+}
+
+export interface WorkspaceIssueType {
+  name: string;
+  icon: string;
+}
+
+export interface WorkspaceConfig {
+  workspaceId: string;
+  statuses: WorkspaceStatus[];
+  issueTypes: WorkspaceIssueType[];
+}

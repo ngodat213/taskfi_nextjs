@@ -32,7 +32,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center gap-1.5 font-medium transition-all focus:outline-none focus:ring-2 focus:ring-slate-900/5 disabled:pointer-events-none",
+          "inline-flex items-center justify-center whitespace-nowrap gap-1.5 font-medium transition-all focus:outline-none focus:ring-2 focus:ring-slate-900/5 disabled:pointer-events-none",
           !props.disabled && "active:scale-[0.98]",
           /* Variants */
           variant === ButtonVariant.Default &&

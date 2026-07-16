@@ -1,4 +1,4 @@
-import { apiClient } from "@/lib/axios";
+import { apiFetch } from "@/lib/api-fetch";
 import { API_ENDPOINTS } from "@/config/api-endpoints";
 import { BaseResponse, PaginationParams } from "@/types/api.types";
 import {
@@ -9,26 +9,23 @@ import {
 
 export const groupService = {
   getGroups: async (workspaceId: string, params?: PaginationParams) => {
-    const response = await apiClient.get<BaseResponse<Group[]>>(
+    return apiFetch<BaseResponse<Group[]>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/groups`,
       { params },
     );
-    return response.data;
   },
 
   getGroup: async (workspaceId: string, groupId: string) => {
-    const response = await apiClient.get<BaseResponse<Group>>(
+    return apiFetch<BaseResponse<Group>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/groups/${groupId}`,
     );
-    return response.data;
   },
 
   createGroup: async (workspaceId: string, data: CreateGroupRequest) => {
-    const response = await apiClient.post<BaseResponse<Group>>(
+    return apiFetch<BaseResponse<Group>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/groups`,
-      data,
+      { method: "POST", body: data },
     );
-    return response.data;
   },
 
   updateGroup: async (
@@ -36,17 +33,16 @@ export const groupService = {
     groupId: string,
     data: UpdateGroupRequest,
   ) => {
-    const response = await apiClient.put<BaseResponse<Group>>(
+    return apiFetch<BaseResponse<Group>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/groups/${groupId}`,
-      data,
+      { method: "PUT", body: data },
     );
-    return response.data;
   },
 
   deleteGroup: async (workspaceId: string, groupId: string) => {
-    const response = await apiClient.delete<BaseResponse<string>>(
+    return apiFetch<BaseResponse<string>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/groups/${groupId}`,
+      { method: "DELETE" },
     );
-    return response.data;
   },
 };

@@ -11,6 +11,7 @@ export interface SelectProps extends Omit<
   defaultValue?: string;
   onChange?: (value: string) => void;
   disabled?: boolean;
+  placeholder?: string;
 }
 
 export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
@@ -23,6 +24,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
       wrapperClassName,
       className,
       disabled,
+      placeholder,
       ...props
     },
     ref,
@@ -44,14 +46,14 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
     });
 
     // Determine initial value
-    const initialValue =
-      value !== undefined
-        ? value
-        : defaultValue !== undefined
-          ? defaultValue
-          : options.length > 0
-            ? options[0].value
-            : "";
+    let initialValue = "";
+    if (value !== undefined) {
+      initialValue = value as string;
+    } else if (defaultValue !== undefined) {
+      initialValue = defaultValue as string;
+    } else if (options.length > 0) {
+      initialValue = options[0].value;
+    }
     const [internalValue, setInternalValue] = React.useState(initialValue);
     const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -110,7 +112,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
           )}
         >
           <span className="truncate">
-            {selectedOption ? selectedOption.label : "Select..."}
+            {selectedOption ? selectedOption.label : placeholder || "Select..."}
           </span>
           <ChevronDown
             className={cn(

@@ -11,7 +11,6 @@ import {
   ChevronLeft,
   Folder,
   CheckSquare,
-  LayoutDashboard,
 } from "lucide-react";
 import { usePathname } from "@/i18n/routing";
 import { useWorkspaceStore } from "@/store/workspace.store";
@@ -20,12 +19,11 @@ import Image from "next/image";
 import { Workspace } from "@/types/workspace.types";
 
 const navItems = [
-  { icon: Folder, label: "Projects", href: "/projects" },
+  { icon: Folder, label: "Projects", href: "/" },
   { icon: CheckSquare, label: "My tasks", href: "/my-tasks" },
-  { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
   { icon: ListTree, label: "Timeline", href: "/timeline" },
   { icon: KanbanSquare, label: "Backlog", href: "/backlog" },
-  { icon: KanbanSquare, label: "Active sprints", href: "/" },
+  { icon: KanbanSquare, label: "Active sprints", href: "/active-sprints" },
   { icon: LineChart, label: "Reports", href: "/reports" },
   { icon: FileText, label: "Issues", href: "/issues" },
 ];
@@ -63,9 +61,11 @@ export function Sidebar({
       {/* Sidebar Content */}
       <aside
         className={cn(
-          "w-[260px] flex-shrink-0 border-r border-slate-200/60 bg-white/70 md:bg-white/50 backdrop-blur-md flex flex-col h-full select-none group transition-transform duration-300 z-50",
-          "fixed md:relative inset-y-0 left-0",
-          isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
+          "w-[260px] flex-shrink-0 border border-slate-300/80 rounded-2xl bg-white/70 md:bg-white/50 backdrop-blur-md flex flex-col h-[calc(100dvh-24px)] my-3 ml-3 select-none group transition-transform duration-300 z-50 overflow-hidden",
+          "fixed md:relative top-0 left-0",
+          isOpen
+            ? "translate-x-0"
+            : "-translate-x-[calc(100%+12px)] md:translate-x-0",
         )}
       >
         {/* Project Header */}
@@ -135,7 +135,7 @@ export function Sidebar({
                 className={cn(
                   "flex items-center gap-3 px-3 py-2 rounded-lg text-[13.5px] font-medium transition-all",
                   isActive
-                    ? "bg-blue-50/50 text-blue-700"
+                    ? "bg-blue-100 text-blue-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)] ring-1 ring-blue-200/50"
                     : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
                 )}
               >
@@ -158,7 +158,7 @@ export function Sidebar({
             className={cn(
               "flex items-center gap-3 px-3 py-2 rounded-lg text-[13.5px] font-medium transition-all text-left w-full",
               pathname === "/workspace-settings"
-                ? "bg-blue-50/50 text-blue-700"
+                ? "bg-blue-100 text-blue-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)] ring-1 ring-blue-200/50"
                 : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
             )}
           >
