@@ -54,7 +54,16 @@
         "status": "Status",
         "dateAdded": "Date Added",
         "emptyTitle": "No members found",
-        "emptyDesc": "There are no members in this workspace yet."
+        "emptyDesc": "There are no members in this workspace yet.",
+        "projectsCount": "{count, plural, =0 {0 projects} =1 {1 project} other {# projects}}",
+        "joined": "Joined",
+        "notAvailable": "N/A",
+        "memberRoleDefault": "Member",
+        "departmentDefault": "General",
+        "statusActive": "Active",
+        "statusPending": "Pending",
+        "statusInactive": "Inactive",
+        "fullTime": "Full-time"
       },
       "groups": {
         "groupName": "Group Name",
@@ -158,6 +167,7 @@
         "matrixTitle": "Permissions Matrix",
         "matrix": {
           "resource": "Resource",
+          "read": "Read",
           "create": "Create",
           "update": "Update",
           "delete": "Delete",
@@ -204,5 +214,132 @@
     "results": "results",
     "previous": "Previous",
     "next": "Next"
+  },
+  "Projects": {
+    "allProjects": {
+      "title": "All Projects",
+      "description": "Portfolio, delivery mode, and project membership",
+      "newProject": "New Project",
+      "allGroups": "All groups",
+      "groupByProject": "Group by project",
+      "noGroupsFound": "No groups found",
+      "noGroupsDesc": "This workspace doesn't have any groups yet. Groups help you organize related projects.",
+      "projectsCount": "{count} Projects",
+      "projectName": "Project Name",
+      "type": "Type",
+      "group": "Group",
+      "projectLead": "Project Lead",
+      "noDescription": "No description",
+      "noProjects": "No projects in this group."
+    },
+    "addProject": {
+      "title": "Create New Project",
+      "detailsTitle": "Project Details",
+      "subtitle": "Enter the details for your new project. The key is used as a prefix for project issues.",
+      "logoLabel": "Project Logo (Optional)",
+      "changeLogo": "Change Logo",
+      "nameLabel": "Project Name",
+      "namePlaceholder": "e.g. Task Management System",
+      "keyLabel": "Project Key",
+      "keyPlaceholder": "e.g. TASK",
+      "typeLabel": "Project Type",
+      "typeOptions": {
+        "software": "Software Development",
+        "business": "Business",
+        "marketing": "Marketing",
+        "kanban": "Kanban"
+      },
+      "groupLabel": "Group",
+      "groupPlaceholder": "Select a group",
+      "leadLabel": "Project Lead",
+      "leadPlaceholder": "Select a project lead",
+      "descLabel": "Description",
+      "descPlaceholder": "Enter project description",
+      "cancel": "Cancel",
+      "submit": "Create Project"
+    }
+  },
+  "UserSettings": {
+    "title": "User Settings",
+    "description": "Manage your profile, preferences, and security settings",
+    "tabs": {
+      "profile": "Profile",
+      "preferences": "Preferences",
+      "security": "Security"
+    },
+    "profile": {
+      "title": "Profile Information",
+      "subtitle": "Update your personal details",
+      "username": "Username",
+      "email": "Email Address",
+      "jobTitle": "Job Title",
+      "bio": "Bio",
+      "save": "Save Changes"
+    },
+    "preferences": {
+      "title": "Preferences",
+      "subtitle": "Customize your experience",
+      "theme": "Theme",
+      "language": "Language",
+      "save": "Save Preferences"
+    },
+    "security": {
+      "title": "Security Settings",
+      "subtitle": "Manage your password and security",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "save": "Update Password"
+    }
+  },
+  "Dashboard": {
+    "title": "All Projects",
+    "loading": "Loading...",
+    "kanban_flow": "Kanban flow",
+    "standup": "Standup",
+    "add_task": "Add Task",
+    "search_placeholder": "Search title or TEST-1...",
+    "filters": {
+      "Assignee": "Assignee",
+      "Type": "Type",
+      "Priority": "Priority",
+      "all": "All {filter}s",
+      "mine": "My {filter}s"
+    },
+    "content_coming_soon": "Content for {tab} is coming soon.",
+    "Tabs": {
+      "Board": "Board",
+      "Backlog": "Backlog",
+      "Issues": "Issues",
+      "Done": "Done",
+      "Reports": "Reports",
+      "Workload": "Workload",
+      "Retros": "Retros",
+      "Deps": "Deps",
+      "Archived": "Archived"
+    },
+    "CreateTaskModal": {
+      "title": "Create task",
+      "summary": "Summary",
+      "summary_placeholder": "What needs to be done?",
+      "description": "Description",
+      "description_placeholder": "Add more details about this task...",
+      "issue_type": "Issue Type",
+      "status": "Status",
+      "priority": "Priority",
+      "assignee": "Assignee",
+      "unassigned": "Unassigned",
+      "parent_issue": "Parent Issue",
+      "none": "None",
+      "due_date": "Due Date",
+      "story_points": "Story Points",
+      "story_points_placeholder": "e.g. 5",
+      "original_estimate": "Original Estimate (seconds)",
+      "remaining_estimate": "Remaining Estimate (seconds)",
+      "attachments": "Attachments",
+      "cancel": "Cancel",
+      "creating": "Creating...",
+      "create": "Create Task"
+    }
   }
 }

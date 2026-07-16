@@ -1,4 +1,4 @@
-import { apiClient } from "@/lib/axios";
+import { apiFetch } from "@/lib/api-fetch";
 import { API_ENDPOINTS } from "@/config/api-endpoints";
 import {
   CreateWorkspaceRequest,
@@ -6,6 +6,8 @@ import {
   Workspace,
   WorkspaceMember,
   InviteWorkspaceMemberRequest,
+  UpdateWorkspaceMemberRequest,
+  WorkspaceMemberQueryParams,
   WorkspaceRole,
   CreateRoleRequest,
   UpdateRoleRequest,
@@ -15,6 +17,7 @@ import {
   EmploymentType,
   CreateEmploymentTypeRequest,
   UpdateEmploymentTypeRequest,
+  WorkspaceConfig,
 } from "@/types/workspace.types";
 import {
   BaseResponse,
@@ -24,74 +27,93 @@ import {
 
 export const workspaceService = {
   getWorkspaces: async (params?: PaginationParams) => {
-    const response = await apiClient.get<PaginatedResponse<Workspace>>(
+    return apiFetch<PaginatedResponse<Workspace>>(
       API_ENDPOINTS.WORKSPACES.LIST,
       { params },
     );
-    return response.data;
   },
 
   getWorkspace: async (id: string) => {
-    const response = await apiClient.get<BaseResponse<Workspace>>(
+    return apiFetch<BaseResponse<Workspace>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${id}`,
     );
-    return response.data;
   },
 
   createWorkspace: async (data: CreateWorkspaceRequest) => {
-    const response = await apiClient.post<BaseResponse<Workspace>>(
-      API_ENDPOINTS.WORKSPACES.CREATE,
-      data,
-    );
-    return response.data;
+    return apiFetch<BaseResponse<Workspace>>(API_ENDPOINTS.WORKSPACES.CREATE, {
+      method: "POST",
+      body: data,
+    });
   },
 
   updateWorkspace: async (id: string, data: UpdateWorkspaceRequest) => {
-    const response = await apiClient.put<BaseResponse<Workspace>>(
+    return apiFetch<BaseResponse<Workspace>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${id}`,
-      data,
+      { method: "PUT", body: data },
     );
-    return response.data;
   },
 
   deleteWorkspace: async (id: string) => {
-    const response = await apiClient.delete<BaseResponse<string>>(
+    return apiFetch<BaseResponse<string>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${id}`,
+      { method: "DELETE" },
     );
-    return response.data;
+  },
+
+  getWorkspaceConfig: async (id: string) => {
+    return apiFetch<BaseResponse<WorkspaceConfig>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${id}/config`,
+    );
   },
 
   // MEMBERS
-  getWorkspaceMembers: async (id: string, params?: PaginationParams) => {
-    const response = await apiClient.get<PaginatedResponse<WorkspaceMember>>(
+  getWorkspaceMembers: async (
+    id: string,
+    params?: WorkspaceMemberQueryParams,
+  ) => {
+    return apiFetch<PaginatedResponse<WorkspaceMember>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${id}/members`,
       { params },
     );
-    return response.data;
   },
 
   inviteMember: async (id: string, data: InviteWorkspaceMemberRequest) => {
-    const response = await apiClient.post<BaseResponse<WorkspaceMember>>(
+    return apiFetch<BaseResponse<WorkspaceMember>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${id}/members/invite`,
-      data,
+      { method: "POST", body: data },
     );
-    return response.data;
+  },
+
+  updateWorkspaceMember: async (
+    workspaceId: string,
+    memberId: string,
+    data: UpdateWorkspaceMemberRequest,
+  ) => {
+    return apiFetch<BaseResponse<WorkspaceMember>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/members/${memberId}`,
+      { method: "PUT", body: data },
+    );
+  },
+
+  removeWorkspaceMember: async (workspaceId: string, memberId: string) => {
+    return apiFetch<BaseResponse<{ status: string; message: string }>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/members/${memberId}`,
+      { method: "DELETE" },
+    );
   },
 
   // ROLES
   getWorkspaceRoles: async (id: string) => {
-    const response = await apiClient.get<PaginatedResponse<WorkspaceRole>>(
+    return apiFetch<PaginatedResponse<WorkspaceRole>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${id}/roles`,
     );
-    return response.data;
   },
 
   createWorkspaceRole: async (id: string, data: CreateRoleRequest) => {
-    const response = await apiClient.post<BaseResponse<WorkspaceRole>>(
+    return apiFetch<BaseResponse<WorkspaceRole>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${id}/roles`,
-      data,
+      { method: "POST", body: data },
     );
-    return response.data;
   },
 
   updateWorkspaceRole: async (
@@ -99,45 +121,41 @@ export const workspaceService = {
     roleId: string,
     data: UpdateRoleRequest,
   ) => {
-    const response = await apiClient.put<BaseResponse<WorkspaceRole>>(
+    return apiFetch<BaseResponse<WorkspaceRole>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${id}/roles/${roleId}`,
-      data,
+      { method: "PUT", body: data },
     );
-    return response.data;
   },
 
   deleteWorkspaceRole: async (id: string, roleId: string) => {
-    const response = await apiClient.delete<BaseResponse<string>>(
+    return apiFetch<BaseResponse<string>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${id}/roles/${roleId}`,
+      { method: "DELETE" },
     );
-    return response.data;
   },
 
   // Department endpoints
   getDepartments: async (workspaceId: string, params?: PaginationParams) => {
-    const response = await apiClient.get<BaseResponse<Department[]>>(
+    return apiFetch<BaseResponse<Department[]>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/departments`,
       { params },
     );
-    return response.data;
   },
 
   getDepartment: async (workspaceId: string, departmentId: string) => {
-    const response = await apiClient.get<BaseResponse<Department>>(
+    return apiFetch<BaseResponse<Department>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/departments/${departmentId}`,
     );
-    return response.data;
   },
 
   createDepartment: async (
     workspaceId: string,
     data: CreateDepartmentRequest,
   ) => {
-    const response = await apiClient.post<BaseResponse<Department>>(
+    return apiFetch<BaseResponse<Department>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/departments`,
-      data,
+      { method: "POST", body: data },
     );
-    return response.data;
   },
 
   updateDepartment: async (
@@ -145,18 +163,17 @@ export const workspaceService = {
     departmentId: string,
     data: UpdateDepartmentRequest,
   ) => {
-    const response = await apiClient.put<BaseResponse<Department>>(
+    return apiFetch<BaseResponse<Department>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/departments/${departmentId}`,
-      data,
+      { method: "PUT", body: data },
     );
-    return response.data;
   },
 
   deleteDepartment: async (workspaceId: string, departmentId: string) => {
-    const response = await apiClient.delete<BaseResponse<null>>(
+    return apiFetch<BaseResponse<null>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/departments/${departmentId}`,
+      { method: "DELETE" },
     );
-    return response.data;
   },
 
   // Employment Type endpoints
@@ -164,29 +181,26 @@ export const workspaceService = {
     workspaceId: string,
     params?: PaginationParams,
   ) => {
-    const response = await apiClient.get<BaseResponse<EmploymentType[]>>(
+    return apiFetch<BaseResponse<EmploymentType[]>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/employment-types`,
       { params },
     );
-    return response.data;
   },
 
   getEmploymentType: async (workspaceId: string, employmentTypeId: string) => {
-    const response = await apiClient.get<BaseResponse<EmploymentType>>(
+    return apiFetch<BaseResponse<EmploymentType>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/employment-types/${employmentTypeId}`,
     );
-    return response.data;
   },
 
   createEmploymentType: async (
     workspaceId: string,
     data: CreateEmploymentTypeRequest,
   ) => {
-    const response = await apiClient.post<BaseResponse<EmploymentType>>(
+    return apiFetch<BaseResponse<EmploymentType>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/employment-types`,
-      data,
+      { method: "POST", body: data },
     );
-    return response.data;
   },
 
   updateEmploymentType: async (
@@ -194,20 +208,19 @@ export const workspaceService = {
     employmentTypeId: string,
     data: UpdateEmploymentTypeRequest,
   ) => {
-    const response = await apiClient.put<BaseResponse<EmploymentType>>(
+    return apiFetch<BaseResponse<EmploymentType>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/employment-types/${employmentTypeId}`,
-      data,
+      { method: "PUT", body: data },
     );
-    return response.data;
   },
 
   deleteEmploymentType: async (
     workspaceId: string,
     employmentTypeId: string,
   ) => {
-    const response = await apiClient.delete<BaseResponse<null>>(
+    return apiFetch<BaseResponse<null>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/employment-types/${employmentTypeId}`,
+      { method: "DELETE" },
     );
-    return response.data;
   },
 };

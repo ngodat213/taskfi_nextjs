@@ -1,7 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Users, Shield, LayoutGrid, Building2, Briefcase, Plus, Search } from "lucide-react";
+import {
+  Users,
+  Shield,
+  LayoutGrid,
+  Building2,
+  Briefcase,
+  Plus,
+  Search,
+} from "lucide-react";
 import {
   Button,
   ButtonVariant,
@@ -30,7 +38,7 @@ import {
   Department,
   EmploymentType,
 } from "@/types/workspace.types";
-
+import { PageContainer } from "@/components/layout/page-container";
 
 export function WorkspaceSettingsView() {
   const t = useTranslations("WorkspaceSettings");
@@ -100,11 +108,7 @@ export function WorkspaceSettingsView() {
   };
 
   return (
-    <div className="relative flex flex-col h-full bg-[#FCFCFD] overflow-y-auto">
-      {/* Subtle Top Mesh Gradient */}
-      <div className="absolute top-0 left-0 right-0 h-[600px] bg-gradient-to-br from-rose-100/50 via-blue-50/30 to-transparent blur-[100px] pointer-events-none -z-10 opacity-70" />
-      <div className="absolute top-0 right-0 w-[600px] h-[500px] bg-gradient-to-bl from-indigo-50/50 via-purple-50/20 to-transparent blur-[100px] pointer-events-none -z-10 opacity-70" />
-
+    <PageContainer>
       {/* Main Container - Responsive padding */}
       <div className="flex-1 w-full px-4 sm:px-6 md:px-8 pt-5 pb-6">
         {/* Header Area */}
@@ -224,6 +228,6 @@ export function WorkspaceSettingsView() {
         }}
         initialData={selectedEmploymentType}
       />
-    </div>
+    </PageContainer>
   );
 }

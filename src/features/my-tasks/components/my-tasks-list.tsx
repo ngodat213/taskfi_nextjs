@@ -209,7 +209,7 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
       {renderTable(doneTasks, "Done")}
 
       {filteredTasks.length === 0 && (
-        <div className="px-5 py-12 text-center text-slate-400 font-medium text-[13px] border-t border-slate-100 bg-white border border-slate-200/60 rounded-lg shadow-sm">
+        <div className="px-5 py-12 text-center text-slate-400 font-medium text-[13px] border-t bg-white border border-slate-200/60 rounded-lg shadow-sm">
           No tasks found in this view.
         </div>
       )}

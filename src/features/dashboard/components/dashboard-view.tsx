@@ -1,37 +1,113 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { Plus, Search, Activity } from "lucide-react";
-import { tabs } from "./mock-data";
-import { SegmentedControl } from "@/components/ui/forms/segmented-control";
 import { PageHeader } from "@/components/ui/layout/page-header";
 import { Select } from "@/components/ui/forms/select";
-import { Button, ButtonVariant, ButtonSize } from "@/components/ui/actions/button";
+import { SegmentedControl } from "@/components/ui/forms/segmented-control";
+import {
+  Button,
+  ButtonVariant,
+  ButtonSize,
+} from "@/components/ui/actions/button";
 import { Input } from "@/components/ui/forms/input";
 import { DashboardBoardTab } from "./dashboard-board-tab";
 import { DashboardBacklogTab } from "./dashboard-backlog-tab";
 import { DashboardIssuesTab } from "./dashboard-issues-tab";
 import { DashboardDoneTab } from "./dashboard-done-tab";
+import { PageContainer } from "@/components/layout/page-container";
+import { APP_CONFIG } from "@/config/app.config";
+import { CreateTaskModal } from "./create-task-modal";
+import { DASHBOARD_TABS } from "@/features/dashboard/constants/issue-ui.constants";
 
-export function DashboardView() {
+import { useProject } from "@/features/projects/hooks/use-project";
+import { useIssues } from "@/features/projects/hooks/use-issues";
+import { TRANSLATION_KEYS } from "@/constants/translations";
+import { IssueType, IssuePriority } from "@/types/issue.types";
+import { GetIssuesParams } from "@/services/issue.service";
+
+export function DashboardView({ projectId }: { projectId: string }) {
+  const t = useTranslations("Dashboard");
   const [q, setQ] = useState("");
   const [activeTab, setActiveTab] = useState("Board");
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [assigneeFilter, setAssigneeFilter] = useState<string>("");
+  const [typeFilter, setTypeFilter] = useState<string>("");
+  const [priorityFilter, setPriorityFilter] = useState<string>("");
 
-  const segmentedTabs = tabs.map((t) => ({
-    id: t.label,
-    label: t.label,
-    icon: t.icon,
-  }));
+  const { data: projectResponse } = useProject(projectId);
+  const project = projectResponse?.data;
+
+  const issueFilters = useMemo(() => {
+    const filters: GetIssuesParams = {
+      page: 1,
+      limit: APP_CONFIG.PAGINATION.MAX_LIMIT,
+      search: q,
+    };
+    if (assigneeFilter && assigneeFilter !== "all") {
+      filters.assigneeId = assigneeFilter;
+    }
+    if (typeFilter && typeFilter !== "all") {
+      filters.type = typeFilter;
+    }
+    if (priorityFilter && priorityFilter !== "all") {
+      filters.priority = priorityFilter;
+    }
+    return filters;
+  }, [q, assigneeFilter, typeFilter, priorityFilter]);
+
+  const { data: issuesData, isLoading } = useIssues(projectId, issueFilters);
+
+  const issues = issuesData?.data?.data || [];
+
+  const getHeaderTitle = () => {
+    if (project) return project.name;
+    if (projectId) return t(TRANSLATION_KEYS.DASHBOARD.loading);
+    return t(TRANSLATION_KEYS.DASHBOARD.title);
+  };
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "Board":
+        return (
+          <DashboardBoardTab
+            projectId={projectId}
+            workspaceId={project?.workspaceId || ""}
+            q={q}
+            issues={issues}
+            isLoading={isLoading}
+          />
+        );
+      case "Backlog":
+        return (
+          <DashboardBacklogTab q={q} issues={issues} isLoading={isLoading} />
+        );
+      case "Issues":
+        return (
+          <DashboardIssuesTab q={q} issues={issues} isLoading={isLoading} />
+        );
+      case "Done":
+        return <DashboardDoneTab q={q} issues={issues} isLoading={isLoading} />;
+      default:
+        return (
+          <div className="flex-1 flex items-center justify-center text-slate-500 flex-col gap-3">
+            <Activity className="w-8 h-8 text-slate-300" />
+            <p>Content for {activeTab} is coming soon.</p>
+          </div>
+        );
+    }
+  };
 
   return (
-    <div className="flex flex-col h-full bg-[#FAFAFA]">
+    <PageContainer>
       {/* Project Header Area */}
-      <div className="bg-white border-b border-slate-200/80 flex-shrink-0">
+      <div className="bg-transparent border-b border-slate-200/60 shrink-0">
         <div className="w-full px-6 pt-5">
           <PageHeader
             title={
               <>
-                Mebieco
+                {getHeaderTitle()}
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="px-2 py-0.5 rounded text-[11px] font-medium border border-orange-200 bg-orange-50 text-orange-600">
                     Kanban
@@ -42,22 +118,28 @@ export function DashboardView() {
                 </div>
               </>
             }
-            description="Kanban flow"
+            description={t(TRANSLATION_KEYS.DASHBOARD.kanbanFlow)}
             actions={
               <>
                 <Button variant={ButtonVariant.Outline} size={ButtonSize.Sm}>
-                  <Activity className="w-3.5 h-3.5" strokeWidth={2.5} /> Standup
+                  <Activity className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
+                  {t(TRANSLATION_KEYS.DASHBOARD.standup)}
                 </Button>
-                <Button variant={ButtonVariant.Primary} size={ButtonSize.Sm}>
-                  <Plus className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Task
+                <Button
+                  variant={ButtonVariant.Primary}
+                  size={ButtonSize.Sm}
+                  onClick={() => setIsCreateModalOpen(true)}
+                >
+                  <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
+                  {t(TRANSLATION_KEYS.DASHBOARD.addTask)}
                 </Button>
               </>
             }
           >
-            <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-3">
+            <div className="flex flex-col gap-4 mb-3">
               {/* Tabs */}
               <SegmentedControl
-                tabs={segmentedTabs}
+                tabs={DASHBOARD_TABS}
                 activeTab={activeTab}
                 onTabChange={setActiveTab}
               />
@@ -67,27 +149,77 @@ export function DashboardView() {
                   <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                   <Input
                     type="text"
-                    placeholder="Search title or TEST-1..."
+                    placeholder={t(
+                      TRANSLATION_KEYS.DASHBOARD.searchPlaceholder,
+                    )}
                     value={q}
                     onChange={(e) => setQ(e.target.value)}
                     className="w-[240px] h-8 pl-8 pr-3 text-[12.5px]"
                   />
                 </div>
 
-                {["Assignee", "Type", "Priority"].map((filter) => (
-                  <Select
-                    key={filter}
-                    defaultValue={filter}
-                    wrapperClassName="w-fit"
-                    className="h-8 text-[12.5px] rounded-lg border-slate-200 text-slate-600 font-medium hover:bg-slate-50 hover:border-slate-300 shadow-sm gap-2"
-                  >
-                    <option value={filter} disabled hidden>
-                      {filter}
+                <Select
+                  value={assigneeFilter || "Assignee"}
+                  onChange={(val) =>
+                    setAssigneeFilter(val === "Assignee" ? "" : val)
+                  }
+                  wrapperClassName="w-fit min-w-[130px]"
+                  className="h-8 text-[12.5px] rounded-lg border-slate-200 text-slate-600 font-medium hover:bg-slate-50 hover:border-slate-300 shadow-sm gap-2"
+                >
+                  <option value="Assignee" disabled hidden>
+                    {t("filters.Assignee" as Parameters<typeof t>[0])}
+                  </option>
+                  <option value="all">
+                    {t(TRANSLATION_KEYS.DASHBOARD.filters.all, {
+                      filter: t("filters.Assignee" as Parameters<typeof t>[0]),
+                    })}
+                  </option>
+                  <option value="unassigned">Unassigned</option>
+                </Select>
+
+                <Select
+                  value={typeFilter || "Type"}
+                  onChange={(val) => setTypeFilter(val === "Type" ? "" : val)}
+                  wrapperClassName="w-fit min-w-[130px]"
+                  className="h-8 text-[12.5px] rounded-lg border-slate-200 text-slate-600 font-medium hover:bg-slate-50 hover:border-slate-300 shadow-sm gap-2"
+                >
+                  <option value="Type" disabled hidden>
+                    {t("filters.Type" as Parameters<typeof t>[0])}
+                  </option>
+                  <option value="all">
+                    {t(TRANSLATION_KEYS.DASHBOARD.filters.all, {
+                      filter: t("filters.Type" as Parameters<typeof t>[0]),
+                    })}
+                  </option>
+                  {Object.values(IssueType).map((type) => (
+                    <option key={type} value={type}>
+                      {type.charAt(0).toUpperCase() + type.slice(1)}
                     </option>
-                    <option value="all">All {filter}s</option>
-                    <option value="mine">My {filter}s</option>
-                  </Select>
-                ))}
+                  ))}
+                </Select>
+
+                <Select
+                  value={priorityFilter || "Priority"}
+                  onChange={(val) =>
+                    setPriorityFilter(val === "Priority" ? "" : val)
+                  }
+                  wrapperClassName="w-fit min-w-[130px]"
+                  className="h-8 text-[12.5px] rounded-lg border-slate-200 text-slate-600 font-medium hover:bg-slate-50 hover:border-slate-300 shadow-sm gap-2"
+                >
+                  <option value="Priority" disabled hidden>
+                    {t("filters.Priority" as Parameters<typeof t>[0])}
+                  </option>
+                  <option value="all">
+                    {t(TRANSLATION_KEYS.DASHBOARD.filters.all, {
+                      filter: t("filters.Priority" as Parameters<typeof t>[0]),
+                    })}
+                  </option>
+                  {Object.values(IssuePriority).map((priority) => (
+                    <option key={priority} value={priority}>
+                      {priority}
+                    </option>
+                  ))}
+                </Select>
               </div>
             </div>
           </PageHeader>
@@ -96,23 +228,14 @@ export function DashboardView() {
 
       {/* Tab Content Area */}
       <div className="flex-1 overflow-hidden">
-        <div className="w-full h-full flex flex-col">
-          {activeTab === "Board" ? (
-            <DashboardBoardTab q={q} />
-          ) : activeTab === "Backlog" ? (
-            <DashboardBacklogTab q={q} />
-          ) : activeTab === "Issues" ? (
-            <DashboardIssuesTab q={q} />
-          ) : activeTab === "Done" ? (
-            <DashboardDoneTab q={q} />
-          ) : (
-            <div className="flex-1 flex items-center justify-center text-slate-500 flex-col gap-3">
-              <Activity className="w-8 h-8 text-slate-300" />
-              <p>Content for {activeTab} is coming soon.</p>
-            </div>
-          )}
-        </div>
+        <div className="w-full h-full flex flex-col">{renderTabContent()}</div>
       </div>
-    </div>
+
+      <CreateTaskModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        projectId={projectId}
+      />
+    </PageContainer>
   );
 }

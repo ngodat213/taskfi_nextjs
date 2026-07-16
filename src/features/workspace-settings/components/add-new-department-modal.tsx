@@ -36,6 +36,7 @@ export function AddNewDepartmentModal({
 }) {
   const t = useTranslations("WorkspaceSettings");
   const TK = TRANSLATION_KEYS.modals.addDepartment;
+  const TK_EDIT = TRANSLATION_KEYS.modals.editDepartment;
   const ACT = TRANSLATION_KEYS.actions;
 
   const { mutate: createDepartment, isPending: isCreating } =
@@ -95,14 +96,12 @@ export function AddNewDepartmentModal({
       <ModalContent className="max-w-md w-full">
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader
-            title={isEditing ? t("modals.editDepartment.title") : t(TK.title)}
+            title={isEditing ? t(TK_EDIT.title) : t(TK.title)}
             icon={<Building2 className="w-5 h-5 text-blue-500" />}
           />
           <ModalBody>
             <ModalScrollArea
-              title={
-                isEditing ? t("modals.editDepartment.subtitle") : t(TK.subtitle)
-              }
+              title={isEditing ? t(TK_EDIT.subtitle) : t(TK.subtitle)}
             >
               <div className="flex flex-col gap-5">
                 <FormInput

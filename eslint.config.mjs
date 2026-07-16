@@ -1,8 +1,10 @@
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
+import sonarjs from "eslint-plugin-sonarjs";
 
 const eslintConfig = defineConfig([
+  sonarjs.configs.recommended,
   ...nextVitals,
   ...nextTs,
   // Override default ignores of eslint-config-next.
@@ -37,10 +39,7 @@ const eslintConfig = defineConfig([
       eqeqeq: ["error", "always"],
       "no-console": ["warn", { allow: ["warn", "error"] }],
       "prefer-const": "error",
-      "max-lines": [
-        "warn",
-        { max: 300, skipBlankLines: true, skipComments: true },
-      ],
+      "sonarjs/no-nested-conditional": "off",
     },
   },
 ]);

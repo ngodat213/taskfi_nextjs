@@ -54,7 +54,16 @@
         "status": "Trạng thái",
         "dateAdded": "Ngày tham gia",
         "emptyTitle": "Không tìm thấy thành viên nào",
-        "emptyDesc": "Chưa có thành viên nào trong không gian làm việc này."
+        "emptyDesc": "Chưa có thành viên nào trong không gian làm việc này.",
+        "projectsCount": "{count} dự án",
+        "joined": "Tham gia",
+        "notAvailable": "N/A",
+        "memberRoleDefault": "Thành viên",
+        "departmentDefault": "Chung",
+        "statusActive": "Hoạt động",
+        "statusPending": "Đang chờ",
+        "statusInactive": "Không hoạt động",
+        "fullTime": "Toàn thời gian"
       },
       "groups": {
         "groupName": "Tên Nhóm",
@@ -158,6 +167,7 @@
         "matrixTitle": "Ma trận Quyền",
         "matrix": {
           "resource": "Tài nguyên",
+          "read": "Đọc",
           "create": "Tạo",
           "update": "Sửa",
           "delete": "Xóa",
@@ -204,5 +214,132 @@
     "results": "kết quả",
     "previous": "Trước",
     "next": "Tiếp"
+  },
+  "Projects": {
+    "allProjects": {
+      "title": "Tất cả dự án",
+      "description": "Danh mục, phương thức giao hàng và thành viên dự án",
+      "newProject": "Dự án mới",
+      "allGroups": "Tất cả các nhóm",
+      "groupByProject": "Nhóm theo dự án",
+      "noGroupsFound": "Không tìm thấy nhóm nào",
+      "noGroupsDesc": "Không gian làm việc này chưa có nhóm nào. Các nhóm giúp bạn sắp xếp các dự án liên quan.",
+      "projectsCount": "{count} Dự án",
+      "projectName": "Tên dự án",
+      "type": "Loại",
+      "group": "Nhóm",
+      "projectLead": "Quản lý dự án",
+      "noDescription": "Không có mô tả",
+      "noProjects": "Không có dự án nào trong nhóm này."
+    },
+    "addProject": {
+      "title": "Tạo dự án mới",
+      "detailsTitle": "Chi tiết dự án",
+      "subtitle": "Nhập thông tin cho dự án mới của bạn. Mã (Key) sẽ được dùng làm tiền tố cho các vấn đề (issues) trong dự án.",
+      "logoLabel": "Logo dự án (Không bắt buộc)",
+      "changeLogo": "Đổi Logo",
+      "nameLabel": "Tên dự án",
+      "namePlaceholder": "VD: Hệ thống Quản lý Công việc",
+      "keyLabel": "Mã dự án (Key)",
+      "keyPlaceholder": "VD: TASK",
+      "typeLabel": "Loại dự án",
+      "typeOptions": {
+        "software": "Phát triển Phần mềm",
+        "business": "Kinh doanh",
+        "marketing": "Marketing",
+        "kanban": "Kanban"
+      },
+      "groupLabel": "Nhóm",
+      "groupPlaceholder": "Chọn nhóm",
+      "leadLabel": "Quản lý dự án",
+      "leadPlaceholder": "Chọn quản lý dự án",
+      "descLabel": "Mô tả",
+      "descPlaceholder": "Nhập mô tả dự án",
+      "cancel": "Hủy",
+      "submit": "Tạo dự án"
+    }
+  },
+  "UserSettings": {
+    "title": "Cài đặt người dùng",
+    "description": "Quản lý hồ sơ, tuỳ chọn và bảo mật của bạn",
+    "tabs": {
+      "profile": "Hồ sơ",
+      "preferences": "Tuỳ chọn",
+      "security": "Bảo mật"
+    },
+    "profile": {
+      "title": "Thông tin cá nhân",
+      "subtitle": "Cập nhật chi tiết hồ sơ của bạn",
+      "username": "Tên đăng nhập",
+      "email": "Địa chỉ Email",
+      "jobTitle": "Chức danh",
+      "bio": "Tiểu sử",
+      "save": "Lưu thay đổi"
+    },
+    "preferences": {
+      "title": "Tuỳ chọn",
+      "subtitle": "Tuỳ chỉnh trải nghiệm của bạn",
+      "theme": "Giao diện",
+      "language": "Ngôn ngữ",
+      "save": "Lưu tuỳ chọn"
+    },
+    "security": {
+      "title": "Cài đặt bảo mật",
+      "subtitle": "Quản lý mật khẩu và bảo mật",
+      "currentPassword": "Mật khẩu hiện tại",
+      "newPassword": "Mật khẩu mới",
+      "confirmPassword": "Xác nhận mật khẩu mới",
+      "save": "Cập nhật mật khẩu"
+    }
+  },
+  "Dashboard": {
+    "title": "Tất cả Dự án",
+    "loading": "Đang tải...",
+    "kanban_flow": "Luồng Kanban",
+    "standup": "Họp nhanh",
+    "add_task": "Thêm công việc",
+    "search_placeholder": "Tìm kiếm tiêu đề hoặc TEST-1...",
+    "filters": {
+      "Assignee": "Người phụ trách",
+      "Type": "Loại",
+      "Priority": "Mức độ",
+      "all": "Tất cả {filter}",
+      "mine": "{filter} của tôi"
+    },
+    "content_coming_soon": "Nội dung cho {tab} đang được cập nhật.",
+    "Tabs": {
+      "Board": "Bảng",
+      "Backlog": "Tồn đọng",
+      "Issues": "Vấn đề",
+      "Done": "Hoàn thành",
+      "Reports": "Báo cáo",
+      "Workload": "Khối lượng",
+      "Retros": "Nhìn lại",
+      "Deps": "Phụ thuộc",
+      "Archived": "Lưu trữ"
+    },
+    "CreateTaskModal": {
+      "title": "Tạo công việc",
+      "summary": "Tóm tắt",
+      "summary_placeholder": "Cần làm những gì?",
+      "description": "Mô tả",
+      "description_placeholder": "Thêm chi tiết về công việc này...",
+      "issue_type": "Loại vấn đề",
+      "status": "Trạng thái",
+      "priority": "Mức độ",
+      "assignee": "Người phụ trách",
+      "unassigned": "Chưa giao",
+      "parent_issue": "Vấn đề cha",
+      "none": "Không có",
+      "due_date": "Ngày đến hạn",
+      "story_points": "Điểm (Story Points)",
+      "story_points_placeholder": "VD: 5",
+      "original_estimate": "Ước tính ban đầu (giây)",
+      "remaining_estimate": "Ước tính còn lại (giây)",
+      "attachments": "Tệp đính kèm",
+      "cancel": "Hủy",
+      "creating": "Đang tạo...",
+      "create": "Tạo công việc"
+    }
   }
 }

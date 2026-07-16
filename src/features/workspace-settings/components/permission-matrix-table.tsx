@@ -36,6 +36,7 @@ export function PermissionMatrixTable({
 
   const getRowPermissions = (row: (typeof PERMISSION_MATRIX)[0]) => {
     const perms: string[] = [];
+    if (row.permissions.read) perms.push(row.permissions.read);
     if (row.permissions.create) perms.push(row.permissions.create);
     if (row.permissions.update) perms.push(row.permissions.update);
     if (row.permissions.delete) perms.push(row.permissions.delete);
@@ -98,8 +99,11 @@ export function PermissionMatrixTable({
       <Table>
         <TableHeader className="bg-slate-50">
           <TableRow className="border-b border-slate-200 hover:bg-slate-50">
-            <TableHead className="py-2.5 px-4 text-[13px] font-semibold text-slate-700 w-[40%] h-auto">
+            <TableHead className="py-2.5 px-4 text-[13px] font-semibold text-slate-700 w-[25%] h-auto">
               {t(TK.resource)}
+            </TableHead>
+            <TableHead className="py-2.5 px-2 text-[13px] font-semibold text-slate-700 text-center w-[15%] h-auto">
+              {t(TK.read)}
             </TableHead>
             <TableHead className="py-2.5 px-2 text-[13px] font-semibold text-slate-700 text-center w-[15%] h-auto">
               {t(TK.create)}
@@ -132,6 +136,7 @@ export function PermissionMatrixTable({
                   </span>
                 </label>
               </TableCell>
+              {renderCheckbox(row.permissions.read)}
               {renderCheckbox(row.permissions.create)}
               {renderCheckbox(row.permissions.update)}
               {renderCheckbox(row.permissions.delete)}

@@ -16,6 +16,7 @@ import { PageHeader } from "@/components/ui/layout/page-header";
 import { SegmentedControl } from "@/components/ui/forms/segmented-control";
 import { MyTasksList } from "./my-tasks-list";
 import { AddTaskModal } from "./add-task-modal";
+import { PageContainer } from "@/components/layout/page-container";
 
 const tabs = [
   { id: "all", label: "All", icon: ListTodo },
@@ -29,11 +30,7 @@ export function MyTasksView() {
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 
   return (
-    <div className="relative flex flex-col h-full bg-[#FCFCFD] overflow-y-auto font-sans">
-      {/* Subtle Top Mesh Gradient (Mobbin Style) */}
-      <div className="absolute top-0 left-0 right-0 h-[600px] bg-gradient-to-br from-rose-100/50 via-blue-50/30 to-transparent blur-[100px] pointer-events-none -z-10 opacity-70" />
-      <div className="absolute top-0 right-0 w-[600px] h-[500px] bg-gradient-to-bl from-indigo-50/50 via-purple-50/20 to-transparent blur-[100px] pointer-events-none -z-10 opacity-70" />
-
+    <PageContainer className="font-sans">
       {/* Main Container - Responsive padding */}
       <div className="flex-1 w-full px-4 sm:px-6 md:px-8 pt-5 pb-6">
         {/* Header Area */}
@@ -85,6 +82,6 @@ export function MyTasksView() {
         isOpen={isAddTaskModalOpen}
         onClose={() => setIsAddTaskModalOpen(false)}
       />
-    </div>
+    </PageContainer>
   );
 }
