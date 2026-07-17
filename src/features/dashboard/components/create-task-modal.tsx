@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Modal,
   ModalContent,
@@ -40,17 +39,22 @@ import {
   PRIORITY_OPTIONS,
   formatCreateTaskPayload,
 } from "@/features/dashboard/helpers/create-task.helpers";
+import { useEffect } from "react";
 
 export interface CreateTaskModalProps {
   isOpen: boolean;
   onClose: () => void;
   projectId: string;
+  parentId?: string;
+  defaultStatus?: string;
 }
 
 export function CreateTaskModal({
   isOpen,
   onClose,
   projectId,
+  parentId,
+  defaultStatus,
 }: CreateTaskModalProps) {
   const activeWorkspaceId = useWorkspaceStore(
     (state) => state.activeWorkspaceId,
@@ -88,9 +92,23 @@ export function CreateTaskModal({
     formState: { errors, isValid },
   } = useForm<CreateTaskFormValues>({
     resolver: zodResolver(createTaskSchema),
-    defaultValues: DEFAULT_CREATE_TASK_VALUES,
+    defaultValues: {
+      ...DEFAULT_CREATE_TASK_VALUES,
+      parentId: parentId || "",
+      ...(defaultStatus ? { status: defaultStatus.toLowerCase() } : {}),
+    },
     mode: "onChange",
   });
+
+  useEffect(() => {
+    if (isOpen) {
+      reset({
+        ...DEFAULT_CREATE_TASK_VALUES,
+        parentId: parentId || "",
+        ...(defaultStatus ? { status: defaultStatus.toLowerCase() } : {}),
+      });
+    }
+  }, [isOpen, parentId, defaultStatus, reset]);
 
   const handleClose = () => {
     reset();

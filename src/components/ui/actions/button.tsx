@@ -32,17 +32,17 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center whitespace-nowrap gap-1.5 font-medium transition-all focus:outline-none focus:ring-2 focus:ring-slate-900/5 disabled:pointer-events-none",
+          "inline-flex items-center justify-center whitespace-nowrap gap-1.5 font-medium transition-all focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background disabled:pointer-events-none",
           !props.disabled && "active:scale-[0.98]",
           /* Variants */
           variant === ButtonVariant.Default &&
-            "bg-[#111111] text-white hover:bg-black hover:shadow-md disabled:bg-[#2B2B2B] disabled:text-[#888888]",
+            "bg-foreground text-background hover:bg-foreground/90 hover:shadow-md disabled:bg-muted disabled:text-muted-foreground",
           variant === ButtonVariant.Primary &&
-            "bg-[#0F172A] hover:bg-[#1E293B] text-white shadow-sm",
+            "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm",
           variant === ButtonVariant.Outline &&
-            "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:shadow-sm disabled:bg-slate-50 disabled:text-slate-400",
+            "bg-transparent border border-border text-foreground hover:bg-accent hover:text-accent-foreground hover:shadow-sm disabled:bg-muted disabled:text-muted-foreground",
           variant === ButtonVariant.Ghost &&
-            "bg-transparent hover:bg-slate-100 text-slate-700",
+            "bg-transparent hover:bg-accent hover:text-accent-foreground text-foreground",
           /* Sizes */
           size === ButtonSize.Default &&
             "h-10 px-4 rounded-lg text-[13px] gap-2",

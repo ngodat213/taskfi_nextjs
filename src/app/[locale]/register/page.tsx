@@ -14,13 +14,13 @@ export default function RegisterPage() {
     <AuthLayout
       title={t('title')}
       description={t('description')}
-      icon={<Command className="w-8 h-8 text-slate-900" />}
+      icon={<Command className="w-8 h-8 text-foreground" />}
       footer={
         <>
-          <span className="text-slate-500">Already have an account?</span>
+          <span className="text-muted-foreground">Already have an account?</span>
           <Link
             href="/login"
-            className="text-slate-900 font-medium hover:underline"
+            className="text-foreground font-medium hover:underline"
           >
             Sign in
           </Link>

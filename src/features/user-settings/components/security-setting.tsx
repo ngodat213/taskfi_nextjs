@@ -4,24 +4,24 @@ export function SecuritySetting() {
   return (
     <div className="space-y-5 w-full max-w-5xl">
       {/* Change Password Card */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
         <div className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-5">
           <div>
-            <h3 className="text-[14px] font-semibold text-slate-900">
+            <h3 className="text-[14px] font-semibold text-foreground">
               Change your password
             </h3>
-            <p className="text-[13px] text-slate-500 mt-1">
+            <p className="text-[13px] text-muted-foreground mt-1">
               You can change your current password for your account.
             </p>
           </div>
-          <Button className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 text-[13px] h-9 px-4 rounded-md shrink-0 shadow-sm transition-colors">
+          <Button className="bg-card text-foreground border border-border hover:bg-muted text-[13px] h-9 px-4 rounded-md shrink-0 shadow-sm transition-colors">
             Change password
           </Button>
         </div>
       </div>
 
       {/* Delete Account Card */}
-      <div className="bg-white rounded-xl border border-red-200 shadow-sm overflow-hidden bg-red-50/30">
+      <div className="bg-card rounded-xl border border-red-200 shadow-sm overflow-hidden bg-red-50/30">
         <div className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-5">
           <div>
             <h3 className="text-[14px] font-semibold text-red-700">

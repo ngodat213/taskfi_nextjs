@@ -56,18 +56,18 @@ export function ForgotPasswordForm() {
             <span className="font-semibold">{submittedEmail}</span>
           </p>
         </div>
-        <p className="text-[13px] text-slate-500">
+        <p className="text-[13px] text-muted-foreground">
           Didn&apos;t receive the email?{" "}
           <button
             onClick={() => setIsSuccess(false)}
-            className="text-slate-900 font-medium hover:underline"
+            className="text-foreground font-medium hover:underline"
           >
             Try another email
           </button>{" "}
           or{" "}
           <Link
             href={`/reset-password?email=${encodeURIComponent(submittedEmail)}`}
-            className="text-slate-900 font-medium hover:underline"
+            className="text-foreground font-medium hover:underline"
           >
             Enter OTP manually
           </Link>
@@ -80,7 +80,7 @@ export function ForgotPasswordForm() {
     <div className="w-full">
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         {errors.root && (
-          <div className="p-3 text-[13px] text-red-500 bg-red-50/50 border border-red-200/50 rounded-lg">
+          <div className="p-3 text-[13px] text-destructive bg-destructive/10 border border-destructive/20 rounded-lg">
             {errors.root.message}
           </div>
         )}
@@ -92,11 +92,11 @@ export function ForgotPasswordForm() {
             placeholder="samlee.mobbin+1@gmail.com"
             {...register("email")}
             className={
-              errors.email ? "border-red-500 focus:ring-red-500/10" : ""
+              errors.email ? "border-destructive focus:ring-destructive/20" : ""
             }
           />
           {errors.email && (
-            <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>
+            <p className="mt-1 text-xs text-destructive">{errors.email.message}</p>
           )}
         </div>
 

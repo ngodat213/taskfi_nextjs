@@ -129,14 +129,14 @@ export function CreateWorkspaceModal({
             <button
               onClick={handleClose}
               disabled={isCreating}
-              className="px-4 py-2 text-[13px] font-medium text-slate-700 hover:bg-slate-50 border border-transparent rounded-lg transition-colors disabled:opacity-50"
+              className="px-4 py-2 text-[13px] font-medium text-foreground hover:bg-muted border border-transparent rounded-lg transition-colors disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               onClick={handleCreate}
               disabled={isCreating || isUploading || !newWorkspaceName.trim()}
-              className="px-5 py-2 bg-[#0F172A] hover:bg-[#1E293B] text-white text-[13px] font-medium rounded-lg shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-5 py-2 bg-primary hover:bg-primary/90 text-white text-[13px] font-medium rounded-lg shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {(isCreating || isUploading) && (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />

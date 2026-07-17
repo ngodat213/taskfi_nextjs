@@ -6,12 +6,14 @@ interface DashboardIssuesTabProps {
   q: string;
   issues?: Issue[];
   isLoading?: boolean;
+  onIssueClick?: (issueId: string) => void;
 }
 
 export function DashboardIssuesTab({
   q,
   issues = [],
   isLoading,
+  onIssueClick,
 }: DashboardIssuesTabProps) {
   // Filter only bugs
   const bugIssues = issues.filter((i) => i.type?.toLowerCase() === "bug");
@@ -27,6 +29,7 @@ export function DashboardIssuesTab({
       subtitle={`${filteredIssues.length} active bugs`}
       issues={filteredIssues}
       isLoading={isLoading}
+      onIssueClick={onIssueClick}
     />
   );
 }

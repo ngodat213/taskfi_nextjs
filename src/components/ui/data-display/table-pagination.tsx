@@ -32,13 +32,13 @@ export function TablePagination({
   return (
     <div
       className={cn(
-        "flex items-center justify-between border-t border-slate-200 px-4 py-3 sm:px-6",
+        "flex items-center justify-between border-t border-border px-4 py-3 sm:px-6",
         className,
       )}
     >
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
-          <p className="text-[13px] text-slate-700">
+          <p className="text-[13px] text-foreground">
             {t("showing")}{" "}
             <span className="font-medium">{(page - 1) * limit + 1}</span>{" "}
             {t("to")}{" "}

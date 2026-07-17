@@ -15,7 +15,7 @@ export const FormHeading = React.forwardRef<HTMLDivElement, FormHeadingProps>(
     return (
       <div ref={ref} className={cn("mb-6", className)} {...props}>
         <div className="flex items-start justify-between">
-          <h2 className="text-[18px] font-semibold text-slate-900 tracking-tight">
+          <h2 className="text-[18px] font-semibold text-foreground tracking-tight">
             {title}
           </h2>
           {rightElement && (
@@ -23,7 +23,7 @@ export const FormHeading = React.forwardRef<HTMLDivElement, FormHeadingProps>(
           )}
         </div>
         {description && (
-          <p className="text-[13.5px] text-slate-500 mt-1.5">{description}</p>
+          <p className="text-[13.5px] text-muted-foreground mt-1.5">{description}</p>
         )}
       </div>
     );

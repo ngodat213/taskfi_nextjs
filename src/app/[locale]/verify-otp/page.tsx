@@ -11,11 +11,11 @@ export default function VerifyOtpPage() {
     <AuthLayout
       title="Check your email"
       description="We've sent a 6-digit verification code to your email address."
-      icon={<Command className="w-8 h-8 text-slate-900" />}
+      icon={<Command className="w-8 h-8 text-foreground" />}
       footer={
         <Link
           href="/register"
-          className="text-slate-900 font-medium hover:underline flex items-center gap-1"
+          className="text-foreground font-medium hover:underline flex items-center gap-1"
         >
           <svg
             className="w-4 h-4"

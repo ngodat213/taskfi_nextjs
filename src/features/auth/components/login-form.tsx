@@ -85,21 +85,21 @@ export function LoginForm() {
       </Button>
 
       <div className="flex items-center my-6">
-        <div className="flex-1 border-t border-slate-200/80" />
-        <span className="px-3 text-[11px] text-slate-400 font-medium">or</span>
-        <div className="flex-1 border-t border-slate-200/80" />
+        <div className="flex-1 border-t border-border/80" />
+        <span className="px-3 text-[11px] text-muted-foreground font-medium">or</span>
+        <div className="flex-1 border-t border-border/80" />
       </div>
 
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         {errors.root && (
-          <div className="p-3 text-[13px] text-red-500 bg-red-50/50 border border-red-200/50 rounded-lg">
+          <div className="p-3 text-[13px] text-destructive bg-destructive/10 border border-destructive/20 rounded-lg">
             {errors.root.message}{" "}
             {unverifiedEmail && (
               <Link
                 href={`/verify-otp?email=${encodeURIComponent(
                   unverifiedEmail,
                 )}`}
-                className="font-medium underline hover:text-red-700"
+                className="font-medium underline hover:text-destructive"
               >
                 Verify now
               </Link>
@@ -114,7 +114,7 @@ export function LoginForm() {
             placeholder="samlee.mobbin+1@gmail.com"
             {...register("email")}
             className={
-              errors.email ? "border-red-500 focus:ring-red-500/10" : ""
+              errors.email ? "border-destructive focus:ring-destructive/20" : ""
             }
           />
           <ErrorTooltip message={errors.email?.message} />
@@ -125,7 +125,7 @@ export function LoginForm() {
             <Label>Password</Label>
             <Link
               href="/forgot-password"
-              className="text-[12px] text-slate-500 hover:text-slate-800 transition-colors"
+              className="text-[12px] text-muted-foreground hover:text-foreground transition-colors"
             >
               Forgot password?
             </Link>
@@ -135,7 +135,7 @@ export function LoginForm() {
             placeholder="••••••••••••"
             {...register("password")}
             className={
-              errors.password ? "border-red-500 focus:ring-red-500/10" : ""
+              errors.password ? "border-destructive focus:ring-destructive/20" : ""
             }
           />
           <ErrorTooltip message={errors.password?.message} />

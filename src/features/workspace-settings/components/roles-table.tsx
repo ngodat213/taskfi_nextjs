@@ -40,7 +40,7 @@ export function RolesTable({
           <TableRow>
             <TableCell colSpan={5} className="h-[200px] p-0 text-center">
               <div className="flex items-center justify-center h-full w-full">
-                <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
+                <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
               </div>
             </TableCell>
           </TableRow>
@@ -83,16 +83,16 @@ export function RolesTable({
               <TableRow key={r.id || i} className="group">
                 <TableCell>
                   <div className="flex flex-col">
-                    <span className="text-[13.5px] font-medium text-slate-800 capitalize">
+                    <span className="text-[13.5px] font-medium text-foreground capitalize">
                       {r.name}
                     </span>
-                    <span className="text-[12px] text-slate-500">
+                    <span className="text-[12px] text-muted-foreground">
                       {r.description || t(TK.noDescription)}
                     </span>
-                    <span className="text-[11px] px-1.5 py-0.5 bg-slate-100 border border-slate-200/60 text-slate-600 rounded-md w-fit mt-1 sm:hidden">
+                    <span className="text-[11px] px-1.5 py-0.5 bg-secondary border border-border/60 text-muted-foreground rounded-md w-fit mt-1 sm:hidden">
                       {typeLabel}
                     </span>
-                    <span className="text-[11px] text-slate-500 mt-1 sm:hidden flex items-center gap-1.5">
+                    <span className="text-[11px] text-muted-foreground mt-1 sm:hidden flex items-center gap-1.5">
                       <EntityMemberCount
                         workspaceId={activeWorkspaceId as string}
                         params={{ roleId: r.id }}
@@ -114,7 +114,7 @@ export function RolesTable({
                   </span>
                 </TableCell>
                 <TableCell className="hidden sm:table-cell">
-                  <span className="text-[13px] text-slate-600">
+                  <span className="text-[13px] text-muted-foreground">
                     <EntityMemberCount
                       workspaceId={activeWorkspaceId as string}
                       params={{ roleId: r.id }}

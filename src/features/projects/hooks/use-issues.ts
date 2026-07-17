@@ -11,6 +11,22 @@ export const useIssues = (projectId: string, params?: GetIssuesParams) => {
   });
 };
 
+export const useIssue = (projectId: string, issueId: string) => {
+  return useQuery({
+    queryKey: ["issues", projectId, issueId],
+    queryFn: () => issueService.getIssueById(projectId, issueId),
+    enabled: !!projectId && !!issueId,
+  });
+};
+
+export const useIssueChildren = (projectId: string, issueId: string) => {
+  return useQuery({
+    queryKey: ["issues", projectId, issueId, "children"],
+    queryFn: () => issueService.getIssueChildren(projectId, issueId),
+    enabled: !!projectId && !!issueId,
+  });
+};
+
 export const useCreateIssue = () => {
   const queryClient = useQueryClient();
 

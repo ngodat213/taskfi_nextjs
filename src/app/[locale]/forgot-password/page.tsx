@@ -11,11 +11,11 @@ export default function ForgotPasswordPage() {
     <AuthLayout
       title="Reset your password"
       description="Enter your email address and we'll send you a link to reset your password."
-      icon={<Command className="w-8 h-8 text-slate-900" />}
+      icon={<Command className="w-8 h-8 text-foreground" />}
       footer={
         <Link
           href="/login"
-          className="text-slate-900 font-medium hover:underline flex items-center gap-1"
+          className="text-foreground font-medium hover:underline flex items-center gap-1"
         >
           <svg
             className="w-4 h-4"

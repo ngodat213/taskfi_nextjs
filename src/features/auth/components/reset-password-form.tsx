@@ -85,7 +85,7 @@ function ResetPasswordFormInner() {
     <div className="w-full">
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         {errors.root && (
-          <div className="p-3 text-[13px] text-red-500 bg-red-50/50 border border-red-200/50 rounded-lg">
+          <div className="p-3 text-[13px] text-destructive bg-destructive/10 border border-destructive/20 rounded-lg">
             {errors.root.message}
           </div>
         )}
@@ -99,9 +99,9 @@ function ResetPasswordFormInner() {
             readOnly={!!emailQuery}
             className={
               errors.email
-                ? "border-red-500 focus:ring-red-500/10"
+                ? "border-destructive focus:ring-destructive/20"
                 : emailQuery
-                  ? "bg-slate-50 text-slate-500"
+                  ? "bg-muted text-muted-foreground"
                   : ""
             }
           />
@@ -114,7 +114,7 @@ function ResetPasswordFormInner() {
             type="text"
             placeholder="123456"
             {...register("otp")}
-            className={errors.otp ? "border-red-500 focus:ring-red-500/10" : ""}
+            className={errors.otp ? "border-destructive focus:ring-destructive/20" : ""}
           />
           <ErrorTooltip message={errors.otp?.message} />
         </div>
@@ -126,7 +126,7 @@ function ResetPasswordFormInner() {
             placeholder="••••••••••••"
             {...register("newPassword")}
             className={
-              errors.newPassword ? "border-red-500 focus:ring-red-500/10" : ""
+              errors.newPassword ? "border-destructive focus:ring-destructive/20" : ""
             }
           />
           <ErrorTooltip message={errors.newPassword?.message} />

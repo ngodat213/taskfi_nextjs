@@ -29,6 +29,18 @@ export const issueService = {
     );
   },
 
+  getIssueById: async (projectId: string, issueId: string) => {
+    return apiFetch<BaseResponse<Issue>>(
+      `${API_ENDPOINTS.PROJECTS.BASE}/${projectId}/issues/${issueId}`,
+    );
+  },
+
+  getIssueChildren: async (projectId: string, issueId: string) => {
+    return apiFetch<BaseResponse<Issue[]>>(
+      `${API_ENDPOINTS.PROJECTS.BASE}/${projectId}/issues/${issueId}/children`,
+    );
+  },
+
   createIssue: async (projectId: string, data: CreateIssueRequest) => {
     return apiFetch<BaseResponse<Issue>>(
       `${API_ENDPOINTS.PROJECTS.BASE}/${projectId}/issues`,

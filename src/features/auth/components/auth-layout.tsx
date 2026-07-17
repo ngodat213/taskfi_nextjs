@@ -20,7 +20,7 @@ export function AuthLayout({
   footer,
 }: AuthLayoutProps) {
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-[#FAFAFA] overflow-hidden font-sans">
+    <div className="relative min-h-screen flex items-center justify-center bg-background overflow-hidden font-sans">
       {/* Background Blurs */}
       <AnimatedBackground />
 
@@ -29,16 +29,16 @@ export function AuthLayout({
         initial={{ opacity: 1, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-        className="relative z-10 w-full max-w-[480px] p-8 md:p-10 rounded-xl bg-white shadow-xl border border-slate-200/60"
+        className="relative z-10 w-full max-w-[480px] p-8 md:p-10 rounded-xl bg-transparent"
       >
         <div className="flex flex-col items-center mb-8">
-          <div className="w-12 h-12 flex items-center justify-center mb-5 text-slate-800">
+          <div className="w-12 h-12 flex items-center justify-center mb-5 text-foreground">
             {icon}
           </div>
-          <h1 className="text-xl font-semibold text-slate-900 mb-1.5 text-center">
+          <h1 className="text-xl font-semibold text-foreground mb-1.5 text-center">
             {title}
           </h1>
-          <p className="text-[13px] text-slate-500 text-center">
+          <p className="text-[13px] text-muted-foreground text-center">
             {description}
           </p>
         </div>

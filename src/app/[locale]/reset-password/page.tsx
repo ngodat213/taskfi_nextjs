@@ -11,11 +11,11 @@ export default function ResetPasswordPage() {
     <AuthLayout
       title="Create new password"
       description="Please enter the verification code sent to your email and your new password."
-      icon={<Command className="w-8 h-8 text-slate-900" />}
+      icon={<Command className="w-8 h-8 text-foreground" />}
       footer={
         <Link
           href="/forgot-password"
-          className="text-slate-900 font-medium hover:underline flex items-center gap-1"
+          className="text-foreground font-medium hover:underline flex items-center gap-1"
         >
           <svg
             className="w-4 h-4"

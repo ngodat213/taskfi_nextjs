@@ -38,19 +38,19 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
     <TableRow key={task.id} className="group cursor-pointer">
       {/* Task Key */}
       <TableCell className="align-middle px-4">
-        <span className="text-[12px] font-medium text-slate-500 uppercase tracking-wider">
+        <span className="text-[12px] font-medium text-muted-foreground uppercase tracking-wider">
           {task.id}
         </span>
       </TableCell>
 
       {/* Type */}
       <TableCell className="hidden sm:table-cell align-middle">
-        <div className="flex items-center gap-1.5 text-slate-500">
+        <div className="flex items-center gap-1.5 text-muted-foreground">
           {task.type === "Task" && (
             <CheckSquare className="w-3.5 h-3.5 text-blue-500" />
           )}
           {task.type === "Subtask" && (
-            <CornerDownRight className="w-3.5 h-3.5 text-slate-400" />
+            <CornerDownRight className="w-3.5 h-3.5 text-muted-foreground" />
           )}
           {task.type === "Bug" && <Bug className="w-3.5 h-3.5 text-red-500" />}
           {task.type === "Epic" && (
@@ -65,9 +65,9 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
         <div className="flex flex-col gap-0.5">
           <span
             className={cn(
-              "text-[13.5px] font-medium text-slate-900 tracking-tight group-hover:text-blue-700 transition-colors line-clamp-1",
+              "text-[13.5px] font-medium text-foreground tracking-tight group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors line-clamp-1",
               task.isCompleted &&
-                "line-through text-slate-400 group-hover:text-slate-500",
+                "line-through text-muted-foreground group-hover:text-slate-500",
             )}
           >
             {task.title}
@@ -78,12 +78,12 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
               <div
                 className={cn("w-1.5 h-1.5 rounded-full", task.projectColor)}
               />
-              <span className="text-[11.5px] text-slate-500">
+              <span className="text-[11.5px] text-muted-foreground">
                 {task.project}
               </span>
             </div>
-            <div className="flex items-center gap-1.5 text-[11.5px] text-slate-500">
-              <Calendar className="w-3.5 h-3.5 text-slate-400" />
+            <div className="flex items-center gap-1.5 text-[11.5px] text-muted-foreground">
+              <Calendar className="w-3.5 h-3.5 text-muted-foreground" />
               <span
                 className={cn(
                   isToday(task.dueDate) && "text-amber-600 font-medium",
@@ -106,7 +106,7 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
               task.projectColor,
             )}
           />
-          <span className="text-[12.5px] text-slate-600 font-medium">
+          <span className="text-[12.5px] text-muted-foreground font-medium">
             {task.project}
           </span>
         </div>
@@ -114,8 +114,8 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
 
       {/* Due Date */}
       <TableCell className="hidden sm:table-cell align-middle">
-        <div className="flex items-center gap-1.5 text-[12.5px] text-slate-500">
-          <Calendar className="w-3.5 h-3.5 text-slate-400" />
+        <div className="flex items-center gap-1.5 text-[12.5px] text-muted-foreground">
+          <Calendar className="w-3.5 h-3.5 text-muted-foreground" />
           <span
             className={cn(
               isToday(task.dueDate) && "text-amber-600 font-medium",
@@ -146,7 +146,7 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
 
       {/* Actions */}
       <TableCell className="text-right align-middle pr-4">
-        <button className="p-1.5 text-slate-400 hover:text-slate-700 rounded-md hover:bg-slate-200/60 transition-all opacity-0 group-hover:opacity-100">
+        <button className="p-1.5 text-muted-foreground hover:text-foreground rounded-md hover:bg-secondary/60 transition-all opacity-0 group-hover:opacity-100">
           <MoreHorizontal className="w-4 h-4" />
         </button>
       </TableCell>
@@ -160,18 +160,18 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
     if (taskList.length === 0) return null;
     return (
       <div className="mb-8 last:mb-0">
-        <h3 className="text-[14px] font-bold text-slate-800 capitalize mb-3 flex items-center gap-2">
+        <h3 className="text-[14px] font-bold text-foreground capitalize mb-3 flex items-center gap-2">
           {title === "Done" ? (
             <CheckSquare className="w-4 h-4 text-emerald-500" />
           ) : (
             <ListTodo className="w-4 h-4 text-blue-500" />
           )}
           {title}{" "}
-          <span className="text-slate-400 font-medium text-[12px] ml-1">
+          <span className="text-muted-foreground font-medium text-[12px] ml-1">
             ({taskList.length})
           </span>
         </h3>
-        <div className="bg-white border border-slate-200/60 rounded-lg shadow-sm overflow-hidden flex flex-col w-full">
+        <div className="bg-card border border-border/60 rounded-lg shadow-sm overflow-hidden flex flex-col w-full">
           <div className="flex-1 p-0 overflow-x-auto">
             <Table>
               <TableHeader>
@@ -209,7 +209,7 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
       {renderTable(doneTasks, "Done")}
 
       {filteredTasks.length === 0 && (
-        <div className="px-5 py-12 text-center text-slate-400 font-medium text-[13px] border-t bg-white border border-slate-200/60 rounded-lg shadow-sm">
+        <div className="px-5 py-12 text-center text-muted-foreground font-medium text-[13px] border-t bg-card border border-border/60 rounded-lg shadow-sm">
           No tasks found in this view.
         </div>
       )}

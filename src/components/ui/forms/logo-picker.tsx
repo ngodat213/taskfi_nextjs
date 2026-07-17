@@ -18,7 +18,7 @@ export function LogoPicker({
 }: LogoPickerProps) {
   return (
     <div className={cn("flex justify-center mb-2", className)}>
-      <div className="relative w-[72px] h-[72px] rounded-full bg-slate-50 border border-dashed border-slate-300 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 hover:text-blue-600 transition-all cursor-pointer group overflow-hidden shadow-sm">
+      <div className="relative w-[72px] h-[72px] rounded-full bg-muted border border-dashed border-border flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 hover:text-blue-600 transition-all cursor-pointer group overflow-hidden shadow-sm">
         {previewUrl ? (
           <>
             <Image src={previewUrl} alt="Logo" fill className="object-cover" />
@@ -29,7 +29,7 @@ export function LogoPicker({
             </div>
           </>
         ) : (
-          <Plus className="w-6 h-6 text-slate-400 group-hover:text-blue-500 transition-colors" />
+          <Plus className="w-6 h-6 text-muted-foreground group-hover:text-blue-500 transition-colors" />
         )}
         <input
           type="file"

@@ -59,14 +59,14 @@ export function MyTasksView() {
 
             {/* Filters */}
             <div className="flex flex-wrap items-center gap-2.5">
-              <button className="h-8 px-3 flex items-center gap-2 bg-white border border-slate-200 rounded-lg text-[12.5px] font-medium text-slate-600 hover:bg-slate-50 hover:border-slate-300 transition-colors shadow-sm whitespace-nowrap">
-                <Search className="w-3.5 h-3.5 text-slate-400" /> Filter
+              <button className="h-8 px-3 flex items-center gap-2 bg-card border border-border rounded-lg text-[12.5px] font-medium text-muted-foreground hover:bg-muted hover:border-border transition-colors shadow-sm whitespace-nowrap">
+                <Search className="w-3.5 h-3.5 text-muted-foreground" /> Filter
               </button>
-              <button className="h-8 px-3 flex items-center gap-2 bg-white border border-slate-200 rounded-lg text-[12.5px] font-medium text-slate-600 hover:bg-slate-50 hover:border-slate-300 transition-colors shadow-sm whitespace-nowrap">
-                Sort <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+              <button className="h-8 px-3 flex items-center gap-2 bg-card border border-border rounded-lg text-[12.5px] font-medium text-muted-foreground hover:bg-muted hover:border-border transition-colors shadow-sm whitespace-nowrap">
+                Sort <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
               </button>
-              <button className="h-8 px-3 flex items-center gap-2 bg-white border border-slate-200 rounded-lg text-[12.5px] font-medium text-slate-600 hover:bg-slate-50 hover:border-slate-300 transition-colors shadow-sm whitespace-nowrap">
-                Customize <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+              <button className="h-8 px-3 flex items-center gap-2 bg-card border border-border rounded-lg text-[12.5px] font-medium text-muted-foreground hover:bg-muted hover:border-border transition-colors shadow-sm whitespace-nowrap">
+                Customize <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
               </button>
             </div>
           </div>

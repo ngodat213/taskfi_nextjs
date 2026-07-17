@@ -72,7 +72,7 @@ export function MembersTable() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-8 min-h-[200px]">
-        <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
+        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -137,28 +137,28 @@ export function MembersTable() {
                       />
                       <div className="flex flex-col min-w-0 flex-1 w-full whitespace-normal">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-[13px] font-semibold text-slate-900 tracking-tight group-hover:text-blue-700 transition-colors line-clamp-1">
+                          <span className="text-[13px] font-semibold text-foreground tracking-tight group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors line-clamp-1">
                             {m.username}
                           </span>
-                          <span className="text-[9px] px-1.5 py-px rounded bg-slate-100 text-slate-500 font-bold tracking-wider uppercase hidden lg:inline-block">
+                          <span className="text-[9px] px-1.5 py-px rounded bg-secondary text-muted-foreground font-bold tracking-wider uppercase hidden lg:inline-block">
                             {t(TK.fullTime)}
                           </span>
                         </div>
                         <div className="flex items-center gap-1.5 mt-px">
-                          <span className="text-[11.5px] text-slate-500 truncate">
+                          <span className="text-[11.5px] text-muted-foreground truncate">
                             {m.email}
                           </span>
-                          <span className="text-slate-300 hidden xl:inline-block text-[10px]">
+                          <span className="text-muted-foreground hidden xl:inline-block text-[10px]">
                             •
                           </span>
-                          <span className="text-[11px] text-slate-400 truncate hidden xl:inline-block">
+                          <span className="text-[11px] text-muted-foreground truncate hidden xl:inline-block">
                             {m.phone || "N/A"}
                           </span>
                         </div>
 
                         {/* Mobile inline info */}
                         <div className="flex flex-col gap-2 mt-2.5 md:hidden w-full">
-                          <span className="text-[12px] text-slate-700 font-medium">
+                          <span className="text-[12px] text-foreground font-medium">
                             {m.jobTitle}
                           </span>
                         </div>
@@ -170,17 +170,17 @@ export function MembersTable() {
                   <TableCell className="hidden md:table-cell align-top md:align-middle">
                     <div className="flex flex-col">
                       <div className="flex items-center gap-1.5">
-                        <span className="text-slate-700 font-medium text-[12.5px]">
+                        <span className="text-foreground font-medium text-[12.5px]">
                           {m.jobTitle || t(TK.memberRoleDefault)}
                         </span>
-                        <span className="text-slate-300 text-[10px]">•</span>
-                        <span className="text-slate-500 text-[12px]">
+                        <span className="text-muted-foreground text-[10px]">•</span>
+                        <span className="text-muted-foreground text-[12px]">
                           {m.department || t(TK.departmentDefault)}
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5 mt-1">
-                        <Folder className="w-3.5 h-3.5 text-slate-400" />
-                        <span className="text-slate-500 text-[11.5px]">
+                        <Folder className="w-3.5 h-3.5 text-muted-foreground" />
+                        <span className="text-muted-foreground text-[11.5px]">
                           {t(TK.projectsCount, { count: 0 })}
                         </span>
                       </div>
@@ -189,7 +189,7 @@ export function MembersTable() {
                           <Badge
                             key={idx}
                             variant="slate"
-                            className="px-1.5 py-0.5 bg-white shadow-sm rounded text-[10px]"
+                            className="px-1.5 py-0.5 bg-card shadow-sm rounded text-[10px]"
                           >
                             {tag}
                           </Badge>
@@ -201,12 +201,12 @@ export function MembersTable() {
                   {/* Details */}
                   <TableCell className="hidden xl:table-cell align-top md:align-middle">
                     <div className="flex flex-col gap-1.5 text-[12.5px]">
-                      <div className="flex items-center gap-2 text-slate-500">
-                        <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
                         <span>{m.location || t(TK.notAvailable)}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-slate-500">
-                        <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <Calendar className="w-3.5 h-3.5 text-muted-foreground" />
                         <span>
                           {t(TK.joined)}{" "}
                           {new Date(m.createdAt).toLocaleDateString(locale, {
@@ -221,7 +221,7 @@ export function MembersTable() {
                   {/* Role */}
                   <TableCell className="hidden lg:table-cell align-top md:align-middle">
                     <div className="flex items-center gap-2">
-                      <span className="text-[13px] font-medium text-slate-700">
+                      <span className="text-[13px] font-medium text-foreground">
                         {m.roleName}
                       </span>
                     </div>
