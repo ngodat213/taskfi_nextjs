@@ -50,7 +50,7 @@ export function UserSettingsView() {
               tabs={tabs}
               activeTab={activeTab}
               onTabChange={setActiveTab}
-              className="min-w-fit shadow-sm bg-white border border-slate-200/60"
+              className="min-w-fit shadow-sm bg-card border border-border/60"
             />
           </div>
         </PageHeader>

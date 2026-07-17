@@ -37,11 +37,11 @@ export function AddTaskModal({ isOpen, onClose }: AddTaskModalProps) {
           <ModalFooter>
             <button
               onClick={onClose}
-              className="px-4 py-2 text-[13px] font-medium text-slate-700 hover:bg-slate-50 border border-transparent rounded-lg transition-colors"
+              className="px-4 py-2 text-[13px] font-medium text-foreground hover:bg-muted border border-transparent rounded-lg transition-colors"
             >
               Cancel
             </button>
-            <button className="px-5 py-2 bg-[#0F172A] hover:bg-[#1E293B] text-white text-[13px] font-medium rounded-lg shadow-sm transition-all">
+            <button className="px-5 py-2 bg-primary hover:bg-primary/90 text-white text-[13px] font-medium rounded-lg shadow-sm transition-all">
               Create Task
             </button>
           </ModalFooter>
@@ -78,12 +78,12 @@ function AddTaskForm() {
 
         <div className="flex flex-col gap-1.5">
           <Label>Attachments</Label>
-          <div className="flex justify-center px-6 py-8 border-2 border-slate-200 border-dashed rounded-lg hover:border-blue-500 hover:bg-blue-50/50 transition-all cursor-pointer group">
+          <div className="flex justify-center px-6 py-8 border-2 border-border border-dashed rounded-lg hover:border-blue-500 hover:bg-blue-50/50 transition-all cursor-pointer group">
             <div className="space-y-2 text-center flex flex-col items-center">
-              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
-                <UploadCloud className="h-5 w-5 text-slate-500 group-hover:text-blue-600 transition-colors" />
+              <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                <UploadCloud className="h-5 w-5 text-muted-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
               </div>
-              <div className="flex text-[13px] text-slate-600 justify-center">
+              <div className="flex text-[13px] text-muted-foreground justify-center">
                 <span className="relative cursor-pointer rounded-md font-medium text-blue-600 hover:text-blue-700 focus-within:outline-none">
                   <span>Click to upload</span>
                   <input
@@ -96,7 +96,7 @@ function AddTaskForm() {
                 </span>
                 <p className="pl-1">or drag and drop</p>
               </div>
-              <p className="text-[12px] text-slate-500">
+              <p className="text-[12px] text-muted-foreground">
                 SVG, PNG, JPG or PDF (max. 10MB)
               </p>
             </div>

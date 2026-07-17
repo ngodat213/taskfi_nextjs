@@ -65,7 +65,7 @@ export function FileUploader({
           "w-full border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors text-center",
           isDragging
             ? "border-blue-500 bg-blue-50"
-            : "border-slate-300 bg-slate-50/50 hover:bg-slate-50 hover:border-slate-400",
+            : "border-border bg-muted/50 hover:bg-muted hover:border-slate-400",
         )}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
@@ -75,13 +75,13 @@ export function FileUploader({
         <UploadCloud
           className={cn(
             "w-8 h-8",
-            isDragging ? "text-blue-500" : "text-slate-400",
+            isDragging ? "text-blue-500" : "text-muted-foreground",
           )}
         />
-        <div className="text-sm font-medium text-slate-700">
+        <div className="text-sm font-medium text-foreground">
           Drag and drop files here
         </div>
-        <div className="text-xs text-slate-500">
+        <div className="text-xs text-muted-foreground">
           or click to browse from your computer
         </div>
         <input
@@ -98,13 +98,13 @@ export function FileUploader({
           {value.map((url, idx) => (
             <div
               key={idx}
-              className="flex items-center justify-between p-2.5 rounded-lg border border-slate-200 bg-white shadow-sm"
+              className="flex items-center justify-between p-2.5 rounded-lg border border-border bg-card shadow-sm"
             >
               <div className="flex items-center gap-2.5 overflow-hidden">
                 <div className="w-8 h-8 rounded bg-blue-50 flex items-center justify-center text-blue-600 flex-shrink-0">
                   <FileIcon className="w-4 h-4" />
                 </div>
-                <span className="text-sm font-medium text-slate-700 truncate">
+                <span className="text-sm font-medium text-foreground truncate">
                   Attachment {idx + 1}
                 </span>
               </div>
@@ -114,7 +114,7 @@ export function FileUploader({
                   e.stopPropagation();
                   handleRemove(url);
                 }}
-                className="w-7 h-7 rounded-md flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+                className="w-7 h-7 rounded-md flex items-center justify-center text-muted-foreground hover:text-red-500 hover:bg-red-50 transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>

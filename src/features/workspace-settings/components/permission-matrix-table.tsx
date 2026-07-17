@@ -77,7 +77,7 @@ export function PermissionMatrixTable({
               checked={permissions.includes(permId)}
               onChange={(e) => handlePermissionChange(permId, e.target.checked)}
             />
-            <span className="text-[12px] text-slate-600 font-medium">
+            <span className="text-[12px] text-muted-foreground font-medium">
               {label}
             </span>
           </label>
@@ -95,26 +95,26 @@ export function PermissionMatrixTable({
   );
 
   return (
-    <div className="border border-slate-200 rounded-lg overflow-hidden bg-white">
+    <div className="border border-border rounded-lg overflow-hidden bg-card">
       <Table>
-        <TableHeader className="bg-slate-50">
-          <TableRow className="border-b border-slate-200 hover:bg-slate-50">
-            <TableHead className="py-2.5 px-4 text-[13px] font-semibold text-slate-700 w-[25%] h-auto">
+        <TableHeader className="bg-muted">
+          <TableRow className="border-b border-border hover:bg-muted">
+            <TableHead className="py-2.5 px-4 text-[13px] font-semibold text-foreground w-[25%] h-auto">
               {t(TK.resource)}
             </TableHead>
-            <TableHead className="py-2.5 px-2 text-[13px] font-semibold text-slate-700 text-center w-[15%] h-auto">
+            <TableHead className="py-2.5 px-2 text-[13px] font-semibold text-foreground text-center w-[15%] h-auto">
               {t(TK.read)}
             </TableHead>
-            <TableHead className="py-2.5 px-2 text-[13px] font-semibold text-slate-700 text-center w-[15%] h-auto">
+            <TableHead className="py-2.5 px-2 text-[13px] font-semibold text-foreground text-center w-[15%] h-auto">
               {t(TK.create)}
             </TableHead>
-            <TableHead className="py-2.5 px-2 text-[13px] font-semibold text-slate-700 text-center w-[15%] h-auto">
+            <TableHead className="py-2.5 px-2 text-[13px] font-semibold text-foreground text-center w-[15%] h-auto">
               {t(TK.update)}
             </TableHead>
-            <TableHead className="py-2.5 px-2 text-[13px] font-semibold text-slate-700 text-center w-[15%] h-auto">
+            <TableHead className="py-2.5 px-2 text-[13px] font-semibold text-foreground text-center w-[15%] h-auto">
               {t(TK.delete)}
             </TableHead>
-            <TableHead className="py-2.5 px-4 text-[13px] font-semibold text-slate-700 text-center w-[15%] h-auto">
+            <TableHead className="py-2.5 px-4 text-[13px] font-semibold text-foreground text-center w-[15%] h-auto">
               {t(TK.other)}
             </TableHead>
           </TableRow>
@@ -123,7 +123,7 @@ export function PermissionMatrixTable({
           {PERMISSION_MATRIX.map((row) => (
             <TableRow
               key={row.resource}
-              className="border-b border-slate-100 hover:bg-slate-50/50"
+              className="border-b border-border hover:bg-muted/50"
             >
               <TableCell className="py-2.5 px-4">
                 <label className="flex items-center gap-2.5 cursor-pointer w-fit">
@@ -131,7 +131,7 @@ export function PermissionMatrixTable({
                     checked={isRowFullySelected(row)}
                     onChange={(e) => handleSelectRow(row, e.target.checked)}
                   />
-                  <span className="text-[13.5px] font-medium text-slate-800">
+                  <span className="text-[13.5px] font-medium text-foreground">
                     {row.label}
                   </span>
                 </label>

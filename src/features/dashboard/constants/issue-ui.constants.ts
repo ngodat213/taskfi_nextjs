@@ -38,7 +38,7 @@ export const ISSUE_TYPE_CONFIG: Record<
     colorClass: "text-blue-500 fill-blue-50",
   },
   [IssueType.BUG]: { icon: BugIcon, colorClass: "text-red-500" },
-  [IssueType.SUBTASK]: { icon: CornerDownRight, colorClass: "text-slate-400" },
+  [IssueType.SUBTASK]: { icon: CornerDownRight, colorClass: "text-muted-foreground" },
 };
 
 export const PRIORITY_CONFIG: Record<

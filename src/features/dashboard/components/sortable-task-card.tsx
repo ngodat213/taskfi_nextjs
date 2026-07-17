@@ -6,9 +6,11 @@ import { Issue } from "@/types/issue.types";
 export function SortableTaskCard({
   issue,
   isMobile,
+  onIssueClick,
 }: {
   issue: Issue;
   isMobile: boolean;
+  onIssueClick?: (issueId: string) => void;
 }) {
   const {
     attributes,
@@ -35,7 +37,7 @@ export function SortableTaskCard({
         isMobile ? "min-w-[220px] max-w-[220px] snap-center shrink-0" : "w-full"
       }
     >
-      <TaskCard issue={issue} />
+      <TaskCard issue={issue} onIssueClick={onIssueClick} />
     </div>
   );
 }

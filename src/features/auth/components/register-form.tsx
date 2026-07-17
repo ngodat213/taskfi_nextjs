@@ -56,7 +56,7 @@ export function RegisterForm() {
     <div className="w-full">
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         {errors.root && (
-          <div className="p-3 text-[13px] text-red-500 bg-red-50/50 border border-red-200/50 rounded-lg">
+          <div className="p-3 text-[13px] text-destructive bg-destructive/10 border border-destructive/20 rounded-lg">
             {errors.root.message}
           </div>
         )}
@@ -68,7 +68,7 @@ export function RegisterForm() {
             placeholder="johndoe"
             {...register("username")}
             className={
-              errors.username ? "border-red-500 focus:ring-red-500/10" : ""
+              errors.username ? "border-destructive focus:ring-destructive/20" : ""
             }
           />
           <ErrorTooltip message={errors.username?.message} />
@@ -81,7 +81,7 @@ export function RegisterForm() {
             placeholder="samlee.mobbin+1@gmail.com"
             {...register("email")}
             className={
-              errors.email ? "border-red-500 focus:ring-red-500/10" : ""
+              errors.email ? "border-destructive focus:ring-destructive/20" : ""
             }
           />
           <ErrorTooltip message={errors.email?.message} />
@@ -94,7 +94,7 @@ export function RegisterForm() {
             placeholder="••••••••••••"
             {...register("password")}
             className={
-              errors.password ? "border-red-500 focus:ring-red-500/10" : ""
+              errors.password ? "border-destructive focus:ring-destructive/20" : ""
             }
           />
           <ErrorTooltip message={errors.password?.message} />

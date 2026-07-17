@@ -61,7 +61,7 @@ export function PasswordStrength({ password = "" }: PasswordStrengthProps) {
   return (
     <div className="mt-2 w-full animate-in fade-in slide-in-from-top-1">
       <div className="flex justify-between items-center mb-1.5">
-        <span className="text-[13px] font-medium text-slate-400">
+        <span className="text-[13px] font-medium text-muted-foreground">
           Password strength
         </span>
         <span className={cn("text-[13px] font-medium", labelColor)}>
@@ -76,7 +76,7 @@ export function PasswordStrength({ password = "" }: PasswordStrengthProps) {
         />
       </div>
 
-      <p className="text-[12px] text-slate-500 mb-3">
+      <p className="text-[12px] text-muted-foreground mb-3">
         {score === 1 ? "Password is strong!" : "Password must contain:"}
       </p>
 
@@ -86,7 +86,7 @@ export function PasswordStrength({ password = "" }: PasswordStrengthProps) {
             key={i}
             className={cn(
               "flex items-center gap-2 text-[12px] transition-colors",
-              c.met ? "text-[#5E9B6A]" : "text-slate-500",
+              c.met ? "text-[#5E9B6A]" : "text-muted-foreground",
             )}
           >
             <Check className="w-3.5 h-3.5" />

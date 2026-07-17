@@ -17,9 +17,17 @@ interface BoardColumnProps {
   };
   isMobile: boolean;
   q: string;
+  onIssueClick?: (issueId: string) => void;
+  onAddClick?: (status: string) => void;
 }
 
-export function BoardColumn({ col, isMobile, q }: BoardColumnProps) {
+export function BoardColumn({
+  col,
+  isMobile,
+  q,
+  onIssueClick,
+  onAddClick,
+}: BoardColumnProps) {
   const { setNodeRef } = useDroppable({
     id: col.id,
   });
@@ -32,21 +40,24 @@ export function BoardColumn({ col, isMobile, q }: BoardColumnProps) {
           : "flex-1 min-w-[300px] max-w-[340px] flex flex-col h-full rounded-xl"
       }
     >
-      <div className="px-1 py-2 text-[13.5px] font-semibold text-slate-800 flex items-center justify-between mb-2">
+      <div className="px-1 py-2 text-[13.5px] font-semibold text-foreground flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <div
             className="w-2.5 h-2.5 rounded-full"
             style={{ backgroundColor: col.color || "#94a3b8" }}
           />
           {col.title}
-          <span className="text-slate-400 text-[13px] font-medium ml-1">
+          <span className="text-muted-foreground text-[13px] font-medium ml-1">
             {col.count}
           </span>
-          <span className="px-1.5 py-0.5 rounded bg-slate-200/80 text-slate-500 text-[10px] uppercase font-bold tracking-wider ml-1">
+          <span className="px-1.5 py-0.5 rounded bg-border/80 text-muted-foreground text-[10px] uppercase font-bold tracking-wider ml-1">
             WIP ∞
           </span>
         </div>
-        <button className="w-6 h-6 flex items-center justify-center rounded hover:bg-slate-200/50 text-slate-400 transition-colors">
+        <button
+          onClick={() => onAddClick?.(col.title)}
+          className="w-6 h-6 flex items-center justify-center rounded hover:bg-secondary/50 text-muted-foreground transition-colors"
+        >
           <Plus className="w-4 h-4" />
         </button>
       </div>
@@ -72,6 +83,7 @@ export function BoardColumn({ col, isMobile, q }: BoardColumnProps) {
                 key={issue.id}
                 issue={issue}
                 isMobile={isMobile}
+                onIssueClick={onIssueClick}
               />
             ))}
         </SortableContext>

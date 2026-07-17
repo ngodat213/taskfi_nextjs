@@ -141,7 +141,7 @@ export function WorkspaceSettingsView() {
             {/* Quick Actions / Filters for Settings */}
             <div className="flex flex-wrap items-center gap-2.5">
               <div className="relative group">
-                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                <Search className="w-3.5 h-3.5 text-muted-foreground absolute left-2.5 top-1/2 -translate-y-1/2" />
                 <Input
                   type="text"
                   placeholder={searchPlaceholders[activeTab]}
@@ -153,7 +153,7 @@ export function WorkspaceSettingsView() {
         </PageHeader>
 
         {/* Content Area */}
-        <div className="bg-white border border-slate-200/60 rounded-lg shadow-sm overflow-hidden flex flex-col w-full h-fit">
+        <div className="bg-card border border-border/60 rounded-lg shadow-sm overflow-hidden flex flex-col w-full h-fit">
           <div className="flex-1 p-0 overflow-x-auto">
             {activeTab === WorkspaceSettingsTab.MEMBERS && <MembersTable />}
             {activeTab === WorkspaceSettingsTab.GROUPS && (

@@ -5,12 +5,14 @@ interface DashboardDoneTabProps {
   q: string;
   issues?: Issue[];
   isLoading?: boolean;
+  onIssueClick?: (issueId: string) => void;
 }
 
 export function DashboardDoneTab({
   q,
   issues = [],
   isLoading,
+  onIssueClick,
 }: DashboardDoneTabProps) {
   const doneIssues = issues.filter((i) => i.status?.toLowerCase() === "done");
 
@@ -24,6 +26,7 @@ export function DashboardDoneTab({
       subtitle={`${filteredIssues.length} completed items`}
       issues={filteredIssues}
       isLoading={isLoading}
+      onIssueClick={onIssueClick}
     />
   );
 }

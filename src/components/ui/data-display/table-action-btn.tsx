@@ -23,7 +23,7 @@ export const TableActionBtn = React.forwardRef<HTMLButtonElement, ButtonProps>(
         variant={variant}
         size={size}
         className={cn(
-          "h-7 w-7 p-0 text-slate-400 hover:text-slate-700 transition-colors",
+          "h-7 w-7 p-0 text-muted-foreground hover:text-foreground transition-colors",
           className,
         )}
         {...props}

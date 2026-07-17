@@ -26,6 +26,8 @@ interface DashboardBoardTabProps {
   q: string;
   issues?: Issue[];
   isLoading?: boolean;
+  onIssueClick?: (issueId: string) => void;
+  onAddClick?: (status: string) => void;
 }
 
 export function DashboardBoardTab({
@@ -34,6 +36,8 @@ export function DashboardBoardTab({
   q,
   issues,
   isLoading,
+  onIssueClick,
+  onAddClick,
 }: DashboardBoardTabProps) {
   const isMobile = useIsMobile();
   const { data: configResponse } = useWorkspaceConfig(workspaceId);
@@ -185,7 +189,7 @@ export function DashboardBoardTab({
   if (isLoading) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
+        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -214,7 +218,14 @@ export function DashboardBoardTab({
           }
         >
           {boardColumns.map((col) => (
-            <BoardColumn key={col.id} col={col} isMobile={isMobile} q={q} />
+            <BoardColumn
+              key={col.id}
+              col={col}
+              isMobile={isMobile}
+              q={q}
+              onIssueClick={onIssueClick}
+              onAddClick={onAddClick}
+            />
           ))}
         </div>
       </div>

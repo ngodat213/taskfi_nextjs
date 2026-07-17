@@ -47,29 +47,39 @@
 }
 
 .dark {
-  --background: #020617;
+  --background: #141414;
   --foreground: #f8fafc;
-  --card: #020617;
+  --card: #222222;
   --card-foreground: #f8fafc;
-  --popover: #020617;
+  --popover: #222222;
   --popover-foreground: #f8fafc;
   --primary: #f8fafc;
   --primary-foreground: #0f172a;
-  --secondary: #1e293b;
+  --secondary: #2a2a2a;
   --secondary-foreground: #f8fafc;
-  --muted: #1e293b;
+  --muted: #2a2a2a;
   --muted-foreground: #94a3b8;
-  --accent: #1e293b;
+  --accent: #2a2a2a;
   --accent-foreground: #f8fafc;
   --destructive: #7f1d1d;
   --destructive-foreground: #f8fafc;
-  --border: #1e293b;
-  --input: #1e293b;
-  --ring: #334155;
+  --border: #333333;
+  --input: #333333;
+  --ring: #444444;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
+}
+
+/* Fix browser autofill background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--background) inset !important;
+    -webkit-text-fill-color: var(--foreground) !important;
+    transition: background-color 5000s ease-in-out 0s;
 }

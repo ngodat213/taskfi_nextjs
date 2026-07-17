@@ -34,7 +34,7 @@ export function GroupsTable({ onEdit }: GroupsTableProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-8 min-h-[200px]">
-        <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
+        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -72,15 +72,15 @@ export function GroupsTable({ onEdit }: GroupsTableProps) {
                   size="md"
                 />
                 <div className="flex flex-col">
-                  <span className="text-[13.5px] font-medium text-slate-800">
+                  <span className="text-[13.5px] font-medium text-foreground">
                     {g.name}
                   </span>
                   {g.description && (
-                    <span className="text-[12px] text-slate-500">
+                    <span className="text-[12px] text-muted-foreground">
                       {g.description}
                     </span>
                   )}
-                  <span className="text-[11px] text-slate-500 mt-1 sm:hidden flex items-center gap-1.5">
+                  <span className="text-[11px] text-muted-foreground mt-1 sm:hidden flex items-center gap-1.5">
                     <EntityMemberCount
                       workspaceId={activeWorkspaceId as string}
                       params={{ groupId: g.id }}
@@ -91,7 +91,7 @@ export function GroupsTable({ onEdit }: GroupsTableProps) {
               </div>
             </TableCell>
             <TableCell className="hidden sm:table-cell">
-              <span className="text-[13px] text-slate-600">
+              <span className="text-[13px] text-muted-foreground">
                 <EntityMemberCount
                   workspaceId={activeWorkspaceId as string}
                   params={{ groupId: g.id }}

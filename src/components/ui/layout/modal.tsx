@@ -31,7 +31,7 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
 
   return createPortal(
     <ModalContext.Provider value={{ onClose }}>
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6">
+      <div className="fixed inset-0 z-9999 flex items-center justify-center p-4 sm:p-6">
         {/* Backdrop */}
         <div
           className="absolute inset-0 bg-slate-900/20 backdrop-blur-sm transition-opacity"
@@ -53,7 +53,7 @@ export const ModalContent = React.forwardRef<HTMLDivElement, ModalContentProps>(
     <div
       ref={ref}
       className={cn(
-        "relative w-full bg-[#F5F5F5] rounded-[20px] shadow-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-200",
+        "relative w-full bg-secondary rounded-[20px] shadow-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-200",
         maxWidth,
         className,
       )}
@@ -83,14 +83,14 @@ export const ModalHeader = React.forwardRef<HTMLDivElement, ModalHeaderProps>(
         )}
         {...props}
       >
-        <div className="flex items-center gap-2 text-slate-600">
+        <div className="flex items-center gap-2 text-muted-foreground">
           {icon}
           <span className="text-[13px] font-medium">{title}</span>
         </div>
         {!hideCloseButton && (
           <button
             onClick={onClose}
-            className="text-slate-500 hover:text-slate-800 transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -109,7 +109,7 @@ export const ModalBody = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "bg-white rounded-[16px] border border-slate-200/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden flex flex-col h-full",
+        "bg-card rounded-[16px] border border-border/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden flex flex-col h-full",
         className,
       )}
     >
@@ -158,22 +158,22 @@ export const ModalScrollArea = React.forwardRef<
           <div>
             <div className="flex items-start justify-between">
               {title && (
-                <h2 className="text-[18px] font-semibold text-slate-900 tracking-tight">
+                <h2 className="text-[18px] font-semibold text-foreground tracking-tight">
                   {title}
                 </h2>
               )}
               {rightElement && (
-                <div className="flex-shrink-0 ml-4">{rightElement}</div>
+                <div className="shrink-0 ml-4">{rightElement}</div>
               )}
             </div>
             {description && (
-              <p className="text-[13.5px] text-slate-500 mt-1.5">
+              <p className="text-[13.5px] text-muted-foreground mt-1.5">
                 {description}
               </p>
             )}
           </div>
           {errorMessage && (
-            <div className="p-3 text-[13px] text-red-600 bg-red-50 border border-red-100 rounded-md">
+            <div className="p-3 text-[13px] text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
               {errorMessage}
             </div>
           )}
@@ -192,7 +192,7 @@ export const ModalFooter = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "px-5 sm:px-6 py-4 border-t border-slate-100 flex items-center justify-end gap-2.5 bg-white",
+      "px-5 sm:px-6 py-4 border-t border-border flex items-center justify-end gap-2.5 bg-card",
       className,
     )}
     {...props}

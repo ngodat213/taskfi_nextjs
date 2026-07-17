@@ -65,6 +65,7 @@ export interface IssueRowProps {
   isLastChildArray?: boolean[];
   expanded: Record<string, boolean>;
   toggleExpand: (id: string, e: React.MouseEvent) => void;
+  onIssueClick?: (issueId: string) => void;
 }
 
 export const IssueRow = ({
@@ -73,6 +74,7 @@ export const IssueRow = ({
   isLastChildArray = [],
   expanded,
   toggleExpand,
+  onIssueClick,
 }: IssueRowProps) => {
   const hasChildren = issue.children && issue.children.length > 0;
   const isExpanded = expanded[issue.id];
@@ -83,10 +85,16 @@ export const IssueRow = ({
         className={cn(
           "group cursor-pointer relative",
           depth > 0
-            ? "bg-slate-50/40 hover:bg-slate-100/50"
-            : "hover:bg-slate-50/50",
+            ? "bg-muted/40 hover:bg-secondary/50"
+            : "hover:bg-muted/50",
         )}
-        onClick={(e) => hasChildren && toggleExpand(issue.id, e)}
+        onClick={(e) => {
+          if (onIssueClick && !hasChildren) {
+            onIssueClick(issue.id);
+          } else if (hasChildren) {
+            toggleExpand(issue.id, e);
+          }
+        }}
       >
         <TableCell className="align-middle px-4 relative overflow-hidden">
           {/* Tree Lines */}
@@ -97,20 +105,20 @@ export const IssueRow = ({
                   !isLastChildArray[i] && (
                     <div
                       key={i}
-                      className="absolute top-0 bottom-0 w-px bg-slate-300 pointer-events-none"
+                      className="absolute top-0 bottom-0 w-px bg-border pointer-events-none"
                       style={{ left: `${26 + i * 28}px` }}
                     />
                   ),
               )}
               <div
-                className="absolute top-0 w-px bg-slate-300 pointer-events-none"
+                className="absolute top-0 w-px bg-border pointer-events-none"
                 style={{
                   left: `${26 + (depth - 1) * 28}px`,
                   height: isLastChildArray[depth - 1] ? "50%" : "100%",
                 }}
               />
               <div
-                className="absolute bg-slate-300 pointer-events-none"
+                className="absolute bg-border pointer-events-none"
                 style={{
                   left: `${26 + (depth - 1) * 28}px`,
                   top: "50%",
@@ -128,7 +136,7 @@ export const IssueRow = ({
             <div className="w-5 h-5 flex items-center justify-center shrink-0">
               {hasChildren ? (
                 <button
-                  className="w-full h-full flex items-center justify-center rounded-[4px] hover:bg-slate-200 text-slate-500 transition-colors bg-white border border-slate-200 shadow-sm z-10"
+                  className="w-full h-full flex items-center justify-center rounded-[4px] hover:bg-secondary text-muted-foreground transition-colors bg-card border border-border shadow-sm z-10"
                   onClick={(e) => {
                     e.stopPropagation();
                     toggleExpand(issue.id, e);
@@ -145,7 +153,7 @@ export const IssueRow = ({
 
             <TypeIcon type={issue.type} className="w-3.5 h-3.5 mr-0.5" />
 
-            <span className="text-[12px] font-medium text-slate-500 uppercase tracking-wider group-hover:text-slate-700 transition-colors">
+            <span className="text-[12px] font-medium text-muted-foreground uppercase tracking-wider group-hover:text-foreground transition-colors">
               {issue.issueKey || issue.id}
             </span>
           </div>
@@ -155,8 +163,8 @@ export const IssueRow = ({
             className={cn(
               "text-[13.5px] font-medium tracking-tight transition-colors line-clamp-1",
               issue.status === IssueStatus.DONE
-                ? "text-slate-400 line-through"
-                : "text-slate-900 group-hover:text-blue-700",
+                ? "text-muted-foreground line-through"
+                : "text-foreground group-hover:text-blue-700 dark:group-hover:text-blue-400",
             )}
           >
             {issue.summary}
@@ -167,23 +175,23 @@ export const IssueRow = ({
         </TableCell>
         <TableCell>
           {hasChildren ? (
-            <div className="bg-slate-100/80 text-slate-600 rounded-[4px] inline-flex items-center justify-center text-[11px] px-1.5 py-0.5 font-bold">
+            <div className="bg-secondary/80 text-muted-foreground rounded-[4px] inline-flex items-center justify-center text-[11px] px-1.5 py-0.5 font-bold">
               {issue.children?.length}
             </div>
           ) : (
-            <span className="text-slate-300 ml-2">-</span>
+            <span className="text-muted-foreground ml-2">-</span>
           )}
         </TableCell>
         <TableCell>
           <div className="flex items-center gap-1.5">
             <PriorityIcon priority={issue.priority} className="w-4 h-4" />
-            <span className="text-slate-600 font-medium text-[12.5px]">
+            <span className="text-muted-foreground font-medium text-[12.5px]">
               {issue.priority}
             </span>
           </div>
         </TableCell>
         <TableCell className="text-right pr-4">
-          <div className="w-[26px] h-[26px] rounded-full bg-slate-100 border border-slate-200 inline-flex items-center justify-center text-[10px] font-bold text-slate-600 shadow-sm">
+          <div className="w-[26px] h-[26px] rounded-full bg-secondary border border-border inline-flex items-center justify-center text-[10px] font-bold text-muted-foreground shadow-sm">
             {issue.assigneeId
               ? issue.assigneeId.substring(0, 2).toUpperCase()
               : "UN"}

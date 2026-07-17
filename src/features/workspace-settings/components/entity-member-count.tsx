@@ -18,14 +18,14 @@ export function EntityMemberCount({
   });
 
   if (isLoading) {
-    return <Loader2 className="w-4 h-4 animate-spin text-slate-400" />;
+    return <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />;
   }
 
   const members = data?.data?.data || [];
   const total = data?.data?.total || 0;
 
   if (total === 0) {
-    return <span className="text-slate-400 text-[11.5px]">None</span>;
+    return <span className="text-muted-foreground text-[11.5px]">None</span>;
   }
 
   return (

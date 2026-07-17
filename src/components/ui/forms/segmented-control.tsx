@@ -26,7 +26,7 @@ export function SegmentedControl({
   return (
     <div
       className={cn(
-        "flex items-center p-1 bg-slate-100/80 rounded-md w-fit overflow-x-auto max-w-full",
+        "flex items-center p-1 bg-secondary/80 rounded-md w-fit overflow-x-auto max-w-full",
         className,
       )}
     >
@@ -39,14 +39,14 @@ export function SegmentedControl({
             className={cn(
               "relative flex items-center px-3 py-1 text-[12.5px] font-medium rounded transition-colors duration-200 flex-shrink-0",
               isActive
-                ? "text-slate-900"
-                : "text-slate-500 hover:text-slate-700",
+                ? "text-foreground"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             {isActive && (
               <motion.div
                 layoutId={layoutId}
-                className="absolute inset-0 bg-white rounded shadow-sm z-0"
+                className="absolute inset-0 bg-card rounded shadow-sm z-0"
                 transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
               />
             )}
@@ -54,7 +54,7 @@ export function SegmentedControl({
               <tab.icon
                 className={cn(
                   "w-3.5 h-3.5 transition-colors duration-200",
-                  isActive ? "text-blue-500" : "text-slate-400",
+                  isActive ? "text-blue-500" : "text-muted-foreground",
                 )}
                 strokeWidth={isActive ? 2.5 : 2}
               />

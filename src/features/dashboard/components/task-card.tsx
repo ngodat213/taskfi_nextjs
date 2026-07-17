@@ -5,9 +5,10 @@ import { TypeIcon } from "@/features/dashboard/components/issue-table-row";
 
 interface TaskCardProps {
   issue: Issue;
+  onIssueClick?: (issueId: string) => void;
 }
 
-export function TaskCard({ issue }: TaskCardProps) {
+export function TaskCard({ issue, onIssueClick }: TaskCardProps) {
   const displayId = issue.issueKey || issue.id || "";
   const type = (issue.type || "task").toLowerCase();
   const priority = issue.priority || "Medium";
@@ -16,11 +17,14 @@ export function TaskCard({ issue }: TaskCardProps) {
     : "UN";
 
   return (
-    <div className="bg-white p-2.5 rounded-lg border border-slate-200/80 hover:border-slate-300 hover:shadow-sm cursor-pointer group transition-all">
+    <div 
+      className="bg-card p-2.5 rounded-lg border border-border/80 hover:border-border hover:shadow-sm cursor-pointer group transition-all"
+      onClick={() => onIssueClick && onIssueClick(issue.id)}
+    >
       <div className="flex items-center justify-between mb-1.5">
         <div className="flex items-center gap-2">
           <TypeIcon type={type as Issue["type"]} className="w-4 h-4" />
-          <span className="text-[12.5px] font-semibold text-slate-500 group-hover:text-slate-700 transition-colors">
+          <span className="text-[12.5px] font-semibold text-muted-foreground group-hover:text-foreground transition-colors">
             {displayId}
           </span>
         </div>
@@ -40,7 +44,7 @@ export function TaskCard({ issue }: TaskCardProps) {
         </Badge>
       </div>
 
-      <p className="text-[12.5px] text-slate-800 font-medium leading-snug mb-2.5 group-hover:text-blue-600 transition-colors">
+      <p className="text-[12.5px] text-foreground font-medium leading-snug mb-2.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
         {issue.summary}
       </p>
 
@@ -63,7 +67,7 @@ export function TaskCard({ issue }: TaskCardProps) {
           {priority}
         </Badge>
 
-        <div className="w-5 h-5 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-[8.5px] font-bold text-slate-600 overflow-hidden">
+        <div className="w-5 h-5 rounded-full bg-secondary border border-border flex items-center justify-center text-[8.5px] font-bold text-muted-foreground overflow-hidden">
           {assigneeDisplay}
         </div>
       </div>

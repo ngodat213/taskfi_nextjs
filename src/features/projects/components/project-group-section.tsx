@@ -33,13 +33,13 @@ export function ProjectGroupSection({
   let content = null;
   if (isLoadingProjects) {
     content = (
-      <div className="flex items-center justify-center p-8 bg-white border border-slate-200 rounded-lg">
-        <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
+      <div className="flex items-center justify-center p-8 bg-card border border-border rounded-lg">
+        <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
       </div>
     );
   } else if (groupProjects.length === 0) {
     content = (
-      <div className="text-sm text-slate-400 py-4 px-4 bg-white border border-slate-200 rounded-lg border-dashed">
+      <div className="text-sm text-muted-foreground py-4 px-4 bg-card border border-border rounded-lg border-dashed">
         {t(TK.noProjects)}
       </div>
     );
@@ -48,11 +48,11 @@ export function ProjectGroupSection({
       <div
         key={project.id}
         onClick={() => router.push(`/projects/${project.id}`)}
-        className="grid grid-cols-1 md:grid-cols-[2fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 md:gap-4 items-start md:items-center px-4 py-3 sm:py-2.5 bg-white border border-slate-200 rounded-lg shadow-[0_1px_2px_rgba(0,0,0,0.02)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-slate-300 transition-all duration-200 cursor-pointer group"
+        className="grid grid-cols-1 md:grid-cols-[2fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 md:gap-4 items-start md:items-center px-4 py-3 sm:py-2.5 bg-card border border-border rounded-lg shadow-[0_1px_2px_rgba(0,0,0,0.02)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-border transition-all duration-200 cursor-pointer group"
       >
         {/* Project Name */}
         <div className="flex items-start sm:items-center gap-3">
-          <div className="w-8 h-8 rounded-md border border-slate-200 flex items-center justify-center bg-white shadow-sm shrink-0 group-hover:border-blue-200 transition-colors mt-0.5 sm:mt-0 overflow-hidden">
+          <div className="w-8 h-8 rounded-md border border-border flex items-center justify-center bg-card shadow-sm shrink-0 group-hover:border-blue-200 transition-colors mt-0.5 sm:mt-0 overflow-hidden">
             {project.logoUrl ? (
               <Image
                 src={project.logoUrl}
@@ -68,11 +68,11 @@ export function ProjectGroupSection({
             )}
           </div>
           <div className="flex flex-col gap-0.5 sm:gap-0">
-            <span className="text-[13.5px] font-semibold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1">
+            <span className="text-[13.5px] font-semibold text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">
               {project.name}
             </span>
-            <span className="text-[11.5px] text-slate-500 line-clamp-1">
-              {project.key} <span className="mx-1 text-slate-300">•</span>{" "}
+            <span className="text-[11.5px] text-muted-foreground line-clamp-1">
+              {project.key} <span className="mx-1 text-muted-foreground">•</span>{" "}
               {project.description || t(TK.noDescription)}
             </span>
           </div>
@@ -103,7 +103,7 @@ export function ProjectGroupSection({
               max={3}
               avatarClassName="w-5 h-5 border-[1.5px] border-white"
             />
-            <span className="text-[12.5px] text-slate-600 group-hover:text-slate-900 transition-colors">
+            <span className="text-[12.5px] text-muted-foreground group-hover:text-slate-900 transition-colors">
               1
             </span>
           </div>
@@ -126,7 +126,7 @@ export function ProjectGroupSection({
               max={1}
               avatarClassName="w-4 h-4 border border-white"
             />
-            <span className="text-[11px] text-slate-500">1</span>
+            <span className="text-[11px] text-muted-foreground">1</span>
           </div>
         </div>
       </div>
@@ -139,12 +139,12 @@ export function ProjectGroupSection({
       <div className="flex items-center gap-1.5 mb-2 px-0.5">
         <Avatar
           fallback={group.name}
-          className="w-5 h-5 rounded text-[10px] text-slate-700 bg-white shadow-sm border border-slate-200"
+          className="w-5 h-5 rounded text-[10px] text-foreground bg-card shadow-sm border border-border"
         />
-        <span className="text-[13px] font-semibold text-slate-900 tracking-tight">
+        <span className="text-[13px] font-semibold text-foreground tracking-tight">
           {group.name}
         </span>
-        <div className="px-1.5 py-px bg-slate-100 text-slate-500 rounded text-xs font-semibold uppercase ml-0.5 flex items-center justify-center min-w-[60px]">
+        <div className="px-1.5 py-px bg-secondary text-muted-foreground rounded text-xs font-semibold uppercase ml-0.5 flex items-center justify-center min-w-[60px]">
           {isLoadingProjects ? (
             <Loader2 className="w-2.5 h-2.5 animate-spin" />
           ) : (
@@ -155,16 +155,16 @@ export function ProjectGroupSection({
 
       {/* Table Header (Hidden on small screens) */}
       <div className="hidden md:grid md:grid-cols-[2fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr] px-4 py-1 mb-0.5 gap-4">
-        <span className="text-[10.5px] font-semibold text-slate-400 uppercase tracking-wider">
+        <span className="text-[10.5px] font-semibold text-muted-foreground uppercase tracking-wider">
           {t(TK.projectName)}
         </span>
-        <span className="hidden lg:block text-[10.5px] font-semibold text-slate-400 uppercase tracking-wider">
+        <span className="hidden lg:block text-[10.5px] font-semibold text-muted-foreground uppercase tracking-wider">
           {t(TK.type)}
         </span>
-        <span className="hidden lg:block text-[10.5px] font-semibold text-slate-400 uppercase tracking-wider">
+        <span className="hidden lg:block text-[10.5px] font-semibold text-muted-foreground uppercase tracking-wider">
           {t(TK.group)}
         </span>
-        <span className="text-[10.5px] font-semibold text-slate-400 uppercase tracking-wider">
+        <span className="text-[10.5px] font-semibold text-muted-foreground uppercase tracking-wider">
           {t(TK.projectLead)}
         </span>
       </div>

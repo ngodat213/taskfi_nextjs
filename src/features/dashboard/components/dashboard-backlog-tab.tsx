@@ -6,12 +6,14 @@ interface DashboardBacklogTabProps {
   q?: string;
   issues?: Issue[];
   isLoading?: boolean;
+  onIssueClick?: (issueId: string) => void;
 }
 
 export function DashboardBacklogTab({
   q,
   issues = [],
   isLoading,
+  onIssueClick,
 }: DashboardBacklogTabProps) {
   const filteredIssues = React.useMemo(() => {
     return issues.filter(
@@ -25,6 +27,7 @@ export function DashboardBacklogTab({
       subtitle={`${filteredIssues.length} issues remaining`}
       issues={filteredIssues}
       isLoading={isLoading}
+      onIssueClick={onIssueClick}
     />
   );
 }

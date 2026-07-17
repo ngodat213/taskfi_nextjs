@@ -27,7 +27,7 @@ export default function WorkspaceSelectionPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FCFCFD] flex flex-col items-center justify-center relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center relative overflow-hidden font-sans">
       <AnimatedBackground />
 
       <div className="relative z-10 w-full max-w-md px-6 flex flex-col items-center">
@@ -36,10 +36,10 @@ export default function WorkspaceSelectionPage() {
           <div className="w-10 h-10 bg-slate-900 rounded-[12px] flex items-center justify-center shadow-lg mb-5 shadow-slate-900/20">
             <Command className="w-5 h-5 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight mb-2.5">
+          <h1 className="text-2xl font-bold text-foreground tracking-tight mb-2.5">
             Where work happens
           </h1>
-          <p className="text-[13.5px] text-slate-500 max-w-[300px] leading-relaxed">
+          <p className="text-[13.5px] text-muted-foreground max-w-[300px] leading-relaxed">
             Choose a workspace to collaborate, manage projects, and achieve your
             goals together.
           </p>
@@ -54,11 +54,11 @@ export default function WorkspaceSelectionPage() {
         />
 
         {/* Footer Link */}
-        <div className="mt-8 flex items-center justify-center text-[12px] text-slate-500">
+        <div className="mt-8 flex items-center justify-center text-[12px] text-muted-foreground">
           <button
             onClick={() => logout()}
             disabled={isLoggingOut}
-            className="font-medium text-slate-600 hover:text-slate-900 transition-colors flex items-center gap-1 group disabled:opacity-50 disabled:cursor-not-allowed"
+            className="font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 group disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoggingOut
               ? "Signing out..."

@@ -14,13 +14,13 @@ export default function LoginPage() {
     <AuthLayout
       title={t("title")}
       description={t("description")}
-      icon={<Command className="w-8 h-8 text-slate-900" />}
+      icon={<Command className="w-8 h-8 text-foreground" />}
       footer={
         <>
-          <span className="text-slate-500">Don&apos;t have an account?</span>
+          <span className="text-muted-foreground">Don&apos;t have an account?</span>
           <Link
             href="/register"
-            className="text-slate-900 font-medium hover:underline"
+            className="text-foreground font-medium hover:underline"
           >
             Sign up
           </Link>

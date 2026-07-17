@@ -179,7 +179,7 @@ export function AddNewProjectModal({
                       setLogoPreview(URL.createObjectURL(file));
                     }}
                   />
-                  <span className="text-xs text-slate-500 font-medium mt-1">
+                  <span className="text-xs text-muted-foreground font-medium mt-1">
                     {t(TK.logoLabel)}
                   </span>
                 </div>
@@ -201,7 +201,7 @@ export function AddNewProjectModal({
                 />
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[13px] font-medium text-slate-700">
+                  <label className="text-[13px] font-medium text-foreground">
                     {t(TK.typeLabel)}
                   </label>
                   <Controller
@@ -236,7 +236,7 @@ export function AddNewProjectModal({
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[13px] font-medium text-slate-700">
+                  <label className="text-[13px] font-medium text-foreground">
                     {t(TK.groupLabel)}
                   </label>
                   <Controller
@@ -266,7 +266,7 @@ export function AddNewProjectModal({
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[13px] font-medium text-slate-700">
+                  <label className="text-[13px] font-medium text-foreground">
                     {t(TK.leadLabel)}
                   </label>
                   <Controller
