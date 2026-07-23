@@ -1,7 +1,14 @@
 "use client";
 
+import {
+  Check,
+  ArrowRight,
+  CircleNotch,
+  FolderOpen,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { useState } from "react";
-import { Check, ArrowRight } from "lucide-react";
+import { motion, Variants } from "framer-motion";
 import {
   Button,
   ButtonVariant,
@@ -10,14 +17,63 @@ import {
 import { Select } from "@/components/ui/forms/select";
 import { PageHeader } from "@/components/ui/layout/page-header";
 import { SegmentedControl } from "@/components/ui/forms/segmented-control";
-import { useGroups } from "@/features/groups/hooks/use-groups";
-import { Loader2, FolderOpen } from "lucide-react";
+import { useGroups } from "@/features/workspace-settings/hooks/use-groups";
 import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { AddNewProjectModal } from "./add-new-project-modal";
 import { ProjectGroupSection } from "./project-group-section";
 import { PROJECT_VIEW_TABS } from "@/features/projects/constants";
 import { useTranslations } from "next-intl";
 import { TRANSLATION_KEYS } from "@/constants/translations";
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+      delayChildren: 0.02,
+    },
+  },
+};
+
+const slideUpVariants: Variants = {
+  hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.45,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
+const fadeRightVariants: Variants = {
+  hidden: { opacity: 0, x: -16, filter: "blur(4px)" },
+  show: {
+    opacity: 1,
+    x: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.45,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
+const fadeLeftVariants: Variants = {
+  hidden: { opacity: 0, x: 16, filter: "blur(4px)" },
+  show: {
+    opacity: 1,
+    x: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.45,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
 
 export function ProjectsView() {
   const t = useTranslations("Projects");
@@ -31,61 +87,83 @@ export function ProjectsView() {
   let content = null;
   if (isLoadingGroups) {
     content = (
-      <div className="flex items-center justify-center p-8">
-        <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
-      </div>
+      <motion.div
+        variants={slideUpVariants}
+        className="flex items-center justify-center p-8"
+      >
+        <CircleNotch className="w-5 h-5 animate-spin text-muted-foreground" />
+      </motion.div>
     );
   } else if (groups.length === 0) {
     content = (
-      <div className="py-12">
+      <motion.div variants={slideUpVariants} className="py-12">
         <EmptyState
           icon={FolderOpen}
           title={t(TK.noGroupsFound)}
           description={t(TK.noGroupsDesc)}
         />
-      </div>
+      </motion.div>
     );
   } else {
     content = groups.map((group) => (
-      <ProjectGroupSection key={group.id} group={group} />
+      <motion.div key={group.id} variants={slideUpVariants}>
+        <ProjectGroupSection group={group} />
+      </motion.div>
     ));
   }
 
   return (
-    <div className="relative flex flex-col h-full bg-background overflow-y-auto">
-      <div className="absolute top-0 left-0 right-0 h-[600px] bg-linear-to-br from-rose-100/50 via-blue-50/30 to-transparent blur-[100px] dark:hidden pointer-events-none -z-10 opacity-70" />
-      <div className="absolute top-0 right-0 w-[600px] h-[500px] bg-linear-to-bl from-indigo-50/50 via-purple-50/20 to-transparent blur-[100px] dark:hidden pointer-events-none -z-10 opacity-70" />
-
+    <div className="relative flex flex-col h-full bg-background overflow-y-auto overflow-x-hidden">
       {/* Main Container - Responsive padding */}
-      <div className="flex-1 w-full px-4 sm:px-6 md:px-8 pt-5 pb-6">
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        className="flex-1 w-full px-4 sm:px-6 md:px-8 pt-5 pb-6"
+      >
         {/* Header Area */}
         <PageHeader
           className="mb-4"
-          title={t(TK.title)}
-          description={t(TK.description)}
+          title={
+            <motion.span variants={fadeRightVariants} className="inline-block">
+              {t(TK.title)}
+            </motion.span>
+          }
+          description={
+            <motion.span variants={fadeRightVariants} className="inline-block">
+              {t(TK.description)}
+            </motion.span>
+          }
           actions={
-            <Button
-              variant={ButtonVariant.Primary}
-              size={ButtonSize.Sm}
-              className="w-fit"
-              onClick={() => setIsModalOpen(true)}
-            >
-              {t(TK.newProject)}
-              <ArrowRight className="w-3 h-3" />
-            </Button>
+            <motion.div variants={fadeLeftVariants}>
+              <Button
+                variant={ButtonVariant.Primary}
+                size={ButtonSize.Sm}
+                className="w-fit"
+                onClick={() => setIsModalOpen(true)}
+              >
+                {t(TK.newProject)}
+                <ArrowRight className="w-3 h-3" />
+              </Button>
+            </motion.div>
           }
         >
           {/* Filters & Tabs Row */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 lg:gap-0">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 lg:gap-0 overflow-hidden py-1">
             {/* Segmented Control Tabs */}
-            <SegmentedControl
-              tabs={PROJECT_VIEW_TABS}
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-            />
+            <motion.div variants={fadeRightVariants}>
+              <SegmentedControl
+                tabs={PROJECT_VIEW_TABS}
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+              />
+            </motion.div>
 
             {/* Filters */}
-            <div className="flex flex-wrap items-center gap-2.5">
+            <motion.div
+              variants={fadeLeftVariants}
+              className="flex flex-wrap items-center gap-2.5"
+            >
               <Select wrapperClassName="w-[120px] sm:w-[130px]">
                 <option value="all">{t(TK.allGroups)}</option>
                 {groups.map((group) => (
@@ -103,13 +181,13 @@ export function ProjectsView() {
                   {t(TK.groupByProject)}
                 </span>
               </label>
-            </div>
+            </motion.div>
           </div>
         </PageHeader>
 
         {/* Main Content */}
         <div className="flex flex-col gap-1.5 mt-2 lg:mt-0">{content}</div>
-      </div>
+      </motion.div>
 
       <AddNewProjectModal
         isOpen={isModalOpen}

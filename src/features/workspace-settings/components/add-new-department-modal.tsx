@@ -1,5 +1,6 @@
+import { Buildings, CircleNotch } from "@phosphor-icons/react/dist/ssr";
 import { useEffect } from "react";
-import { Building2, Loader2 } from "lucide-react";
+;
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -16,7 +17,7 @@ import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import {
   useCreateDepartment,
   useUpdateDepartment,
-} from "@/features/departments/hooks/use-departments";
+} from "@/features/workspace-settings/hooks/use-departments";
 import { Department } from "@/types/workspace.types";
 import { useTranslations } from "next-intl";
 import {
@@ -97,7 +98,7 @@ export function AddNewDepartmentModal({
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader
             title={isEditing ? t(TK_EDIT.title) : t(TK.title)}
-            icon={<Building2 className="w-5 h-5 text-blue-500" />}
+            icon={<Buildings className="w-5 h-5 text-blue-500" />}
           />
           <ModalBody>
             <ModalScrollArea
@@ -134,7 +135,7 @@ export function AddNewDepartmentModal({
                 variant={ButtonVariant.Primary}
                 disabled={isPending}
               >
-                {isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                {isPending && <CircleNotch className="w-4 h-4 mr-2 animate-spin" />}
                 {isEditing
                   ? isPending
                     ? t(ACT.saving)

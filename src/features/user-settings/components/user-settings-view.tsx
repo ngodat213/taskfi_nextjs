@@ -1,9 +1,11 @@
 "use client";
+import { User, Shield, Faders } from "@phosphor-icons/react/dist/ssr";
 
 import { useState } from "react";
-import { User, Shield, Settings2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { TRANSLATION_KEYS } from "@/constants/translations";
+import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
 import { PageHeader } from "@/components/ui/layout/page-header";
 import { SegmentedControl } from "@/components/ui/forms/segmented-control";
 
@@ -27,7 +29,7 @@ export function UserSettingsView() {
     {
       id: UserSettingsTab.PREFERENCES,
       label: t(TK.tabs.preferences),
-      icon: Settings2,
+      icon: Faders,
     },
     {
       id: UserSettingsTab.SECURITY,
@@ -56,9 +58,21 @@ export function UserSettingsView() {
         </PageHeader>
 
         <div className="w-full">
-          {activeTab === UserSettingsTab.PROFILE && <ProfileSetting />}
-          {activeTab === UserSettingsTab.PREFERENCES && <PreferencesSetting />}
-          {activeTab === UserSettingsTab.SECURITY && <SecuritySetting />}
+          <AnimatePresence mode="popLayout">
+            <motion.div
+              key={activeTab}
+              variants={TAB_CONTENT_VARIANTS}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              {activeTab === UserSettingsTab.PROFILE && <ProfileSetting />}
+              {activeTab === UserSettingsTab.PREFERENCES && (
+                <PreferencesSetting />
+              )}
+              {activeTab === UserSettingsTab.SECURITY && <SecuritySetting />}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </PageContainer>

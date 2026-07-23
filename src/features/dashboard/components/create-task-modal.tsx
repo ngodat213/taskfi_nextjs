@@ -1,4 +1,6 @@
 "use client";
+import { FileText } from "@phosphor-icons/react/dist/ssr";
+
 import {
   Modal,
   ModalContent,
@@ -12,7 +14,7 @@ import { FormInput } from "@/components/ui/forms/form-input";
 import { FormTextarea } from "@/components/ui/forms/form-textarea";
 import { Select } from "@/components/ui/forms/select";
 import { InputLabel } from "@/components/ui/forms/input-label";
-import { FileText } from "lucide-react";
+;
 import { FileUploader } from "@/components/ui/forms/file-uploader";
 import {
   useWorkspaceMembers,

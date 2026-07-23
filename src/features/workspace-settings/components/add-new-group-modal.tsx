@@ -1,5 +1,6 @@
+import { Users, CircleNotch } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
-import { Users, Loader2 } from "lucide-react";
+;
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -17,7 +18,7 @@ import { LogoPicker } from "@/components/ui/forms/logo-picker";
 import {
   useCreateGroup,
   useUpdateGroup,
-} from "@/features/groups/hooks/use-groups";
+} from "@/features/workspace-settings/hooks/use-groups";
 import { uploadService } from "@/services/upload.service";
 import { Group } from "@/types/group.types";
 import { useTranslations } from "next-intl";
@@ -216,7 +217,7 @@ export function AddNewGroupModal({
                 variant={ButtonVariant.Primary}
                 disabled={isLoading}
               >
-                {isLoading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                {isLoading && <CircleNotch className="w-3.5 h-3.5 animate-spin" />}
                 {isEditMode
                   ? t(TRANSLATION_KEYS.modals.addGroup.btnUpdate)
                   : t(TRANSLATION_KEYS.modals.addGroup.btnCreate)}

@@ -1,10 +1,11 @@
+import { X } from "@phosphor-icons/react/dist/ssr";
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { Issue, IssueStatus, IssueType } from "@/types/issue.types";
 import {
   TypeIcon,
   StatusBadge,
 } from "@/features/dashboard/components/issue-table-row";
-import { X } from "lucide-react";
+;
 
 interface IssueItemCardProps {
   issue:
@@ -37,7 +38,11 @@ export function IssueItemCard({ issue, onRemove }: IssueItemCardProps) {
           <Button
             variant={ButtonVariant.Ghost}
             className="h-6 w-6 p-0 text-muted-foreground opacity-0 group-hover:opacity-100 hover:text-red-500 hover:bg-red-50 transition-all"
-            onClick={onRemove}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onRemove();
+            }}
           >
             <X className="w-3.5 h-3.5" />
           </Button>

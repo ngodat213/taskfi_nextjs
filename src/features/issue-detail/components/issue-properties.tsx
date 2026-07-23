@@ -7,12 +7,14 @@ import {
 } from "@/features/workspaces/hooks/use-workspaces";
 import { PRIORITY_OPTIONS } from "@/features/dashboard/helpers/create-task.helpers";
 import { ReactNode } from "react";
+import { useCurrentUser } from "@/features/auth/hooks/use-auth";
 
 interface PropertySelectProps {
   label: string;
   value: string;
   onChange: (val: string) => void;
   children: ReactNode;
+  action?: ReactNode;
 }
 
 function PropertySelect({
@@ -20,12 +22,16 @@ function PropertySelect({
   value,
   onChange,
   children,
+  action,
 }: PropertySelectProps) {
   return (
     <div className="flex flex-col gap-1.5">
-      <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
-        {label}
-      </span>
+      <div className="flex items-center justify-between">
+        <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+          {label}
+        </span>
+        {action}
+      </div>
       <Select
         value={value}
         onChange={onChange}
@@ -44,13 +50,15 @@ interface IssuePropertiesProps {
 
 export function IssueProperties({ issue, onUpdate }: IssuePropertiesProps) {
   const priority = issue.priority || "MEDIUM";
+  const { data: currentUserResponse } = useCurrentUser();
+  const currentUserId = currentUserResponse?.data?.id;
 
   const activeWorkspaceId = useWorkspaceStore(
     (state) => state.activeWorkspaceId,
   );
   const { data: membersResponse } = useWorkspaceMembers(
     activeWorkspaceId as string,
-    { limit: 100 },
+    { limit: 50 },
   );
   const members = membersResponse?.data?.data || [];
 
@@ -63,6 +71,19 @@ export function IssueProperties({ issue, onUpdate }: IssuePropertiesProps) {
     <div className="w-full flex flex-col h-full gap-8">
       {/* Details List */}
       <div className="flex flex-col gap-4">
+        {/* Type */}
+        <PropertySelect
+          label="Type"
+          value={issue.type || ""}
+          onChange={(val) => onUpdate("type", val)}
+        >
+          {["EPIC", "STORY", "TASK", "SUBTASK", "BUG"].map((t) => (
+            <option key={t} value={t}>
+              {t.charAt(0) + t.slice(1).toLowerCase()}
+            </option>
+          ))}
+        </PropertySelect>
+
         {/* Status */}
         <PropertySelect
           label="Status"
@@ -95,6 +116,16 @@ export function IssueProperties({ issue, onUpdate }: IssuePropertiesProps) {
           label="Assignee"
           value={issue.assigneeId || ""}
           onChange={(val) => onUpdate("assigneeId", val || null)}
+          action={
+            currentUserId && issue.assigneeId !== currentUserId ? (
+              <button
+                onClick={() => onUpdate("assigneeId", currentUserId)}
+                className="text-[10px] font-medium text-primary hover:underline"
+              >
+                Assign to me
+              </button>
+            ) : null
+          }
         >
           <option value="">Unassigned</option>
           {members.map((m) => (

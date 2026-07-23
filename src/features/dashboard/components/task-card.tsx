@@ -1,7 +1,15 @@
-import { AlertCircle, ChevronUp, Equal, ChevronDown } from "lucide-react";
+import {
+  WarningCircle,
+  CaretUp,
+  Equals,
+  CaretDown,
+} from "@phosphor-icons/react/dist/ssr";
 import { Badge } from "@/components/ui/data-display/badge";
 import { Issue } from "@/types/issue.types";
 import { TypeIcon } from "@/features/dashboard/components/issue-table-row";
+import { useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { PaginatedResponse } from "@/types/api.types";
 
 interface TaskCardProps {
   issue: Issue;
@@ -9,6 +17,33 @@ interface TaskCardProps {
 }
 
 export function TaskCard({ issue, onIssueClick }: TaskCardProps) {
+  const queryClient = useQueryClient();
+
+  const parentIssue = useMemo(() => {
+    if (!issue.parentId) return null;
+
+    // Look through all cached issues for this project
+    const queries = queryClient.getQueriesData<PaginatedResponse<Issue>>({
+      queryKey: ["issues", issue.projectId],
+    });
+
+    for (const [, data] of queries) {
+      if (data?.data?.data) {
+        const found = data.data.data.find((i) => i.id === issue.parentId);
+        if (found) return found;
+      }
+    }
+
+    const singleIssue = queryClient.getQueryData<{ data: Issue }>([
+      "issues",
+      issue.projectId,
+      issue.parentId,
+    ]);
+    if (singleIssue?.data) return singleIssue.data;
+
+    return null;
+  }, [issue.parentId, issue.projectId, queryClient]);
+
   const displayId = issue.issueKey || issue.id || "";
   const type = (issue.type || "task").toLowerCase();
   const priority = issue.priority || "Medium";
@@ -17,8 +52,8 @@ export function TaskCard({ issue, onIssueClick }: TaskCardProps) {
     : "UN";
 
   return (
-    <div 
-      className="bg-card p-2.5 rounded-lg border border-border/80 hover:border-border hover:shadow-sm cursor-pointer group transition-all"
+    <div
+      className="bg-card p-2.5 rounded-lg border border-border/80 hover:border-primary/40 hover:shadow-md active:scale-[0.98] cursor-pointer group transition-all duration-200 ease-out select-none"
       onClick={() => onIssueClick && onIssueClick(issue.id)}
     >
       <div className="flex items-center justify-between mb-1.5">
@@ -44,6 +79,20 @@ export function TaskCard({ issue, onIssueClick }: TaskCardProps) {
         </Badge>
       </div>
 
+      {parentIssue && (
+        <div className="flex items-center gap-1.5 mb-2 w-fit max-w-full text-[11px] font-medium text-muted-foreground bg-muted/50 px-2 py-0.5 rounded-md border border-border/50">
+          <TypeIcon
+            type={parentIssue.type as Issue["type"]}
+            className="w-3 h-3 opacity-70 shrink-0"
+          />
+          <span className="hover:underline hover:text-foreground cursor-pointer transition-colors shrink-0">
+            {parentIssue.issueKey}
+          </span>
+          <span className="text-muted-foreground/40 shrink-0">/</span>
+          <span className="truncate">{parentIssue.summary}</span>
+        </div>
+      )}
+
       <p className="text-[12.5px] text-foreground font-medium leading-snug mb-2.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
         {issue.summary}
       </p>
@@ -51,19 +100,26 @@ export function TaskCard({ issue, onIssueClick }: TaskCardProps) {
       <div className="flex items-center justify-between mt-auto">
         <Badge
           variant={
-            priority === "Critical"
+            priority.toLowerCase() === "critical"
               ? "red"
-              : priority === "High"
+              : priority.toLowerCase() === "high"
                 ? "orange"
-                : priority === "Medium"
+                : priority.toLowerCase() === "medium"
                   ? "amber"
                   : "blue"
           }
+          className="uppercase tracking-wider text-[10px]"
         >
-          {priority === "Critical" && <AlertCircle className="w-3 h-3" />}
-          {priority === "High" && <ChevronUp className="w-3 h-3" />}
-          {priority === "Medium" && <Equal className="w-3 h-3" />}
-          {priority === "Low" && <ChevronDown className="w-3 h-3" />}
+          {priority.toLowerCase() === "critical" && (
+            <WarningCircle className="w-3 h-3" />
+          )}
+          {priority.toLowerCase() === "high" && <CaretUp className="w-3 h-3" />}
+          {priority.toLowerCase() === "medium" && (
+            <Equals className="w-3 h-3" />
+          )}
+          {priority.toLowerCase() === "low" && (
+            <CaretDown className="w-3 h-3" />
+          )}
           {priority}
         </Badge>
 

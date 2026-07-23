@@ -1,5 +1,6 @@
+import { CircleNotch } from "@phosphor-icons/react/dist/ssr";
 import { useWorkspaceMembers } from "@/features/workspaces/hooks/use-workspaces";
-import { Loader2 } from "lucide-react";
+;
 import { WorkspaceMemberQueryParams } from "@/types/workspace.types";
 import { AvatarGroup } from "@/components/ui/data-display/avatar-group";
 
@@ -18,7 +19,7 @@ export function EntityMemberCount({
   });
 
   if (isLoading) {
-    return <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />;
+    return <CircleNotch className="w-4 h-4 animate-spin text-muted-foreground" />;
   }
 
   const members = data?.data?.data || [];

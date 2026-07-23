@@ -1,4 +1,9 @@
-import { MoreHorizontal, Users, Pencil } from "lucide-react";
+import {
+  DotsThree,
+  Users,
+  PencilSimple,
+  CircleNotch,
+} from "@phosphor-icons/react/dist/ssr";
 import {
   Table,
   TableHeader,
@@ -7,13 +12,12 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/data-display/table";
-import { useGroups } from "@/features/groups/hooks/use-groups";
+import { useGroups } from "@/features/workspace-settings/hooks/use-groups";
 import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { Avatar } from "@/components/ui/data-display/avatar";
 import { TableActionBtn } from "@/components/ui/data-display/table-action-btn";
 import { Group } from "@/types/group.types";
 import { useTranslations } from "next-intl";
-import { Loader2 } from "lucide-react";
 import { TRANSLATION_KEYS } from "@/constants/translations";
 import { EntityMemberCount } from "@/features/workspace-settings/components/entity-member-count";
 import { useWorkspaceStore } from "@/store/workspace.store";
@@ -33,8 +37,8 @@ export function GroupsTable({ onEdit }: GroupsTableProps) {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center p-8 min-h-[200px]">
-        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+      <div className="flex items-center justify-center p-8 min-h-50">
+        <CircleNotch className="w-6 h-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -101,10 +105,10 @@ export function GroupsTable({ onEdit }: GroupsTableProps) {
             <TableCell className="text-right">
               <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <TableActionBtn onClick={() => onEdit?.(g)}>
-                  <Pencil className="w-4 h-4" />
+                  <PencilSimple className="w-4 h-4" />
                 </TableActionBtn>
                 <TableActionBtn>
-                  <MoreHorizontal className="w-4 h-4" />
+                  <DotsThree className="w-4 h-4" />
                 </TableActionBtn>
               </div>
             </TableCell>
