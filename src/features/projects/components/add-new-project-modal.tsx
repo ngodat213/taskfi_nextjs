@@ -1,4 +1,5 @@
-import { FolderOpen, Loader2 } from "lucide-react";
+import { FolderOpen, CircleNotch } from "@phosphor-icons/react/dist/ssr";
+;
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -22,7 +23,7 @@ import {
 } from "@/features/projects/schema/project.schema";
 import { useCreateProject } from "@/features/projects/hooks/use-projects";
 import { useWorkspaceMembers } from "@/features/workspaces/hooks/use-workspaces";
-import { useGroups } from "@/features/groups/hooks/use-groups";
+import { useGroups } from "@/features/workspace-settings/hooks/use-groups";
 import { useWorkspaceStore } from "@/store/workspace.store";
 import { LogoPicker } from "@/components/ui/forms/logo-picker";
 import { uploadService } from "@/services/upload.service";
@@ -315,7 +316,7 @@ export function AddNewProjectModal({
                 {t(TK.cancel)}
               </Button>
               <Button type="submit" disabled={isLoading}>
-                {isLoading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                {isLoading && <CircleNotch className="w-3.5 h-3.5 animate-spin" />}
                 {t(TK.submit)}
               </Button>
             </ModalFooter>

@@ -1,6 +1,6 @@
 import { useIssue, useUpdateIssue } from "@/features/projects/hooks/use-issues";
 import { TypeIcon } from "@/features/dashboard/components/issue-table-row";
-import { Issue } from "@/types/issue.types";
+import { Issue, IssueType } from "@/types/issue.types";
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { AiChatSidebar } from "./ai-chat-sidebar";
 import { IssueMainContent } from "./issue-main-content";
@@ -22,19 +22,40 @@ export function IssueDetailView({
   const issue = issueResponse?.data;
   const updateIssue = useUpdateIssue();
 
-  const [summary, setSummary] = useState("");
+  const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState(false);
+  const typeDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        typeDropdownRef.current &&
+        !typeDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsTypeDropdownOpen(false);
+      }
+    };
+    if (isTypeDropdownOpen) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    }
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [isTypeDropdownOpen]);
+
+  const [summary, setSummary] = useState(issue?.summary || "");
+  const [prevIssueSummary, setPrevIssueSummary] = useState(issue?.summary);
+
+  if (issue?.summary !== prevIssueSummary) {
+    setPrevIssueSummary(issue?.summary);
+    setSummary(issue?.summary || "");
+  }
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    if (issue?.summary) {
-      setSummary(issue.summary);
-
-      if (textareaRef.current) {
-        textareaRef.current.style.height = "auto";
-        textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-      }
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
-  }, [issue?.summary]);
+  }, [summary]);
 
   const handleSummaryBlur = () => {
     if (summary !== issue?.summary && summary.trim() !== "") {
@@ -68,7 +89,7 @@ export function IssueDetailView({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-full min-h-[400px] text-muted-foreground bg-[#F5F5F5]">
+      <div className="flex items-center justify-center h-full min-h-[400px] text-muted-foreground bg-transparent">
         Loading issue details...
       </div>
     );
@@ -76,7 +97,7 @@ export function IssueDetailView({
 
   if (!issue) {
     return (
-      <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-red-500 gap-4 bg-[#F5F5F5]">
+      <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-red-500 gap-4 bg-transparent">
         <div>Issue not found.</div>
         <Button variant={ButtonVariant.Outline} onClick={onClose}>
           Back
@@ -86,7 +107,7 @@ export function IssueDetailView({
   }
 
   return (
-    <div className="flex flex-col lg:flex-row h-full bg-muted/30 w-full animate-in fade-in duration-200 overflow-hidden">
+    <div className="flex flex-col lg:flex-row h-full bg-transparent w-full animate-in fade-in duration-200 overflow-hidden">
       {/* AI Chatbox Sidebar (Left) */}
       <AiChatSidebar />
 
@@ -94,12 +115,57 @@ export function IssueDetailView({
       <div className="flex-1 h-full py-6 pl-6 pr-0 lg:py-8 lg:pl-6 lg:pr-0 bg-transparent overflow-hidden flex flex-col">
         <div className="flex flex-col gap-6 w-full h-full">
           {/* Main Issue Card */}
-          <div className="w-full h-full bg-card rounded-l-xl border border-border flex flex-col overflow-hidden">
+          <div className="w-full h-full bg-card/60 backdrop-blur-md rounded-l-xl border border-border/50 flex flex-col overflow-hidden shadow-sm">
             <div className="p-6 md:p-8 flex flex-col gap-5 overflow-y-auto custom-scrollbar flex-1">
               {/* Header */}
               <div>
                 <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground font-medium">
-                  <TypeIcon type={issue.type} />
+                  <div className="relative" ref={typeDropdownRef}>
+                    <button
+                      onClick={() => setIsTypeDropdownOpen(!isTypeDropdownOpen)}
+                      className="flex items-center gap-1.5 hover:bg-muted px-2 py-1 -ml-2 rounded-md transition-colors border border-transparent hover:border-border/50"
+                    >
+                      <TypeIcon
+                        type={issue.type as IssueType}
+                        className="w-4 h-4 shrink-0"
+                      />
+                      <span className="capitalize">
+                        {issue.type.toLowerCase()}
+                      </span>
+                    </button>
+
+                    {isTypeDropdownOpen && (
+                      <div className="absolute top-full left-0 mt-1 w-[140px] bg-card border border-border rounded-lg shadow-lg z-50 flex flex-col py-1.5 animate-in fade-in zoom-in-95 duration-100">
+                        {["EPIC", "STORY", "TASK", "SUBTASK", "BUG"].map(
+                          (type) => (
+                            <button
+                              key={type}
+                              onClick={() => {
+                                handleUpdate("type", type);
+                                setIsTypeDropdownOpen(false);
+                              }}
+                              className={`flex items-center gap-2.5 px-3 py-1.5 text-[12px] hover:bg-muted text-left w-full transition-colors ${
+                                issue.type === type
+                                  ? "bg-muted/50 font-semibold"
+                                  : ""
+                              }`}
+                            >
+                              <TypeIcon
+                                type={type as IssueType}
+                                className="w-4 h-4 shrink-0"
+                              />
+                              <span className="capitalize">
+                                {type.toLowerCase()}
+                              </span>
+                            </button>
+                          ),
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  <span className="text-muted-foreground/40 text-[10px] mx-0.5">
+                    •
+                  </span>
                   <span>{issue.issueKey}</span>
                 </div>
                 <textarea

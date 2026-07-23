@@ -1,30 +1,29 @@
 import {
-  PanelLeft,
-  Maximize2,
+  SidebarSimple,
+  CornersOut,
   FileText,
-  ChevronDown,
+  CaretDown,
   Check,
-  ChevronRight,
+  CaretRight,
   ArrowDown,
   Plus,
-  AtSign,
-  Mic,
+  At,
+  Microphone,
   Square,
-  Settings2,
+  Faders,
   ArrowUp,
-} from "lucide-react";
-
+} from "@phosphor-icons/react/dist/ssr";
 export function AiChatSidebar() {
   return (
     <div className="hidden lg:flex flex-col w-[360px] xl:w-[420px] shrink-0 bg-transparent p-6 lg:p-8 lg:pr-2 overflow-hidden relative">
       {/* Header */}
       <div className="flex items-center justify-between pb-3 border-b border-border/60 shrink-0">
         <div className="flex items-center gap-2 text-muted-foreground">
-          <PanelLeft className="w-4 h-4" />
+          <SidebarSimple className="w-4 h-4" />
           <span className="text-[13px] font-semibold">Q1 Report • 1</span>
         </div>
         <button className="text-muted-foreground hover:text-slate-600">
-          <Maximize2 className="w-4 h-4" />
+          <CornersOut className="w-4 h-4" />
         </button>
       </div>
 
@@ -41,7 +40,7 @@ export function AiChatSidebar() {
 
         {/* User Message */}
         <div className="flex flex-col items-end gap-1">
-          <div className="bg-[#f3f4f6] text-foreground text-[13.5px] p-4 rounded-[20px] rounded-tr-[4px] max-w-[90%] leading-relaxed relative overflow-hidden">
+          <div className="bg-muted/80 text-foreground text-[13.5px] p-4 rounded-[20px] rounded-tr-[4px] max-w-[90%] leading-relaxed relative overflow-hidden">
             <p className="mb-4">Create a Folio for me with these settings:</p>
             <ul className="space-y-1.5 ml-2">
               <li>- Folio Type: Report</li>
@@ -51,14 +50,15 @@ export function AiChatSidebar() {
               <li>
                 - Data Sources: @
                 <span className="bg-card px-1 py-0.5 rounded shadow-sm text-[12px] inline-flex items-center gap-1">
-                  <FileText className="w-3 h-3 text-muted-foreground" /> Q1 Overview...
+                  <FileText className="w-3 h-3 text-muted-foreground" /> Q1
+                  Overview...
                 </span>
               </li>
             </ul>
             {/* Gradient fade and Show more */}
-            <div className="absolute bottom-0 left-0 right-0 pt-8 pb-2 bg-linear-to-t from-[#f3f4f6] via-[#f3f4f6]/90 to-transparent flex justify-center">
-              <button className="text-[11px] font-medium text-muted-foreground flex items-center gap-1 hover:text-foreground">
-                Show more <ChevronDown className="w-3 h-3" />
+            <div className="absolute bottom-0 left-0 right-0 pt-8 pb-2 bg-linear-to-t from-muted via-muted/90 to-transparent flex justify-center">
+              <button className="text-[11px] font-medium text-foreground/70 flex items-center gap-1 hover:text-foreground">
+                Show more <CaretDown className="w-3 h-3" />
               </button>
             </div>
           </div>
@@ -74,7 +74,7 @@ export function AiChatSidebar() {
             <button className="flex items-center gap-1.5 text-[12px] font-medium text-muted-foreground hover:text-foreground transition-colors w-fit">
               <Check className="w-3 h-3 text-muted-foreground" />
               Wrapped up 2 actions
-              <ChevronRight className="w-3 h-3 text-muted-foreground" />
+              <CaretRight className="w-3 h-3 text-muted-foreground" />
             </button>
             <p className="text-[13.5px] text-foreground leading-relaxed">
               Now let me read all the required component files and the Q1
@@ -87,7 +87,7 @@ export function AiChatSidebar() {
             <button className="flex items-center gap-1.5 text-[12px] font-medium text-muted-foreground hover:text-foreground transition-colors w-fit">
               <Check className="w-3 h-3 text-muted-foreground" />
               Ran through 5 things
-              <ChevronRight className="w-3 h-3 text-muted-foreground" />
+              <CaretRight className="w-3 h-3 text-muted-foreground" />
             </button>
             <p className="text-[13.5px] text-foreground leading-relaxed">
               Now let me read the charts and images component files, then
@@ -100,7 +100,7 @@ export function AiChatSidebar() {
             <button className="flex items-center gap-1.5 text-[12px] font-medium text-muted-foreground hover:text-foreground transition-colors w-fit">
               <Check className="w-3 h-3 text-muted-foreground" />
               Knocked out 4 tasks
-              <ChevronRight className="w-3 h-3 text-muted-foreground" />
+              <CaretRight className="w-3 h-3 text-muted-foreground" />
             </button>
             <p className="text-[13.5px] text-foreground leading-relaxed">
               All components loaded. Now let me generate the AI image and get
@@ -132,10 +132,10 @@ export function AiChatSidebar() {
                 <Plus className="w-4 h-4" />
               </button>
               <button className="p-1.5 text-muted-foreground hover:text-slate-600 rounded-lg hover:bg-muted transition-colors">
-                <AtSign className="w-4 h-4" />
+                <At className="w-4 h-4" />
               </button>
               <button className="p-1.5 text-muted-foreground hover:text-slate-600 rounded-lg hover:bg-muted transition-colors">
-                <Mic className="w-4 h-4" />
+                <Microphone className="w-4 h-4" />
               </button>
               <button className="p-1.5 text-muted-foreground hover:text-slate-600 rounded-lg hover:bg-muted transition-colors">
                 <Square className="w-4 h-4" />
@@ -144,10 +144,10 @@ export function AiChatSidebar() {
 
             <div className="flex items-center gap-1">
               <button className="flex items-center gap-1 text-[12px] font-medium text-muted-foreground hover:text-foreground px-2 py-1.5 rounded-lg hover:bg-muted transition-colors">
-                Auto <ChevronDown className="w-3 h-3" />
+                Auto <CaretDown className="w-3 h-3" />
               </button>
               <button className="p-1.5 text-muted-foreground hover:text-slate-600 rounded-lg hover:bg-muted transition-colors">
-                <Settings2 className="w-4 h-4" />
+                <Faders className="w-4 h-4" />
               </button>
               <button className="bg-border text-white rounded-full p-1.5 ml-1 transition-colors hover:bg-slate-300">
                 <ArrowUp className="w-4 h-4" />

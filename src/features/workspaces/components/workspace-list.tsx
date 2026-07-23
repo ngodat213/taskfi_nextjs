@@ -1,5 +1,10 @@
+import {
+  Plus,
+  Briefcase,
+  CaretRight,
+  CircleNotch,
+} from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
-import { Plus, Briefcase, ChevronRight, Loader2 } from "lucide-react";
 import { Workspace } from "@/types/workspace.types";
 
 interface WorkspaceListProps {
@@ -16,10 +21,10 @@ export function WorkspaceList({
   onCreateClick,
 }: WorkspaceListProps) {
   return (
-    <div className="flex flex-col gap-2 w-full max-w-[360px]">
+    <div className="flex flex-col gap-2 w-full max-w-90">
       {isLoading ? (
         <div className="flex justify-center p-4">
-          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+          <CircleNotch className="w-6 h-6 animate-spin text-muted-foreground" />
         </div>
       ) : (
         workspaces.map((ws: Workspace) => {
@@ -27,7 +32,7 @@ export function WorkspaceList({
             <button
               key={ws.id}
               onClick={() => onSelect(ws.id)}
-              className="group flex items-center gap-3 w-full p-2 pr-3 bg-card/40 hover:bg-secondary/80 backdrop-blur-xl border border-border/40 hover:border-border/80 rounded-[14px] shadow-sm hover:shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:-translate-y-0.5 transition-all duration-300 text-left"
+              className="group flex items-center gap-3 w-full p-2.5 pr-3.5 bg-secondary/60 hover:bg-secondary border border-border/80 hover:border-border rounded-xl shadow-2xs hover:shadow-xs transition-all duration-200 text-left"
             >
               {ws.logoUrl ? (
                 <Image
@@ -35,21 +40,21 @@ export function WorkspaceList({
                   alt={ws.name}
                   width={32}
                   height={32}
-                  className="w-8 h-8 rounded-lg object-cover shrink-0 border transition-transform duration-300 group-hover:scale-105 bg-secondary"
+                  className="w-8 h-8 rounded-lg object-cover shrink-0 border border-border/60 transition-transform duration-200 group-hover:scale-105 bg-background"
                 />
               ) : (
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border transition-transform duration-300 group-hover:scale-105 bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-100/50 dark:border-blue-500/20">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-border/60 transition-transform duration-200 group-hover:scale-105 bg-secondary text-foreground">
                   <Briefcase className="w-4 h-4" strokeWidth={2.5} />
                 </div>
               )}
 
               <div className="flex-1 min-w-0">
-                <div className="text-[13px] font-semibold text-foreground truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <div className="text-[13px] font-semibold text-foreground truncate group-hover:text-primary transition-colors">
                   {ws.name}
                 </div>
               </div>
 
-              <ChevronRight className="w-3.5 h-3.5 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+              <CaretRight className="w-3.5 h-3.5 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
             </button>
           );
         })
@@ -58,14 +63,14 @@ export function WorkspaceList({
       {/* Create New */}
       <button
         onClick={onCreateClick}
-        className="group flex items-center gap-3 w-full p-2 pr-3 bg-muted/30 hover:bg-secondary/80 backdrop-blur-xl border border-border/40 hover:border-blue-500/50 rounded-[14px] shadow-sm hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:-translate-y-0.5 transition-all duration-300 text-left mt-1"
+        className="group flex items-center gap-3 w-full p-2.5 pr-3.5 bg-background/50 hover:bg-secondary/60 border border-dashed border-border hover:border-primary/50 rounded-xl transition-all duration-200 text-left mt-1"
       >
-        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-dashed border-border bg-card group-hover:border-blue-300 dark:group-hover:border-blue-500/50 group-hover:bg-blue-50 dark:group-hover:bg-blue-500/10 transition-colors">
-          <Plus className="w-4 h-4 text-muted-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-dashed border-border bg-card group-hover:border-primary/50 transition-colors">
+          <Plus className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
         </div>
 
         <div className="flex-1 min-w-0">
-          <div className="text-[13px] font-medium text-muted-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+          <div className="text-[13px] font-medium text-muted-foreground group-hover:text-foreground transition-colors">
             Create new workspace
           </div>
         </div>

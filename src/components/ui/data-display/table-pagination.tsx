@@ -1,5 +1,6 @@
+import { CaretLeft, CaretRight } from "@phosphor-icons/react/dist/ssr";
 import * as React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+;
 import { Button, ButtonVariant, ButtonSize } from "@/components/ui/actions/button";
 import { cn } from "@/utils/cn";
 import { useTranslations } from "next-intl";
@@ -54,7 +55,7 @@ export function TablePagination({
             onClick={() => onPageChange(Math.max(1, page - 1))}
             disabled={!hasPreviousPage}
           >
-            <ChevronLeft className="w-4 h-4" />
+            <CaretLeft className="w-4 h-4" />
             {t("previous")}
           </Button>
           <Button
@@ -64,7 +65,7 @@ export function TablePagination({
             disabled={!hasNextPage}
           >
             {t("next")}
-            <ChevronRight className="w-4 h-4" />
+            <CaretRight className="w-4 h-4" />
           </Button>
         </div>
       </div>

@@ -1,6 +1,7 @@
+import { CaretDown, Check } from "@phosphor-icons/react/dist/ssr";
 import * as React from "react";
 import { cn } from "@/utils/cn";
-import { ChevronDown, Check } from "lucide-react";
+;
 
 export interface SelectProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
@@ -42,8 +43,16 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
       if (React.isValidElement(child) && child.type === "option") {
         const props =
           child.props as React.OptionHTMLAttributes<HTMLOptionElement>;
+
+        let label = "";
+        if (Array.isArray(props.children)) {
+          label = props.children.join("");
+        } else if (props.children !== undefined && props.children !== null) {
+          label = props.children.toString();
+        }
+
         options.push({
-          label: props.children?.toString() || "",
+          label,
           value: props.value?.toString() || "",
           disabled: props.disabled,
         });
@@ -130,9 +139,9 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
           disabled={disabled}
           onClick={() => !disabled && setIsOpen(!isOpen)}
           className={cn(
-            "flex w-full items-center justify-between h-10 px-3 bg-card border rounded-md text-[13px] font-medium focus:outline-none focus:border-blue-500 transition-all cursor-pointer disabled:cursor-not-allowed disabled:opacity-50",
-            isOpen 
-              ? "border-blue-500 hover:border-blue-500" 
+            "flex w-full items-center justify-between h-9 px-3.5 bg-card border rounded-full text-[13px] font-medium focus:outline-none focus:border-blue-500 transition-all cursor-pointer disabled:cursor-not-allowed disabled:opacity-50",
+            isOpen
+              ? "border-blue-500 hover:border-blue-500"
               : "border-border hover:border-border",
             !selectedOption || selectedOption.value === ""
               ? "text-muted-foreground"
@@ -143,7 +152,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
           <span className="truncate">
             {selectedOption ? selectedOption.label : placeholder || "Select..."}
           </span>
-          <ChevronDown
+          <CaretDown
             className={cn(
               "w-4 h-4 text-muted-foreground transition-transform duration-200",
               isOpen && "rotate-180",
@@ -161,7 +170,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full h-8 px-2.5 text-[13px] bg-card border border-border rounded-md focus:outline-none focus:ring-0 focus:border-slate-200 placeholder:text-slate-400"
+                  className="w-full h-8 px-3 text-[13px] bg-card border border-border rounded-full focus:outline-none focus:ring-0 focus:border-blue-500 dark:focus:border-blue-500 placeholder:text-muted-foreground"
                 />
               </div>
             )}
@@ -181,13 +190,13 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
                         ? "opacity-50 cursor-not-allowed"
                         : "hover:bg-muted",
                       internalValue === option.value
-                        ? "text-blue-600 bg-blue-50/50 hover:bg-blue-50/50"
+                        ? "text-blue-600 bg-blue-50/50 hover:bg-blue-100/50 dark:text-blue-400 dark:bg-blue-500/10 dark:hover:bg-blue-500/20"
                         : "text-foreground",
                     )}
                   >
                     <span className="truncate">{option.label}</span>
                     {internalValue === option.value && (
-                      <Check className="w-4 h-4 text-blue-600" />
+                      <Check className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                     )}
                   </div>
                 ))

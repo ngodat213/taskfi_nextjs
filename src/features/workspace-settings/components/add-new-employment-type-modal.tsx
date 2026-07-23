@@ -1,4 +1,5 @@
-import { Briefcase, Loader2 } from "lucide-react";
+import { Briefcase, CircleNotch } from "@phosphor-icons/react/dist/ssr";
+;
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
@@ -17,7 +18,7 @@ import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import {
   useCreateEmploymentType,
   useUpdateEmploymentType,
-} from "@/features/employment-types/hooks/use-employment-types";
+} from "@/features/workspace-settings/hooks/use-employment-types";
 import { EmploymentType } from "@/types/workspace.types";
 import { useTranslations } from "next-intl";
 import {
@@ -143,7 +144,7 @@ export function AddNewEmploymentTypeModal({
                 variant={ButtonVariant.Primary}
                 disabled={isPending}
               >
-                {isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                {isPending && <CircleNotch className="w-4 h-4 mr-2 animate-spin" />}
                 {isEditing
                   ? isPending
                     ? t(ACT.saving)

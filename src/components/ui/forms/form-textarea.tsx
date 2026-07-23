@@ -4,7 +4,7 @@ import { InputLabel } from "@/components/ui/forms/input-label";
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { cn } from "@/utils/cn";
 
-export interface FormTextareaProps extends TextareaProps {
+export interface FormTextareaProps extends Omit<TextareaProps, "error"> {
   label?: React.ReactNode;
   required?: boolean;
   error?: string;

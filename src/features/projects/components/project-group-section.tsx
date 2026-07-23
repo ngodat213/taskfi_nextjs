@@ -1,6 +1,7 @@
 "use client";
+import { CircleNotch } from "@phosphor-icons/react/dist/ssr";
 
-import { Loader2 } from "lucide-react";
+;
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/data-display/badge";
@@ -34,7 +35,7 @@ export function ProjectGroupSection({
   if (isLoadingProjects) {
     content = (
       <div className="flex items-center justify-center p-8 bg-card border border-border rounded-lg">
-        <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+        <CircleNotch className="w-5 h-5 animate-spin text-muted-foreground" />
       </div>
     );
   } else if (groupProjects.length === 0) {
@@ -48,7 +49,7 @@ export function ProjectGroupSection({
       <div
         key={project.id}
         onClick={() => router.push(`/projects/${project.id}`)}
-        className="grid grid-cols-1 md:grid-cols-[2fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 md:gap-4 items-start md:items-center px-4 py-3 sm:py-2.5 bg-card border border-border rounded-lg shadow-[0_1px_2px_rgba(0,0,0,0.02)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-border transition-all duration-200 cursor-pointer group"
+        className="grid grid-cols-1 md:grid-cols-[2fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 md:gap-4 items-start md:items-center px-4 py-3 sm:py-2.5 bg-card border border-border/80 rounded-xl shadow-2xs hover:border-border transition-all duration-200 cursor-pointer group"
       >
         {/* Project Name */}
         <div className="flex items-start sm:items-center gap-3">
@@ -144,9 +145,9 @@ export function ProjectGroupSection({
         <span className="text-[13px] font-semibold text-foreground tracking-tight">
           {group.name}
         </span>
-        <div className="px-1.5 py-px bg-secondary text-muted-foreground rounded text-xs font-semibold uppercase ml-0.5 flex items-center justify-center min-w-[60px]">
+        <div className="px-1.5 py-px bg-secondary text-muted-foreground rounded text-xs font-semibold uppercase ml-0.5 flex items-center justify-center min-w-15">
           {isLoadingProjects ? (
-            <Loader2 className="w-2.5 h-2.5 animate-spin" />
+            <CircleNotch className="w-2.5 h-2.5 animate-spin" />
           ) : (
             t(TK.projectsCount, { count: groupProjects.length })
           )}

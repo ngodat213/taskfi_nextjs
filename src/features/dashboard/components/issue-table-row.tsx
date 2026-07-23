@@ -1,8 +1,9 @@
+import { CaretDown, CaretRight } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
 import { Issue } from "@/types/issue.types";
 import { cn } from "@/utils/cn";
 import { TableRow, TableCell } from "@/components/ui/data-display/table";
-import { ChevronDown, ChevronRight } from "lucide-react";
+;
 import {
   ISSUE_TYPE_CONFIG,
   PRIORITY_CONFIG,
@@ -50,7 +51,7 @@ export const StatusBadge = ({
     <Badge
       variant={variant}
       className={cn(
-        "font-bold px-2 py-0.5 rounded-[4px] text-[10px] uppercase tracking-wider",
+        "font-bold px-2 py-0.5 rounded-sm text-[10px] uppercase tracking-wider",
         className,
       )}
     >
@@ -136,16 +137,16 @@ export const IssueRow = ({
             <div className="w-5 h-5 flex items-center justify-center shrink-0">
               {hasChildren ? (
                 <button
-                  className="w-full h-full flex items-center justify-center rounded-[4px] hover:bg-secondary text-muted-foreground transition-colors bg-card border border-border shadow-sm z-10"
+                  className="w-full h-full flex items-center justify-center rounded-sm hover:bg-secondary text-muted-foreground transition-colors bg-card border border-border shadow-sm z-10"
                   onClick={(e) => {
                     e.stopPropagation();
                     toggleExpand(issue.id, e);
                   }}
                 >
                   {isExpanded ? (
-                    <ChevronDown className="w-3.5 h-3.5" />
+                    <CaretDown className="w-3.5 h-3.5" />
                   ) : (
-                    <ChevronRight className="w-3.5 h-3.5" />
+                    <CaretRight className="w-3.5 h-3.5" />
                   )}
                 </button>
               ) : null}
@@ -175,7 +176,7 @@ export const IssueRow = ({
         </TableCell>
         <TableCell>
           {hasChildren ? (
-            <div className="bg-secondary/80 text-muted-foreground rounded-[4px] inline-flex items-center justify-center text-[11px] px-1.5 py-0.5 font-bold">
+            <div className="bg-secondary/80 text-muted-foreground rounded-sm inline-flex items-center justify-center text-[11px] px-1.5 py-0.5 font-bold">
               {issue.children?.length}
             </div>
           ) : (
@@ -191,7 +192,7 @@ export const IssueRow = ({
           </div>
         </TableCell>
         <TableCell className="text-right pr-4">
-          <div className="w-[26px] h-[26px] rounded-full bg-secondary border border-border inline-flex items-center justify-center text-[10px] font-bold text-muted-foreground shadow-sm">
+          <div className="w-6.5 h-6.5 rounded-full bg-secondary border border-border inline-flex items-center justify-center text-[10px] font-bold text-muted-foreground shadow-sm">
             {issue.assigneeId
               ? issue.assigneeId.substring(0, 2).toUpperCase()
               : "UN"}

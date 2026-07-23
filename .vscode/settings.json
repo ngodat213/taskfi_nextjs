@@ -1,3 +1,6 @@
 {
-  "editor.rulers": []
+  "editor.rulers": [],
+  "tailwindCSS.suggestCanonical": false,
+  "tailwindCSS.lint.suggestCanonical": "ignore",
+  "tailwindCSS.lint.invalidArbitraryValue": "ignore"
 }

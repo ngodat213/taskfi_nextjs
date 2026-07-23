@@ -1,17 +1,22 @@
 "use client";
-
-import { useState } from "react";
 import {
   Plus,
-  Search,
-  ChevronDown,
-  ListTodo,
-  CalendarDays,
-  AlertCircle,
-  CalendarOff,
-} from "lucide-react";
+  MagnifyingGlass,
+  CaretDown,
+  Checks,
+  Calendar,
+  WarningCircle,
+  CalendarX,
+} from "@phosphor-icons/react/dist/ssr";
 
-import { Button, ButtonVariant, ButtonSize } from "@/components/ui/actions/button";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Button,
+  ButtonVariant,
+  ButtonSize,
+} from "@/components/ui/actions/button";
+import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
 import { PageHeader } from "@/components/ui/layout/page-header";
 import { SegmentedControl } from "@/components/ui/forms/segmented-control";
 import { MyTasksList } from "./my-tasks-list";
@@ -19,10 +24,10 @@ import { AddTaskModal } from "./add-task-modal";
 import { PageContainer } from "@/components/layout/page-container";
 
 const tabs = [
-  { id: "all", label: "All", icon: ListTodo },
-  { id: "due_today", label: "Due Today", icon: CalendarDays },
-  { id: "overdue", label: "Overdue", icon: AlertCircle },
-  { id: "no_due_date", label: "No Due Date", icon: CalendarOff },
+  { id: "all", label: "All", icon: Checks },
+  { id: "due_today", label: "Due Today", icon: Calendar },
+  { id: "overdue", label: "Overdue", icon: WarningCircle },
+  { id: "no_due_date", label: "No Due Date", icon: CalendarX },
 ];
 
 export function MyTasksView() {
@@ -60,13 +65,15 @@ export function MyTasksView() {
             {/* Filters */}
             <div className="flex flex-wrap items-center gap-2.5">
               <button className="h-8 px-3 flex items-center gap-2 bg-card border border-border rounded-lg text-[12.5px] font-medium text-muted-foreground hover:bg-muted hover:border-border transition-colors shadow-sm whitespace-nowrap">
-                <Search className="w-3.5 h-3.5 text-muted-foreground" /> Filter
+                <MagnifyingGlass className="w-3.5 h-3.5 text-muted-foreground" />{" "}
+                Filter
               </button>
               <button className="h-8 px-3 flex items-center gap-2 bg-card border border-border rounded-lg text-[12.5px] font-medium text-muted-foreground hover:bg-muted hover:border-border transition-colors shadow-sm whitespace-nowrap">
-                Sort <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
+                Sort <CaretDown className="w-3.5 h-3.5 text-muted-foreground" />
               </button>
               <button className="h-8 px-3 flex items-center gap-2 bg-card border border-border rounded-lg text-[12.5px] font-medium text-muted-foreground hover:bg-muted hover:border-border transition-colors shadow-sm whitespace-nowrap">
-                Customize <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
+                Customize{" "}
+                <CaretDown className="w-3.5 h-3.5 text-muted-foreground" />
               </button>
             </div>
           </div>
@@ -74,7 +81,17 @@ export function MyTasksView() {
 
         {/* Content Area */}
         <div className="flex-1 mt-2 lg:mt-0">
-          <MyTasksList activeTab={activeTab} />
+          <AnimatePresence mode="popLayout">
+            <motion.div
+              key={activeTab}
+              variants={TAB_CONTENT_VARIANTS}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <MyTasksList activeTab={activeTab} />
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
 

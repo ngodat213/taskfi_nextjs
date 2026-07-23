@@ -1,8 +1,9 @@
 "use client";
+import { Plus, MagnifyingGlass, Pulse } from "@phosphor-icons/react/dist/ssr";
 
 import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { Plus, Search, Activity } from "lucide-react";
 import { PageHeader } from "@/components/ui/layout/page-header";
 import { Select } from "@/components/ui/forms/select";
 import { SegmentedControl } from "@/components/ui/forms/segmented-control";
@@ -26,6 +27,7 @@ import { useProject } from "@/features/projects/hooks/use-project";
 import { useIssues } from "@/features/projects/hooks/use-issues";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { TRANSLATION_KEYS } from "@/constants/translations";
+import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
 import { IssueType, IssuePriority } from "@/types/issue.types";
 import { GetIssuesParams } from "@/services/issue.service";
 
@@ -134,7 +136,7 @@ export function DashboardView({ projectId }: { projectId: string }) {
       default:
         return (
           <div className="flex-1 flex items-center justify-center text-muted-foreground flex-col gap-3">
-            <Activity className="w-8 h-8 text-muted-foreground" />
+            <Pulse className="w-8 h-8 text-muted-foreground" />
             <p>Content for {activeTab} is coming soon.</p>
           </div>
         );
@@ -175,7 +177,7 @@ export function DashboardView({ projectId }: { projectId: string }) {
                       variant={ButtonVariant.Outline}
                       size={ButtonSize.Sm}
                     >
-                      <Activity className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
+                      <Pulse className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
                       {t(TRANSLATION_KEYS.DASHBOARD.standup)}
                     </Button>
                     <Button
@@ -202,7 +204,7 @@ export function DashboardView({ projectId }: { projectId: string }) {
                   {/* Filter Bar */}
                   <div className="flex flex-wrap items-center gap-3">
                     <div className="relative">
-                      <Search className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+                      <MagnifyingGlass className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
                       <Input
                         type="text"
                         placeholder={t(
@@ -210,7 +212,7 @@ export function DashboardView({ projectId }: { projectId: string }) {
                         )}
                         value={q}
                         onChange={(e) => setQ(e.target.value)}
-                        className="w-[240px] h-8 pl-8 pr-3 text-[12.5px]"
+                        className="w-60 h-8 pl-8 pr-3 text-[12.5px]"
                       />
                     </div>
 
@@ -290,9 +292,18 @@ export function DashboardView({ projectId }: { projectId: string }) {
 
           {/* Tab Content Area */}
           <div className="flex-1 overflow-hidden">
-            <div className="w-full h-full flex flex-col">
-              {renderTabContent()}
-            </div>
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                key={activeTab}
+                variants={TAB_CONTENT_VARIANTS}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="w-full h-full flex flex-col"
+              >
+                {renderTabContent()}
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           <CreateTaskModal

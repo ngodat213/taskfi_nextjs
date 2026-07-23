@@ -1,7 +1,8 @@
 "use client";
+import { CloudArrowUp, X, File as FileIcon } from "@phosphor-icons/react/dist/ssr";
 
 import React, { useRef, useState } from "react";
-import { UploadCloud, X, File as FileIcon } from "lucide-react";
+;
 import { cn } from "@/utils/cn";
 import { InputLabel } from "./input-label";
 
@@ -72,7 +73,7 @@ export function FileUploader({
         onDrop={onDrop}
         onClick={() => inputRef.current?.click()}
       >
-        <UploadCloud
+        <CloudArrowUp
           className={cn(
             "w-8 h-8",
             isDragging ? "text-blue-500" : "text-muted-foreground",

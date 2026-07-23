@@ -36,14 +36,14 @@ export function IssueListTab({
 
   if (isLoading) {
     return (
-      <div className="flex-1 overflow-y-auto px-6 py-6 bg-muted/50 flex items-center justify-center">
+      <div className="flex-1 overflow-y-auto px-6 py-6 bg-transparent flex items-center justify-center">
         <span className="text-muted-foreground">Loading...</span>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 overflow-y-auto px-6 py-6 bg-muted/50">
+    <div className="flex-1 overflow-y-auto px-6 py-6 bg-transparent">
       <div className="w-full">
         <div className="mb-6 flex items-center justify-between">
           <div>

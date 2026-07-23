@@ -18,13 +18,17 @@ interface BadgeProps {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  slate: "bg-secondary text-muted-foreground border-border/80",
-  blue: "bg-blue-50 text-blue-700 border-blue-200",
-  emerald: "bg-emerald-50 text-emerald-700 border-emerald-200",
-  amber: "bg-amber-50 text-amber-700 border-amber-200",
-  red: "bg-red-50 text-red-700 border-red-200",
-  purple: "bg-purple-50 text-purple-700 border-purple-200",
-  orange: "bg-orange-50 text-orange-700 border-orange-200",
+  slate: "bg-muted/80 text-muted-foreground border-border/50",
+  blue: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20",
+  emerald:
+    "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+  amber:
+    "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
+  red: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20",
+  purple:
+    "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20",
+  orange:
+    "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20",
 };
 
 const dotColors: Record<BadgeVariant, string> = {
@@ -32,7 +36,7 @@ const dotColors: Record<BadgeVariant, string> = {
   blue: "bg-blue-500",
   emerald: "bg-emerald-500",
   amber: "bg-amber-500",
-  red: "bg-red-500",
+  red: "bg-rose-500",
   purple: "bg-purple-500",
   orange: "bg-orange-500",
 };
@@ -46,7 +50,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[6px] text-[11.5px] font-medium border",
+        "inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10.5px] font-semibold border shrink-0 select-none",
         variantStyles[variant],
         className,
       )}
@@ -54,7 +58,7 @@ export function Badge({
       {dot && (
         <span
           className={cn(
-            "w-1.5 h-1.5 rounded-full flex-shrink-0",
+            "w-1.5 h-1.5 rounded-full shrink-0",
             dotColors[variant],
           )}
         />

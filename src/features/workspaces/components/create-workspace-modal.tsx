@@ -1,5 +1,5 @@
+import { Briefcase, CircleNotch } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
-import { Briefcase, Loader2 } from "lucide-react";
 import {
   Modal,
   ModalContent,
@@ -120,7 +120,7 @@ export function CreateWorkspaceModal({
                 value={newWorkspaceDesc}
                 onChange={(e) => setNewWorkspaceDesc(e.target.value)}
                 placeholder="Briefly describe what this workspace is for..."
-                className="min-h-[80px] resize-y text-[13px] focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/15 transition-all"
+                className="min-h-20 resize-y text-[13px] focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/15 transition-all"
               />
             </div>
           </ModalScrollArea>
@@ -139,7 +139,7 @@ export function CreateWorkspaceModal({
               className="px-5 py-2 bg-primary hover:bg-primary/90 text-white text-[13px] font-medium rounded-lg shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {(isCreating || isUploading) && (
-                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                <CircleNotch className="w-3.5 h-3.5 animate-spin" />
               )}
               Create Workspace
             </button>

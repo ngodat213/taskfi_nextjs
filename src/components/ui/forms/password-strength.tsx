@@ -1,4 +1,5 @@
-import { Check } from "lucide-react";
+import { Check } from "@phosphor-icons/react/dist/ssr";
+;
 import { useMemo } from "react";
 import { cn } from "@/utils/cn";
 

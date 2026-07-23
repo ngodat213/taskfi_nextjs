@@ -1,4 +1,4 @@
-import { CheckSquare, UploadCloud } from "lucide-react";
+import { CheckSquare, CloudArrowUp } from "@phosphor-icons/react/dist/ssr";
 import {
   Modal,
   ModalContent,
@@ -72,7 +72,7 @@ function AddTaskForm() {
           <Label>Description</Label>
           <Textarea
             placeholder="Add any details or requirements for this task..."
-            className="min-h-[160px] resize-y text-[13px] focus:border-blue-500 focus:ring-blue-500"
+            className="min-h-40 resize-y text-[13px] focus:border-blue-500 focus:ring-blue-500"
           />
         </div>
 
@@ -81,7 +81,7 @@ function AddTaskForm() {
           <div className="flex justify-center px-6 py-8 border-2 border-border border-dashed rounded-lg hover:border-blue-500 hover:bg-blue-50/50 transition-all cursor-pointer group">
             <div className="space-y-2 text-center flex flex-col items-center">
               <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center group-hover:bg-blue-100 transition-colors">
-                <UploadCloud className="h-5 w-5 text-muted-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
+                <CloudArrowUp className="h-5 w-5 text-muted-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
               </div>
               <div className="flex text-[13px] text-muted-foreground justify-center">
                 <span className="relative cursor-pointer rounded-md font-medium text-blue-600 hover:text-blue-700 focus-within:outline-none">

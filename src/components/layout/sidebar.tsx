@@ -1,52 +1,87 @@
 "use client";
 
-import { Link } from "@/i18n/routing";
-import { cn } from "@/utils/cn";
 import {
-  ListTree,
-  KanbanSquare,
-  FileText,
-  LineChart,
-  Settings,
-  ChevronLeft,
-  ChevronRight,
   Folder,
   CheckSquare,
-} from "lucide-react";
-import { usePathname } from "@/i18n/routing";
-import { useWorkspaceStore } from "@/store/workspace.store";
-import { useWorkspaces } from "@/features/workspaces/hooks/use-workspaces";
-import Image from "next/image";
-import { useState, useEffect } from "react";
-import { Workspace } from "@/types/workspace.types";
+  CalendarBlank,
+  BookOpen,
+  TreeStructure,
+  Kanban,
+  ChartLineUp,
+  FileText,
+  Gear,
+  ChartPie,
+  PaintBrush,
+  PenNib,
+  CaretDown,
+  CaretUp,
+} from "@phosphor-icons/react/dist/ssr";
+
+import { Link, usePathname } from "@/i18n/routing";
+import { cn } from "@/utils/cn";
+import { getInitials } from "@/utils/string";
+import { useState, useEffect, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNavigationStore } from "@/store/navigation.store";
+import { useUserStore } from "@/store/user.store";
+
+import { SidebarWorkspaceHeader } from "./sidebar-workspace-header";
+import { SidebarActionBar } from "./sidebar-action-bar";
+import { SidebarNavItem } from "./sidebar-nav-item";
+import { SidebarUserFooter } from "./sidebar-user-footer";
 
 const navItems = [
   { icon: Folder, label: "Projects", href: "/" },
   { icon: CheckSquare, label: "My tasks", href: "/my-tasks" },
-  { icon: ListTree, label: "Timeline", href: "/timeline" },
-  { icon: KanbanSquare, label: "Backlog", href: "/backlog" },
-  { icon: KanbanSquare, label: "Active sprints", href: "/active-sprints" },
-  { icon: LineChart, label: "Reports", href: "/reports" },
+  { icon: CalendarBlank, label: "Calendar", href: "/calendar" },
+  { icon: BookOpen, label: "Documents", href: "/docs" },
+  { icon: TreeStructure, label: "Timeline", href: "/timeline" },
+  { icon: Kanban, label: "Backlog", href: "/backlog" },
+  { icon: Kanban, label: "Active sprints", href: "/active-sprints" },
+  { icon: ChartLineUp, label: "Reports", href: "/reports" },
   { icon: FileText, label: "Issues", href: "/issues" },
 ];
 
+const recentItems = [
+  {
+    label: "Q1 Recap",
+    icon: ChartPie,
+    color: "text-amber-500",
+    href: "/calendar",
+  },
+  {
+    label: "Design Team Projects",
+    icon: PaintBrush,
+    color: "text-emerald-500",
+    href: "/active-sprints",
+  },
+  {
+    label: "UX Copy Writing",
+    icon: PenNib,
+    color: "text-purple-500",
+    href: "/issues",
+  },
+];
+
 export function Sidebar({
-  isOpen,
+  isOpen = false,
   onClose,
 }: {
   isOpen?: boolean;
   onClose?: () => void;
 }) {
   const pathname = usePathname();
-  const currentWorkspaceId = useWorkspaceStore(
-    (state) => state.activeWorkspaceId,
+  const stack = useNavigationStore((state) => state.stack);
+  const user = useUserStore((state) => state.user);
+
+  const currentNav = useMemo(
+    () => stack.find((item) => item.backLink === "/workspaces") || stack[0],
+    [stack],
   );
-  const { data: response } = useWorkspaces();
-  const workspaces = Array.isArray(response?.data)
-    ? response.data
-    : response?.data?.data || [];
 
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isRecentOpen, setIsRecentOpen] = useState(true);
+  const [isTeamsOpen, setIsTeamsOpen] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
@@ -55,172 +90,165 @@ export function Sidebar({
       }
     };
 
-    // Check initially
     handleResize();
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const currentWorkspace = workspaces.find(
-    (w: Workspace) => w.id === currentWorkspaceId,
-  );
-
   return (
     <>
       {/* Mobile Overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40 md:hidden"
-          onClick={onClose}
-        />
-      )}
-
-      {/* Sidebar Content */}
-      <aside
-        className={cn(
-          "shrink-0 border border-border/80 rounded-2xl bg-card/70 md:bg-card/50 backdrop-blur-md flex flex-col h-[calc(100dvh-24px)] my-3 ml-3 select-none group transition-all duration-300 z-50 overflow-hidden",
-          "fixed md:relative top-0 left-0",
-          isCollapsed ? "w-[72px]" : "w-[220px]",
-          isOpen
-            ? "translate-x-0"
-            : "-translate-x-[calc(100%+12px)] md:translate-x-0",
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-slate-900/30 backdrop-blur-xs z-40 md:hidden"
+            onClick={onClose}
+          />
         )}
-      >
-        {/* Project Header */}
-        <Link
-          href="/workspaces"
+      </AnimatePresence>
+
+      {/* Sidebar Wrapper */}
+      <div className="relative shrink-0 group/sidebar-wrapper my-3 ml-3">
+        {/* Sidebar Content */}
+        <motion.aside
+          animate={{
+            width: isCollapsed ? 72 : 230,
+          }}
+          transition={{
+            type: "spring",
+            stiffness: 380,
+            damping: 30,
+          }}
           className={cn(
-            "p-4 pt-6 flex items-center hover:bg-muted/80 transition-colors cursor-pointer group",
-            isCollapsed ? "justify-center" : "gap-3",
+            "border border-border/80 rounded-2xl bg-card shadow-2xs flex flex-col h-[calc(100dvh-24px)] select-none z-40 overflow-hidden relative",
+            "fixed md:relative top-0 left-0",
+            isOpen
+              ? "translate-x-0"
+              : "-translate-x-[calc(100%+12px)] md:translate-x-0",
           )}
         >
-          {currentWorkspace?.logoUrl ? (
-            <Image
-              src={currentWorkspace.logoUrl.replace("hhttps", "https")}
-              alt={currentWorkspace.name}
-              width={40}
-              height={40}
-              className="w-10 h-10 rounded-xl object-cover shrink-0 shadow-sm bg-secondary group-hover:shadow-md transition-shadow"
-            />
-          ) : (
-            <div className="w-10 h-10 rounded-xl bg-linear-to-tr from-emerald-400 to-emerald-600 flex items-center justify-center shrink-0 mt-0.5 shadow-sm group-hover:shadow-md transition-shadow">
-              <svg
-                className="w-5 h-5 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2.5}
-                  d="M4 6h16M4 12h16m-7 6h7"
-                />
-              </svg>
-            </div>
-          )}
-          {!isCollapsed && (
-            <>
-              <div className="flex flex-col overflow-hidden flex-1">
-                <span className="text-[14px] font-semibold text-foreground truncate tracking-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                  {currentWorkspace?.name}
-                </span>
-                <span className="text-[12.5px] text-muted-foreground truncate font-medium">
-                  {currentWorkspace?.description}
-                </span>
-              </div>
+          {/* Top Header Row Sub-component */}
+          <SidebarWorkspaceHeader
+            currentNav={currentNav}
+            userName={user?.name}
+            isCollapsed={isCollapsed}
+            onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
+            getInitials={getInitials}
+          />
 
-              <div className="w-6 h-6 rounded-md flex items-center justify-center bg-secondary/0 group-hover:bg-slate-200/50 transition-colors">
-                <svg
-                  className="w-4 h-4 text-muted-foreground group-hover:text-slate-600 transition-colors"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 9l4-4 4 4m0 6l-4 4-4-4"
-                  />
-                </svg>
-              </div>
-            </>
-          )}
-        </Link>
+          {/* Action Control Row Sub-component */}
+          <SidebarActionBar
+            isCollapsed={isCollapsed}
+            onNewClick={() => {}}
+            onSearchClick={() => {}}
+          />
 
-        {/* Navigation */}
-        <div className="px-3 py-2 flex-1 flex flex-col gap-1 overflow-y-auto">
-          {navItems.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
+          {/* Navigation Scrollable Body */}
+          <div className="px-2 py-2 flex-1 flex flex-col gap-0.5 overflow-y-auto overflow-x-hidden">
+            {/* Main Navigation Items */}
+            {navItems.map((item) => (
+              <SidebarNavItem
                 key={item.label}
+                icon={item.icon}
+                label={item.label}
                 href={item.href}
-                title={isCollapsed ? item.label : undefined}
-                className={cn(
-                  "flex items-center rounded-lg text-[13.5px] font-medium transition-all",
-                  isCollapsed
-                    ? "justify-center py-2.5 px-0"
-                    : "gap-3 px-3 py-2",
-                  isActive
-                    ? "bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)] dark:shadow-none ring-1 ring-blue-200/50 dark:ring-blue-500/20"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                )}
-              >
-                <item.icon
-                  className={cn(
-                    "w-[18px] h-[18px] shrink-0",
-                    isActive ? "text-blue-600" : "text-muted-foreground",
-                  )}
-                  strokeWidth={isActive ? 2 : 1.5}
-                />
-                {!isCollapsed && <span>{item.label}</span>}
-              </Link>
-            );
-          })}
+                isActive={pathname === item.href}
+                isCollapsed={isCollapsed}
+              />
+            ))}
 
-          <div className="my-3 border-t border-border/60 mx-3" />
-
-          <Link
-            href="/workspace-settings"
-            title={isCollapsed ? "Workspace settings" : undefined}
-            className={cn(
-              "flex items-center rounded-lg text-[13.5px] font-medium transition-all text-left w-full",
-              isCollapsed ? "justify-center py-2.5 px-0" : "gap-3 px-3 py-2",
-              pathname === "/workspace-settings"
-                ? "bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)] dark:shadow-none ring-1 ring-blue-200/50 dark:ring-blue-500/20"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground",
-            )}
-          >
-            <Settings
-              className={cn(
-                "w-[18px] h-[18px] shrink-0",
-                pathname === "/workspace-settings"
-                  ? "text-blue-600"
-                  : "text-muted-foreground",
-              )}
-              strokeWidth={pathname === "/workspace-settings" ? 2 : 1.5}
+            {/* Workspace Settings Item */}
+            <SidebarNavItem
+              icon={Gear}
+              label="Workspace settings"
+              href="/workspace-settings"
+              isActive={pathname === "/workspace-settings"}
+              isCollapsed={isCollapsed}
             />
-            {!isCollapsed && <span>Workspace settings</span>}
-          </Link>
-        </div>
 
-        {/* Collapse Handle (Desktop Only) */}
-        <div className="hidden md:block absolute right-0 top-10 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="w-6 h-6 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground shadow-sm transition-all"
-          >
-            {isCollapsed ? (
-              <ChevronRight className="w-3.5 h-3.5" strokeWidth={2.5} />
-            ) : (
-              <ChevronLeft className="w-3.5 h-3.5" strokeWidth={2.5} />
-            )}
-          </button>
-        </div>
-      </aside>
+            {/* Accordion Group: Recent */}
+            <AnimatePresence>
+              {!isCollapsed && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="mt-3 flex flex-col gap-0.5"
+                >
+                  <button
+                    onClick={() => setIsRecentOpen(!isRecentOpen)}
+                    className="px-3 py-1 text-[11.5px] font-semibold text-muted-foreground/80 hover:text-foreground flex items-center gap-1.5 transition-colors cursor-pointer select-none"
+                  >
+                    {isRecentOpen ? (
+                      <CaretUp className="w-3 h-3" />
+                    ) : (
+                      <CaretDown className="w-3 h-3" />
+                    )}
+                    <span>Recent</span>
+                  </button>
+
+                  {isRecentOpen &&
+                    recentItems.map((rec) => {
+                      const isActive = pathname === rec.href;
+                      return (
+                        <Link
+                          key={rec.label}
+                          href={rec.href}
+                          className={cn(
+                            "relative flex items-center gap-3 px-3 py-1.5 rounded-xl text-[13px] font-medium transition-all select-none group/recent cursor-pointer",
+                            isActive
+                              ? "text-foreground font-bold bg-secondary shadow-2xs"
+                              : "text-muted-foreground hover:text-foreground hover:bg-secondary/60",
+                          )}
+                        >
+                          <rec.icon
+                            className={cn("w-4 h-4 shrink-0", rec.color)}
+                          />
+                          <span className="truncate">{rec.label}</span>
+                        </Link>
+                      );
+                    })}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Accordion Group: Teams */}
+            <AnimatePresence>
+              {!isCollapsed && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="mt-2 flex flex-col gap-0.5"
+                >
+                  <button
+                    onClick={() => setIsTeamsOpen(!isTeamsOpen)}
+                    className="px-3 py-1 text-[11.5px] font-semibold text-muted-foreground/80 hover:text-foreground flex items-center gap-1.5 transition-colors cursor-pointer select-none"
+                  >
+                    {isTeamsOpen ? (
+                      <CaretUp className="w-3 h-3" />
+                    ) : (
+                      <CaretDown className="w-3 h-3" />
+                    )}
+                    <span>Teams</span>
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* User Profile Card Footer Sub-component */}
+          <SidebarUserFooter
+            user={user}
+            isCollapsed={isCollapsed}
+            getInitials={getInitials}
+          />
+        </motion.aside>
+      </div>
     </>
   );
 }

@@ -1,9 +1,9 @@
+import { Plus } from "@phosphor-icons/react/dist/ssr";
 import { useDroppable } from "@dnd-kit/core";
 import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { Plus } from "lucide-react";
 import { Issue } from "@/types/issue.types";
 import { SortableTaskCard } from "./sortable-task-card";
 
@@ -37,7 +37,7 @@ export function BoardColumn({
       className={
         isMobile
           ? "w-full flex flex-col rounded-xl"
-          : "flex-1 min-w-[300px] max-w-[340px] flex flex-col h-full rounded-xl"
+          : "flex-1 min-w-75 max-w-85 flex flex-col h-full rounded-xl"
       }
     >
       <div className="px-1 py-2 text-[13.5px] font-semibold text-foreground flex items-center justify-between mb-2">
@@ -66,8 +66,8 @@ export function BoardColumn({
         ref={setNodeRef}
         className={
           isMobile
-            ? "flex flex-row gap-3 overflow-x-auto pb-4 snap-x hide-scrollbar"
-            : "flex-1 overflow-y-auto flex flex-col gap-3 pb-4 min-h-[150px]"
+            ? "flex flex-row gap-3 overflow-x-auto pb-4 snap-x hide-scrollbar pt-1 px-0.5"
+            : "flex-1 overflow-y-auto flex flex-col gap-3 pt-1.5 pb-4 px-0.5 min-h-37.5"
         }
       >
         <SortableContext

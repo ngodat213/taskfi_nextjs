@@ -1,13 +1,13 @@
 import {
-  MoreHorizontal,
-  Calendar,
+  DotsThree,
+  CalendarBlank,
   MapPin,
   Folder,
   Users,
-  Loader2,
-  Pencil,
-  Trash2,
-} from "lucide-react";
+  CircleNotch,
+  PencilSimple,
+  Trash,
+} from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 import {
   Table,
@@ -71,8 +71,8 @@ export function MembersTable() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center p-8 min-h-[200px]">
-        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+      <div className="flex items-center justify-center p-8 min-h-50">
+        <CircleNotch className="w-6 h-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -101,7 +101,7 @@ export function MembersTable() {
         <TableBody>
           {members.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={6} className="h-[300px] p-0">
+              <TableCell colSpan={6} className="h-75 p-0">
                 <EmptyState
                   icon={Users}
                   title={t(TK.emptyTitle)}
@@ -173,7 +173,9 @@ export function MembersTable() {
                         <span className="text-foreground font-medium text-[12.5px]">
                           {m.jobTitle || t(TK.memberRoleDefault)}
                         </span>
-                        <span className="text-muted-foreground text-[10px]">•</span>
+                        <span className="text-muted-foreground text-[10px]">
+                          •
+                        </span>
                         <span className="text-muted-foreground text-[12px]">
                           {m.department || t(TK.departmentDefault)}
                         </span>
@@ -206,7 +208,7 @@ export function MembersTable() {
                         <span>{m.location || t(TK.notAvailable)}</span>
                       </div>
                       <div className="flex items-center gap-2 text-muted-foreground">
-                        <Calendar className="w-3.5 h-3.5 text-muted-foreground" />
+                        <CalendarBlank className="w-3.5 h-3.5 text-muted-foreground" />
                         <span>
                           {t(TK.joined)}{" "}
                           {new Date(m.createdAt).toLocaleDateString(locale, {
@@ -246,20 +248,20 @@ export function MembersTable() {
                           setIsEditModalOpen(true);
                         }}
                       >
-                        <Pencil className="w-4 h-4 text-blue-500" />
+                        <PencilSimple className="w-4 h-4 text-blue-500" />
                       </TableActionBtn>
                       <TableActionBtn
                         onClick={() => handleRemoveMember(m.userId)}
                         disabled={removeMutation.isPending}
                       >
                         {removeMutation.isPending ? (
-                          <Loader2 className="w-4 h-4 text-red-500 animate-spin" />
+                          <CircleNotch className="w-4 h-4 text-red-500 animate-spin" />
                         ) : (
-                          <Trash2 className="w-4 h-4 text-red-500" />
+                          <Trash className="w-4 h-4 text-red-500" />
                         )}
                       </TableActionBtn>
                       <TableActionBtn>
-                        <MoreHorizontal className="w-4 h-4" />
+                        <DotsThree className="w-4 h-4" />
                       </TableActionBtn>
                     </div>
                   </TableCell>

@@ -1,4 +1,6 @@
+import { CircleNotch } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
+import { motion, Variants } from "framer-motion";
 import {
   DndContext,
   DragEndEvent,
@@ -11,7 +13,6 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { Loader2 } from "lucide-react";
 
 import { BoardColumn } from "./board-column";
 import { useUpdateIssue } from "@/features/projects/hooks/use-issues";
@@ -19,6 +20,30 @@ import { TaskCard } from "./task-card";
 import { Issue } from "@/types/issue.types";
 import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
 import { useIsMobile } from "@/hooks/use-media-query";
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.04,
+    },
+  },
+};
+
+const columnVariants: Variants = {
+  hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.45,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
 
 interface DashboardBoardTabProps {
   projectId: string;
@@ -189,7 +214,7 @@ export function DashboardBoardTab({
   if (isLoading) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+        <CircleNotch className="w-6 h-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -210,7 +235,10 @@ export function DashboardBoardTab({
             : "flex-1 overflow-x-auto overflow-y-hidden px-6 py-4"
         }
       >
-        <div
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
           className={
             isMobile
               ? "flex flex-col gap-6 w-full pb-4"
@@ -218,16 +246,25 @@ export function DashboardBoardTab({
           }
         >
           {boardColumns.map((col) => (
-            <BoardColumn
+            <motion.div
               key={col.id}
-              col={col}
-              isMobile={isMobile}
-              q={q}
-              onIssueClick={onIssueClick}
-              onAddClick={onAddClick}
-            />
+              variants={columnVariants}
+              className={
+                isMobile
+                  ? "w-full"
+                  : "flex-1 min-w-75 max-w-85 flex flex-col h-full"
+              }
+            >
+              <BoardColumn
+                col={col}
+                isMobile={isMobile}
+                q={q}
+                onIssueClick={onIssueClick}
+                onAddClick={onAddClick}
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
       <DragOverlay
         dropAnimation={{
@@ -239,8 +276,8 @@ export function DashboardBoardTab({
           <div
             className={
               isMobile
-                ? "min-w-[220px] max-w-[220px] opacity-90 shadow-2xl rotate-2"
-                : "min-w-[300px] max-w-[340px] w-[320px] opacity-95 shadow-2xl scale-105 cursor-grabbing"
+                ? "min-w-55 max-w-55 opacity-90 shadow-2xl rotate-2"
+                : "min-w-75 max-w-85 w-[320px] opacity-95 shadow-2xl scale-105 cursor-grabbing"
             }
           >
             <TaskCard issue={activeIssueData} />

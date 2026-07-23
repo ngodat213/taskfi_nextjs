@@ -1,5 +1,6 @@
+import { Shield, Sparkle, CircleNotch } from "@phosphor-icons/react/dist/ssr";
 import { useEffect } from "react";
-import { Shield, Sparkles, Loader2 } from "lucide-react";
+;
 import {
   Modal,
   ModalContent,
@@ -197,7 +198,7 @@ export function AddNewRoleModal({
                       type="button"
                       className="flex items-center gap-1.5 text-[12px] font-medium text-blue-600 hover:text-blue-700 transition-colors"
                     >
-                      <Sparkles className="w-3.5 h-3.5" />
+                      <Sparkle className="w-3.5 h-3.5" />
                       {t(TRANSLATION_KEYS.modals.addRole.generateAi)}
                     </button>
                   </div>
@@ -232,7 +233,7 @@ export function AddNewRoleModal({
                 {t(TRANSLATION_KEYS.actions.cancel)}
               </Button>
               <Button type="submit" disabled={isPending}>
-                {isPending && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                {isPending && <CircleNotch className="w-3.5 h-3.5 animate-spin" />}
                 {isEditMode
                   ? t(TRANSLATION_KEYS.actions.save)
                   : t(TRANSLATION_KEYS.modals.addRole.btn)}

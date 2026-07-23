@@ -1,6 +1,5 @@
+import { Copy } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/actions/button";
-import { Copy } from "lucide-react";
-
 export function ProfileSetting() {
   return (
     <div className="space-y-5 w-full max-w-5xl">
@@ -22,7 +21,9 @@ export function ProfileSetting() {
               <Button className="w-fit bg-slate-900 text-white hover:bg-slate-800 text-[13px] h-8 px-4 rounded-md shadow-sm">
                 Upload picture
               </Button>
-              <p className="text-[12px] text-muted-foreground">PNG, JPEG under 2MB</p>
+              <p className="text-[12px] text-muted-foreground">
+                PNG, JPEG under 2MB
+              </p>
             </div>
           </div>
         </div>

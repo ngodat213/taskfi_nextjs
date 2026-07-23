@@ -1,4 +1,5 @@
-import { FileText, Sparkles, Loader2 } from "lucide-react";
+import { FileText, Sparkle, CircleNotch } from "@phosphor-icons/react/dist/ssr";
+;
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -26,8 +27,8 @@ import {
   InviteUserFormData,
 } from "@/features/workspace-settings/schema/user.schema";
 import { TRANSLATION_KEYS } from "@/constants/translations";
-import { useDepartments } from "@/features/departments/hooks/use-departments";
-import { useEmploymentTypes } from "@/features/employment-types/hooks/use-employment-types";
+import { useDepartments } from "@/features/workspace-settings/hooks/use-departments";
+import { useEmploymentTypes } from "@/features/workspace-settings/hooks/use-employment-types";
 import { Label } from "@/components/ui/forms/label";
 import { WorkspaceMember } from "@/types/workspace.types";
 
@@ -342,7 +343,7 @@ export function AddNewUserModal({
                       type="button"
                       className="flex items-center gap-1.5 text-[12px] font-medium text-blue-600 hover:text-blue-700 transition-colors"
                     >
-                      <Sparkles className="w-3.5 h-3.5" />
+                      <Sparkle className="w-3.5 h-3.5" />
                       {t(TK.generateAi)}
                     </button>
                   </div>
@@ -369,7 +370,7 @@ export function AddNewUserModal({
                 variant={ButtonVariant.Primary}
                 disabled={isPending}
               >
-                {isPending && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                {isPending && <CircleNotch className="w-3.5 h-3.5 animate-spin" />}
                 {isEditMode ? "Save Changes" : t(TK.btn)}
               </Button>
             </ModalFooter>

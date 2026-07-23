@@ -1,23 +1,23 @@
 import {
-  Zap,
-  Bookmark,
+  Lightning,
+  BookmarkSimple,
   CheckSquare,
-  BugIcon,
-  CornerDownRight,
-  AlertCircle,
-  ChevronUp,
-  Equal,
-  ChevronDown,
-  LayoutGrid,
-  ListTodo,
+  Bug,
+  ArrowElbowDownRight,
+  WarningCircle,
+  CaretUp,
+  Equals,
+  CaretDown,
+  SquaresFour,
+  Checks,
   FileText,
-  CheckCircle2,
-  BarChart2,
+  CheckCircle,
+  ChartBar,
   Users,
-  History,
-  Network,
+  ClockCounterClockwise,
+  Graph,
   Archive,
-} from "lucide-react";
+} from "@phosphor-icons/react/dist/ssr";
 import React from "react";
 import { IssueType, IssuePriority, IssueStatus } from "@/types/issue.types";
 
@@ -26,29 +26,35 @@ export const ISSUE_TYPE_CONFIG: Record<
   { icon: React.ElementType; colorClass: string }
 > = {
   [IssueType.EPIC]: {
-    icon: Zap,
-    colorClass: "text-purple-500 fill-purple-500",
+    icon: Lightning,
+    colorClass: "text-purple-600 dark:text-purple-400",
   },
   [IssueType.STORY]: {
-    icon: Bookmark,
-    colorClass: "text-emerald-500 fill-emerald-500",
+    icon: BookmarkSimple,
+    colorClass: "text-emerald-600 dark:text-emerald-400",
   },
   [IssueType.TASK]: {
     icon: CheckSquare,
-    colorClass: "text-blue-500 fill-blue-50",
+    colorClass: "text-blue-600 dark:text-blue-400",
   },
-  [IssueType.BUG]: { icon: BugIcon, colorClass: "text-red-500" },
-  [IssueType.SUBTASK]: { icon: CornerDownRight, colorClass: "text-muted-foreground" },
+  [IssueType.BUG]: {
+    icon: Bug,
+    colorClass: "text-rose-600 dark:text-rose-400",
+  },
+  [IssueType.SUBTASK]: {
+    icon: ArrowElbowDownRight,
+    colorClass: "text-muted-foreground",
+  },
 };
 
 export const PRIORITY_CONFIG: Record<
   string,
   { icon: React.ElementType; colorClass: string }
 > = {
-  [IssuePriority.CRITICAL]: { icon: AlertCircle, colorClass: "text-red-500" },
-  [IssuePriority.HIGH]: { icon: ChevronUp, colorClass: "text-orange-500" },
-  [IssuePriority.MEDIUM]: { icon: Equal, colorClass: "text-amber-500" },
-  [IssuePriority.LOW]: { icon: ChevronDown, colorClass: "text-blue-500" },
+  [IssuePriority.CRITICAL]: { icon: WarningCircle, colorClass: "text-red-500" },
+  [IssuePriority.HIGH]: { icon: CaretUp, colorClass: "text-orange-500" },
+  [IssuePriority.MEDIUM]: { icon: Equals, colorClass: "text-amber-500" },
+  [IssuePriority.LOW]: { icon: CaretDown, colorClass: "text-blue-500" },
 };
 
 export const STATUS_VARIANT_MAP: Record<
@@ -62,13 +68,13 @@ export const STATUS_VARIANT_MAP: Record<
 };
 
 export const DASHBOARD_TABS = [
-  { id: "Board", label: "Board", icon: LayoutGrid },
-  { id: "Backlog", label: "Backlog", icon: ListTodo },
+  { id: "Board", label: "Board", icon: SquaresFour },
+  { id: "Backlog", label: "Backlog", icon: Checks },
   { id: "Issues", label: "Issues", icon: FileText },
-  { id: "Done", label: "Done", icon: CheckCircle2 },
-  { id: "Reports", label: "Reports", icon: BarChart2 },
+  { id: "Done", label: "Done", icon: CheckCircle },
+  { id: "Reports", label: "Reports", icon: ChartBar },
   { id: "Workload", label: "Workload", icon: Users },
-  { id: "Retros", label: "Retros", icon: History },
-  { id: "Deps", label: "Deps", icon: Network },
+  { id: "Retros", label: "Retros", icon: ClockCounterClockwise },
+  { id: "Deps", label: "Deps", icon: Graph },
   { id: "Archived", label: "Archived", icon: Archive },
 ];

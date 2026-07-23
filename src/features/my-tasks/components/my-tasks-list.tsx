@@ -1,15 +1,8 @@
 "use client";
+import { CalendarBlank, DotsThree, CheckSquare, ArrowElbowDownRight, Bug, Stack, Checks } from "@phosphor-icons/react/dist/ssr";
 
 import { useState } from "react";
-import {
-  Calendar,
-  MoreHorizontal,
-  CheckSquare,
-  CornerDownRight,
-  Bug,
-  Layers,
-  ListTodo,
-} from "lucide-react";
+;
 import { cn } from "@/utils/cn";
 import { myTasks } from "./mock-data";
 import {
@@ -50,11 +43,11 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
             <CheckSquare className="w-3.5 h-3.5 text-blue-500" />
           )}
           {task.type === "Subtask" && (
-            <CornerDownRight className="w-3.5 h-3.5 text-muted-foreground" />
+            <ArrowElbowDownRight className="w-3.5 h-3.5 text-muted-foreground" />
           )}
           {task.type === "Bug" && <Bug className="w-3.5 h-3.5 text-red-500" />}
           {task.type === "Epic" && (
-            <Layers className="w-3.5 h-3.5 text-purple-500" />
+            <Stack className="w-3.5 h-3.5 text-purple-500" />
           )}
           <span className="text-[12px] font-medium">{task.type}</span>
         </div>
@@ -83,7 +76,7 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
               </span>
             </div>
             <div className="flex items-center gap-1.5 text-[11.5px] text-muted-foreground">
-              <Calendar className="w-3.5 h-3.5 text-muted-foreground" />
+              <CalendarBlank className="w-3.5 h-3.5 text-muted-foreground" />
               <span
                 className={cn(
                   isToday(task.dueDate) && "text-amber-600 font-medium",
@@ -115,7 +108,7 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
       {/* Due Date */}
       <TableCell className="hidden sm:table-cell align-middle">
         <div className="flex items-center gap-1.5 text-[12.5px] text-muted-foreground">
-          <Calendar className="w-3.5 h-3.5 text-muted-foreground" />
+          <CalendarBlank className="w-3.5 h-3.5 text-muted-foreground" />
           <span
             className={cn(
               isToday(task.dueDate) && "text-amber-600 font-medium",
@@ -147,7 +140,7 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
       {/* Actions */}
       <TableCell className="text-right align-middle pr-4">
         <button className="p-1.5 text-muted-foreground hover:text-foreground rounded-md hover:bg-secondary/60 transition-all opacity-0 group-hover:opacity-100">
-          <MoreHorizontal className="w-4 h-4" />
+          <DotsThree className="w-4 h-4" />
         </button>
       </TableCell>
     </TableRow>
@@ -164,7 +157,7 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
           {title === "Done" ? (
             <CheckSquare className="w-4 h-4 text-emerald-500" />
           ) : (
-            <ListTodo className="w-4 h-4 text-blue-500" />
+            <Checks className="w-4 h-4 text-blue-500" />
           )}
           {title}{" "}
           <span className="text-muted-foreground font-medium text-[12px] ml-1">

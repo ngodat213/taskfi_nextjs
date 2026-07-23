@@ -1,4 +1,5 @@
-import { MoreHorizontal, Pencil, Building2 } from "lucide-react";
+import { DotsThree, PencilSimple, Buildings, CircleNotch } from "@phosphor-icons/react/dist/ssr";
+;
 import {
   Table,
   TableHeader,
@@ -7,12 +8,12 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/data-display/table";
-import { useDepartments } from "@/features/departments/hooks/use-departments";
+import { useDepartments } from "@/features/workspace-settings/hooks/use-departments";
 import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { TableActionBtn } from "@/components/ui/data-display/table-action-btn";
 import { Department } from "@/types/workspace.types";
 import { useTranslations } from "next-intl";
-import { Loader2 } from "lucide-react";
+;
 import { TRANSLATION_KEYS } from "@/constants/translations";
 import { EntityMemberCount } from "@/features/workspace-settings/components/entity-member-count";
 import { useWorkspaceStore } from "@/store/workspace.store";
@@ -33,7 +34,7 @@ export function DepartmentsTable({ onEdit }: DepartmentsTableProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-8 min-h-[200px]">
-        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+        <CircleNotch className="w-6 h-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -41,7 +42,7 @@ export function DepartmentsTable({ onEdit }: DepartmentsTableProps) {
   if (departments.length === 0) {
     return (
       <EmptyState
-        icon={Building2}
+        icon={Buildings}
         title={t(TK.emptyTitle)}
         description={t(TK.emptyDesc)}
       />
@@ -53,7 +54,9 @@ export function DepartmentsTable({ onEdit }: DepartmentsTableProps) {
       <TableHeader>
         <TableRow>
           <TableHead>{t(TK.departmentName)}</TableHead>
-          <TableHead className="hidden sm:table-cell">{t(TK.members)}</TableHead>
+          <TableHead className="hidden sm:table-cell">
+            {t(TK.members)}
+          </TableHead>
           <TableHead className="w-10" />
         </TableRow>
       </TableHeader>
@@ -90,10 +93,10 @@ export function DepartmentsTable({ onEdit }: DepartmentsTableProps) {
             <TableCell className="text-right">
               <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <TableActionBtn onClick={() => onEdit?.(d)}>
-                  <Pencil className="w-4 h-4" />
+                  <PencilSimple className="w-4 h-4" />
                 </TableActionBtn>
                 <TableActionBtn>
-                  <MoreHorizontal className="w-4 h-4" />
+                  <DotsThree className="w-4 h-4" />
                 </TableActionBtn>
               </div>
             </TableCell>

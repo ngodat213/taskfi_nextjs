@@ -1,6 +1,7 @@
 "use client";
+import { Moon, Sun } from "@phosphor-icons/react/dist/ssr";
 
-import { Moon, Sun } from "lucide-react";
+;
 import { useTheme } from "next-themes";
 import { Button, ButtonVariant, ButtonSize } from "@/components/ui/actions/button";
 

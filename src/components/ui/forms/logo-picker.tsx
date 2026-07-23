@@ -1,6 +1,7 @@
+import { Plus } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
 import Image from "next/image";
-import { Plus } from "lucide-react";
+;
 import { cn } from "@/utils/cn";
 
 interface LogoPickerProps {

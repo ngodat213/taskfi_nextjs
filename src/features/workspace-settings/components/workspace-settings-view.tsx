@@ -1,15 +1,8 @@
 "use client";
+import { Users, Shield, SquaresFour, Buildings, Briefcase, Plus, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 
 import { useState } from "react";
-import {
-  Users,
-  Shield,
-  LayoutGrid,
-  Building2,
-  Briefcase,
-  Plus,
-  Search,
-} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Button,
   ButtonVariant,
@@ -21,6 +14,7 @@ import { PageHeader } from "@/components/ui/layout/page-header";
 import { SegmentedControl } from "@/components/ui/forms/segmented-control";
 import { useTranslations } from "next-intl";
 
+import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
 import { WorkspaceSettingsTab } from "@/features/workspace-settings/enums/workspace.enum";
 import { MembersTable } from "./members-table";
 import { GroupsTable } from "./groups-table";
@@ -55,13 +49,13 @@ export function WorkspaceSettingsView() {
     {
       id: WorkspaceSettingsTab.GROUPS,
       label: t(TK_TABS.groups),
-      icon: LayoutGrid,
+      icon: SquaresFour,
     },
     { id: WorkspaceSettingsTab.ROLES, label: t(TK_TABS.roles), icon: Shield },
     {
       id: WorkspaceSettingsTab.DEPARTMENTS,
       label: t(TK_TABS.departments),
-      icon: Building2,
+      icon: Buildings,
     },
     {
       id: WorkspaceSettingsTab.EMPLOYMENT_TYPES,
@@ -141,7 +135,7 @@ export function WorkspaceSettingsView() {
             {/* Quick Actions / Filters for Settings */}
             <div className="flex flex-wrap items-center gap-2.5">
               <div className="relative group">
-                <Search className="w-3.5 h-3.5 text-muted-foreground absolute left-2.5 top-1/2 -translate-y-1/2" />
+                <MagnifyingGlass className="w-3.5 h-3.5 text-muted-foreground absolute left-2.5 top-1/2 -translate-y-1/2" />
                 <Input
                   type="text"
                   placeholder={searchPlaceholders[activeTab]}
@@ -155,39 +149,49 @@ export function WorkspaceSettingsView() {
         {/* Content Area */}
         <div className="bg-card border border-border/60 rounded-lg shadow-sm overflow-hidden flex flex-col w-full h-fit">
           <div className="flex-1 p-0 overflow-x-auto">
-            {activeTab === WorkspaceSettingsTab.MEMBERS && <MembersTable />}
-            {activeTab === WorkspaceSettingsTab.GROUPS && (
-              <GroupsTable
-                onEdit={(group) => {
-                  setSelectedGroup(group);
-                  setIsAddGroupModalOpen(true);
-                }}
-              />
-            )}
-            {activeTab === WorkspaceSettingsTab.ROLES && (
-              <RolesTable
-                onEdit={(role) => {
-                  setSelectedRole(role);
-                  setIsAddRoleModalOpen(true);
-                }}
-              />
-            )}
-            {activeTab === WorkspaceSettingsTab.DEPARTMENTS && (
-              <DepartmentsTable
-                onEdit={(department) => {
-                  setSelectedDepartment(department);
-                  setIsAddDepartmentModalOpen(true);
-                }}
-              />
-            )}
-            {activeTab === WorkspaceSettingsTab.EMPLOYMENT_TYPES && (
-              <EmploymentTypesTable
-                onEdit={(et) => {
-                  setSelectedEmploymentType(et);
-                  setIsAddEmploymentTypeOpen(true);
-                }}
-              />
-            )}
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                key={activeTab}
+                variants={TAB_CONTENT_VARIANTS}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+              >
+                {activeTab === WorkspaceSettingsTab.MEMBERS && <MembersTable />}
+                {activeTab === WorkspaceSettingsTab.GROUPS && (
+                  <GroupsTable
+                    onEdit={(group) => {
+                      setSelectedGroup(group);
+                      setIsAddGroupModalOpen(true);
+                    }}
+                  />
+                )}
+                {activeTab === WorkspaceSettingsTab.ROLES && (
+                  <RolesTable
+                    onEdit={(role) => {
+                      setSelectedRole(role);
+                      setIsAddRoleModalOpen(true);
+                    }}
+                  />
+                )}
+                {activeTab === WorkspaceSettingsTab.DEPARTMENTS && (
+                  <DepartmentsTable
+                    onEdit={(department) => {
+                      setSelectedDepartment(department);
+                      setIsAddDepartmentModalOpen(true);
+                    }}
+                  />
+                )}
+                {activeTab === WorkspaceSettingsTab.EMPLOYMENT_TYPES && (
+                  <EmploymentTypesTable
+                    onEdit={(et) => {
+                      setSelectedEmploymentType(et);
+                      setIsAddEmploymentTypeOpen(true);
+                    }}
+                  />
+                )}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </div>
