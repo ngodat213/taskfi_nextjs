@@ -1,10 +1,11 @@
 "use client";
+import { Command } from "@phosphor-icons/react/dist/ssr";
 
 import { ForgotPasswordForm } from "@/features/auth/components/forgot-password-form";
 import { AuthLayout } from "@/features/auth/components/auth-layout";
 import { Link } from "@/i18n/routing";
 
-import { Command } from "lucide-react";
+;
 
 export default function ForgotPasswordPage() {
   return (

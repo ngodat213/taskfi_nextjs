@@ -4,7 +4,7 @@ import { InputLabel } from "@/components/ui/forms/input-label";
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { cn } from "@/utils/cn";
 
-export interface FormInputProps extends InputProps {
+export interface FormInputProps extends Omit<InputProps, "error"> {
   label?: React.ReactNode;
   error?: string;
   containerClassName?: string;

@@ -1,6 +1,7 @@
+import { X } from "@phosphor-icons/react/dist/ssr";
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { X } from "lucide-react";
+;
 import { cn } from "@/utils/cn";
 
 // Context to share onClose down to ModalHeader/Footer

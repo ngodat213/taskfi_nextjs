@@ -1,10 +1,11 @@
 "use client";
+import { Command } from "@phosphor-icons/react/dist/ssr";
 
 import { LoginForm } from "@/features/auth/components/login-form";
 import { AuthLayout } from "@/features/auth/components/auth-layout";
 import { Link } from "@/i18n/routing";
 
-import { Command } from "lucide-react";
+;
 import { useTranslations } from "next-intl";
 
 export default function LoginPage() {

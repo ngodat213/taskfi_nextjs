@@ -1,4 +1,5 @@
 "use client";
+import { TextB, TextItalic, TextStrikethrough, TextHTwo, List, ListNumbers, Code } from "@phosphor-icons/react/dist/ssr";
 
 import * as React from "react";
 import { useEditor, EditorContent, Editor } from "@tiptap/react";
@@ -7,15 +8,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { createLowlight, all } from "lowlight";
 import { cn } from "@/utils/cn";
-import {
-  Bold,
-  Italic,
-  Strikethrough,
-  Heading2,
-  List,
-  ListOrdered,
-  CodeXml,
-} from "lucide-react";
+;
 import "@/styles/code-theme.css";
 
 const lowlight = createLowlight(all);
@@ -46,27 +39,27 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}
         className={toggleBtnClass(editor.isActive("bold"))}
-        title="Bold"
+        title="TextB"
       >
-        <Bold size={16} />
+        <TextB size={16} />
       </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleItalic().run()}
         disabled={!editor.can().chain().focus().toggleItalic().run()}
         className={toggleBtnClass(editor.isActive("italic"))}
-        title="Italic"
+        title="TextItalic"
       >
-        <Italic size={16} />
+        <TextItalic size={16} />
       </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleStrike().run()}
         disabled={!editor.can().chain().focus().toggleStrike().run()}
         className={toggleBtnClass(editor.isActive("strike"))}
-        title="Strikethrough"
+        title="TextStrikethrough"
       >
-        <Strikethrough size={16} />
+        <TextStrikethrough size={16} />
       </button>
 
       <div className="w-px h-5 bg-border mx-1 self-center" />
@@ -77,7 +70,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         className={toggleBtnClass(editor.isActive("heading", { level: 2 }))}
         title="Heading"
       >
-        <Heading2 size={16} />
+        <TextHTwo size={16} />
       </button>
 
       <div className="w-px h-5 bg-border mx-1 self-center" />
@@ -96,7 +89,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         className={toggleBtnClass(editor.isActive("orderedList"))}
         title="Ordered List"
       >
-        <ListOrdered size={16} />
+        <ListNumbers size={16} />
       </button>
 
       <div className="w-px h-5 bg-border mx-1 self-center" />
@@ -107,7 +100,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         className={toggleBtnClass(editor.isActive("codeBlock"))}
         title="Code Block"
       >
-        <CodeXml size={16} />
+        <Code size={16} />
       </button>
     </div>
   );

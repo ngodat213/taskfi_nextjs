@@ -1,11 +1,6 @@
+import { Paperclip, File as FileIcon, X, ImageSquare as ImageIcon, Plus } from "@phosphor-icons/react/dist/ssr";
 import React, { useState, useRef, useCallback } from "react";
-import {
-  Paperclip,
-  File as FileIcon,
-  X,
-  Image as ImageIcon,
-  Plus,
-} from "lucide-react";
+;
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { cn } from "@/utils/cn";
 

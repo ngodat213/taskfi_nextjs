@@ -1,5 +1,6 @@
+import { WarningCircle } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/utils/cn";
-import { AlertCircle } from "lucide-react";
+;
 
 interface ErrorTooltipProps {
   message?: string;
@@ -22,7 +23,7 @@ export function ErrorTooltip({ message, className }: ErrorTooltipProps) {
     >
       <div className="absolute -top-1.5 left-4 w-3 h-3 bg-[#2B2B2B] border-t border-l border-[#404040] rotate-45 rounded-tl-[2px]" />
 
-      <AlertCircle
+      <WarningCircle
         className="w-[16px] h-[16px] text-[#FF5C5C] flex-shrink-0 mt-[1px]"
         strokeWidth={2.5}
       />

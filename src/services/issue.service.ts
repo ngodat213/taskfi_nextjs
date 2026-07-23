@@ -19,6 +19,7 @@ export interface GetIssuesParams extends PaginationParams {
   type?: string;
   status?: string;
   priority?: string;
+  hasParent?: boolean;
 }
 
 export const issueService = {

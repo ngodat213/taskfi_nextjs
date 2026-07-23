@@ -5,6 +5,7 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { TopNav } from "@/components/layout/top-nav";
 import { usePathname, useRouter } from "@/i18n/routing";
 import { useWorkspaceStore } from "@/store/workspace.store";
+import { motion } from "framer-motion";
 
 export default function DashboardLayout({
   children,
@@ -37,16 +38,23 @@ export default function DashboardLayout({
 
   return (
     <div className="flex h-screen overflow-hidden bg-background w-full">
+      {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="flex flex-col flex-1 overflow-hidden relative">
-        {/* Abstract Background Elements */}
-        <div className="absolute top-0 left-0 right-0 h-[600px] bg-gradient-to-br from-blue-100/40 via-sky-50/20 to-transparent blur-[100px] dark:hidden pointer-events-none z-0 opacity-70" />
-        <div className="absolute top-0 right-0 w-[600px] h-[500px] bg-gradient-to-bl from-sky-100/40 via-blue-50/20 to-transparent blur-[100px] dark:hidden pointer-events-none z-0 opacity-70" />
 
-        <div className="relative z-10 flex flex-col flex-1 h-full overflow-hidden">
+      {/* Main Content View Container */}
+      <div className="flex flex-col flex-1 overflow-hidden relative">
+        <div className="flex flex-col flex-1 h-full overflow-hidden">
           <TopNav onMenuClick={() => setSidebarOpen(true)} />
-          <main className="flex-1 overflow-y-auto relative z-10 w-full h-full">
-            {children}
+          <main className="flex-1 relative w-full h-full overflow-hidden">
+            <motion.div
+              key={pathname}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+              className="w-full h-full flex flex-col"
+            >
+              {children}
+            </motion.div>
           </main>
         </div>
       </div>
