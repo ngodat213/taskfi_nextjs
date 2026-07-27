@@ -60,7 +60,7 @@ export function DashboardBoardTab({
       ? statuses.map((s) => ({
           id: s.name.toLowerCase(),
           title: s.name,
-          color: s.color,
+          color: s.color || "#94a3b8",
           count: 0,
           issues: [] as Issue[],
         }))

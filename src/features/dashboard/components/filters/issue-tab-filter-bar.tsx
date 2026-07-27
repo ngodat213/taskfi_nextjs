@@ -7,6 +7,9 @@ import { IssueType, IssuePriority } from "@/types/issue.types";
 import { useTranslations } from "next-intl";
 import { TRANSLATION_KEYS } from "@/constants/translations";
 
+import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
+import { useWorkspaceStore } from "@/store/workspace.store";
+
 interface IssueTabFilterBarProps {
   q: string;
   onSearchChange: (val: string) => void;
@@ -29,6 +32,17 @@ export function IssueTabFilterBar({
   onPriorityChange,
 }: IssueTabFilterBarProps) {
   const t = useTranslations("Dashboard");
+
+  const activeWorkspaceId = useWorkspaceStore(
+    (state) => state.activeWorkspaceId,
+  );
+  const { data: configResponse } = useWorkspaceConfig(
+    activeWorkspaceId as string,
+  );
+
+  const dynamicTypes =
+    configResponse?.data?.issueTypes?.map((t) => t.name) ||
+    Object.values(IssueType);
 
   return (
     <div className="flex flex-wrap items-center gap-3">
@@ -75,9 +89,9 @@ export function IssueTabFilterBar({
             filter: t("filters.Type" as Parameters<typeof t>[0]),
           })}
         </option>
-        {Object.values(IssueType).map((type) => (
+        {dynamicTypes.map((type) => (
           <option key={type} value={type}>
-            {type.charAt(0).toUpperCase() + type.slice(1)}
+            {type}
           </option>
         ))}
       </Select>

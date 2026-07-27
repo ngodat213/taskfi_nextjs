@@ -19,29 +19,68 @@ import {
   Archive,
 } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
-import { IssueType, IssuePriority, IssueStatus } from "@/types/issue.types";
 
 export const ISSUE_TYPE_CONFIG: Record<
   string,
   { icon: React.ElementType; colorClass: string }
 > = {
-  [IssueType.EPIC]: {
+  epic: {
     icon: Lightning,
     colorClass: "text-purple-600 dark:text-purple-400",
   },
-  [IssueType.STORY]: {
+  story: {
     icon: BookmarkSimple,
     colorClass: "text-emerald-600 dark:text-emerald-400",
   },
-  [IssueType.TASK]: {
+  task: {
     icon: CheckSquare,
     colorClass: "text-blue-600 dark:text-blue-400",
   },
-  [IssueType.BUG]: {
+  bug: {
     icon: Bug,
     colorClass: "text-rose-600 dark:text-rose-400",
   },
-  [IssueType.SUBTASK]: {
+  subtask: {
+    icon: ArrowElbowDownRight,
+    colorClass: "text-muted-foreground",
+  },
+  EPIC: {
+    icon: Lightning,
+    colorClass: "text-purple-600 dark:text-purple-400",
+  },
+  STORY: {
+    icon: BookmarkSimple,
+    colorClass: "text-emerald-600 dark:text-emerald-400",
+  },
+  TASK: {
+    icon: CheckSquare,
+    colorClass: "text-blue-600 dark:text-blue-400",
+  },
+  BUG: {
+    icon: Bug,
+    colorClass: "text-rose-600 dark:text-rose-400",
+  },
+  SUBTASK: {
+    icon: ArrowElbowDownRight,
+    colorClass: "text-muted-foreground",
+  },
+  Epic: {
+    icon: Lightning,
+    colorClass: "text-purple-600 dark:text-purple-400",
+  },
+  Story: {
+    icon: BookmarkSimple,
+    colorClass: "text-emerald-600 dark:text-emerald-400",
+  },
+  Task: {
+    icon: CheckSquare,
+    colorClass: "text-blue-600 dark:text-blue-400",
+  },
+  Bug: {
+    icon: Bug,
+    colorClass: "text-rose-600 dark:text-rose-400",
+  },
+  Subtask: {
     icon: ArrowElbowDownRight,
     colorClass: "text-muted-foreground",
   },
@@ -51,20 +90,28 @@ export const PRIORITY_CONFIG: Record<
   string,
   { icon: React.ElementType; colorClass: string }
 > = {
-  [IssuePriority.CRITICAL]: { icon: WarningCircle, colorClass: "text-red-500" },
-  [IssuePriority.HIGH]: { icon: CaretUp, colorClass: "text-orange-500" },
-  [IssuePriority.MEDIUM]: { icon: Equals, colorClass: "text-amber-500" },
-  [IssuePriority.LOW]: { icon: CaretDown, colorClass: "text-blue-500" },
+  Critical: { icon: WarningCircle, colorClass: "text-red-500" },
+  High: { icon: CaretUp, colorClass: "text-orange-500" },
+  Medium: { icon: Equals, colorClass: "text-amber-500" },
+  Low: { icon: CaretDown, colorClass: "text-blue-500" },
+  critical: { icon: WarningCircle, colorClass: "text-red-500" },
+  high: { icon: CaretUp, colorClass: "text-orange-500" },
+  medium: { icon: Equals, colorClass: "text-amber-500" },
+  low: { icon: CaretDown, colorClass: "text-blue-500" },
 };
 
 export const STATUS_VARIANT_MAP: Record<
   string,
   "slate" | "blue" | "amber" | "emerald"
 > = {
-  [IssueStatus.TODO]: "slate",
-  [IssueStatus.IN_PROGRESS]: "blue",
-  [IssueStatus.IN_REVIEW]: "amber",
-  [IssueStatus.DONE]: "emerald",
+  "To Do": "slate",
+  "In Progress": "blue",
+  "In Review": "amber",
+  Done: "emerald",
+  todo: "slate",
+  in_progress: "blue",
+  in_review: "amber",
+  done: "emerald",
 };
 
 export const DASHBOARD_TABS = [

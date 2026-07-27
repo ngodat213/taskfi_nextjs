@@ -12,6 +12,8 @@ import {
   IssueRow,
   TypeIcon,
 } from "@/features/issues/components/issue-table-row";
+import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
+import { useWorkspaceStore } from "@/store/workspace.store";
 
 import {
   STAGGER_CONTAINER_VARIANTS,
@@ -38,18 +40,37 @@ export function IssueListTab({
 }: IssueListTabProps) {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
+  const activeWorkspaceId = useWorkspaceStore(
+    (state) => state.activeWorkspaceId,
+  );
+  const { data: configResponse } = useWorkspaceConfig(
+    activeWorkspaceId as string,
+  );
+
   const toggleExpand = React.useCallback((id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
   }, []);
 
+  const issueTypeNames = React.useMemo(() => {
+    if (
+      configResponse?.data?.issueTypes &&
+      configResponse.data.issueTypes.length > 0
+    ) {
+      return configResponse.data.issueTypes.map((t) => t.name);
+    }
+    return Object.values(IssueType);
+  }, [configResponse]);
+
   const groupedIssues = React.useMemo(() => {
     const map: Record<string, Issue[]> = {};
-    Object.values(IssueType).forEach((type) => {
-      map[type] = issues.filter((i) => i.type === type);
+    issueTypeNames.forEach((type) => {
+      map[type] = issues.filter(
+        (i) => (i.type || "").toLowerCase() === type.toLowerCase(),
+      );
     });
     return map;
-  }, [issues]);
+  }, [issues, issueTypeNames]);
 
   if (isLoading) {
     return (
@@ -67,7 +88,10 @@ export function IssueListTab({
       className="flex-1 overflow-y-auto px-6 py-6 bg-transparent"
     >
       <div className="w-full">
-        <motion.div variants={itemVariants} className="mb-6 flex items-center justify-between">
+        <motion.div
+          variants={itemVariants}
+          className="mb-6 flex items-center justify-between"
+        >
           <div>
             <h2 className="text-[18px] font-bold text-foreground tracking-tight">
               {title}
@@ -76,15 +100,19 @@ export function IssueListTab({
           </div>
         </motion.div>
 
-        {Object.values(IssueType).map((type) => {
+        {issueTypeNames.map((type) => {
           const typeIssues = groupedIssues[type] || [];
           if (typeIssues.length === 0) return null;
 
           return (
-            <motion.div key={type} variants={itemVariants} className="mb-8 last:mb-0">
+            <motion.div
+              key={type}
+              variants={itemVariants}
+              className="mb-8 last:mb-0"
+            >
               <h3 className="text-[14px] font-bold text-foreground capitalize mb-3 flex items-center gap-2">
-                <TypeIcon type={type as Issue["type"]} className="w-4 h-4" />
-                {type}s{" "}
+                <TypeIcon type={type} className="w-4 h-4" />
+                {type}{" "}
                 <span className="text-muted-foreground font-medium text-[12px] ml-1">
                   ({typeIssues.length})
                 </span>

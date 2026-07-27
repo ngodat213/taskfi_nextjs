@@ -1,4 +1,4 @@
-import { CaretDown, CaretRight } from "@phosphor-icons/react/dist/ssr";
+import { CaretDown, CaretRight, CheckSquare } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
 import { Issue } from "@/types/issue.types";
 import { cn } from "@/utils/cn";
@@ -10,7 +10,6 @@ import {
   STATUS_VARIANT_MAP,
 } from "@/features/dashboard/constants/issue-ui.constants";
 import { Badge } from "@/components/ui/data-display/badge";
-import { IssueStatus } from "@/types/issue.types";
 
 export const TypeIcon = ({
   type,
@@ -19,10 +18,16 @@ export const TypeIcon = ({
   type: Issue["type"];
   className?: string;
 }) => {
-  const config = ISSUE_TYPE_CONFIG[type];
-  if (!config) return null;
-  const Icon = config.icon;
-  return <Icon className={cn(config.colorClass, className)} />;
+  const normalizedKey = (type || "").toLowerCase().trim();
+  const config =
+    ISSUE_TYPE_CONFIG[type] ||
+    ISSUE_TYPE_CONFIG[normalizedKey] ||
+    ISSUE_TYPE_CONFIG.task;
+
+  const Icon = config ? config.icon : CheckSquare;
+  const colorClass = config ? config.colorClass : "text-blue-600 dark:text-blue-400";
+
+  return <Icon className={cn(colorClass, className)} />;
 };
 
 export const PriorityIcon = ({
@@ -45,7 +50,11 @@ export const StatusBadge = ({
   status: string;
   className?: string;
 }) => {
-  const variant = STATUS_VARIANT_MAP[status] || "slate";
+  const normalizedKey = (status || "").toLowerCase().trim();
+  const variant =
+    STATUS_VARIANT_MAP[normalizedKey] ||
+    STATUS_VARIANT_MAP[status] ||
+    "slate";
 
   return (
     <Badge
@@ -163,7 +172,7 @@ export const IssueRow = ({
           <span
             className={cn(
               "text-[13.5px] font-medium tracking-tight transition-colors line-clamp-1",
-              issue.status === IssueStatus.DONE
+              issue.status?.toLowerCase() === "done" || issue.status === "Done"
                 ? "text-muted-foreground line-through"
                 : "text-foreground group-hover:text-blue-700 dark:group-hover:text-blue-400",
             )}
