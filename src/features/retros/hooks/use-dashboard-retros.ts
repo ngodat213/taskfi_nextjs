@@ -18,7 +18,6 @@ import {
   mapDtoToRetroItem,
   filterRetroItems,
   groupRetroItemsByCategory,
-  INITIAL_FALLBACK_RETRO_ITEMS,
 } from "@/features/retros/utils/retro.utils";
 import {
   HEX_OBJECT_ID_REGEX,
@@ -68,7 +67,7 @@ export function useDashboardRetros({
         sentimentScore: activeSession.sentimentScore,
         totalPointsCompleted: activeSession.totalPointsCompleted,
         totalPointsPlanned: activeSession.totalPointsPlanned,
-        items: allItems.length > 0 ? allItems : INITIAL_FALLBACK_RETRO_ITEMS,
+        items: allItems,
       };
     }
 
@@ -79,7 +78,7 @@ export function useDashboardRetros({
       sentimentScore: DEFAULT_SENTIMENT_SCORE,
       totalPointsCompleted: 0,
       totalPointsPlanned: 0,
-      items: INITIAL_FALLBACK_RETRO_ITEMS,
+      items: [],
     };
   }, [activeSession, sessionDetailRes, selectedSprint]);
 

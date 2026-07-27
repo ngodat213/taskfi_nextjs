@@ -43,6 +43,10 @@ apiClient.interceptors.request.use(
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
 
+      if (config.data instanceof FormData) {
+        delete config.headers["Content-Type"];
+      }
+
       let locale = "en";
       if (typeof document !== "undefined") {
         const match = document.cookie.match(/(^| )NEXT_LOCALE=([^;]+)/);

@@ -8,6 +8,7 @@ import {
   DotsThree,
 } from "@phosphor-icons/react/dist/ssr";
 import { Avatar } from "@/components/ui/data-display/avatar";
+import { MarkdownPreview } from "@/components/ui/data-display/markdown-preview";
 import {
   Button,
   ButtonVariant,
@@ -16,7 +17,6 @@ import {
 import { LikeButton } from "@/components/ui/feedback/like-button";
 import { RetroComment } from "@/types/retro.types";
 import {
-  renderFormattedCommentContent,
   getUserAvatarUrl,
   getUserInitials,
 } from "@/features/issue-detail/utils/comment-user.utils";
@@ -96,12 +96,7 @@ export function RetroCommentItem({ comment, onReply }: RetroCommentItemProps) {
         </div>
 
         {/* Comment Body Content */}
-        <div
-          className="text-[13px] text-foreground/90 wrap-break-word leading-relaxed mt-1.5 [&_p]:mb-2 [&_p:last-child]:mb-0 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:mb-2 [&_h2]:mt-3 [&_h2:first-child]:mt-0 [&_ul]:list-disc [&_ul]:ml-4 [&_ul]:mb-2 [&_ol]:list-decimal [&_ol]:ml-4 [&_ol]:mb-2 [&_strong]:font-bold [&_em]:italic [&_pre]:bg-[var(--hljs-bg)] [&_pre]:text-[var(--hljs-fg)] [&_pre]:border [&_pre]:border-border/60 [&_pre]:p-3.5 [&_pre]:rounded-xl [&_pre]:my-2 [&_pre]:font-mono [&_pre]:text-xs [&_pre]:overflow-x-auto [&_code]:font-mono [&_code]:text-xs"
-          dangerouslySetInnerHTML={{
-            __html: renderFormattedCommentContent(comment.content),
-          }}
-        />
+        <MarkdownPreview content={comment.content} className="mt-1.5" />
 
         {/* Comment Actions Footer Bar */}
         <div className="flex items-center justify-between gap-3 mt-2">

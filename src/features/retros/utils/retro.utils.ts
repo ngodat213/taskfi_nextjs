@@ -6,42 +6,6 @@ import {
   mapBackendCategoryToFrontend,
 } from "@/types/retro.types";
 
-export const INITIAL_FALLBACK_RETRO_ITEMS: RetroItem[] = [
-  {
-    id: "retro-1",
-    category: "went_well",
-    title: "Tối ưu hóa tốc độ tải trang và hoàn thành Sprint 24 đúng hạn",
-    description: "Team đã nâng cao hiệu suất rendering UI và áp dụng Caching cho API Backend NestJS.",
-    votes: 5,
-    authorName: "Ngô Tiến",
-    tags: ["Frontend", "Performance", "Teamwork"],
-    completed: false,
-    createdAt: "Hôm nay",
-  },
-  {
-    id: "retro-2",
-    category: "to_improve",
-    title: "Cần cải thiện việc viết tài liệu API Swagger trước khi Code",
-    description: "Một số endpoint API chưa có mẫu DTO chuẩn khiến việc đấu nối mất nhiều thời gian.",
-    votes: 3,
-    authorName: "Minh Tuấn",
-    tags: ["API Docs", "Backend"],
-    completed: false,
-    createdAt: "Hôm nay",
-  },
-  {
-    id: "retro-3",
-    category: "action_item",
-    title: "Bổ sung Automated Test và CI/CD Pipeline cho dự án",
-    description: "Thiết lập GitHub Actions để kiểm tra npx tsc và eslint trước khi merge PR.",
-    votes: 8,
-    authorName: "Hoàng Nam",
-    tags: ["DevOps", "Quality Gate"],
-    completed: true,
-    createdAt: "Hôm nay",
-  },
-];
-
 export function mapDtoToRetroItem(i: RetroItemResponseDto): RetroItem {
   return {
     id: i.id,
@@ -60,7 +24,10 @@ export function mapDtoToRetroItem(i: RetroItemResponseDto): RetroItem {
   };
 }
 
-export function filterRetroItems(items: RetroItem[], searchQuery: string): RetroItem[] {
+export function filterRetroItems(
+  items: RetroItem[],
+  searchQuery: string,
+): RetroItem[] {
   if (!searchQuery.trim()) return items;
   const q = searchQuery.toLowerCase();
   return items.filter(
