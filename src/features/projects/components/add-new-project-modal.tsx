@@ -1,5 +1,4 @@
 import { FolderOpen, CircleNotch } from "@phosphor-icons/react/dist/ssr";
-;
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -21,7 +20,11 @@ import {
   createProjectSchema,
   CreateProjectFormData,
 } from "@/features/projects/schema/project.schema";
-import { useCreateProject } from "@/features/projects/hooks/use-projects";
+import { Project } from "@/types/project.types";
+import {
+  useCreateProject,
+  useUpdateProject,
+} from "@/features/projects/hooks/use-projects";
 import { useWorkspaceMembers } from "@/features/workspaces/hooks/use-workspaces";
 import { useGroups } from "@/features/workspace-settings/hooks/use-groups";
 import { useWorkspaceStore } from "@/store/workspace.store";
@@ -33,9 +36,11 @@ import { TRANSLATION_KEYS } from "@/constants/translations";
 export function AddNewProjectModal({
   isOpen,
   onClose,
+  projectToEdit,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  projectToEdit?: Project | null;
 }) {
   const t = useTranslations("Projects");
   const TK = TRANSLATION_KEYS.PROJECTS.addProject;
@@ -57,7 +62,8 @@ export function AddNewProjectModal({
   const [isUploading, setIsUploading] = useState(false);
 
   const { mutate: createProject, isPending: isCreating } = useCreateProject();
-  const isLoading = isCreating || isUploading;
+  const { mutate: updateProject, isPending: isUpdating } = useUpdateProject();
+  const isLoading = isCreating || isUpdating || isUploading;
 
   const {
     register,
@@ -73,28 +79,58 @@ export function AddNewProjectModal({
       name: "",
       projectType: "SOFTWARE",
       description: "",
-      logoUrl: "",
+      logoPublicId: "",
       leadId: "",
       groupId: "",
     },
   });
 
   const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+  const [prevProjectToEditId, setPrevProjectToEditId] = useState(
+    projectToEdit?.id,
+  );
 
-  if (isOpen !== prevIsOpen) {
+  if (isOpen !== prevIsOpen || projectToEdit?.id !== prevProjectToEditId) {
     setPrevIsOpen(isOpen);
+    setPrevProjectToEditId(projectToEdit?.id);
+
     if (isOpen) {
-      reset({
-        key: "",
-        name: "",
-        projectType: "SOFTWARE",
-        description: "",
-        logoUrl: "",
-        leadId: "",
-        groupId: "",
-      });
-      setLogoFile(null);
-      setLogoPreview("");
+      if (projectToEdit) {
+        const initialPreview =
+          projectToEdit.logo?.fileUrl ||
+          projectToEdit.logoUrl ||
+          (projectToEdit.logoPublicId?.startsWith("http")
+            ? projectToEdit.logoPublicId
+            : "");
+
+        reset({
+          key: projectToEdit.key || "",
+          name: projectToEdit.name || "",
+          projectType: projectToEdit.projectType || "SOFTWARE",
+          description: projectToEdit.description || "",
+          logoPublicId:
+            projectToEdit.logo?.publicId ||
+            projectToEdit.logoPublicId ||
+            projectToEdit.logoUrl ||
+            "",
+          leadId: projectToEdit.leadId || "",
+          groupId: projectToEdit.groupId || "",
+        });
+        setLogoPreview(initialPreview);
+        setLogoFile(null);
+      } else {
+        reset({
+          key: "",
+          name: "",
+          projectType: "SOFTWARE",
+          description: "",
+          logoPublicId: "",
+          leadId: "",
+          groupId: "",
+        });
+        setLogoFile(null);
+        setLogoPreview("");
+      }
     }
   }
 
@@ -111,13 +147,14 @@ export function AddNewProjectModal({
   };
 
   const onSubmit = async (data: CreateProjectFormData) => {
-    let finalLogoUrl = data.logoUrl;
+    let finalLogoPublicId = projectToEdit?.logoPublicId || data.logoPublicId;
+
     if (logoFile) {
       try {
         setIsUploading(true);
         const uploadRes = await uploadService.uploadImage(logoFile);
-        if (uploadRes.success && uploadRes.data?.url) {
-          finalLogoUrl = uploadRes.data.url;
+        if (uploadRes.success && uploadRes.data) {
+          finalLogoPublicId = uploadRes.data.url || uploadRes.data.publicId;
         }
       } catch (err) {
         console.error("Failed to upload logo:", err);
@@ -129,31 +166,39 @@ export function AddNewProjectModal({
     const { groupId, ...payload } = data;
     const finalPayload = {
       ...payload,
-      logoUrl: finalLogoUrl,
+      logoPublicId: finalLogoPublicId,
     };
 
-    createProject(
-      { groupId, data: finalPayload },
-      {
-        onSuccess: () => {
-          handleClose();
-        },
-        onError: (error: unknown) => {
-          const err = error as Error & {
-            response?: { data?: { message?: string | string[] } };
-          };
-          console.error("Failed to create project:", err);
-          const message =
-            err.response?.data?.message ||
-            err.message ||
-            "An unexpected error occurred.";
-          setError("root", {
-            type: "server",
-            message: Array.isArray(message) ? message[0] : message,
-          });
-        },
-      },
-    );
+    const handleSuccess = () => {
+      handleClose();
+    };
+
+    const handleError = (error: unknown) => {
+      const err = error as Error & {
+        response?: { data?: { message?: string | string[] } };
+      };
+      console.error("Failed to save project:", err);
+      const message =
+        err.response?.data?.message ||
+        err.message ||
+        "An unexpected error occurred.";
+      setError("root", {
+        type: "server",
+        message: Array.isArray(message) ? message[0] : message,
+      });
+    };
+
+    if (projectToEdit) {
+      updateProject(
+        { projectId: projectToEdit.id, data: finalPayload },
+        { onSuccess: handleSuccess, onError: handleError },
+      );
+    } else {
+      createProject(
+        { groupId, data: finalPayload },
+        { onSuccess: handleSuccess, onError: handleError },
+      );
+    }
   };
 
   return (
@@ -161,7 +206,7 @@ export function AddNewProjectModal({
       <ModalContent maxWidth="max-w-[650px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader
-            title={t(TK.title)}
+            title={projectToEdit ? "Chỉnh sửa dự án" : t(TK.title)}
             icon={<FolderOpen className="w-4 h-4" />}
           />
           <ModalBody>
@@ -316,7 +361,9 @@ export function AddNewProjectModal({
                 {t(TK.cancel)}
               </Button>
               <Button type="submit" disabled={isLoading}>
-                {isLoading && <CircleNotch className="w-3.5 h-3.5 animate-spin" />}
+                {isLoading && (
+                  <CircleNotch className="w-3.5 h-3.5 animate-spin" />
+                )}
                 {t(TK.submit)}
               </Button>
             </ModalFooter>

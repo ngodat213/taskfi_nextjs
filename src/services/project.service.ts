@@ -25,4 +25,13 @@ export const projectService = {
       { method: "POST", body: data },
     );
   },
+  updateProject: async (
+    projectId: string,
+    data: Partial<CreateProjectRequest>,
+  ) => {
+    return apiFetch<BaseResponse<Project>>(
+      `${API_ENDPOINTS.PROJECTS.BASE}/${projectId}`,
+      { method: "PATCH", body: data },
+    );
+  },
 };

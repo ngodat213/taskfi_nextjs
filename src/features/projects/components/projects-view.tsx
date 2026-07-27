@@ -25,6 +25,8 @@ import { PROJECT_VIEW_TABS } from "@/features/projects/constants";
 import { useTranslations } from "next-intl";
 import { TRANSLATION_KEYS } from "@/constants/translations";
 
+import { Project } from "@/types/project.types";
+
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
@@ -80,6 +82,7 @@ export function ProjectsView() {
   const TK = TRANSLATION_KEYS.PROJECTS.allProjects;
   const [activeTab, setActiveTab] = useState("list");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProject, setEditingProject] = useState<Project | null>(null);
 
   const { data: groupsResponse, isLoading: isLoadingGroups } = useGroups();
   const groups = groupsResponse?.data || [];
@@ -107,7 +110,13 @@ export function ProjectsView() {
   } else {
     content = groups.map((group) => (
       <motion.div key={group.id} variants={slideUpVariants}>
-        <ProjectGroupSection group={group} />
+        <ProjectGroupSection
+          group={group}
+          onEditProject={(project) => {
+            setEditingProject(project);
+            setIsModalOpen(true);
+          }}
+        />
       </motion.div>
     ));
   }
@@ -140,7 +149,10 @@ export function ProjectsView() {
                 variant={ButtonVariant.Primary}
                 size={ButtonSize.Sm}
                 className="w-fit"
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => {
+                  setEditingProject(null);
+                  setIsModalOpen(true);
+                }}
               >
                 {t(TK.newProject)}
                 <ArrowRight className="w-3 h-3" />
@@ -191,7 +203,11 @@ export function ProjectsView() {
 
       <AddNewProjectModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        projectToEdit={editingProject}
+        onClose={() => {
+          setIsModalOpen(false);
+          setEditingProject(null);
+        }}
       />
     </div>
   );

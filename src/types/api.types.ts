@@ -41,3 +41,12 @@ export interface UploadResponse {
   bytes: number;
   folder: string;
 }
+
+export interface UploadedFile {
+  uploaderId?: string;
+  fileUrl: string;
+  originalName?: string;
+  publicId?: string;
+  fileSize?: number;
+  mimeType?: string;
+}

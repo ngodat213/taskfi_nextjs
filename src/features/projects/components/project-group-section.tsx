@@ -1,21 +1,21 @@
-"use client";
-import { CircleNotch } from "@phosphor-icons/react/dist/ssr";
-
-;
+import { CircleNotch, PencilSimple } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/data-display/badge";
 import { Avatar } from "@/components/ui/data-display/avatar";
 import { AvatarGroup } from "@/components/ui/data-display/avatar-group";
 import { useProjects } from "@/features/projects/hooks/use-projects";
+import { Project } from "@/types/project.types";
 import { TRANSLATION_KEYS } from "@/constants/translations";
 import { APP_CONFIG } from "@/config/app.config";
 import { useRouter } from "next/navigation";
 
 export function ProjectGroupSection({
   group,
+  onEditProject,
 }: {
   group: { id: string; name: string };
+  onEditProject?: (project: Project) => void;
 }) {
   const t = useTranslations("Projects");
   const TK = TRANSLATION_KEYS.PROJECTS.allProjects;
@@ -54,9 +54,9 @@ export function ProjectGroupSection({
         {/* Project Name */}
         <div className="flex items-start sm:items-center gap-3">
           <div className="w-8 h-8 rounded-md border border-border flex items-center justify-center bg-card shadow-sm shrink-0 group-hover:border-blue-200 transition-colors mt-0.5 sm:mt-0 overflow-hidden">
-            {project.logoUrl ? (
+            {project.logo?.fileUrl || project.logoUrl ? (
               <Image
-                src={project.logoUrl}
+                src={project.logo?.fileUrl || project.logoUrl || ""}
                 alt={project.name}
                 width={32}
                 height={32}
@@ -73,7 +73,8 @@ export function ProjectGroupSection({
               {project.name}
             </span>
             <span className="text-[11.5px] text-muted-foreground line-clamp-1">
-              {project.key} <span className="mx-1 text-muted-foreground">•</span>{" "}
+              {project.key}{" "}
+              <span className="mx-1 text-muted-foreground">•</span>{" "}
               {project.description || t(TK.noDescription)}
             </span>
           </div>
@@ -96,8 +97,8 @@ export function ProjectGroupSection({
           </Badge>
         </div>
 
-        {/* Members */}
-        <div className="hidden md:flex items-center">
+        {/* Members & Actions */}
+        <div className="hidden md:flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <AvatarGroup
               mockCount={3}
@@ -108,27 +109,56 @@ export function ProjectGroupSection({
               1
             </span>
           </div>
+
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onEditProject?.(project);
+            }}
+            className="p-1.5 rounded-lg text-muted-foreground/70 hover:text-primary hover:bg-muted transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 cursor-pointer"
+            title="Edit Project"
+          >
+            <PencilSimple className="w-4 h-4" />
+          </button>
         </div>
 
         {/* Mobile Extra Info (Type, Group, Members inline for small screens) */}
-        <div className="flex md:hidden items-center gap-2 flex-wrap pl-11">
-          <Badge variant="blue" className="text-[10px] uppercase font-semibold">
-            {project.projectType}
-          </Badge>
-          <Badge
-            variant="slate"
-            className="text-[10px] uppercase font-semibold"
-          >
-            {group.name}
-          </Badge>
-          <div className="flex items-center gap-1.5 shrink-0">
-            <AvatarGroup
-              mockCount={1}
-              max={1}
-              avatarClassName="w-4 h-4 border border-white"
-            />
-            <span className="text-[11px] text-muted-foreground">1</span>
+        <div className="flex md:hidden items-center justify-between gap-2 pl-11 w-full">
+          <div className="flex items-center gap-2 flex-wrap">
+            <Badge
+              variant="blue"
+              className="text-[10px] uppercase font-semibold"
+            >
+              {project.projectType}
+            </Badge>
+            <Badge
+              variant="slate"
+              className="text-[10px] uppercase font-semibold"
+            >
+              {group.name}
+            </Badge>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <AvatarGroup
+                mockCount={1}
+                max={1}
+                avatarClassName="w-4 h-4 border border-white"
+              />
+              <span className="text-[11px] text-muted-foreground">1</span>
+            </div>
           </div>
+
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onEditProject?.(project);
+            }}
+            className="p-1 rounded-md text-muted-foreground/70 hover:text-primary hover:bg-muted transition-all cursor-pointer"
+            title="Edit Project"
+          >
+            <PencilSimple className="w-3.5 h-3.5" />
+          </button>
         </div>
       </div>
     ));
