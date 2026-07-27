@@ -5,8 +5,6 @@ import {
   TypeIcon,
   StatusBadge,
 } from "@/features/dashboard/components/issue-table-row";
-;
-
 interface IssueItemCardProps {
   issue:
     | Issue
@@ -37,7 +35,7 @@ export function IssueItemCard({ issue, onRemove }: IssueItemCardProps) {
         {onRemove && (
           <Button
             variant={ButtonVariant.Ghost}
-            className="h-6 w-6 p-0 text-muted-foreground opacity-0 group-hover:opacity-100 hover:text-red-500 hover:bg-red-50 transition-all"
+            className="h-6 w-6 p-0 text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-all"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
