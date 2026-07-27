@@ -1,5 +1,4 @@
 "use client";
-
 import {
   TextB,
   TextItalic,
@@ -8,11 +7,9 @@ import {
   List,
   ListNumbers,
   Code,
-  TextAa,
 } from "@phosphor-icons/react/dist/ssr";
 
 import * as React from "react";
-import { useState, useEffect } from "react";
 import { useEditor, EditorContent, Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -29,8 +26,8 @@ export interface TextEditorProps {
   onBlur?: () => void;
   placeholder?: string;
   className?: string;
-  rightAction?: React.ReactNode;
   collapsible?: boolean;
+  rightAction?: React.ReactNode;
 }
 
 const MenuBar = ({
@@ -51,96 +48,90 @@ const MenuBar = ({
     );
 
   return (
-    <div className="flex items-center justify-between border-b border-border/40 px-2 py-1 bg-card/60">
-      <div className="flex items-center gap-1">
+    <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border/60 p-2 bg-muted/80 rounded-b-lg">
+      <div className="flex flex-wrap items-center gap-1">
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
+          disabled={!editor.can().chain().focus().toggleBold().run()}
           className={toggleBtnClass(editor.isActive("bold"))}
-          title="Bold (Ctrl+B)"
+          title="Bold"
         >
-          <TextB className="w-4 h-4" />
+          <TextB size={16} />
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleItalic().run()}
+          disabled={!editor.can().chain().focus().toggleItalic().run()}
           className={toggleBtnClass(editor.isActive("italic"))}
-          title="Italic (Ctrl+I)"
+          title="Italic"
         >
-          <TextItalic className="w-4 h-4" />
+          <TextItalic size={16} />
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleStrike().run()}
+          disabled={!editor.can().chain().focus().toggleStrike().run()}
           className={toggleBtnClass(editor.isActive("strike"))}
           title="Strikethrough"
         >
-          <TextStrikethrough className="w-4 h-4" />
+          <TextStrikethrough size={16} />
         </button>
-        <div className="w-px h-4 bg-border/60 mx-1" />
+
+        <div className="w-px h-5 bg-border mx-1 self-center" />
+
         <button
           type="button"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
           className={toggleBtnClass(editor.isActive("heading", { level: 2 }))}
           title="Heading 2"
         >
-          <TextHTwo className="w-4 h-4" />
+          <TextHTwo size={16} />
         </button>
+
+        <div className="w-px h-5 bg-border mx-1 self-center" />
+
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={toggleBtnClass(editor.isActive("bulletList"))}
           title="Bullet List"
         >
-          <List className="w-4 h-4" />
+          <List size={16} />
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
           className={toggleBtnClass(editor.isActive("orderedList"))}
-          title="Numbered List"
+          title="Ordered List"
         >
-          <ListNumbers className="w-4 h-4" />
+          <ListNumbers size={16} />
         </button>
-        <div className="w-px h-4 bg-border/60 mx-1" />
+
+        <div className="w-px h-5 bg-border mx-1 self-center" />
+
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
           className={toggleBtnClass(editor.isActive("codeBlock"))}
           title="Code Block"
         >
-          <Code className="w-4 h-4" />
+          <Code size={16} />
         </button>
       </div>
 
-      {rightAction && <div className="flex items-center">{rightAction}</div>}
+      {rightAction && (
+        <div className="flex items-center gap-2">{rightAction}</div>
+      )}
     </div>
   );
 };
 
 export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
-  (
-    {
-      value = "",
-      onChange,
-      onBlur,
-      placeholder,
-      className,
-      rightAction,
-      collapsible = false,
-    },
-    ref,
-  ) => {
-    const [isExpanded, setIsExpanded] = useState(!collapsible);
-
-    useEffect(() => {
-      if (!collapsible) {
-        setIsExpanded(true);
-      }
-    }, [collapsible]);
-
+  ({ className, value, onChange, onBlur, placeholder, rightAction }, ref) => {
     const editor = useEditor({
-      immediatelyRender: false,
       extensions: [
         StarterKit.configure({
           codeBlock: false,
@@ -155,8 +146,8 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
         }),
       ],
       content: value,
-      onUpdate: ({ editor: ed }) => {
-        onChange?.(ed.getHTML());
+      onUpdate: ({ editor }) => {
+        onChange?.(editor.getHTML());
       },
       onBlur: () => {
         onBlur?.();
@@ -164,60 +155,23 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
       editorProps: {
         attributes: {
           class:
-            "focus:outline-none min-h-[90px] p-3 text-[13px] text-muted-foreground leading-relaxed [&_p]:mb-2 [&_p:last-child]:mb-0 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:mb-2 [&_h2]:mt-4 [&_h2:first-child]:mt-0 [&_ul]:list-disc [&_ul]:ml-4 [&_ul]:mb-2 [&_ol]:list-decimal [&_ol]:ml-4 [&_ol]:mb-2 [&_strong]:font-bold [&_em]:italic [&_pre]:bg-[var(--hljs-bg)] [&_pre]:text-[var(--hljs-fg)] [&_pre]:border [&_pre]:border-slate-200 dark:[&_pre]:border-slate-700/50 [&_pre]:p-3 [&_pre]:rounded-md [&_pre]:my-2 [&_pre]:font-mono [&_pre]:text-xs [&_pre]:overflow-x-auto",
+            "focus:outline-none min-h-[120px] p-3 text-[13px] text-muted-foreground leading-relaxed [&_p]:mb-2 [&_p:last-child]:mb-0 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:mb-2 [&_h2]:mt-4 [&_h2:first-child]:mt-0 [&_ul]:list-disc [&_ul]:ml-4 [&_ul]:mb-2 [&_ol]:list-decimal [&_ol]:ml-4 [&_ol]:mb-2 [&_strong]:font-bold [&_em]:italic [&_pre]:bg-[var(--hljs-bg)] [&_pre]:text-[var(--hljs-fg)] [&_pre]:border [&_pre]:border-slate-200 dark:[&_pre]:border-slate-700/50 [&_pre]:p-3 [&_pre]:rounded-md [&_pre]:my-2 [&_pre]:font-mono [&_pre]:text-xs [&_pre]:overflow-x-auto",
         },
       },
     });
-
-    const handleExpand = () => {
-      setIsExpanded(true);
-      setTimeout(() => editor?.commands.focus(), 50);
-    };
-
-    if (collapsible && !isExpanded) {
-      return (
-        <div
-          ref={ref}
-          onClick={handleExpand}
-          className={cn(
-            "w-full bg-card hover:bg-muted/50 transition-colors rounded-xl border border-border/60 px-3.5 py-2 flex items-center justify-between gap-3 cursor-pointer group shadow-2xs",
-            className,
-          )}
-        >
-          <span className="text-[13px] text-muted-foreground font-normal truncate flex-1 min-w-0">
-            {placeholder || "Add a comment..."}
-          </span>
-          <div className="flex items-center gap-1.5 shrink-0">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleExpand();
-              }}
-              className="p-1 rounded-lg text-muted-foreground/80 hover:text-foreground hover:bg-muted transition-colors"
-              title="Formatting & Rich Editor"
-            >
-              <TextAa className="w-4 h-4" />
-            </button>
-            {rightAction}
-          </div>
-        </div>
-      );
-    }
 
     return (
       <div
         ref={ref}
         className={cn(
-          "w-full bg-card transition-colors rounded-xl border border-border/60 focus-within:border-primary/50 flex flex-col overflow-hidden shadow-2xs",
+          "w-full bg-muted/30 transition-colors rounded-lg border border-border/60 focus-within:border-blue-500 flex flex-col overflow-hidden",
           className,
         )}
       >
-        <MenuBar editor={editor} rightAction={rightAction} />
         <EditorContent editor={editor} className="flex-1 cursor-text" />
+        <MenuBar editor={editor} rightAction={rightAction} />
       </div>
     );
   },
 );
-
 TextEditor.displayName = "TextEditor";
