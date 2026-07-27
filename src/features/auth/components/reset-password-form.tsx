@@ -1,7 +1,6 @@
 "use client";
 
 import { useForm, useWatch } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/actions/button";
 import { Input } from "@/components/ui/forms/input";
@@ -12,22 +11,18 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/routing";
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { PasswordStrength } from "@/components/ui/forms/password-strength";
-import { Suspense, useEffect, useMemo } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-
-const getResetPasswordSchema = (t: ReturnType<typeof useTranslations>) =>
-  z.object({
-    email: z.string().email(t("invalid_email")),
-    otp: z.string().min(6, t("min_code")),
-    newPassword: z.string().min(6, t("min_password")),
-  });
-
-type ResetPasswordValues = z.infer<ReturnType<typeof getResetPasswordSchema>>;
+import {
+  getResetPasswordSchema,
+  ResetPasswordValues,
+} from "@/features/auth/schemas/auth.schema";
 
 function ResetPasswordFormInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const emailQuery = searchParams.get("email");
+  const [isSuccess, setIsSuccess] = useState(false);
   const t = useTranslations("Validation");
   const resetPasswordSchema = useMemo(() => getResetPasswordSchema(t), [t]);
 
@@ -37,7 +32,7 @@ function ResetPasswordFormInner() {
     setError,
     setValue,
     control,
-    formState: { errors, isValid, isSubmitSuccessful },
+    formState: { errors, isValid },
   } = useForm<ResetPasswordValues>({
     resolver: zodResolver(resetPasswordSchema),
     mode: "onChange",
@@ -55,15 +50,23 @@ function ResetPasswordFormInner() {
   const { mutate: resetPassword, isPending: isLoading } = useResetPassword();
 
   const onSubmit = (data: ResetPasswordValues) => {
-    resetPassword(data, {
-      onSuccess: () => {},
+    const payload = {
+      email: data.email.trim().toLowerCase(),
+      otp: data.otp,
+      newPassword: data.newPassword,
+    };
+
+    resetPassword(payload, {
+      onSuccess: () => {
+        setIsSuccess(true);
+      },
       onError: (err) => handleFormError(err, setError),
     });
   };
 
   const newPassword = useWatch({ control, name: "newPassword" });
 
-  if (isSubmitSuccessful) {
+  if (isSuccess) {
     return (
       <div className="w-full text-center space-y-4">
         <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-2xl">
@@ -114,7 +117,9 @@ function ResetPasswordFormInner() {
             type="text"
             placeholder="123456"
             {...register("otp")}
-            className={errors.otp ? "border-destructive focus:ring-destructive/20" : ""}
+            className={
+              errors.otp ? "border-destructive focus:ring-destructive/20" : ""
+            }
           />
           <ErrorTooltip message={errors.otp?.message} />
         </div>
@@ -126,7 +131,9 @@ function ResetPasswordFormInner() {
             placeholder="••••••••••••"
             {...register("newPassword")}
             className={
-              errors.newPassword ? "border-destructive focus:ring-destructive/20" : ""
+              errors.newPassword
+                ? "border-destructive focus:ring-destructive/20"
+                : ""
             }
           />
           <ErrorTooltip message={errors.newPassword?.message} />

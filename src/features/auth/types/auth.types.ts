@@ -6,7 +6,12 @@ export interface LoginRequest {
 export interface SignupRequest {
   email: string;
   password?: string;
+  full_name: string;
   username?: string;
+}
+
+export interface LogoutRequest {
+  logoutAll?: boolean;
 }
 
 export interface VerifyEmailRequest {
