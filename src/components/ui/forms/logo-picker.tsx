@@ -1,7 +1,4 @@
 import { Plus } from "@phosphor-icons/react/dist/ssr";
-import React from "react";
-import Image from "next/image";
-;
 import { cn } from "@/utils/cn";
 
 interface LogoPickerProps {
@@ -17,12 +14,26 @@ export function LogoPicker({
   changeLabel = "Change",
   className,
 }: LogoPickerProps) {
+  const isValidPreview =
+    Boolean(previewUrl) &&
+    typeof previewUrl === "string" &&
+    (previewUrl.startsWith("http://") ||
+      previewUrl.startsWith("https://") ||
+      previewUrl.startsWith("/") ||
+      previewUrl.startsWith("blob:") ||
+      previewUrl.startsWith("data:"));
+
   return (
     <div className={cn("flex justify-center mb-2", className)}>
       <div className="relative w-[72px] h-[72px] rounded-full bg-muted border border-dashed border-border flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 hover:text-blue-600 transition-all cursor-pointer group overflow-hidden shadow-sm">
-        {previewUrl ? (
+        {isValidPreview ? (
           <>
-            <Image src={previewUrl} alt="Logo" fill className="object-cover" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={previewUrl}
+              alt="Logo"
+              className="w-full h-full object-cover"
+            />
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10">
               <span className="text-white text-[11px] font-medium">
                 {changeLabel}

@@ -1,39 +1,44 @@
-import { ChatCircle, Pulse } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
-import { Select } from "@/components/ui/forms/select";
+import { SearchSelect } from "@/components/ui/forms/search-select";
 import { TextEditor } from "@/components/ui/forms/text-editor";
 import { AttachmentUploader } from "@/components/ui/forms/attachment-uploader";
 import { useIssues } from "@/features/projects/hooks/use-issues";
-import { SegmentedControl } from "@/components/ui/forms/segmented-control";
 import { Issue } from "@/types/issue.types";
 import { IssueItemCard } from "./issue-item-card";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { IssueSubtasks } from "./issue-subtasks";
 import { IssueLinkedIssues } from "./issue-linked-issues";
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+
+import { useDeleteImage } from "@/hooks/use-upload";
+import { getPublicIdFromAttachment } from "@/utils/cloudinary";
+
+import { IssueComments } from "./issue-comments";
 
 interface IssueMainContentProps {
   issue: Issue;
   projectId: string;
   onUpdate: (field: keyof Issue, value: unknown) => void;
+  fieldErrors?: Record<string, string>;
 }
 
 export function IssueMainContent({
   issue,
   projectId,
   onUpdate,
+  fieldErrors,
 }: IssueMainContentProps) {
+  const deleteImageMutation = useDeleteImage();
   const [searchQuery, setSearchQuery] = useState("");
   const { data: issuesResponse } = useIssues(projectId, {
     limit: 50,
     search: searchQuery || undefined,
-    hasParent: false,
+    childType: issue.type,
   });
   const allIssues = issuesResponse?.data?.data || [];
 
   const [desc, setDesc] = useState(issue.description || "");
   const [attachments, setAttachments] = useState<File[]>([]);
   const [prevDescProp, setPrevDescProp] = useState(issue.description);
-  const [activeTab, setActiveTab] = useState("comments");
 
   if (issue.description !== prevDescProp) {
     setPrevDescProp(issue.description);
@@ -49,7 +54,7 @@ export function IssueMainContent({
   return (
     <div className="flex-1 flex flex-col gap-5">
       {/* Parent Task */}
-      <div className="flex flex-col items-start gap-1.5 w-full">
+      <div className="flex flex-col items-start gap-1.5 w-full relative">
         <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
           Parent Task
         </h3>
@@ -67,29 +72,29 @@ export function IssueMainContent({
             );
           }
 
+          const parentOptions = allIssues
+            .filter((i) => i.id !== issue.id)
+            .map((i) => ({
+              value: i.id,
+              label: `${i.issueKey} - ${i.summary}`,
+            }));
+
           return (
-            <Select
+            <SearchSelect
+              options={parentOptions}
               value=""
               onChange={(val) => onUpdate("parentId", val || null)}
+              placeholder="+ Add Parent Task"
               className="h-8 text-[13px] min-w-50 font-medium"
-              searchable
               onSearchChange={setSearchQuery}
-            >
-              <option value="">+ Add Parent Task</option>
-              {allIssues
-                .filter((i) => i.id !== issue.id)
-                .map((i) => (
-                  <option key={i.id} value={i.id}>
-                    {i.issueKey} - {i.summary}
-                  </option>
-                ))}
-            </Select>
+            />
           );
         })()}
+        <ErrorTooltip message={fieldErrors?.parentId} />
       </div>
 
       {/* Description */}
-      <div>
+      <div className="relative">
         <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">
           Description
         </h3>
@@ -99,10 +104,32 @@ export function IssueMainContent({
           onBlur={handleDescBlur}
           placeholder="Add a description..."
         />
+        <ErrorTooltip message={fieldErrors?.description} />
       </div>
 
       {/* Attachments */}
-      <AttachmentUploader value={attachments} onChange={setAttachments} />
+      <AttachmentUploader
+        attachments={issue.attachments}
+        value={attachments}
+        uploaderId={issue.reporterId}
+        error={fieldErrors?.attachments}
+        onChange={setAttachments}
+        onAttachmentsChange={(newAttachments) => {
+          onUpdate("attachments", newAttachments);
+        }}
+        onRemoveAttachment={(att) => {
+          const publicId = getPublicIdFromAttachment(att);
+          if (publicId) {
+            deleteImageMutation.mutate(publicId);
+          }
+          const targetUrl = typeof att === "string" ? att : att.fileUrl;
+          const current = (issue.attachments || []).filter((a) => {
+            const url = typeof a === "string" ? a : a.fileUrl;
+            return url !== targetUrl;
+          });
+          onUpdate("attachments", current);
+        }}
+      />
 
       {/* Subtasks */}
       <IssueSubtasks projectId={projectId} parentId={issue.id} />
@@ -114,40 +141,13 @@ export function IssueMainContent({
         onUpdate={onUpdate}
       />
 
-      {/* Tabs for Comments & Activity */}
-      <div className="mt-2">
-        <SegmentedControl
-          tabs={[
-            { id: "comments", label: "Comments", icon: ChatCircle },
-            { id: "activity", label: "Activity", icon: Pulse },
-          ]}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
+      {/* Comments Section */}
+      <div className="flex flex-col gap-2 mt-2">
+        <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+          Comments
+        </h3>
+        <IssueComments issue={issue} />
       </div>
-
-      {activeTab === "comments" && (
-        <div className="flex flex-col gap-4 mt-2 animate-in fade-in duration-200">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground text-[12px] font-medium shrink-0">
-              U
-            </div>
-            <div className="flex-1 bg-muted/50 rounded-lg border border-border/60 px-4 py-3 text-[13px] text-muted-foreground italic">
-              Write a comment... (Coming soon)
-            </div>
-          </div>
-        </div>
-      )}
-
-      {activeTab === "activity" && (
-        <div className="flex flex-col gap-4 mt-2 animate-in fade-in duration-200">
-          <EmptyState
-            title="No activity yet"
-            description="Activity history will appear here."
-            className="py-6 px-5 sm:p-6 bg-muted/50 border border-border/60 rounded-xl"
-          />
-        </div>
-      )}
     </div>
   );
 }

@@ -2,26 +2,23 @@
 
 import { useForm } from "react-hook-form";
 import { Link } from "@/i18n/routing";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { Input } from "@/components/ui/forms/input";
 import { Label } from "@/components/ui/forms/label";
-import { useLogin } from "@/features/auth/hooks/use-auth";
+import { useLogin, useResendSignupOtp } from "@/features/auth/hooks/use-auth";
 import { handleFormError } from "@/utils/error";
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
-
-const getLoginSchema = (t: ReturnType<typeof useTranslations>) =>
-  z.object({
-    email: z.string().email(t("invalid_email")),
-    password: z.string().min(6, t("min_password")),
-  });
-
-type LoginFormValues = z.infer<ReturnType<typeof getLoginSchema>>;
+import { useRouter } from "@/i18n/routing";
+import {
+  getLoginSchema,
+  LoginFormValues,
+} from "@/features/auth/schemas/auth.schema";
 
 export function LoginForm() {
+  const router = useRouter();
   const t = useTranslations("Validation");
   const loginSchema = useMemo(() => getLoginSchema(t), [t]);
   const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
@@ -37,14 +34,20 @@ export function LoginForm() {
   });
 
   const { mutate: login, isPending: isLoading } = useLogin();
+  const { mutate: resendOtp, isPending: isResendingOtp } = useResendSignupOtp();
 
   const onSubmit = (data: LoginFormValues) => {
     setUnverifiedEmail(null);
-    login(data, {
+    const payload = {
+      email: data.email.trim().toLowerCase(),
+      password: data.password,
+    };
+
+    login(payload, {
       onError: (err) => {
         const error = err as { response?: { data?: { errorCode?: string } } };
         if (error?.response?.data?.errorCode === "EMAIL_NOT_VERIFIED") {
-          setUnverifiedEmail(data.email);
+          setUnverifiedEmail(payload.email);
           setError("root", {
             type: "server",
             message: "Your email is not verified.",
@@ -52,6 +55,20 @@ export function LoginForm() {
           return;
         }
         handleFormError(err, setError);
+      },
+    });
+  };
+
+  const handleVerifyNow = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!unverifiedEmail) return;
+
+    resendOtp(unverifiedEmail, {
+      onSuccess: () => {
+        router.push(`/verify-otp?email=${encodeURIComponent(unverifiedEmail)}`);
+      },
+      onError: () => {
+        router.push(`/verify-otp?email=${encodeURIComponent(unverifiedEmail)}`);
       },
     });
   };
@@ -86,7 +103,9 @@ export function LoginForm() {
 
       <div className="flex items-center my-6">
         <div className="flex-1 border-t border-border/80" />
-        <span className="px-3 text-[11px] text-muted-foreground font-medium">or</span>
+        <span className="px-3 text-[11px] text-muted-foreground font-medium">
+          or
+        </span>
         <div className="flex-1 border-t border-border/80" />
       </div>
 
@@ -95,14 +114,14 @@ export function LoginForm() {
           <div className="p-3 text-[13px] text-destructive bg-destructive/10 border border-destructive/20 rounded-lg">
             {errors.root.message}{" "}
             {unverifiedEmail && (
-              <Link
-                href={`/verify-otp?email=${encodeURIComponent(
-                  unverifiedEmail,
-                )}`}
-                className="font-medium underline hover:text-destructive"
+              <button
+                type="button"
+                onClick={handleVerifyNow}
+                disabled={isResendingOtp}
+                className="font-medium underline hover:text-destructive cursor-pointer disabled:opacity-50 inline ml-1"
               >
-                Verify now
-              </Link>
+                {isResendingOtp ? "Sending OTP..." : "Verify now"}
+              </button>
             )}
           </div>
         )}
@@ -135,7 +154,9 @@ export function LoginForm() {
             placeholder="••••••••••••"
             {...register("password")}
             className={
-              errors.password ? "border-destructive focus:ring-destructive/20" : ""
+              errors.password
+                ? "border-destructive focus:ring-destructive/20"
+                : ""
             }
           />
           <ErrorTooltip message={errors.password?.message} />

@@ -27,7 +27,7 @@ import {
 } from "@/features/projects/hooks/use-issues";
 import { APP_CONFIG } from "@/config/app.config";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useWatch } from "react-hook-form";
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { TRANSLATION_KEYS } from "@/constants/translations";
 import { useTranslations } from "next-intl";
@@ -72,20 +72,6 @@ export function CreateTaskModal({
   );
   const members = membersResponse?.data?.data || [];
 
-  const { data: issuesResponse } = useIssues(projectId, {
-    limit: APP_CONFIG.PAGINATION.MAX_LIMIT,
-  });
-  const parentIssues = issuesResponse?.data?.data || [];
-
-  const { data: configResponse } = useWorkspaceConfig(
-    activeWorkspaceId as string,
-  );
-  const workspaceConfig = configResponse?.data;
-  const issueTypes: { name: string }[] = workspaceConfig?.issueTypes || [];
-  const statuses: { name: string }[] = workspaceConfig?.statuses || [];
-
-  const createIssueMutation = useCreateIssue();
-
   const {
     register,
     control,
@@ -101,6 +87,23 @@ export function CreateTaskModal({
     },
     mode: "onChange",
   });
+
+  const selectedType = useWatch({ control, name: "type" });
+
+  const { data: issuesResponse } = useIssues(projectId, {
+    limit: APP_CONFIG.PAGINATION.MAX_LIMIT,
+    childType: selectedType || undefined,
+  });
+  const parentIssues = issuesResponse?.data?.data || [];
+
+  const { data: configResponse } = useWorkspaceConfig(
+    activeWorkspaceId as string,
+  );
+  const workspaceConfig = configResponse?.data;
+  const issueTypes: { name: string }[] = workspaceConfig?.issueTypes || [];
+  const statuses: { name: string }[] = workspaceConfig?.statuses || [];
+
+  const createIssueMutation = useCreateIssue();
 
   useEffect(() => {
     if (isOpen) {
@@ -158,7 +161,7 @@ export function CreateTaskModal({
               <FormTextarea
                 label={t(TK.description)}
                 placeholder={t(TK.descriptionPlaceholder)}
-                className="min-h-[100px]"
+                className="min-h-25"
                 {...register("description")}
                 error={errors.description?.message}
               />
@@ -173,7 +176,7 @@ export function CreateTaskModal({
                     render={({ field }) => (
                       <Select value={field.value} onChange={field.onChange}>
                         {issueTypes.map((t) => (
-                          <option key={t.name} value={t.name.toLowerCase()}>
+                          <option key={t.name} value={t.name}>
                             {t.name}
                           </option>
                         ))}
@@ -192,7 +195,7 @@ export function CreateTaskModal({
                     render={({ field }) => (
                       <Select value={field.value} onChange={field.onChange}>
                         {statuses.map((s) => (
-                          <option key={s.name} value={s.name.toLowerCase()}>
+                          <option key={s.name} value={s.name}>
                             {s.name}
                           </option>
                         ))}

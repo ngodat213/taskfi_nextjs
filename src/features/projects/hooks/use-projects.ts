@@ -32,3 +32,25 @@ export function useCreateProject() {
     },
   });
 }
+
+export function useUpdateProject() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      projectId,
+      data,
+    }: {
+      projectId: string;
+      data: Partial<CreateProjectRequest>;
+    }) => projectService.updateProject(projectId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["projects"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["groups"],
+      });
+    },
+  });
+}

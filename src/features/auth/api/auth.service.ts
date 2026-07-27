@@ -6,6 +6,7 @@ import {
   ForgotPasswordRequest,
   ResetPasswordRequest,
   FcmTokenRequest,
+  LogoutRequest,
   WrappedTokenResponseDto,
   WrappedUserResponseDto,
   WrappedStatusResponseDto,
@@ -61,14 +62,18 @@ export const authService = {
     return response.data;
   },
 
-  logout: async () => {
-    const response =
-      await apiClient.post<WrappedStatusResponseDto>(API_ENDPOINTS.AUTH.LOGOUT);
+  logout: async (data: LogoutRequest | void = {}) => {
+    const response = await apiClient.post<WrappedStatusResponseDto>(
+      API_ENDPOINTS.AUTH.LOGOUT,
+      data || {},
+    );
     return response.data;
   },
 
   getCurrentUser: async () => {
-    const response = await apiClient.get<WrappedUserResponseDto>(API_ENDPOINTS.AUTH.ME);
+    const response = await apiClient.get<WrappedUserResponseDto>(
+      API_ENDPOINTS.AUTH.ME,
+    );
     return response.data;
   },
 
@@ -81,8 +86,9 @@ export const authService = {
   },
 
   deleteAccount: async () => {
-    const response =
-      await apiClient.delete<WrappedStatusResponseDto>(API_ENDPOINTS.AUTH.ACCOUNT);
+    const response = await apiClient.delete<WrappedStatusResponseDto>(
+      API_ENDPOINTS.AUTH.ACCOUNT,
+    );
     return response.data;
   },
 };

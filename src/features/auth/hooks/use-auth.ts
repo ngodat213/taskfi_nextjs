@@ -1,5 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { authService } from "@/features/auth/api/auth.service";
+import {
+  LogoutRequest,
+  WrappedStatusResponseDto,
+} from "@/features/auth/types/auth.types";
 import { useAuthStore } from "@/store/auth.store";
 import { useRouter } from "@/i18n/routing";
 import { useWorkspaceStore } from "@/store/workspace.store";
@@ -25,8 +29,8 @@ export function useLogout() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  return useMutation({
-    mutationFn: authService.logout,
+  return useMutation<WrappedStatusResponseDto, Error, LogoutRequest | void>({
+    mutationFn: (data) => authService.logout(data),
     onSettled: () => {
       logout();
       useWorkspaceStore.getState().clearWorkspace();

@@ -2,10 +2,12 @@ import { useIssue, useUpdateIssue } from "@/features/projects/hooks/use-issues";
 import { TypeIcon } from "@/features/dashboard/components/issue-table-row";
 import { Issue, IssueType } from "@/types/issue.types";
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { AiChatSidebar } from "./ai-chat-sidebar";
 import { IssueMainContent } from "./issue-main-content";
 import { IssueProperties } from "./issue-properties";
 import { useState, useEffect, useRef } from "react";
+import { useAutoError } from "@/hooks/use-auto-error";
 
 interface IssueDetailViewProps {
   projectId: string;
@@ -21,6 +23,7 @@ export function IssueDetailView({
   const { data: issueResponse, isLoading } = useIssue(projectId, issueId);
   const issue = issueResponse?.data;
   const updateIssue = useUpdateIssue();
+  const { fieldErrors, handleApiError, clearFieldError } = useAutoError();
 
   const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState(false);
   const typeDropdownRef = useRef<HTMLDivElement>(null);
@@ -80,16 +83,22 @@ export function IssueDetailView({
 
   const handleUpdate = (field: keyof Issue, value: unknown) => {
     if (!issue) return;
-    updateIssue.mutate({
-      projectId,
-      issueId: issue.id,
-      data: { [field]: value } as Partial<Issue>,
-    });
+    clearFieldError(field as string);
+    updateIssue.mutate(
+      {
+        projectId,
+        issueId: issue.id,
+        data: { [field]: value } as Partial<Issue>,
+      },
+      {
+        onError: (err) => handleApiError(err, field as string),
+      },
+    );
   };
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-full min-h-[400px] text-muted-foreground bg-transparent">
+      <div className="flex items-center justify-center h-full min-h-100 text-muted-foreground bg-transparent">
         Loading issue details...
       </div>
     );
@@ -97,7 +106,7 @@ export function IssueDetailView({
 
   if (!issue) {
     return (
-      <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-red-500 gap-4 bg-transparent">
+      <div className="flex flex-col items-center justify-center h-full min-h-100 text-red-500 gap-4 bg-transparent">
         <div>Issue not found.</div>
         <Button variant={ButtonVariant.Outline} onClick={onClose}>
           Back
@@ -119,7 +128,7 @@ export function IssueDetailView({
             <div className="p-6 md:p-8 flex flex-col gap-5 overflow-y-auto custom-scrollbar flex-1">
               {/* Header */}
               <div>
-                <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground font-medium">
+                <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground font-medium relative">
                   <div className="relative" ref={typeDropdownRef}>
                     <button
                       onClick={() => setIsTypeDropdownOpen(!isTypeDropdownOpen)}
@@ -135,7 +144,7 @@ export function IssueDetailView({
                     </button>
 
                     {isTypeDropdownOpen && (
-                      <div className="absolute top-full left-0 mt-1 w-[140px] bg-card border border-border rounded-lg shadow-lg z-50 flex flex-col py-1.5 animate-in fade-in zoom-in-95 duration-100">
+                      <div className="absolute top-full left-0 mt-1 w-35 bg-card border border-border rounded-lg shadow-lg z-50 flex flex-col py-1.5 animate-in fade-in zoom-in-95 duration-100">
                         {["EPIC", "STORY", "TASK", "SUBTASK", "BUG"].map(
                           (type) => (
                             <button
@@ -167,17 +176,22 @@ export function IssueDetailView({
                     •
                   </span>
                   <span>{issue.issueKey}</span>
+                  <ErrorTooltip message={fieldErrors["type"]} />
                 </div>
-                <textarea
-                  ref={textareaRef}
-                  value={summary}
-                  onChange={handleSummaryChange}
-                  onBlur={handleSummaryBlur}
-                  onKeyDown={handleKeyDown}
-                  rows={1}
-                  className="w-full text-xl md:text-2xl font-bold text-foreground leading-tight bg-transparent border-none outline-none resize-none overflow-hidden p-0 m-0 focus:ring-0"
-                  spellCheck={false}
-                />
+
+                <div className="relative">
+                  <textarea
+                    ref={textareaRef}
+                    value={summary}
+                    onChange={handleSummaryChange}
+                    onBlur={handleSummaryBlur}
+                    onKeyDown={handleKeyDown}
+                    rows={1}
+                    className="w-full text-xl md:text-2xl font-bold text-foreground leading-tight bg-transparent border-none outline-none resize-none overflow-hidden p-0 m-0 focus:ring-0"
+                    spellCheck={false}
+                  />
+                  <ErrorTooltip message={fieldErrors["summary"]} />
+                </div>
               </div>
               {/* Main Grid */}
               <div className="flex flex-col-reverse 2xl:flex-row gap-5 2xl:gap-12 w-full">
@@ -185,10 +199,15 @@ export function IssueDetailView({
                   issue={issue}
                   projectId={projectId}
                   onUpdate={handleUpdate}
+                  fieldErrors={fieldErrors}
                 />
 
-                <div className="w-full 2xl:w-[300px] shrink-0">
-                  <IssueProperties issue={issue} onUpdate={handleUpdate} />
+                <div className="w-full 2xl:w-75 shrink-0">
+                  <IssueProperties
+                    issue={issue}
+                    onUpdate={handleUpdate}
+                    fieldErrors={fieldErrors}
+                  />
                 </div>
               </div>
             </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useForm, useWatch } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/actions/button";
 import { Input } from "@/components/ui/forms/input";
@@ -13,15 +12,10 @@ import { PasswordStrength } from "@/components/ui/forms/password-strength";
 import { useRouter } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
-
-const getRegisterSchema = (t: ReturnType<typeof useTranslations>) =>
-  z.object({
-    username: z.string().min(3, t("min_username")).optional(),
-    email: z.string().email(t("invalid_email")),
-    password: z.string().min(6, t("min_password")),
-  });
-
-type RegisterFormValues = z.infer<ReturnType<typeof getRegisterSchema>>;
+import {
+  getRegisterSchema,
+  RegisterFormValues,
+} from "@/features/auth/schemas/auth.schema";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -42,9 +36,15 @@ export function RegisterForm() {
   const { mutate: signup, isPending: isLoading } = useSignup();
 
   const onSubmit = (data: RegisterFormValues) => {
-    signup(data, {
+    const payload = {
+      full_name: data.full_name.trim(),
+      email: data.email.trim().toLowerCase(),
+      password: data.password,
+    };
+
+    signup(payload, {
       onSuccess: () => {
-        router.push(`/verify-otp?email=${encodeURIComponent(data.email)}`);
+        router.push(`/verify-otp?email=${encodeURIComponent(payload.email)}`);
       },
       onError: (err) => handleFormError(err, setError),
     });
@@ -62,16 +62,18 @@ export function RegisterForm() {
         )}
 
         <div className="relative">
-          <Label className="mb-1.5 block">Username (Optional)</Label>
+          <Label className="mb-1.5 block">Full Name</Label>
           <Input
             type="text"
-            placeholder="johndoe"
-            {...register("username")}
+            placeholder="Nguyen Van A"
+            {...register("full_name")}
             className={
-              errors.username ? "border-destructive focus:ring-destructive/20" : ""
+              errors.full_name
+                ? "border-destructive focus:ring-destructive/20"
+                : ""
             }
           />
-          <ErrorTooltip message={errors.username?.message} />
+          <ErrorTooltip message={errors.full_name?.message} />
         </div>
 
         <div className="relative">
@@ -94,7 +96,9 @@ export function RegisterForm() {
             placeholder="••••••••••••"
             {...register("password")}
             className={
-              errors.password ? "border-destructive focus:ring-destructive/20" : ""
+              errors.password
+                ? "border-destructive focus:ring-destructive/20"
+                : ""
             }
           />
           <ErrorTooltip message={errors.password?.message} />

@@ -1,8 +1,6 @@
 import { CaretDown, Check } from "@phosphor-icons/react/dist/ssr";
 import * as React from "react";
 import { cn } from "@/utils/cn";
-;
-
 export interface SelectProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   "onChange"
@@ -15,6 +13,7 @@ export interface SelectProps extends Omit<
   placeholder?: string;
   searchable?: boolean;
   onSearchChange?: (query: string) => void;
+  variant?: "default" | "pill";
 }
 
 export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
@@ -30,6 +29,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
       placeholder,
       searchable = false,
       onSearchChange,
+      variant,
       ...props
     },
     ref,
@@ -139,7 +139,8 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
           disabled={disabled}
           onClick={() => !disabled && setIsOpen(!isOpen)}
           className={cn(
-            "flex w-full items-center justify-between h-9 px-3.5 bg-card border rounded-full text-[13px] font-medium focus:outline-none focus:border-blue-500 transition-all cursor-pointer disabled:cursor-not-allowed disabled:opacity-50",
+            "flex w-full items-center justify-between h-9 px-3.5 bg-card border text-[13px] font-medium focus:outline-none focus:border-blue-500 transition-all cursor-pointer disabled:cursor-not-allowed disabled:opacity-50",
+            variant === "pill" ? "rounded-full" : "rounded-lg",
             isOpen
               ? "border-blue-500 hover:border-blue-500"
               : "border-border hover:border-border",

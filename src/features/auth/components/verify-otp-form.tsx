@@ -1,7 +1,6 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/actions/button";
 import { Input } from "@/components/ui/forms/input";
@@ -16,20 +15,18 @@ import { useRouter } from "@/i18n/routing";
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { Suspense, useEffect, useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
-
-const getVerifyOtpSchema = (t: ReturnType<typeof useTranslations>) =>
-  z.object({
-    email: z.string().email(t("invalid_email")),
-    otp: z.string().min(6, t("min_code")),
-  });
-
-type VerifyOtpValues = z.infer<ReturnType<typeof getVerifyOtpSchema>>;
+import {
+  getVerifyOtpSchema,
+  VerifyOtpValues,
+} from "@/features/auth/schemas/auth.schema";
 
 function VerifyOtpFormInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const emailQuery = searchParams.get("email");
   const [resendMessage, setResendMessage] = useState("");
+  const [cooldown, setCooldown] = useState(0);
+  const [isSuccess, setIsSuccess] = useState(false);
   const t = useTranslations("Validation");
   const verifyOtpSchema = useMemo(() => getVerifyOtpSchema(t), [t]);
 
@@ -39,7 +36,7 @@ function VerifyOtpFormInner() {
     setError,
     setValue,
     getValues,
-    formState: { errors, isValid, isSubmitSuccessful },
+    formState: { errors, isValid },
   } = useForm<VerifyOtpValues>({
     resolver: zodResolver(verifyOtpSchema),
     defaultValues: {
@@ -54,17 +51,29 @@ function VerifyOtpFormInner() {
     }
   }, [emailQuery, setValue]);
 
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const timer = setInterval(() => {
+      setCooldown((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [cooldown]);
+
   const { mutate: verifyOtp, isPending: isVerifying } = useVerifyEmail();
   const { mutate: resendOtp, isPending: isResending } = useResendSignupOtp();
 
   const onSubmit = (data: VerifyOtpValues) => {
     verifyOtp(data, {
-      onSuccess: () => {},
+      onSuccess: () => {
+        setIsSuccess(true);
+      },
       onError: (err) => handleFormError(err, setError),
     });
   };
 
   const handleResendOtp = () => {
+    if (cooldown > 0 || isResending) return;
+
     const email = getValues("email");
     if (!email || errors.email) {
       setError("email", {
@@ -77,6 +86,7 @@ function VerifyOtpFormInner() {
     resendOtp(email, {
       onSuccess: () => {
         setResendMessage("Verification code sent!");
+        setCooldown(60);
         setTimeout(() => setResendMessage(""), 5000);
       },
       onError: (err) => {
@@ -86,7 +96,7 @@ function VerifyOtpFormInner() {
     });
   };
 
-  if (isSubmitSuccessful) {
+  if (isSuccess) {
     return (
       <div className="w-full text-center space-y-4">
         <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-2xl">
@@ -143,7 +153,9 @@ function VerifyOtpFormInner() {
             type="text"
             placeholder="123456"
             {...register("otp")}
-            className={errors.otp ? "border-destructive focus:ring-destructive/20" : ""}
+            className={
+              errors.otp ? "border-destructive focus:ring-destructive/20" : ""
+            }
           />
           <ErrorTooltip message={errors.otp?.message} />
         </div>
@@ -160,10 +172,14 @@ function VerifyOtpFormInner() {
           <button
             type="button"
             onClick={handleResendOtp}
-            disabled={isResending}
+            disabled={isResending || cooldown > 0}
             className="text-[13px] text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
           >
-            {isResending ? "Sending..." : "Didn't receive a code? Resend"}
+            {isResending
+              ? "Sending..."
+              : cooldown > 0
+                ? `Resend code in (${cooldown}s)`
+                : "Didn't receive a code? Resend"}
           </button>
         </div>
       </form>

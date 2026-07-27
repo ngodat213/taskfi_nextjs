@@ -18,6 +18,7 @@ import {
   CreateEmploymentTypeRequest,
   UpdateEmploymentTypeRequest,
   WorkspaceConfig,
+  UpdateWorkspaceConfigRequest,
 } from "@/types/workspace.types";
 import {
   BaseResponse,
@@ -63,6 +64,16 @@ export const workspaceService = {
   getWorkspaceConfig: async (id: string) => {
     return apiFetch<BaseResponse<WorkspaceConfig>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${id}/config`,
+    );
+  },
+
+  updateWorkspaceConfig: async (
+    id: string,
+    data: UpdateWorkspaceConfigRequest,
+  ) => {
+    return apiFetch<BaseResponse<WorkspaceConfig>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${id}/config`,
+      { method: "PUT", body: data },
     );
   },
 

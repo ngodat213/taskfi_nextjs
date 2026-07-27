@@ -17,6 +17,8 @@ export const API_ENDPOINTS = {
     CREATE: "/workspaces",
   },
   UPLOADS: {
+    UPLOAD: "/uploads/image",
+    DELETE: "/uploads/image",
     IMAGE: "/uploads/image",
   },
   GROUPS: {
@@ -30,8 +32,12 @@ export const API_ENDPOINTS = {
   },
   ISSUES: {
     BASE: "/issues",
+    COMMENTS: (issueId: string) => `/issues/${issueId}/comments`,
   },
   NOTIFICATIONS: {
     BASE: "/notifications",
+  },
+  RETROS: {
+    BASE: "/retros",
   },
 } as const;

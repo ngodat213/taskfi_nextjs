@@ -7,12 +7,20 @@ export const uploadService = {
     const formData = new FormData();
     formData.append("file", file);
 
-    return apiFetch<BaseResponse<UploadResponse>>(API_ENDPOINTS.UPLOADS.IMAGE, {
-      method: "POST",
-      body: formData,
-      headers: {
-        "Content-Type": "multipart/form-data",
+    return apiFetch<BaseResponse<UploadResponse>>(
+      API_ENDPOINTS.UPLOADS.UPLOAD,
+      {
+        method: "POST",
+        body: formData,
       },
-    });
+    );
+  },
+  deleteImage: async (publicId: string) => {
+    return apiFetch<BaseResponse<void>>(
+      `${API_ENDPOINTS.UPLOADS.DELETE}?publicId=${encodeURIComponent(publicId)}`,
+      {
+        method: "DELETE",
+      },
+    );
   },
 };

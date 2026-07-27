@@ -1,7 +1,6 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/actions/button";
 import { Input } from "@/components/ui/forms/input";
@@ -11,13 +10,10 @@ import { handleFormError } from "@/utils/error";
 import { useState, useMemo } from "react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
-
-const getForgotPasswordSchema = (t: ReturnType<typeof useTranslations>) =>
-  z.object({
-    email: z.string().email(t("invalid_email")),
-  });
-
-type ForgotPasswordValues = z.infer<ReturnType<typeof getForgotPasswordSchema>>;
+import {
+  getForgotPasswordSchema,
+  ForgotPasswordValues,
+} from "@/features/auth/schemas/auth.schema";
 
 export function ForgotPasswordForm() {
   const [isSuccess, setIsSuccess] = useState(false);

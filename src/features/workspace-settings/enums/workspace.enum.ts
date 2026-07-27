@@ -6,4 +6,5 @@ export enum WorkspaceSettingsTab {
   MEMBERS = "members",
   DEPARTMENTS = "departments",
   EMPLOYMENT_TYPES = "employment_types",
+  CONFIG = "config",
 }

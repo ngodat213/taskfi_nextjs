@@ -1,9 +1,28 @@
 import { useState } from "react";
-import { Select } from "@/components/ui/forms/select";
-import { useIssues } from "@/features/projects/hooks/use-issues";
+import { Button, ButtonVariant } from "@/components/ui/actions/button";
+import {
+  useIssues,
+  useLinkIssue,
+  useUnlinkIssue,
+} from "@/features/projects/hooks/use-issues";
 import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { IssueItemCard } from "./issue-item-card";
-import { Issue } from "@/types/issue.types";
+import {
+  Issue,
+  IssueLinkType,
+  IssueStatus,
+  IssueType,
+} from "@/types/issue.types";
+import { SearchSelect } from "@/components/ui/forms/search-select";
+import {
+  TypeIcon,
+  StatusBadge,
+} from "@/features/dashboard/components/issue-table-row";
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { useAutoError } from "@/hooks/use-auto-error";
+
+import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
+import { useWorkspaceStore } from "@/store/workspace.store";
 
 interface IssueLinkedIssuesProps {
   projectId: string;
@@ -11,18 +30,112 @@ interface IssueLinkedIssuesProps {
   onUpdate: (field: keyof Issue, value: unknown) => void;
 }
 
+const RELATIONSHIP_OPTIONS = [
+  { value: IssueLinkType.BLOCKS, label: "blocks" },
+  { value: IssueLinkType.IS_BLOCKED_BY, label: "is blocked by" },
+  { value: IssueLinkType.RELATES_TO, label: "relates to" },
+  { value: IssueLinkType.DUPLICATES, label: "duplicates" },
+  { value: IssueLinkType.IS_DUPLICATED_BY, label: "is duplicated by" },
+  { value: IssueLinkType.CLONES, label: "clones" },
+  { value: IssueLinkType.IS_CLONED_BY, label: "is cloned by" },
+  { value: IssueLinkType.CAUSES, label: "causes" },
+  { value: IssueLinkType.IS_CAUSED_BY, label: "is caused by" },
+];
+
 export function IssueLinkedIssues({
   projectId,
   issue,
   onUpdate,
 }: IssueLinkedIssuesProps) {
+  const [selectedLinkType, setSelectedLinkType] = useState<string>(
+    IssueLinkType.BLOCKS,
+  );
+  const [targetIssueId, setTargetIssueId] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
+  const { fieldErrors, handleApiError, clearFieldError } = useAutoError();
 
+  const linkIssue = useLinkIssue();
+  const unlinkIssue = useUnlinkIssue();
   const { data: issuesResponse } = useIssues(projectId, {
     limit: 50,
     search: searchQuery || undefined,
   });
   const allIssues = issuesResponse?.data?.data || [];
+
+  const activeWorkspaceId = useWorkspaceStore((s) => s.activeWorkspaceId);
+  const { data: configResponse } = useWorkspaceConfig(
+    activeWorkspaceId as string,
+  );
+  const workspaceConfig = configResponse?.data;
+
+  const relationshipOptions =
+    workspaceConfig?.linkTypes && workspaceConfig.linkTypes.length > 0
+      ? workspaceConfig.linkTypes.map((l) => ({
+          value: l.type,
+          label: l.outwardLabel || l.type,
+        }))
+      : RELATIONSHIP_OPTIONS;
+
+  const existingLinkedIds = (issue.links || []).map((link) =>
+    typeof link === "string" ? link : link.targetIssueId,
+  );
+
+  const availableIssues = allIssues.filter(
+    (i) => i.id !== issue.id && !existingLinkedIds.includes(i.id),
+  );
+
+  const targetIssueOptions = availableIssues.map((i) => ({
+    value: i.id,
+    label: `${i.issueKey} - ${i.summary}`,
+    icon: (
+      <TypeIcon type={i.type as IssueType} className="w-3.5 h-3.5 shrink-0" />
+    ),
+    badge: <StatusBadge status={i.status as IssueStatus} />,
+  }));
+
+  const handleApplyLink = () => {
+    if (!targetIssueId || !selectedLinkType) return;
+    clearFieldError("links");
+
+    linkIssue.mutate(
+      {
+        projectId,
+        issueId: issue.id,
+        targetIssueId,
+        type: selectedLinkType,
+      },
+      {
+        onSuccess: () => {
+          const newLink = { type: selectedLinkType, targetIssueId };
+          onUpdate("links", [...(issue.links || []), newLink]);
+          setTargetIssueId("");
+        },
+        onError: (err) => handleApiError(err, "links"),
+      },
+    );
+  };
+
+  const handleRemoveLink = (targetId: string) => {
+    clearFieldError("links");
+    unlinkIssue.mutate(
+      {
+        projectId,
+        issueId: issue.id,
+        targetIssueId: targetId,
+      },
+      {
+        onSuccess: () => {
+          const newLinks = (issue.links || []).filter((l) =>
+            typeof l === "string"
+              ? l !== targetId
+              : l.targetIssueId !== targetId,
+          );
+          onUpdate("links", newLinks);
+        },
+        onError: (err) => handleApiError(err, "links"),
+      },
+    );
+  };
 
   return (
     <div>
@@ -30,46 +143,52 @@ export function IssueLinkedIssues({
         <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
           Linked Issues
         </h3>
-        <div className="flex items-center gap-1.5">
-          <Select
-            value=""
-            onChange={(val) => {
-              if (val) {
-                const newLinks = [...(issue.links || []), val];
-                onUpdate("links", newLinks);
-              }
-            }}
-            className="h-6 text-[11px] min-w-[140px] font-medium"
-            searchable
-            onSearchChange={setSearchQuery}
-          >
-            <option value="">+ Link issue</option>
-            {allIssues
-              .filter(
-                (i) => i.id !== issue.id && !(issue.links || []).includes(i.id),
-              )
-              .map((i) => (
-                <option key={i.id} value={i.id}>
-                  {i.issueKey} - {i.summary}
-                </option>
-              ))}
-          </Select>
-        </div>
       </div>
 
+      {/* Relationship + Target Issue SearchSelect + Apply Button */}
+      <div className="flex flex-col sm:flex-row gap-2 mb-3 items-stretch sm:items-center relative">
+        <div className="w-full sm:flex-1 min-w-0">
+          <SearchSelect
+            options={targetIssueOptions}
+            value={targetIssueId}
+            onChange={(val) => setTargetIssueId(val)}
+            placeholder="Target Issue"
+            onSearchChange={setSearchQuery}
+          />
+        </div>
+        <div className="w-full sm:w-40 shrink-0">
+          <SearchSelect
+            options={relationshipOptions}
+            value={selectedLinkType}
+            onChange={(val) => setSelectedLinkType(val)}
+            placeholder="Relationship*"
+          />
+        </div>
+
+        <Button
+          variant={ButtonVariant.Primary}
+          className="h-9 px-4 text-[13px] font-medium shrink-0"
+          disabled={!targetIssueId || !selectedLinkType || linkIssue.isPending}
+          onClick={handleApplyLink}
+        >
+          {linkIssue.isPending ? "Applying..." : "Apply"}
+        </Button>
+        <ErrorTooltip message={fieldErrors.links} />
+      </div>
+
+      {/* Linked Issues List */}
       {issue.links && issue.links.length > 0 ? (
         <div className="flex flex-col gap-1.5">
-          {issue.links.map((linkId) => {
-            const linkedIssue = allIssues.find((i) => i.id === linkId);
+          {issue.links.map((linkItem) => {
+            const targetId =
+              typeof linkItem === "string" ? linkItem : linkItem.targetIssueId;
+            const linkedIssue = allIssues.find((i) => i.id === targetId);
             if (!linkedIssue) return null;
             return (
-              <div key={linkId}>
+              <div key={targetId}>
                 <IssueItemCard
                   issue={linkedIssue}
-                  onRemove={() => {
-                    const newLinks = issue.links!.filter((id) => id !== linkId);
-                    onUpdate("links", newLinks);
-                  }}
+                  onRemove={() => handleRemoveLink(targetId)}
                 />
               </div>
             );

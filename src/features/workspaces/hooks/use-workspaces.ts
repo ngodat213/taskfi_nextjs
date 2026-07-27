@@ -50,6 +50,26 @@ export function useWorkspaceConfig(workspaceId: string) {
     queryKey: ["workspace-config", workspaceId],
     queryFn: () => workspaceService.getWorkspaceConfig(workspaceId),
     enabled: !!accessToken && !!workspaceId,
+    staleTime: 10 * 60 * 1000,
+  });
+}
+
+export function useUpdateWorkspaceConfig() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      workspaceId,
+      data,
+    }: {
+      workspaceId: string;
+      data: Parameters<typeof workspaceService.updateWorkspaceConfig>[1];
+    }) => workspaceService.updateWorkspaceConfig(workspaceId, data),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["workspace-config", variables.workspaceId],
+      });
+    },
   });
 }
 

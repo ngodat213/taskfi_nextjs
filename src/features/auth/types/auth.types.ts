@@ -6,7 +6,12 @@ export interface LoginRequest {
 export interface SignupRequest {
   email: string;
   password?: string;
+  full_name: string;
   username?: string;
+}
+
+export interface LogoutRequest {
+  logoutAll?: boolean;
 }
 
 export interface VerifyEmailRequest {
@@ -32,6 +37,11 @@ export interface UserResponseDto {
   id: string;
   email: string;
   name?: string;
+  full_name?: string;
+  avatarPublicId?: string;
+  job_title?: string;
+  department?: string;
+  role?: string;
 }
 
 export interface TokenResponseDto {

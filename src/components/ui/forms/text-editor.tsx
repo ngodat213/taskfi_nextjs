@@ -1,5 +1,13 @@
 "use client";
-import { TextB, TextItalic, TextStrikethrough, TextHTwo, List, ListNumbers, Code } from "@phosphor-icons/react/dist/ssr";
+import {
+  TextB,
+  TextItalic,
+  TextStrikethrough,
+  TextHTwo,
+  List,
+  ListNumbers,
+  Code,
+} from "@phosphor-icons/react/dist/ssr";
 
 import * as React from "react";
 import { useEditor, EditorContent, Editor } from "@tiptap/react";
@@ -8,7 +16,6 @@ import Placeholder from "@tiptap/extension-placeholder";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { createLowlight, all } from "lowlight";
 import { cn } from "@/utils/cn";
-;
 import "@/styles/code-theme.css";
 
 const lowlight = createLowlight(all);
@@ -19,9 +26,17 @@ export interface TextEditorProps {
   onBlur?: () => void;
   placeholder?: string;
   className?: string;
+  collapsible?: boolean;
+  rightAction?: React.ReactNode;
 }
 
-const MenuBar = ({ editor }: { editor: Editor | null }) => {
+const MenuBar = ({
+  editor,
+  rightAction,
+}: {
+  editor: Editor | null;
+  rightAction?: React.ReactNode;
+}) => {
   if (!editor) {
     return null;
   }
@@ -33,81 +48,89 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
     );
 
   return (
-    <div className="flex flex-wrap gap-1 border-b border-border/60 p-2 bg-muted/80 rounded-t-lg">
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        disabled={!editor.can().chain().focus().toggleBold().run()}
-        className={toggleBtnClass(editor.isActive("bold"))}
-        title="TextB"
-      >
-        <TextB size={16} />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleItalic().run()}
-        disabled={!editor.can().chain().focus().toggleItalic().run()}
-        className={toggleBtnClass(editor.isActive("italic"))}
-        title="TextItalic"
-      >
-        <TextItalic size={16} />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleStrike().run()}
-        disabled={!editor.can().chain().focus().toggleStrike().run()}
-        className={toggleBtnClass(editor.isActive("strike"))}
-        title="TextStrikethrough"
-      >
-        <TextStrikethrough size={16} />
-      </button>
+    <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border/60 p-2 bg-muted/80 rounded-b-lg">
+      <div className="flex flex-wrap items-center gap-1">
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          disabled={!editor.can().chain().focus().toggleBold().run()}
+          className={toggleBtnClass(editor.isActive("bold"))}
+          title="Bold"
+        >
+          <TextB size={16} />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          disabled={!editor.can().chain().focus().toggleItalic().run()}
+          className={toggleBtnClass(editor.isActive("italic"))}
+          title="Italic"
+        >
+          <TextItalic size={16} />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleStrike().run()}
+          disabled={!editor.can().chain().focus().toggleStrike().run()}
+          className={toggleBtnClass(editor.isActive("strike"))}
+          title="Strikethrough"
+        >
+          <TextStrikethrough size={16} />
+        </button>
 
-      <div className="w-px h-5 bg-border mx-1 self-center" />
+        <div className="w-px h-5 bg-border mx-1 self-center" />
 
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={toggleBtnClass(editor.isActive("heading", { level: 2 }))}
-        title="Heading"
-      >
-        <TextHTwo size={16} />
-      </button>
+        <button
+          type="button"
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
+          className={toggleBtnClass(editor.isActive("heading", { level: 2 }))}
+          title="Heading 2"
+        >
+          <TextHTwo size={16} />
+        </button>
 
-      <div className="w-px h-5 bg-border mx-1 self-center" />
+        <div className="w-px h-5 bg-border mx-1 self-center" />
 
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={toggleBtnClass(editor.isActive("bulletList"))}
-        title="Bullet List"
-      >
-        <List size={16} />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={toggleBtnClass(editor.isActive("orderedList"))}
-        title="Ordered List"
-      >
-        <ListNumbers size={16} />
-      </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
+          className={toggleBtnClass(editor.isActive("bulletList"))}
+          title="Bullet List"
+        >
+          <List size={16} />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          className={toggleBtnClass(editor.isActive("orderedList"))}
+          title="Ordered List"
+        >
+          <ListNumbers size={16} />
+        </button>
 
-      <div className="w-px h-5 bg-border mx-1 self-center" />
+        <div className="w-px h-5 bg-border mx-1 self-center" />
 
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        className={toggleBtnClass(editor.isActive("codeBlock"))}
-        title="Code Block"
-      >
-        <Code size={16} />
-      </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          className={toggleBtnClass(editor.isActive("codeBlock"))}
+          title="Code Block"
+        >
+          <Code size={16} />
+        </button>
+      </div>
+
+      {rightAction && (
+        <div className="flex items-center gap-2">{rightAction}</div>
+      )}
     </div>
   );
 };
 
 export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
-  ({ className, value, onChange, onBlur, placeholder }, ref) => {
+  ({ className, value, onChange, onBlur, placeholder, rightAction }, ref) => {
     const editor = useEditor({
       extensions: [
         StarterKit.configure({
@@ -141,12 +164,12 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
       <div
         ref={ref}
         className={cn(
-          "w-full bg-muted/30 transition-colors rounded-lg border border-border/60 focus-within:border-blue-500 flex flex-col",
+          "w-full bg-muted/30 transition-colors rounded-lg border border-border/60 focus-within:border-blue-500 flex flex-col overflow-hidden",
           className,
         )}
       >
-        <MenuBar editor={editor} />
         <EditorContent editor={editor} className="flex-1 cursor-text" />
+        <MenuBar editor={editor} rightAction={rightAction} />
       </div>
     );
   },

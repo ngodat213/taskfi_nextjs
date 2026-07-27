@@ -5,7 +5,7 @@ export const createProjectSchema = z.object({
   name: z.string().min(1, "Name is required"),
   projectType: z.string().optional(),
   description: z.string().optional(),
-  logoUrl: z.string().optional(),
+  logoPublicId: z.string().optional(),
   leadId: z.string().optional(),
   groupId: z.string().min(1, "Group is required"),
 });

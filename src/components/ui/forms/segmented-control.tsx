@@ -14,6 +14,7 @@ interface SegmentedControlProps {
   onTabChange: (id: string) => void;
   className?: string;
   tabClassName?: string;
+  size?: "default" | "sm";
 }
 
 export function SegmentedControl({
@@ -22,6 +23,7 @@ export function SegmentedControl({
   onTabChange,
   className,
   tabClassName,
+  size,
 }: SegmentedControlProps) {
   const layoutId = useId();
 
@@ -41,7 +43,10 @@ export function SegmentedControl({
             whileTap={{ scale: 0.94 }}
             whileHover={{ scale: 1.02 }}
             className={cn(
-              "relative flex items-center px-3.5 py-1 text-[12.5px] rounded-full transition-colors duration-200 shrink-0 select-none group cursor-pointer",
+              "relative flex items-center rounded-full transition-colors duration-200 shrink-0 select-none group cursor-pointer",
+              size === "sm"
+                ? "px-2.5 py-0.5 text-[11.5px]"
+                : "px-3.5 py-1 text-[12.5px]",
               isActive
                 ? "text-foreground font-semibold"
                 : "text-muted-foreground hover:text-foreground hover:bg-background/40 font-medium",
