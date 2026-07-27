@@ -1,35 +1,67 @@
 "use client";
-import { Plus, MagnifyingGlass, Pulse } from "@phosphor-icons/react/dist/ssr";
 
-import { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Plus, Pulse } from "@phosphor-icons/react/dist/ssr";
+
+import { useState, useMemo, useCallback } from "react";
+import { motion, Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { PageHeader } from "@/components/ui/layout/page-header";
-import { Select } from "@/components/ui/forms/select";
 import { SegmentedControl } from "@/components/ui/forms/segmented-control";
 import {
   Button,
   ButtonVariant,
   ButtonSize,
 } from "@/components/ui/actions/button";
-import { Input } from "@/components/ui/forms/input";
-import { DashboardBoardTab } from "./dashboard-board-tab";
-import { DashboardBacklogTab } from "./dashboard-backlog-tab";
-import { DashboardIssuesTab } from "./dashboard-issues-tab";
-import { DashboardDoneTab } from "./dashboard-done-tab";
+import { DashboardBoardTab } from "@/features/board/components/dashboard-board-tab";
+import { DashboardBacklogTab } from "@/features/backlog/components/dashboard-backlog-tab";
+import { DashboardIssuesTab } from "@/features/issues/components/dashboard-issues-tab";
+import { DashboardDoneTab } from "@/features/done/components/dashboard-done-tab";
+import { DashboardReportsTab } from "./dashboard-reports-tab";
+import { DashboardWorkloadTab } from "@/features/workload/components/dashboard-workload-tab";
+import { DashboardRetrosTab } from "@/features/retros/components/dashboard-retros-tab";
+import { DashboardDepsTab } from "@/features/deps/components/dashboard-deps-tab";
+import { DashboardArchivedTab } from "@/features/archived/components/dashboard-archived-tab";
 import { PageContainer } from "@/components/layout/page-container";
 import { APP_CONFIG } from "@/config/app.config";
 import { CreateTaskModal } from "./create-task-modal";
-import { DASHBOARD_TABS } from "@/features/dashboard/constants/issue-ui.constants";
+import { DASHBOARD_TABS } from "@/features/issues/constants/issue-ui.constants";
 import { IssueDetailView } from "@/features/issue-detail/components/issue-detail-view";
+import { RetroDetailView } from "@/features/retros/components/retro-detail-view";
 
 import { useProject } from "@/features/projects/hooks/use-project";
 import { useIssues } from "@/features/projects/hooks/use-issues";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { TRANSLATION_KEYS } from "@/constants/translations";
-import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
 import { IssueType, IssuePriority } from "@/types/issue.types";
 import { GetIssuesParams } from "@/services/issue.service";
+
+import {
+  IssueTabFilterBar,
+  ReportsTabFilterBar,
+  WorkloadTabFilterBar,
+  RetrosTabFilterBar,
+  DepsTabFilterBar,
+  ArchivedTabFilterBar,
+} from "./filters";
+
+import { Issue } from "@/types/issue.types";
+import { useEffect } from "react";
+
+const EMPTY_ISSUES: Issue[] = [];
+
+const tabVariants: Variants = {
+  hidden: { opacity: 0, y: 16, scale: 0.98 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 450,
+      damping: 28,
+    },
+  },
+};
 
 export function DashboardView({ projectId }: { projectId: string }) {
   const t = useTranslations("Dashboard");
@@ -38,22 +70,64 @@ export function DashboardView({ projectId }: { projectId: string }) {
   const pathname = usePathname();
 
   const [q, setQ] = useState("");
+  const [debouncedQ, setDebouncedQ] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQ(q);
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [q]);
+
   const [activeTab, setActiveTab] = useState("Board");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [createModalStatus, setCreateModalStatus] = useState<
     string | undefined
   >();
+  const [isRetroModalOpen, setIsRetroModalOpen] = useState(false);
+  const [isDepModalOpen, setIsDepModalOpen] = useState(false);
+
+  // Retros Contextual Filter State
+  const [retrosSprint, setRetrosSprint] = useState<string>("sprint-24");
+  const [retrosSearch, setRetrosSearch] = useState<string>("");
+
+  // Deps Contextual Filter State
+  const [depsViewMode, setDepsViewMode] = useState<"graph" | "list">("graph");
+  const [depsFilterRisk, setDepsFilterRisk] = useState<string>("all");
+  const [depsSearch, setDepsSearch] = useState<string>("");
+
+  // Archived Contextual Filter State
+  const [archivedFilterType, setArchivedFilterType] = useState<string>("all");
+  const [archivedSearch, setArchivedSearch] = useState<string>("");
 
   const selectedIssueId = searchParams.get("issueId");
-  const setSelectedIssueId = (id: string | null) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (id) {
-      params.set("issueId", id);
-    } else {
-      params.delete("issueId");
-    }
-    router.replace(`${pathname}?${params.toString()}`);
-  };
+  const setSelectedIssueId = useCallback(
+    (id: string | null) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (id) {
+        params.set("issueId", id);
+      } else {
+        params.delete("issueId");
+      }
+      router.replace(`${pathname}?${params.toString()}`);
+    },
+    [searchParams, pathname, router],
+  );
+
+  const selectedRetroId = searchParams.get("retroId");
+  const setSelectedRetroId = useCallback(
+    (id: string | null) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (id) {
+        params.set("retroId", id);
+      } else {
+        params.delete("retroId");
+      }
+      router.replace(`${pathname}?${params.toString()}`);
+    },
+    [searchParams, pathname, router],
+  );
+
   const [assigneeFilter, setAssigneeFilter] = useState<string>("");
   const [typeFilter, setTypeFilter] = useState<string>("");
   const [priorityFilter, setPriorityFilter] = useState<string>("");
@@ -65,23 +139,22 @@ export function DashboardView({ projectId }: { projectId: string }) {
     const filters: GetIssuesParams = {
       page: 1,
       limit: APP_CONFIG.PAGINATION.MAX_LIMIT,
-      search: q,
+      search: debouncedQ || undefined,
     };
     if (assigneeFilter && assigneeFilter !== "all") {
       filters.assigneeId = assigneeFilter;
     }
     if (typeFilter && typeFilter !== "all") {
-      filters.type = typeFilter;
+      filters.type = typeFilter as IssueType;
     }
     if (priorityFilter && priorityFilter !== "all") {
-      filters.priority = priorityFilter;
+      filters.priority = priorityFilter as IssuePriority;
     }
     return filters;
-  }, [q, assigneeFilter, typeFilter, priorityFilter]);
+  }, [debouncedQ, assigneeFilter, typeFilter, priorityFilter]);
 
   const { data: issuesData, isLoading } = useIssues(projectId, issueFilters);
-
-  const issues = issuesData?.data?.data || [];
+  const issues = issuesData?.data?.data ?? EMPTY_ISSUES;
 
   const getHeaderTitle = () => {
     if (project) return project.name;
@@ -89,9 +162,132 @@ export function DashboardView({ projectId }: { projectId: string }) {
     return t(TRANSLATION_KEYS.DASHBOARD.title);
   };
 
+  const renderHeaderFilterBar = () => {
+    const normalizedTab = activeTab.toLowerCase();
+    if (["board", "backlog", "issues", "done"].includes(normalizedTab)) {
+      return (
+        <IssueTabFilterBar
+          q={q}
+          onSearchChange={setQ}
+          assigneeFilter={assigneeFilter}
+          onAssigneeChange={setAssigneeFilter}
+          typeFilter={typeFilter}
+          onTypeChange={setTypeFilter}
+          priorityFilter={priorityFilter}
+          onPriorityChange={setPriorityFilter}
+        />
+      );
+    }
+
+    if (normalizedTab === "reports") {
+      return <ReportsTabFilterBar />;
+    }
+
+    if (normalizedTab === "workload") {
+      return <WorkloadTabFilterBar q={q} onSearchChange={setQ} />;
+    }
+
+    if (normalizedTab === "retros") {
+      return (
+        <RetrosTabFilterBar
+          selectedSprint={retrosSprint}
+          onSprintChange={setRetrosSprint}
+          searchQuery={retrosSearch}
+          onSearchChange={setRetrosSearch}
+        />
+      );
+    }
+
+    if (normalizedTab === "deps") {
+      return (
+        <DepsTabFilterBar
+          viewMode={depsViewMode}
+          onViewModeChange={setDepsViewMode}
+          searchQuery={depsSearch}
+          onSearchChange={setDepsSearch}
+          filterRisk={depsFilterRisk}
+          onFilterRiskChange={setDepsFilterRisk}
+        />
+      );
+    }
+
+    if (normalizedTab === "archived") {
+      return (
+        <ArchivedTabFilterBar
+          filterType={archivedFilterType}
+          onFilterTypeChange={setArchivedFilterType}
+          searchQuery={archivedSearch}
+          onSearchChange={setArchivedSearch}
+        />
+      );
+    }
+
+    return null;
+  };
+
+  const renderHeaderActions = () => {
+    const normalizedTab = activeTab.toLowerCase();
+    if (normalizedTab === "retros") {
+      return (
+        <>
+          <Button variant={ButtonVariant.Outline} size={ButtonSize.Sm}>
+            <Pulse className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
+            {t(TRANSLATION_KEYS.DASHBOARD.standup)}
+          </Button>
+          <Button
+            variant={ButtonVariant.Primary}
+            size={ButtonSize.Sm}
+            onClick={() => setIsRetroModalOpen(true)}
+          >
+            <Plus className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Retro Note
+          </Button>
+        </>
+      );
+    }
+
+    if (normalizedTab === "deps") {
+      return (
+        <>
+          <Button variant={ButtonVariant.Outline} size={ButtonSize.Sm}>
+            <Pulse className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
+            {t(TRANSLATION_KEYS.DASHBOARD.standup)}
+          </Button>
+          <Button
+            variant={ButtonVariant.Primary}
+            size={ButtonSize.Sm}
+            onClick={() => setIsDepModalOpen(true)}
+          >
+            <Plus className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Dependency
+          </Button>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <Button variant={ButtonVariant.Outline} size={ButtonSize.Sm}>
+          <Pulse className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
+          {t(TRANSLATION_KEYS.DASHBOARD.standup)}
+        </Button>
+        <Button
+          variant={ButtonVariant.Primary}
+          size={ButtonSize.Sm}
+          onClick={() => {
+            setCreateModalStatus(undefined);
+            setIsCreateModalOpen(true);
+          }}
+        >
+          <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
+          {t(TRANSLATION_KEYS.DASHBOARD.addTask)}
+        </Button>
+      </>
+    );
+  };
+
   const renderTabContent = () => {
-    switch (activeTab) {
-      case "Board":
+    const normalizedTab = activeTab.toLowerCase();
+    switch (normalizedTab) {
+      case "board":
         return (
           <DashboardBoardTab
             projectId={projectId}
@@ -106,7 +302,7 @@ export function DashboardView({ projectId }: { projectId: string }) {
             }}
           />
         );
-      case "Backlog":
+      case "backlog":
         return (
           <DashboardBacklogTab
             q={q}
@@ -115,7 +311,7 @@ export function DashboardView({ projectId }: { projectId: string }) {
             onIssueClick={setSelectedIssueId}
           />
         );
-      case "Issues":
+      case "issues":
         return (
           <DashboardIssuesTab
             q={q}
@@ -124,13 +320,54 @@ export function DashboardView({ projectId }: { projectId: string }) {
             onIssueClick={setSelectedIssueId}
           />
         );
-      case "Done":
+      case "done":
         return (
           <DashboardDoneTab
             q={q}
             issues={issues}
             isLoading={isLoading}
             onIssueClick={setSelectedIssueId}
+          />
+        );
+      case "reports":
+        return <DashboardReportsTab projectId={projectId} />;
+      case "workload":
+        return <DashboardWorkloadTab projectId={projectId} />;
+      case "retros":
+        return (
+          <DashboardRetrosTab
+            projectId={projectId}
+            isAddModalOpen={isRetroModalOpen}
+            onAddModalOpenChange={setIsRetroModalOpen}
+            selectedSprint={retrosSprint}
+            onSprintChange={setRetrosSprint}
+            searchQuery={retrosSearch}
+            onSearchQueryChange={setRetrosSearch}
+            onRetroClick={setSelectedRetroId}
+          />
+        );
+      case "deps":
+        return (
+          <DashboardDepsTab
+            projectId={projectId}
+            viewMode={depsViewMode}
+            onViewModeChange={setDepsViewMode}
+            filterRisk={depsFilterRisk}
+            onFilterRiskChange={setDepsFilterRisk}
+            searchQuery={depsSearch}
+            onSearchQueryChange={setDepsSearch}
+            isAddModalOpen={isDepModalOpen}
+            onAddModalOpenChange={setIsDepModalOpen}
+          />
+        );
+      case "archived":
+        return (
+          <DashboardArchivedTab
+            projectId={projectId}
+            filterType={archivedFilterType}
+            onFilterTypeChange={setArchivedFilterType}
+            searchQuery={archivedSearch}
+            onSearchQueryChange={setArchivedSearch}
           />
         );
       default:
@@ -150,6 +387,12 @@ export function DashboardView({ projectId }: { projectId: string }) {
           projectId={projectId}
           issueId={selectedIssueId}
           onClose={() => setSelectedIssueId(null)}
+        />
+      ) : selectedRetroId ? (
+        <RetroDetailView
+          projectId={projectId}
+          retroId={selectedRetroId}
+          onClose={() => setSelectedRetroId(null)}
         />
       ) : (
         <>
@@ -171,148 +414,40 @@ export function DashboardView({ projectId }: { projectId: string }) {
                   </>
                 }
                 description={t(TRANSLATION_KEYS.DASHBOARD.kanbanFlow)}
-                actions={
-                  <>
-                    <Button
-                      variant={ButtonVariant.Outline}
-                      size={ButtonSize.Sm}
-                    >
-                      <Pulse className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
-                      {t(TRANSLATION_KEYS.DASHBOARD.standup)}
-                    </Button>
-                    <Button
-                      variant={ButtonVariant.Primary}
-                      size={ButtonSize.Sm}
-                      onClick={() => {
-                        setCreateModalStatus(undefined);
-                        setIsCreateModalOpen(true);
-                      }}
-                    >
-                      <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
-                      {t(TRANSLATION_KEYS.DASHBOARD.addTask)}
-                    </Button>
-                  </>
-                }
+                actions={renderHeaderActions()}
               >
-                <div className="flex flex-col gap-4 mb-3">
+                <div className="flex flex-col gap-2.5 mb-2">
                   {/* Tabs */}
                   <SegmentedControl
                     tabs={DASHBOARD_TABS}
                     activeTab={activeTab}
                     onTabChange={setActiveTab}
                   />
-                  {/* Filter Bar */}
-                  <div className="flex flex-wrap items-center gap-3">
-                    <div className="relative">
-                      <MagnifyingGlass className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
-                      <Input
-                        type="text"
-                        placeholder={t(
-                          TRANSLATION_KEYS.DASHBOARD.searchPlaceholder,
-                        )}
-                        value={q}
-                        onChange={(e) => setQ(e.target.value)}
-                        className="w-60 h-8 pl-8 pr-3 text-[12.5px]"
-                      />
-                    </div>
-
-                    <Select
-                      value={assigneeFilter || "Assignee"}
-                      onChange={(val) =>
-                        setAssigneeFilter(val === "Assignee" ? "" : val)
-                      }
-                      wrapperClassName="w-fit min-w-[130px]"
-                      className="h-8 text-[12.5px] rounded-lg border-border text-muted-foreground font-medium hover:bg-muted hover:border-border shadow-sm gap-2"
-                    >
-                      <option value="Assignee" disabled hidden>
-                        {t("filters.Assignee" as Parameters<typeof t>[0])}
-                      </option>
-                      <option value="all">
-                        {t(TRANSLATION_KEYS.DASHBOARD.filters.all, {
-                          filter: t(
-                            "filters.Assignee" as Parameters<typeof t>[0],
-                          ),
-                        })}
-                      </option>
-                      <option value="unassigned">Unassigned</option>
-                    </Select>
-
-                    <Select
-                      value={typeFilter || "Type"}
-                      onChange={(val) =>
-                        setTypeFilter(val === "Type" ? "" : val)
-                      }
-                      wrapperClassName="w-fit min-w-[130px]"
-                      className="h-8 text-[12.5px] rounded-lg border-border text-muted-foreground font-medium hover:bg-muted hover:border-border shadow-sm gap-2"
-                    >
-                      <option value="Type" disabled hidden>
-                        {t("filters.Type" as Parameters<typeof t>[0])}
-                      </option>
-                      <option value="all">
-                        {t(TRANSLATION_KEYS.DASHBOARD.filters.all, {
-                          filter: t("filters.Type" as Parameters<typeof t>[0]),
-                        })}
-                      </option>
-                      {Object.values(IssueType).map((type) => (
-                        <option key={type} value={type}>
-                          {type.charAt(0).toUpperCase() + type.slice(1)}
-                        </option>
-                      ))}
-                    </Select>
-
-                    <Select
-                      value={priorityFilter || "Priority"}
-                      onChange={(val) =>
-                        setPriorityFilter(val === "Priority" ? "" : val)
-                      }
-                      wrapperClassName="w-fit min-w-[130px]"
-                      className="h-8 text-[12.5px] rounded-lg border-border text-muted-foreground font-medium hover:bg-muted hover:border-border shadow-sm gap-2"
-                    >
-                      <option value="Priority" disabled hidden>
-                        {t("filters.Priority" as Parameters<typeof t>[0])}
-                      </option>
-                      <option value="all">
-                        {t(TRANSLATION_KEYS.DASHBOARD.filters.all, {
-                          filter: t(
-                            "filters.Priority" as Parameters<typeof t>[0],
-                          ),
-                        })}
-                      </option>
-                      {Object.values(IssuePriority).map((priority) => (
-                        <option key={priority} value={priority}>
-                          {priority}
-                        </option>
-                      ))}
-                    </Select>
-                  </div>
+                  {/* Contextual Filter Bar Tailored Per Active Tab */}
+                  {renderHeaderFilterBar()}
                 </div>
               </PageHeader>
             </div>
           </div>
 
           {/* Tab Content Area */}
-          <div className="flex-1 overflow-hidden">
-            <AnimatePresence mode="popLayout">
-              <motion.div
-                key={activeTab}
-                variants={TAB_CONTENT_VARIANTS}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                className="w-full h-full flex flex-col"
-              >
-                {renderTabContent()}
-              </motion.div>
-            </AnimatePresence>
+          <div className="flex-1 min-h-0 overflow-hidden">
+            <motion.div
+              key={activeTab}
+              variants={tabVariants}
+              initial="hidden"
+              animate="show"
+              className="w-full h-full flex flex-col"
+            >
+              {renderTabContent()}
+            </motion.div>
           </div>
 
+          {/* Create Task Modal */}
           <CreateTaskModal
-            isOpen={isCreateModalOpen}
-            onClose={() => {
-              setIsCreateModalOpen(false);
-              setCreateModalStatus(undefined);
-            }}
             projectId={projectId}
+            isOpen={isCreateModalOpen}
+            onClose={() => setIsCreateModalOpen(false)}
             defaultStatus={createModalStatus}
           />
         </>

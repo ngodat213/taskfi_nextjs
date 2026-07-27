@@ -39,3 +39,16 @@ export function formatDueDate(dateString?: string | null): string {
 
   return formattedDate;
 }
+
+export function formatRelativeTime(dateString?: string | null): string {
+  if (!dateString) return "Vừa xong";
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  if (diffInSeconds < 60) return "Vừa xong";
+  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} phút trước`;
+  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} giờ trước`;
+  if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)} ngày trước`;
+  return date.toLocaleDateString("vi-VN");
+}

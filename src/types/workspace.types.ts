@@ -122,18 +122,56 @@ export interface UpdateEmploymentTypeRequest {
 }
 
 export interface WorkspaceStatus {
+  id?: string;
+  key?: string;
+  no?: number;
   name: string;
   category: string;
-  color: string;
+  color?: string;
+  isDefault?: boolean;
 }
 
 export interface WorkspaceIssueType {
+  id?: string;
+  key?: string;
+  no?: number;
   name: string;
-  icon: string;
+  icon?: string;
+  description?: string;
+  isSubtask?: boolean;
+  isDefault?: boolean;
+}
+
+export interface WorkspacePriority {
+  id?: string;
+  key?: string;
+  no?: number;
+  name: string;
+  color?: string;
+  icon?: string;
+  isDefault?: boolean;
+}
+
+export interface WorkspaceLinkType {
+  type: string;
+  inverseType: string;
+  inwardLabel: string;
+  outwardLabel: string;
 }
 
 export interface WorkspaceConfig {
   workspaceId: string;
   statuses: WorkspaceStatus[];
   issueTypes: WorkspaceIssueType[];
+  priorities?: WorkspacePriority[];
+  linkTypes?: WorkspaceLinkType[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface UpdateWorkspaceConfigRequest {
+  statuses?: WorkspaceStatus[];
+  issueTypes?: WorkspaceIssueType[];
+  priorities?: WorkspacePriority[];
+  linkTypes?: WorkspaceLinkType[];
 }

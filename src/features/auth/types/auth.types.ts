@@ -32,6 +32,11 @@ export interface UserResponseDto {
   id: string;
   email: string;
   name?: string;
+  full_name?: string;
+  avatarPublicId?: string;
+  job_title?: string;
+  department?: string;
+  role?: string;
 }
 
 export interface TokenResponseDto {

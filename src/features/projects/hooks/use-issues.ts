@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { issueService, GetIssuesParams } from "@/services/issue.service";
-import { CreateIssueRequest, Issue } from "@/types/issue.types";
+import { CreateIssueRequest, Issue, IssueComment } from "@/types/issue.types";
 import { PaginatedResponse } from "@/types/api.types";
 
 export const useIssues = (projectId: string, params?: GetIssuesParams) => {
@@ -94,6 +94,90 @@ export const useUpdateIssue = () => {
       queryClient.invalidateQueries({
         queryKey: ["issues", variables.projectId],
       });
+    },
+  });
+};
+
+export const useIssueComments = (issueId: string) => {
+  return useQuery<IssueComment[]>({
+    queryKey: ["issue-comments", issueId],
+    queryFn: async () => {
+      const res = await issueService.getIssueComments(issueId);
+      return res.data || [];
+    },
+    enabled: !!issueId,
+  });
+};
+
+export const useAddComment = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      issueId,
+      body,
+    }: {
+      issueId: string;
+      body: string;
+    }) => {
+      return issueService.addComment(issueId, body);
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["issue-comments", variables.issueId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["issue-activities", variables.issueId],
+      });
+    },
+  });
+};
+
+export const useLinkIssue = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      issueId,
+      targetIssueId,
+      type,
+    }: {
+      projectId?: string;
+      issueId: string;
+      targetIssueId: string;
+      type: string;
+    }) => issueService.createLink(issueId, targetIssueId, type),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["issues"],
+      });
+      if (variables.projectId) {
+        queryClient.invalidateQueries({
+          queryKey: ["issues", variables.projectId],
+        });
+      }
+    },
+  });
+};
+
+export const useUnlinkIssue = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      issueId,
+      targetIssueId,
+    }: {
+      projectId?: string;
+      issueId: string;
+      targetIssueId: string;
+    }) => issueService.removeLink(issueId, targetIssueId),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["issues"],
+      });
+      if (variables.projectId) {
+        queryClient.invalidateQueries({
+          queryKey: ["issues", variables.projectId],
+        });
+      }
     },
   });
 };

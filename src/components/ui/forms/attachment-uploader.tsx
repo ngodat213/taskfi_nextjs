@@ -1,18 +1,32 @@
+"use client";
+
 import { Paperclip, File as FileIcon, X, ImageSquare as ImageIcon, Plus } from "@phosphor-icons/react/dist/ssr";
 import React, { useState, useRef, useCallback } from "react";
-;
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { cn } from "@/utils/cn";
+import { IssueAttachment } from "@/types/issue.types";
 
 export interface AttachmentUploaderProps {
   value?: File[];
+  attachments?: (IssueAttachment | string)[];
+  uploaderId?: string;
   onChange?: (files: File[]) => void;
+  onAttachmentsChange?: (attachments: IssueAttachment[]) => void;
+  onUploadFile?: (file: File) => Promise<IssueAttachment | null>;
+  onRemoveAttachment?: (attachment: IssueAttachment | string) => void;
+  isUploading?: boolean;
   className?: string;
 }
 
 export function AttachmentUploader({
   value = [],
+  attachments = [],
+  uploaderId = "user",
   onChange,
+  onAttachmentsChange,
+  onUploadFile,
+  onRemoveAttachment,
+  isUploading,
   className,
 }: AttachmentUploaderProps) {
   const [isDragging, setIsDragging] = useState(false);
@@ -40,119 +54,90 @@ export function AttachmentUploader({
     [value, onChange],
   );
 
-  const handleFileSelect = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files && e.target.files.length > 0) {
-        const selectedFiles = Array.from(e.target.files);
-        onChange?.([...value, ...selectedFiles]);
-      }
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    },
-    [value, onChange],
-  );
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const selectedFiles = Array.from(e.target.files);
+      onChange?.([...value, ...selectedFiles]);
+    }
+  };
 
-  const removeAttachment = useCallback(
-    (indexToRemove: number) => {
-      onChange?.(value.filter((_, idx) => idx !== indexToRemove));
-    },
-    [value, onChange],
-  );
+  const removeFile = (index: number) => {
+    const newFiles = value.filter((_, i) => i !== index);
+    onChange?.(newFiles);
+  };
 
   return (
-    <div className={className}>
-      <div className="flex justify-between items-center mb-1.5">
-        <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
-          Attachments {value.length > 0 && `(${value.length})`}
-        </h3>
-        <Button
-          variant={ButtonVariant.Ghost}
-          className="h-6 w-6 p-0 text-muted-foreground hover:text-slate-800 hover:bg-secondary rounded-md"
-          onClick={() => fileInputRef.current?.click()}
-        >
-          <Plus className="w-3.5 h-3.5" />
-        </Button>
-      </div>
-
-      <input
-        type="file"
-        ref={fileInputRef}
-        className="hidden"
-        multiple
-        onChange={handleFileSelect}
-      />
-
-      {value.length > 0 && (
-        <div className="flex flex-col gap-2 mb-3">
-          {value.map((file, idx) => (
-            <div
-              key={`${file.name}-${idx}`}
-              className="flex items-center justify-between p-2.5 bg-muted/50 rounded-lg border border-border/60 group"
-            >
-              <div className="flex items-center gap-3 overflow-hidden flex-1 pr-2">
-                <div className="w-8 h-8 rounded-md bg-blue-50 flex items-center justify-center shrink-0">
-                  {file.type.startsWith("image/") ? (
-                    <ImageIcon className="w-4 h-4 text-blue-500" />
-                  ) : (
-                    <FileIcon className="w-4 h-4 text-blue-500" />
-                  )}
-                </div>
-                <div className="flex flex-col overflow-hidden w-full">
-                  <span className="text-[12px] font-medium text-foreground truncate">
-                    {file.name}
-                  </span>
-                  <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-                    <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
-                    <span className="w-1 h-1 rounded-full bg-border" />
-                    <span className="uppercase">
-                      {file.name.split(".").pop()}
-                    </span>
-                  </span>
-                </div>
-              </div>
-              <Button
-                variant={ButtonVariant.Ghost}
-                className="h-6 w-6 p-0 text-muted-foreground hover:text-red-500 hover:bg-red-50 rounded-md opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={() => removeAttachment(idx)}
-              >
-                <X className="w-3.5 h-3.5" />
-              </Button>
-            </div>
-          ))}
-        </div>
-      )}
-
+    <div className={cn("flex flex-col gap-3 w-full", className)}>
       <div
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
         className={cn(
-          "flex items-center justify-center p-4 rounded-lg border border-dashed transition-colors cursor-pointer text-[12px]",
+          "border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-1.5",
           isDragging
-            ? "bg-blue-50/50 border-blue-400 text-blue-600"
-            : "bg-muted/50 border-border text-muted-foreground hover:bg-muted",
+            ? "border-primary bg-primary/5"
+            : "border-border/60 hover:border-border hover:bg-muted/30",
         )}
       >
-        <div className="flex flex-col items-center gap-1.5 pointer-events-none text-center">
-          <Paperclip
-            className={cn(
-              "w-4 h-4",
-              isDragging ? "text-blue-500" : "text-muted-foreground",
-            )}
-          />
-          <div className="flex flex-col gap-0.5">
-            <span>
-              Drop files here or{" "}
-              <span className="text-blue-600 hover:underline">
-                click to browse
-              </span>
-            </span>
-            <span className="text-[10px] text-muted-foreground">
-              Maximum file size 10MB
-            </span>
-          </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          multiple
+          className="hidden"
+          onChange={handleFileSelect}
+        />
+        <div className="p-2 rounded-full bg-muted text-muted-foreground">
+          <Paperclip className="w-4 h-4" />
+        </div>
+        <div className="text-xs text-muted-foreground">
+          <span className="font-semibold text-foreground">Click to upload</span> or drag and drop files
         </div>
       </div>
+
+      {(value.length > 0 || attachments.length > 0) && (
+        <div className="flex flex-wrap gap-2">
+          {attachments.map((att, idx) => {
+            const fileUrl = typeof att === "string" ? att : att.fileUrl;
+            const fileName = fileUrl.split("/").pop() || "Attachment";
+            return (
+              <div
+                key={idx}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-card border border-border/60 text-xs font-medium text-foreground shadow-2xs"
+              >
+                <FileIcon className="w-3.5 h-3.5 text-muted-foreground" />
+                <span className="truncate max-w-[150px]">{fileName}</span>
+                {onRemoveAttachment && (
+                  <button
+                    type="button"
+                    onClick={() => onRemoveAttachment(att)}
+                    className="p-0.5 rounded hover:bg-muted text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                )}
+              </div>
+            );
+          })}
+
+          {value.map((file, idx) => (
+            <div
+              key={idx}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-card border border-border/60 text-xs font-medium text-foreground shadow-2xs"
+            >
+              <FileIcon className="w-3.5 h-3.5 text-muted-foreground" />
+              <span className="truncate max-w-[150px]">{file.name}</span>
+              <button
+                type="button"
+                onClick={() => removeFile(idx)}
+                className="p-0.5 rounded hover:bg-muted text-muted-foreground hover:text-foreground"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

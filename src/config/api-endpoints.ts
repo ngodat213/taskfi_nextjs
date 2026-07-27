@@ -34,4 +34,7 @@ export const API_ENDPOINTS = {
   NOTIFICATIONS: {
     BASE: "/notifications",
   },
+  RETROS: {
+    BASE: "/retros",
+  },
 } as const;
