@@ -1,5 +1,5 @@
 "use client";
-import { WarningCircle } from "@phosphor-icons/react/dist/ssr";
+import { WarningCircleIcon } from "@phosphor-icons/react/dist/ssr";
 
 import Link from "next/link";
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
@@ -14,7 +14,7 @@ export default function NotFound() {
 
       <div className="relative z-10 p-10 max-w-md w-full text-center flex flex-col items-center gap-5">
         <div className="w-20 h-20 bg-red-100/80 backdrop-blur-md text-red-500 flex items-center justify-center rounded-2xl mb-2 shadow-sm border border-red-200/50">
-          <WarningCircle className="w-10 h-10" strokeWidth={1.5} />
+          <WarningCircleIcon className="w-10 h-10" strokeWidth={1.5} />
         </div>
         <div className="space-y-2">
           <h1 className="text-5xl font-extrabold tracking-tight bg-linear-to-br from-slate-800 to-slate-500 bg-clip-text text-transparent">

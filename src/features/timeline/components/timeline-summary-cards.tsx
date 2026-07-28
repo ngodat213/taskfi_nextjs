@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  ArrowUpRight,
-  Clock,
-  ShieldCheck,
-} from "@phosphor-icons/react/dist/ssr";
+import { ArrowUpRightIcon, ClockIcon, ShieldCheckIcon } from "@phosphor-icons/react/dist/ssr";
 import { TimelineSummary } from "@/features/timeline/types/timeline.types";
 import { StatCard } from "@/components/ui/data-display/stat-card";
 
@@ -23,7 +19,7 @@ export function TimelineSummaryCards({ summary }: TimelineSummaryCardsProps) {
         trend={{
           text: "4 epics target Q3 delivery",
           isPositive: true,
-          icon: <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />,
+          icon: <ArrowUpRightIcon className="w-3.5 h-3.5 stroke-[2.5]" />,
         }}
       />
 
@@ -35,7 +31,7 @@ export function TimelineSummaryCards({ summary }: TimelineSummaryCardsProps) {
         trend={{
           text: "3 deliverables completed",
           isPositive: true,
-          icon: <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />,
+          icon: <ArrowUpRightIcon className="w-3.5 h-3.5 stroke-[2.5]" />,
         }}
       />
 
@@ -47,7 +43,7 @@ export function TimelineSummaryCards({ summary }: TimelineSummaryCardsProps) {
         trend={{
           text: "Low risk of delay",
           isPositive: true,
-          icon: <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />,
+          icon: <ShieldCheckIcon className="w-3.5 h-3.5 text-emerald-500" />,
         }}
       />
 
@@ -58,7 +54,7 @@ export function TimelineSummaryCards({ summary }: TimelineSummaryCardsProps) {
         subValue="days remaining"
         footer={
           <div className="flex items-center gap-1.5 text-[12px] font-medium text-muted-foreground">
-            <Clock className="w-3.5 h-3.5 text-blue-500" />
+            <ClockIcon className="w-3.5 h-3.5 text-blue-500" />
             <span>Target: Aug 01, 2026</span>
           </div>
         }

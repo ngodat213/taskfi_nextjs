@@ -1,12 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  ArrowBendUpLeft,
-  ShareNetwork,
-  Check,
-  DotsThree,
-} from "@phosphor-icons/react/dist/ssr";
+import { ArrowBendUpLeftIcon, ShareNetworkIcon, CheckIcon, DotsThreeIcon } from "@phosphor-icons/react/dist/ssr";
 import { Avatar } from "@/components/ui/data-display/avatar";
 import { MarkdownPreview } from "@/components/ui/data-display/markdown-preview";
 import {
@@ -112,7 +107,7 @@ export function RetroCommentItem({ comment, onReply }: RetroCommentItemProps) {
               onClick={() => onReply(rawDisplayName)}
               className="h-6 px-2 text-[11.5px] font-medium gap-1 text-muted-foreground hover:text-primary transition-colors cursor-pointer"
             >
-              <ArrowBendUpLeft className="w-3.5 h-3.5" />
+              <ArrowBendUpLeftIcon className="w-3.5 h-3.5" />
               <span>Trả lời</span>
             </Button>
             <Button
@@ -126,12 +121,12 @@ export function RetroCommentItem({ comment, onReply }: RetroCommentItemProps) {
             >
               {isCopied ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-emerald-500" />
+                  <CheckIcon className="w-3.5 h-3.5 text-emerald-500" />
                   <span>Đã sao chép!</span>
                 </>
               ) : (
                 <>
-                  <ShareNetwork className="w-3.5 h-3.5" />
+                  <ShareNetworkIcon className="w-3.5 h-3.5" />
                   <span>Chia sẻ</span>
                 </>
               )}
@@ -142,7 +137,7 @@ export function RetroCommentItem({ comment, onReply }: RetroCommentItemProps) {
               size={ButtonSize.Icon}
               className="w-6 h-6 text-muted-foreground hover:text-primary transition-colors cursor-pointer"
             >
-              <DotsThree className="w-3.5 h-3.5" />
+              <DotsThreeIcon className="w-3.5 h-3.5" />
             </Button>
           </div>
           <span className="text-[11px] text-muted-foreground/70 font-normal shrink-0">

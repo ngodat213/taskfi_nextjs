@@ -1,5 +1,5 @@
 "use client";
-import { Command } from "@phosphor-icons/react/dist/ssr";
+import { CommandIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { VerifyOtpForm } from "@/features/auth/components/verify-otp-form";
 import { AuthLayout } from "@/features/auth/components/auth-layout";
@@ -12,7 +12,7 @@ export default function VerifyOtpPage() {
     <AuthLayout
       title="Check your email"
       description="We've sent a 6-digit verification code to your email address."
-      icon={<Command className="w-8 h-8 text-foreground" />}
+      icon={<CommandIcon className="w-8 h-8 text-foreground" />}
       footer={
         <Link
           href="/register"

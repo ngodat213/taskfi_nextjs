@@ -1,12 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import {
-  Archive,
-  ArrowCounterClockwise,
-  FileText,
-  Lightning,
-} from "@phosphor-icons/react/dist/ssr";
+import { ArchiveIcon, ArrowCounterClockwiseIcon, FileTextIcon, LightningIcon } from "@phosphor-icons/react/dist/ssr";
 import { MOCK_ARCHIVED_ITEMS } from "@/features/archived/mocks/archived.mocks";
 import { ArchivedItem } from "@/features/archived/types/archived.types";
 import { StatCard } from "@/components/ui/data-display/stat-card";
@@ -59,19 +54,19 @@ export function DashboardArchivedTab({
         <StatCard
           label="Archived Items"
           value={items.length}
-          icon={<Archive className="w-4.5 h-4.5 text-blue-500" />}
+          icon={<ArchiveIcon className="w-4.5 h-4.5 text-blue-500" />}
         />
         <StatCard
           label="Restored This Month"
           value={12}
           icon={
-            <ArrowCounterClockwise className="w-4.5 h-4.5 text-emerald-500" />
+            <ArrowCounterClockwiseIcon className="w-4.5 h-4.5 text-emerald-500" />
           }
         />
         <StatCard
           label="Storage Space Saved"
           value="1.4 GB"
-          icon={<FileText className="w-4.5 h-4.5 text-purple-500" />}
+          icon={<FileTextIcon className="w-4.5 h-4.5 text-purple-500" />}
         />
       </div>
 
@@ -85,7 +80,7 @@ export function DashboardArchivedTab({
           isEmpty={issueItems.length === 0}
           emptyState={
             <EmptyState
-              icon={Archive}
+              icon={ArchiveIcon}
               title="No archived issues"
               className="p-6 bg-card border border-border/80 rounded-xl"
             />
@@ -104,7 +99,7 @@ export function DashboardArchivedTab({
           isEmpty={sprintItems.length === 0}
           emptyState={
             <EmptyState
-              icon={Lightning}
+              icon={LightningIcon}
               title="No archived sprints"
               className="p-6 bg-card border border-border/80 rounded-xl"
             />
@@ -123,7 +118,7 @@ export function DashboardArchivedTab({
           isEmpty={docItems.length === 0}
           emptyState={
             <EmptyState
-              icon={FileText}
+              icon={FileTextIcon}
               title="No archived documents"
               className="p-6 bg-card border border-border/80 rounded-xl"
             />

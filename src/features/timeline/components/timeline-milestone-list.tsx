@@ -1,7 +1,7 @@
 "use client";
 
 import { MilestoneItem } from "@/features/timeline/types/timeline.types";
-import { CalendarBlank } from "@phosphor-icons/react/dist/ssr";
+import { CalendarBlankIcon } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/utils/cn";
 
 interface TimelineMilestoneListProps {
@@ -50,7 +50,7 @@ export function TimelineMilestoneList({
                   </span>
 
                   <div className="flex items-center gap-1 text-[11px] text-muted-foreground font-medium">
-                    <CalendarBlank className="w-3.5 h-3.5 text-blue-500" />
+                    <CalendarBlankIcon className="w-3.5 h-3.5 text-blue-500" />
                     <span>{ms.dueDate}</span>
                   </div>
                 </div>

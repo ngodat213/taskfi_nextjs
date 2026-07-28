@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle } from "@phosphor-icons/react/dist/ssr";
+import { CheckCircleIcon } from "@phosphor-icons/react/dist/ssr";
 import {
   Button,
   ButtonVariant,
@@ -28,7 +28,7 @@ export function RetroSidebarStatus({
           onClick={onToggleComplete}
           className="w-full text-xs h-8"
         >
-          <CheckCircle className="w-3.5 h-3.5 mr-1" />
+          <CheckCircleIcon className="w-3.5 h-3.5 mr-1" />
           {completed ? "Đã hoàn thành (Done)" : "Đánh dấu hoàn thành"}
         </Button>
       </div>

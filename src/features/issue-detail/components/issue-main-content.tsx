@@ -1,13 +1,16 @@
 import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 import { SearchSelect } from "@/components/ui/forms/search-select";
 import { TextEditor } from "@/components/ui/forms/text-editor";
 import { AttachmentUploader } from "@/components/ui/forms/attachment-uploader";
-import { useIssues } from "@/features/projects/hooks/use-issues";
+import { useParentOptions } from "@/features/projects/hooks/use-issues";
 import { Issue } from "@/types/issue.types";
 import { IssueItemCard } from "./issue-item-card";
 import { IssueSubtasks } from "./issue-subtasks";
 import { IssueLinkedIssues } from "./issue-linked-issues";
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { mapIssueToSearchOption } from "@/features/issue-detail/utils/issue-options.utils";
 
 import { useDeleteImage } from "@/hooks/use-upload";
 import { getPublicIdFromAttachment } from "@/utils/cloudinary";
@@ -27,14 +30,16 @@ export function IssueMainContent({
   onUpdate,
   fieldErrors,
 }: IssueMainContentProps) {
+  const t = useTranslations("Dashboard");
+  const TK = TRANSLATION_KEYS.DASHBOARD.IssueMainContent;
+
   const deleteImageMutation = useDeleteImage();
   const [searchQuery, setSearchQuery] = useState("");
-  const { data: issuesResponse } = useIssues(projectId, {
-    limit: 50,
+  const { data: parentOptionsResponse } = useParentOptions(projectId, {
+    type: issue.type,
     search: searchQuery || undefined,
-    childType: issue.type,
   });
-  const allIssues = issuesResponse?.data?.data || [];
+  const allIssues = parentOptionsResponse?.data || [];
 
   const [desc, setDesc] = useState(issue.description || "");
   const [attachments, setAttachments] = useState<File[]>([]);
@@ -54,9 +59,9 @@ export function IssueMainContent({
   return (
     <div className="flex-1 flex flex-col gap-5">
       {/* Parent Task */}
-      <div className="flex flex-col items-start gap-1.5 w-full relative">
+      <div className="flex flex-col gap-1.5 w-full relative">
         <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
-          Parent Task
+          {t(TK.parentTask)}
         </h3>
         {(() => {
           const parentIssue = issue.parentId
@@ -74,18 +79,14 @@ export function IssueMainContent({
 
           const parentOptions = allIssues
             .filter((i) => i.id !== issue.id)
-            .map((i) => ({
-              value: i.id,
-              label: `${i.issueKey} - ${i.summary}`,
-            }));
+            .map(mapIssueToSearchOption);
 
           return (
             <SearchSelect
               options={parentOptions}
               value=""
               onChange={(val) => onUpdate("parentId", val || null)}
-              placeholder="+ Add Parent Task"
-              className="h-8 text-[13px] min-w-50 font-medium"
+              placeholder={t(TK.addParentTask)}
               onSearchChange={setSearchQuery}
             />
           );
@@ -96,13 +97,13 @@ export function IssueMainContent({
       {/* Description */}
       <div className="relative">
         <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">
-          Description
+          {t(TK.description)}
         </h3>
         <TextEditor
           value={desc}
           onChange={setDesc}
           onBlur={handleDescBlur}
-          placeholder="Add a description..."
+          placeholder={t(TK.descriptionPlaceholder)}
         />
         <ErrorTooltip message={fieldErrors?.description} />
       </div>
@@ -144,7 +145,7 @@ export function IssueMainContent({
       {/* Comments Section */}
       <div className="flex flex-col gap-2 mt-2">
         <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
-          Comments
+          {t(TK.comments)}
         </h3>
         <IssueComments issue={issue} />
       </div>

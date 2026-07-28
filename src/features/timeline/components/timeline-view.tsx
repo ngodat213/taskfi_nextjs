@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Stack, Flag, Plus } from "@phosphor-icons/react/dist/ssr";
+import { StackIcon, FlagIcon, PlusIcon } from "@phosphor-icons/react/dist/ssr";
 import { PageHeader } from "@/components/ui/layout/page-header";
 import { Select } from "@/components/ui/forms/select";
 import {
@@ -36,8 +36,8 @@ const PROJECTS = [
 ];
 
 const VIEW_MODE_TABS: SegmentedControlTab[] = [
-  { id: "gantt", label: "Gantt Chart", icon: Stack },
-  { id: "milestones", label: "Milestones", icon: Flag },
+  { id: "gantt", label: "Gantt Chart", icon: StackIcon },
+  { id: "milestones", label: "Milestones", icon: FlagIcon },
 ];
 
 const ZOOM_TABS: SegmentedControlTab[] = [
@@ -99,7 +99,7 @@ export function TimelineView() {
               variant={ButtonVariant.Primary}
               className="gap-1.5 text-[12px] shadow-2xs"
             >
-              <Plus className="w-3.5 h-3.5" />
+              <PlusIcon className="w-3.5 h-3.5" />
               <span>New Epic</span>
             </Button>
           }

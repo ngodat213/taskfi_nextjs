@@ -1,13 +1,16 @@
 "use client";
 
-import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import { MagnifyingGlassIcon } from "@phosphor-icons/react/dist/ssr";
 import { Input } from "@/components/ui/forms/input";
 import { Select } from "@/components/ui/forms/select";
 import { IssueType, IssuePriority } from "@/types/issue.types";
 import { useTranslations } from "next-intl";
 import { TRANSLATION_KEYS } from "@/constants/translations";
 
-import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
+import {
+  useWorkspaceConfig,
+  useWorkspaceMembers,
+} from "@/features/workspaces/hooks/use-workspaces";
 import { useWorkspaceStore } from "@/store/workspace.store";
 
 interface IssueTabFilterBarProps {
@@ -39,6 +42,12 @@ export function IssueTabFilterBar({
   const { data: configResponse } = useWorkspaceConfig(
     activeWorkspaceId as string,
   );
+  const { data: membersResponse } = useWorkspaceMembers(
+    activeWorkspaceId as string,
+    { limit: 50 },
+  );
+
+  const members = membersResponse?.data?.data || [];
 
   const dynamicTypes =
     configResponse?.data?.issueTypes?.map((t) => t.name) ||
@@ -47,7 +56,7 @@ export function IssueTabFilterBar({
   return (
     <div className="flex flex-wrap items-center gap-3">
       <div className="relative">
-        <MagnifyingGlass className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+        <MagnifyingGlassIcon className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
         <Input
           type="text"
           variant="pill"
@@ -58,6 +67,7 @@ export function IssueTabFilterBar({
         />
       </div>
 
+      {/* Assignee Filter */}
       <Select
         value={assigneeFilter || "Assignee"}
         onChange={(val) => onAssigneeChange(val === "Assignee" ? "" : val)}
@@ -73,8 +83,14 @@ export function IssueTabFilterBar({
           })}
         </option>
         <option value="unassigned">Unassigned</option>
+        {members.map((m) => (
+          <option key={m.userId} value={m.userId}>
+            {m.username || m.email}
+          </option>
+        ))}
       </Select>
 
+      {/* Type Filter */}
       <Select
         value={typeFilter || "Type"}
         onChange={(val) => onTypeChange(val === "Type" ? "" : val)}
@@ -96,6 +112,7 @@ export function IssueTabFilterBar({
         ))}
       </Select>
 
+      {/* Priority Filter */}
       <Select
         value={priorityFilter || "Priority"}
         onChange={(val) => onPriorityChange(val === "Priority" ? "" : val)}

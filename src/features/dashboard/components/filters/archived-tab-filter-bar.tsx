@@ -1,6 +1,6 @@
 "use client";
 
-import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import { MagnifyingGlassIcon } from "@phosphor-icons/react/dist/ssr";
 import { Input } from "@/components/ui/forms/input";
 import { Select } from "@/components/ui/forms/select";
 
@@ -20,7 +20,7 @@ export function ArchivedTabFilterBar({
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 w-full">
       <div className="relative">
-        <MagnifyingGlass className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+        <MagnifyingGlassIcon className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
         <Input
           type="text"
           variant="pill"

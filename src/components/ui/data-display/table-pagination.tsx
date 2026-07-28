@@ -1,4 +1,4 @@
-import { CaretLeft, CaretRight } from "@phosphor-icons/react/dist/ssr";
+import { CaretLeftIcon, CaretRightIcon } from "@phosphor-icons/react/dist/ssr";
 import * as React from "react";
 ;
 import { Button, ButtonVariant, ButtonSize } from "@/components/ui/actions/button";
@@ -55,7 +55,7 @@ export function TablePagination({
             onClick={() => onPageChange(Math.max(1, page - 1))}
             disabled={!hasPreviousPage}
           >
-            <CaretLeft className="w-4 h-4" />
+            <CaretLeftIcon className="w-4 h-4" />
             {t("previous")}
           </Button>
           <Button
@@ -65,7 +65,7 @@ export function TablePagination({
             disabled={!hasNextPage}
           >
             {t("next")}
-            <CaretRight className="w-4 h-4" />
+            <CaretRightIcon className="w-4 h-4" />
           </Button>
         </div>
       </div>

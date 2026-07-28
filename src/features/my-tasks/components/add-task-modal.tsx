@@ -1,4 +1,4 @@
-import { CheckSquare, CloudArrowUp } from "@phosphor-icons/react/dist/ssr";
+import { CheckSquareIcon, CloudArrowUpIcon } from "@phosphor-icons/react/dist/ssr";
 import {
   Modal,
   ModalContent,
@@ -24,7 +24,7 @@ export function AddTaskModal({ isOpen, onClose }: AddTaskModalProps) {
       <ModalContent maxWidth="max-w-[900px]">
         <ModalHeader
           title="Create new task"
-          icon={<CheckSquare className="w-4 h-4" />}
+          icon={<CheckSquareIcon className="w-4 h-4" />}
         />
         <ModalBody>
           <ModalScrollArea
@@ -81,7 +81,7 @@ function AddTaskForm() {
           <div className="flex justify-center px-6 py-8 border-2 border-border border-dashed rounded-lg hover:border-blue-500 hover:bg-blue-50/50 transition-all cursor-pointer group">
             <div className="space-y-2 text-center flex flex-col items-center">
               <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center group-hover:bg-blue-100 transition-colors">
-                <CloudArrowUp className="h-5 w-5 text-muted-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
+                <CloudArrowUpIcon className="h-5 w-5 text-muted-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
               </div>
               <div className="flex text-[13px] text-muted-foreground justify-center">
                 <span className="relative cursor-pointer rounded-md font-medium text-blue-600 hover:text-blue-700 focus-within:outline-none">

@@ -14,12 +14,7 @@ import {
 } from "@/components/ui/forms/segmented-control";
 import { Select } from "@/components/ui/forms/select";
 import { useGroups } from "@/features/workspace-settings/hooks/use-groups";
-import {
-  DownloadSimple,
-  UsersThree,
-  CalendarCheck,
-  SquaresFour,
-} from "@phosphor-icons/react/dist/ssr";
+import { DownloadSimpleIcon, UsersThreeIcon, CalendarCheckIcon, SquaresFourIcon } from "@phosphor-icons/react/dist/ssr";
 import { motion, AnimatePresence } from "framer-motion";
 import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
 
@@ -36,8 +31,8 @@ import { DailyBurnTable } from "./daily-burn-table";
 import { CapacitySummaryCards } from "./capacity-summary-cards";
 
 const REPORT_TAB_OPTIONS: SegmentedControlTab[] = [
-  { id: "overview", label: "Overview", icon: SquaresFour },
-  { id: "workload", label: "Team Capacity", icon: UsersThree },
+  { id: "overview", label: "Overview", icon: SquaresFourIcon },
+  { id: "workload", label: "Team Capacity", icon: UsersThreeIcon },
 ];
 
 export function ReportsView() {
@@ -69,7 +64,7 @@ export function ReportsView() {
                   size={ButtonSize.Sm}
                   className="gap-1.5 text-[12px] shadow-2xs"
                 >
-                  <DownloadSimple className="w-3.5 h-3.5" strokeWidth={2.5} />
+                  <DownloadSimpleIcon className="w-3.5 h-3.5" strokeWidth={2.5} />
                   Export Report
                 </Button>
               }
@@ -129,7 +124,7 @@ export function ReportsView() {
 
                   {/* Period Badge */}
                   <div className="flex items-center gap-2 text-[12px] text-muted-foreground font-semibold shrink-0 bg-card px-3 py-1.5 rounded-full border border-border/80 shadow-2xs h-9.5">
-                    <CalendarCheck className="w-4 h-4 text-blue-500" />
+                    <CalendarCheckIcon className="w-4 h-4 text-blue-500" />
                     <span className="whitespace-nowrap">
                       Jul 13 - Jul 24, 2026
                     </span>
@@ -183,7 +178,7 @@ export function ReportsView() {
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center justify-between border-b border-border/60 pb-3">
                     <h3 className="text-[13.5px] font-bold text-foreground flex items-center gap-2.5">
-                      <UsersThree className="w-5 h-5 text-blue-500" />
+                      <UsersThreeIcon className="w-5 h-5 text-blue-500" />
                       <span>
                         Individual Member Capacity & Velocity Breakdown
                       </span>

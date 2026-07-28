@@ -1,14 +1,5 @@
 "use client";
-import {
-  Users,
-  Shield,
-  SquaresFour,
-  Buildings,
-  Briefcase,
-  Plus,
-  MagnifyingGlass,
-  SlidersHorizontal,
-} from "@phosphor-icons/react/dist/ssr";
+import { UsersIcon, ShieldIcon, SquaresFourIcon, BuildingsIcon, BriefcaseIcon, PlusIcon, MagnifyingGlassIcon, SlidersHorizontalIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -54,28 +45,28 @@ export function WorkspaceSettingsView() {
     {
       id: WorkspaceSettingsTab.MEMBERS,
       label: t(TK_TABS.members),
-      icon: Users,
+      icon: UsersIcon,
     },
     {
       id: WorkspaceSettingsTab.GROUPS,
       label: t(TK_TABS.groups),
-      icon: SquaresFour,
+      icon: SquaresFourIcon,
     },
-    { id: WorkspaceSettingsTab.ROLES, label: t(TK_TABS.roles), icon: Shield },
+    { id: WorkspaceSettingsTab.ROLES, label: t(TK_TABS.roles), icon: ShieldIcon },
     {
       id: WorkspaceSettingsTab.DEPARTMENTS,
       label: t(TK_TABS.departments),
-      icon: Buildings,
+      icon: BuildingsIcon,
     },
     {
       id: WorkspaceSettingsTab.EMPLOYMENT_TYPES,
       label: t(TK_TABS.employmentTypes),
-      icon: Briefcase,
+      icon: BriefcaseIcon,
     },
     {
       id: WorkspaceSettingsTab.CONFIG,
       label: "Workspace Config",
-      icon: SlidersHorizontal,
+      icon: SlidersHorizontalIcon,
     },
   ];
 
@@ -134,7 +125,7 @@ export function WorkspaceSettingsView() {
                 onClick={handleAddNew}
                 className="w-fit"
               >
-                <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
+                <PlusIcon className="w-3.5 h-3.5" strokeWidth={2.5} />
                 <span className="hidden sm:inline">{t(TK_ACTIONS.addNew)}</span>
                 <span className="sm:hidden">{t(TK_ACTIONS.add)}</span>
               </Button>
@@ -154,7 +145,7 @@ export function WorkspaceSettingsView() {
             {activeTab !== WorkspaceSettingsTab.CONFIG && (
               <div className="flex flex-wrap items-center gap-2.5">
                 <div className="relative group">
-                  <MagnifyingGlass className="w-3.5 h-3.5 text-muted-foreground absolute left-2.5 top-1/2 -translate-y-1/2" />
+                  <MagnifyingGlassIcon className="w-3.5 h-3.5 text-muted-foreground absolute left-2.5 top-1/2 -translate-y-1/2" />
                   <Input
                     type="text"
                     placeholder={searchPlaceholders[activeTab]}

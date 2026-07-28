@@ -1,4 +1,4 @@
-import { FolderOpen, CircleNotch } from "@phosphor-icons/react/dist/ssr";
+import { FolderOpenIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -207,7 +207,7 @@ export function AddNewProjectModal({
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader
             title={projectToEdit ? "Chỉnh sửa dự án" : t(TK.title)}
-            icon={<FolderOpen className="w-4 h-4" />}
+            icon={<FolderOpenIcon className="w-4 h-4" />}
           />
           <ModalBody>
             <ModalScrollArea
@@ -362,7 +362,7 @@ export function AddNewProjectModal({
               </Button>
               <Button type="submit" disabled={isLoading}>
                 {isLoading && (
-                  <CircleNotch className="w-3.5 h-3.5 animate-spin" />
+                  <CircleNotchIcon className="w-3.5 h-3.5 animate-spin" />
                 )}
                 {t(TK.submit)}
               </Button>

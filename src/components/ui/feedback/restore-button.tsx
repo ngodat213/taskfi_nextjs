@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowCounterClockwise, Check } from "@phosphor-icons/react/dist/ssr";
+import { ArrowCounterClockwiseIcon, CheckIcon } from "@phosphor-icons/react/dist/ssr";
 import {
   Button,
   ButtonVariant,
@@ -142,9 +142,9 @@ export function RestoreButton({ onRestore, className }: RestoreButtonProps) {
             }}
           >
             {step === "confirming" || step === "restored" ? (
-              <Check className="w-3 h-3 text-white" />
+              <CheckIcon className="w-3 h-3 text-white" />
             ) : (
-              <ArrowCounterClockwise className="w-3 h-3 text-emerald-500" />
+              <ArrowCounterClockwiseIcon className="w-3 h-3 text-emerald-500" />
             )}
           </motion.div>
           <span>

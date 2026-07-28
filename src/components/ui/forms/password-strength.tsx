@@ -1,4 +1,4 @@
-import { Check } from "@phosphor-icons/react/dist/ssr";
+import { CheckIcon } from "@phosphor-icons/react/dist/ssr";
 ;
 import { useMemo } from "react";
 import { cn } from "@/utils/cn";
@@ -90,7 +90,7 @@ export function PasswordStrength({ password = "" }: PasswordStrengthProps) {
               c.met ? "text-[#5E9B6A]" : "text-muted-foreground",
             )}
           >
-            <Check className="w-3.5 h-3.5" />
+            <CheckIcon className="w-3.5 h-3.5" />
             <span className={c.met ? "line-through opacity-80" : ""}>
               {c.label}
             </span>

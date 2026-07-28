@@ -1,5 +1,5 @@
 "use client";
-import { CloudArrowUp, X, File as FileIcon } from "@phosphor-icons/react/dist/ssr";
+import { CloudArrowUpIcon, XIcon, FileIcon as FileIcon } from "@phosphor-icons/react/dist/ssr";
 
 import React, { useRef, useState } from "react";
 ;
@@ -73,7 +73,7 @@ export function FileUploader({
         onDrop={onDrop}
         onClick={() => inputRef.current?.click()}
       >
-        <CloudArrowUp
+        <CloudArrowUpIcon
           className={cn(
             "w-8 h-8",
             isDragging ? "text-blue-500" : "text-muted-foreground",
@@ -117,7 +117,7 @@ export function FileUploader({
                 }}
                 className="w-7 h-7 rounded-md flex items-center justify-center text-muted-foreground hover:text-red-500 hover:bg-red-50 transition-colors"
               >
-                <X className="w-4 h-4" />
+                <XIcon className="w-4 h-4" />
               </button>
             </div>
           ))}

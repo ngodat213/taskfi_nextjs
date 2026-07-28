@@ -1,18 +1,15 @@
 "use client";
 
-import {
-  Copy,
-  Check,
-  Camera,
-  User,
-  EnvelopeSimple,
-  IdentificationCard,
-  ShieldCheck,
-  Trash,
-} from "@phosphor-icons/react/dist/ssr";
-import { useState } from "react";
+import { CopyIcon, CheckIcon, CameraIcon, UserIcon, EnvelopeSimpleIcon, IdentificationCardIcon, ShieldCheckIcon, TrashIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { useUserStore } from "@/store/user.store";
+import {
+  useCurrentUser,
+  useUpdateProfile,
+} from "@/features/auth/hooks/use-auth";
+import { useUploadImage } from "@/hooks/use-upload";
 import { getInitials } from "@/utils/string";
 import {
   Button,
@@ -23,37 +20,129 @@ import { Input } from "@/components/ui/forms/input";
 import { cn } from "@/utils/cn";
 
 export function ProfileSetting() {
+  const { data: meResponse, isLoading } = useCurrentUser();
+  const updateProfileMutation = useUpdateProfile();
+  const uploadImageMutation = useUploadImage();
+
   const user = useUserStore((state) => state.user);
   const setUser = useUserStore((state) => state.setUser);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [fullName, setFullName] = useState(user?.name || "Sam Lee");
+  const currentUser = meResponse?.data;
+
+  const initialName = currentUser?.full_name || user?.name || "";
+  const [fullName, setFullName] = useState(initialName);
+  const [prevInitialName, setPrevInitialName] = useState(initialName);
   const [isSaving, setIsSaving] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
 
-  const userId = user?.id || "usr_c7c93da5-5b20-4a0c-9745-34f0b3e08f00";
-  const userEmail = user?.email || "alexsmith.mobbin+1@gmail.com";
+  // Sync local fullName state when initialName from API/store changes
+  if (initialName !== prevInitialName) {
+    setPrevInitialName(initialName);
+    setFullName(initialName);
+  }
 
-  const handleSaveName = () => {
-    setIsSaving(true);
-    setTimeout(() => {
-      setIsSaving(false);
+  // Update external Zustand store when currentUser data is fetched
+  useEffect(() => {
+    if (currentUser) {
+      setUser({
+        id: currentUser.id,
+        email: currentUser.email,
+        name: currentUser.full_name,
+        avatarUrl: currentUser.avatar?.fileUrl,
+        jobTitle: currentUser.job_title,
+        department: currentUser.department,
+        role: currentUser.global_role,
+      });
+    }
+  }, [currentUser, setUser]);
+
+  const userId = currentUser?.id || user?.id || "";
+  const userEmail = currentUser?.email || user?.email || "";
+  const avatarUrl = currentUser?.avatar?.fileUrl || user?.avatarUrl;
+
+  if (isLoading && !currentUser && !user) {
+    return (
+      <div className="space-y-6 w-full max-w-4xl animate-pulse">
+        <div className="bg-card rounded-2xl border border-border/80 p-6 h-32" />
+        <div className="bg-card rounded-2xl border border-border/80 p-6 h-72" />
+      </div>
+    );
+  }
+
+  const handleSaveName = async () => {
+    if (!fullName.trim()) return;
+    try {
+      setIsSaving(true);
+      await updateProfileMutation.mutateAsync({ fullName: fullName.trim() });
       setIsSaved(true);
-      if (user) {
-        setUser({ ...user, name: fullName });
+      if (user || currentUser) {
+        setUser({
+          ...(user || {}),
+          id: userId,
+          email: userEmail,
+          name: fullName.trim(),
+        });
       }
       setTimeout(() => setIsSaved(false), 2500);
-    }, 400);
+    } catch (err) {
+      console.error("Failed to update profile name:", err);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleAvatarFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const uploadRes = await uploadImageMutation.mutateAsync(file);
+      const resData = uploadRes?.data as Record<string, string> | undefined;
+      const publicId = resData?.publicId || resData?.fileUrl;
+      if (publicId) {
+        await updateProfileMutation.mutateAsync({ avatarPublicId: publicId });
+      }
+    } catch (err) {
+      console.error("Failed to upload avatar:", err);
+    } finally {
+      e.target.value = "";
+    }
+  };
+
+  const handleRemoveAvatar = async () => {
+    try {
+      await updateProfileMutation.mutateAsync({ avatarPublicId: "" });
+    } catch (err) {
+      console.error("Failed to remove avatar:", err);
+    }
   };
 
   const handleCopyId = () => {
-    navigator.clipboard.writeText(userId);
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000);
+    if (userId) {
+      navigator.clipboard.writeText(userId);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    }
   };
+
+  const isUploadingAvatar =
+    uploadImageMutation.isPending || updateProfileMutation.isPending;
 
   return (
     <div className="space-y-6 w-full max-w-4xl">
+      {/* Hidden file input for avatar upload */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleAvatarFileChange}
+        accept="image/*"
+        className="hidden"
+      />
+
       {/* Profile Picture Card */}
       <div className="relative bg-card rounded-2xl border border-border/80 p-6 shadow-2xs overflow-hidden group">
         {/* Subtle Ambient Background Radial Glow */}
@@ -62,13 +151,32 @@ export function ProfileSetting() {
         <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-center gap-5">
             {/* Avatar Container */}
-            <div className="relative group/avatar cursor-pointer shrink-0">
+            <div
+              onClick={() => fileInputRef.current?.click()}
+              className="relative group/avatar cursor-pointer shrink-0"
+              title="Click to change photo"
+            >
               <div className="w-20 h-20 rounded-full bg-emerald-500 text-white font-bold text-2xl flex items-center justify-center border-2 border-card shadow-md relative overflow-hidden transition-transform duration-300 group-hover/avatar:scale-105">
-                {getInitials(fullName)}
+                {avatarUrl &&
+                (avatarUrl.startsWith("http") || avatarUrl.startsWith("/")) ? (
+                  <Image
+                    src={avatarUrl}
+                    alt={fullName}
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                ) : (
+                  getInitials(fullName)
+                )}
 
-                {/* Camera Overlay */}
+                {/* CameraIcon Overlay */}
                 <div className="absolute inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-200">
-                  <Camera className="w-6 h-6 text-white" />
+                  {isUploadingAvatar ? (
+                    <CircleNotchIcon className="w-6 h-6 text-white animate-spin" />
+                  ) : (
+                    <CameraIcon className="w-6 h-6 text-white" />
+                  )}
                 </div>
               </div>
 
@@ -83,11 +191,14 @@ export function ProfileSetting() {
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <h3 className="text-[16px] font-bold text-foreground tracking-tight">
-                  {fullName}
+                  {fullName || "UserIcon Profile"}
                 </h3>
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                  Verified
+                  <ShieldCheckIcon className="w-3.5 h-3.5" />
+                  {currentUser?.global_role ||
+                    currentUser?.role ||
+                    user?.role ||
+                    "Verified"}
                 </span>
               </div>
               <p className="text-[13px] text-muted-foreground font-medium">
@@ -104,18 +215,31 @@ export function ProfileSetting() {
             <Button
               variant={ButtonVariant.Pill}
               size={ButtonSize.Sm}
-              className="flex-1 sm:flex-initial h-9 px-4 rounded-full bg-foreground text-background hover:bg-foreground/90 font-semibold text-[13px] shadow-2xs"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploadingAvatar}
+              className="flex-1 sm:flex-initial h-9 px-4 rounded-full bg-foreground text-background hover:bg-foreground/90 font-semibold text-[13px] shadow-2xs cursor-pointer"
             >
-              Upload new photo
+              {isUploadingAvatar ? (
+                <span className="flex items-center gap-1.5">
+                  <CircleNotchIcon className="w-4 h-4 animate-spin" />
+                  Uploading...
+                </span>
+              ) : (
+                "Upload new photo"
+              )}
             </Button>
-            <Button
-              variant={ButtonVariant.Outline}
-              size={ButtonSize.Sm}
-              className="h-9 px-3 rounded-full border-border/80 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30 transition-colors"
-              title="Remove avatar"
-            >
-              <Trash className="w-4 h-4" />
-            </Button>
+            {avatarUrl && (
+              <Button
+                variant={ButtonVariant.Outline}
+                size={ButtonSize.Sm}
+                onClick={handleRemoveAvatar}
+                disabled={isUploadingAvatar}
+                className="h-9 px-3 rounded-full border-border/80 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30 transition-colors cursor-pointer"
+                title="Remove avatar"
+              >
+                <TrashIcon className="w-4 h-4" />
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -126,7 +250,7 @@ export function ProfileSetting() {
         <div className="p-5 sm:p-6 border-b border-border/60 flex items-center justify-between gap-4 bg-card shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-500 shadow-2xs shrink-0">
-              <User className="w-4.5 h-4.5" />
+              <UserIcon className="w-4.5 h-4.5" />
             </div>
             <div>
               <h3 className="text-[15px] font-bold text-foreground tracking-tight">
@@ -177,7 +301,7 @@ export function ProfileSetting() {
                   <span>Saving...</span>
                 ) : isSaved ? (
                   <span className="flex items-center gap-1.5">
-                    <Check className="w-4 h-4" strokeWidth={2.5} />
+                    <CheckIcon className="w-4 h-4" strokeWidth={2.5} />
                     Saved!
                   </span>
                 ) : (
@@ -196,7 +320,7 @@ export function ProfileSetting() {
                 <label className="text-[13.5px] font-bold text-foreground">
                   Email address
                 </label>
-                <EnvelopeSimple className="w-3.5 h-3.5 text-muted-foreground" />
+                <EnvelopeSimpleIcon className="w-3.5 h-3.5 text-muted-foreground" />
               </div>
               <p className="text-[12px] text-muted-foreground mt-0.5 leading-relaxed font-medium">
                 Primary email associated with your TaskFi account and security
@@ -213,7 +337,7 @@ export function ProfileSetting() {
                   className="h-9.5 px-4 pr-24 rounded-full text-[13px] font-medium bg-muted/60 text-muted-foreground border-border/60 cursor-not-allowed"
                 />
                 <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-[11px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                  <Check className="w-3 h-3" strokeWidth={2.5} />
+                  <CheckIcon className="w-3 h-3" strokeWidth={2.5} />
                   Primary
                 </div>
               </div>
@@ -222,14 +346,14 @@ export function ProfileSetting() {
 
           <div className="h-px bg-border/50 w-full" />
 
-          {/* User ID Row */}
+          {/* UserIcon ID Row */}
           <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-4 md:gap-6 items-start">
             <div>
               <div className="flex items-center gap-1.5">
                 <label className="text-[13.5px] font-bold text-foreground">
-                  Unique User ID
+                  Unique UserIcon ID
                 </label>
-                <IdentificationCard className="w-3.5 h-3.5 text-muted-foreground" />
+                <IdentificationCardIcon className="w-3.5 h-3.5 text-muted-foreground" />
               </div>
               <p className="text-[12px] text-muted-foreground mt-0.5 leading-relaxed font-medium">
                 Unique system UUID used for API integration, mentions, and
@@ -248,7 +372,7 @@ export function ProfileSetting() {
                 <button
                   onClick={handleCopyId}
                   className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7.5 h-7.5 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors cursor-pointer"
-                  title="Copy User ID"
+                  title="CopyIcon UserIcon ID"
                 >
                   <AnimatePresence mode="wait" initial={false}>
                     {isCopied ? (
@@ -259,7 +383,7 @@ export function ProfileSetting() {
                         exit={{ scale: 0.5, opacity: 0 }}
                         transition={{ duration: 0.15 }}
                       >
-                        <Check
+                        <CheckIcon
                           className="w-4 h-4 text-emerald-500"
                           strokeWidth={2.5}
                         />
@@ -272,7 +396,7 @@ export function ProfileSetting() {
                         exit={{ scale: 0.5, opacity: 0 }}
                         transition={{ duration: 0.15 }}
                       >
-                        <Copy className="w-4 h-4" />
+                        <CopyIcon className="w-4 h-4" />
                       </motion.div>
                     )}
                   </AnimatePresence>

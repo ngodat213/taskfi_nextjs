@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Rocket,
-  Flame,
-  PaintBrush,
-  Clock,
-  CalendarBlank,
-  Flag,
-} from "@phosphor-icons/react/dist/ssr";
+import { RocketIcon, FlameIcon, PaintBrushIcon, ClockIcon, CalendarBlankIcon, FlagIcon } from "@phosphor-icons/react/dist/ssr";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 
@@ -26,7 +19,7 @@ const SPRINT_COLUMNS = [
         description:
           "Production release for Next.js Frontend and NestJS Backend cluster.",
         targetDate: "July 22, 2026",
-        icon: Rocket,
+        icon: RocketIcon,
         iconColor: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20",
         owner: "Dat Ngo",
         ownerInitials: "DN",
@@ -48,7 +41,7 @@ const SPRINT_COLUMNS = [
         description:
           "High-performance WebSocket gateway for real-time task notifications.",
         targetDate: "July 24, 2026",
-        icon: Flame,
+        icon: FlameIcon,
         iconColor: "text-orange-500 bg-orange-500/10 border-orange-500/20",
         owner: "Alex Rivers",
         ownerInitials: "AR",
@@ -70,7 +63,7 @@ const SPRINT_COLUMNS = [
         description:
           "Standardizing color tokens and HSL custom property variables.",
         targetDate: "July 25, 2026",
-        icon: PaintBrush,
+        icon: PaintBrushIcon,
         iconColor: "text-purple-500 bg-purple-500/10 border-purple-500/20",
         owner: "Sam Lee",
         ownerInitials: "SL",
@@ -87,11 +80,11 @@ export function CalendarSprintTab() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border/60 pb-4">
         <div className="flex items-center gap-3">
           <span className="px-3 py-1 rounded-lg text-[12px] font-extrabold bg-primary/10 text-primary border border-primary/20 flex items-center gap-1.5 shadow-2xs">
-            <Flag className="w-3.5 h-3.5" />
+            <FlagIcon className="w-3.5 h-3.5" />
             <span>Sprint 14 Active</span>
           </span>
           <span className="text-[12.5px] text-muted-foreground font-medium flex items-center gap-1.5">
-            <CalendarBlank className="w-3.5 h-3.5" />
+            <CalendarBlankIcon className="w-3.5 h-3.5" />
             <span>July 20 - July 26, 2026</span>
           </span>
         </div>
@@ -195,7 +188,7 @@ export function CalendarSprintTab() {
                     {/* Footer */}
                     <div className="pt-2 border-t border-border/40 flex items-center justify-between text-[11.5px] text-muted-foreground">
                       <div className="flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5" />
+                        <ClockIcon className="w-3.5 h-3.5" />
                         <span>{item.targetDate}</span>
                       </div>
                       <div className="flex items-center gap-1.5">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Plus, X } from "@phosphor-icons/react/dist/ssr";
+import { PlusIcon, XIcon } from "@phosphor-icons/react/dist/ssr";
 import { AVAILABLE_TAGS } from "@/features/retros/constants/retro.constants";
 
 interface RetroTagSelectorProps {
@@ -45,7 +45,7 @@ export function RetroTagSelector({
               className="text-muted-foreground hover:text-red-500 opacity-60 group-hover:opacity-100 transition-opacity cursor-pointer"
               title="Remove tag"
             >
-              <X className="w-3 h-3" />
+              <XIcon className="w-3 h-3" />
             </button>
           )}
         </span>
@@ -58,7 +58,7 @@ export function RetroTagSelector({
           onClick={() => setIsOpen((prev) => !prev)}
           className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[11px] font-medium text-muted-foreground hover:text-foreground bg-muted/50 hover:bg-muted rounded border border-dashed border-border transition-colors cursor-pointer"
         >
-          <Plus className="w-3 h-3" />
+          <PlusIcon className="w-3 h-3" />
           <span>Tag</span>
         </button>
 

@@ -33,6 +33,7 @@ export const API_ENDPOINTS = {
   ISSUES: {
     BASE: "/issues",
     COMMENTS: (issueId: string) => `/issues/${issueId}/comments`,
+    ACTIVITIES: (issueId: string) => `/issues/${issueId}/activities`,
   },
   NOTIFICATIONS: {
     BASE: "/notifications",

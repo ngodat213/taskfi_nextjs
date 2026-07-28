@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus, Pulse } from "@phosphor-icons/react/dist/ssr";
+import { PlusIcon, PulseIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { useState, useMemo, useCallback } from "react";
 import { motion, Variants } from "framer-motion";
@@ -32,7 +32,6 @@ import { useProject } from "@/features/projects/hooks/use-project";
 import { useIssues } from "@/features/projects/hooks/use-issues";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { TRANSLATION_KEYS } from "@/constants/translations";
-import { IssueType, IssuePriority } from "@/types/issue.types";
 import { GetIssuesParams } from "@/services/issue.service";
 
 import {
@@ -145,10 +144,10 @@ export function DashboardView({ projectId }: { projectId: string }) {
       filters.assigneeId = assigneeFilter;
     }
     if (typeFilter && typeFilter !== "all") {
-      filters.type = typeFilter as IssueType;
+      filters.type = typeFilter;
     }
     if (priorityFilter && priorityFilter !== "all") {
-      filters.priority = priorityFilter as IssuePriority;
+      filters.priority = priorityFilter;
     }
     return filters;
   }, [debouncedQ, assigneeFilter, typeFilter, priorityFilter]);
@@ -231,7 +230,7 @@ export function DashboardView({ projectId }: { projectId: string }) {
       return (
         <>
           <Button variant={ButtonVariant.Outline} size={ButtonSize.Sm}>
-            <Pulse className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
+            <PulseIcon className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
             {t(TRANSLATION_KEYS.DASHBOARD.standup)}
           </Button>
           <Button
@@ -239,7 +238,7 @@ export function DashboardView({ projectId }: { projectId: string }) {
             size={ButtonSize.Sm}
             onClick={() => setIsRetroModalOpen(true)}
           >
-            <Plus className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Retro Note
+            <PlusIcon className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Retro Note
           </Button>
         </>
       );
@@ -249,7 +248,7 @@ export function DashboardView({ projectId }: { projectId: string }) {
       return (
         <>
           <Button variant={ButtonVariant.Outline} size={ButtonSize.Sm}>
-            <Pulse className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
+            <PulseIcon className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
             {t(TRANSLATION_KEYS.DASHBOARD.standup)}
           </Button>
           <Button
@@ -257,7 +256,7 @@ export function DashboardView({ projectId }: { projectId: string }) {
             size={ButtonSize.Sm}
             onClick={() => setIsDepModalOpen(true)}
           >
-            <Plus className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Dependency
+            <PlusIcon className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Dependency
           </Button>
         </>
       );
@@ -266,7 +265,7 @@ export function DashboardView({ projectId }: { projectId: string }) {
     return (
       <>
         <Button variant={ButtonVariant.Outline} size={ButtonSize.Sm}>
-          <Pulse className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
+          <PulseIcon className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
           {t(TRANSLATION_KEYS.DASHBOARD.standup)}
         </Button>
         <Button
@@ -277,7 +276,7 @@ export function DashboardView({ projectId }: { projectId: string }) {
             setIsCreateModalOpen(true);
           }}
         >
-          <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
+          <PlusIcon className="w-3.5 h-3.5" strokeWidth={2.5} />{" "}
           {t(TRANSLATION_KEYS.DASHBOARD.addTask)}
         </Button>
       </>
@@ -373,7 +372,7 @@ export function DashboardView({ projectId }: { projectId: string }) {
       default:
         return (
           <div className="flex-1 flex items-center justify-center text-muted-foreground flex-col gap-3">
-            <Pulse className="w-8 h-8 text-muted-foreground" />
+            <PulseIcon className="w-8 h-8 text-muted-foreground" />
             <p>Content for {activeTab} is coming soon.</p>
           </div>
         );

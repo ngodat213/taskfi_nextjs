@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Plus } from "@phosphor-icons/react/dist/ssr";
+import { PlusIcon } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/utils/cn";
 
 export interface KanbanColumnProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -61,7 +61,7 @@ export const KanbanColumn = React.forwardRef<HTMLDivElement, KanbanColumnProps>(
               className="w-6 h-6 flex items-center justify-center rounded hover:bg-secondary/50 text-muted-foreground hover:text-foreground transition-colors cursor-pointer shrink-0 ml-1"
               title={addTooltip}
             >
-              <Plus className="w-4 h-4" />
+              <PlusIcon className="w-4 h-4" />
             </button>
           )}
         </div>

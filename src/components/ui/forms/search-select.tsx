@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import {
-  MagnifyingGlass,
-  CaretDown,
-  Check,
-  X,
+  MagnifyingGlassIcon,
+  CaretDownIcon,
+  CheckIcon,
+  XIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/utils/cn";
 
@@ -35,7 +35,7 @@ export function SearchSelect({
   options,
   value,
   onChange,
-  placeholder = "+ Add or attach subtask...",
+  placeholder = "Add or attach subtask...",
   className,
   disabled = false,
   clearable = false,
@@ -118,17 +118,39 @@ export function SearchSelect({
         )}
       >
         <div className="flex items-center gap-2 overflow-hidden flex-1 mr-1">
-          <MagnifyingGlass className="w-4 h-4 text-muted-foreground shrink-0" />
-          <input
-            ref={inputRef}
-            type="text"
-            disabled={disabled}
-            placeholder={selectedOption ? selectedOption.label : placeholder}
-            value={searchQuery}
-            onChange={handleInputChange}
-            onFocus={() => !disabled && setIsOpen(true)}
-            className="w-full bg-transparent focus:outline-none text-foreground placeholder:text-muted-foreground font-medium text-[13px]"
-          />
+          {!searchQuery && selectedOption ? (
+            selectedOption.icon ? (
+              <div className="shrink-0 flex items-center justify-center">
+                {selectedOption.icon}
+              </div>
+            ) : null
+          ) : (
+            <MagnifyingGlassIcon className="w-4 h-4 text-muted-foreground shrink-0" />
+          )}
+
+          <div className="relative flex-1 min-w-0 flex items-center">
+            <input
+              ref={inputRef}
+              type="text"
+              disabled={disabled}
+              placeholder={selectedOption ? "" : placeholder}
+              value={searchQuery}
+              onChange={handleInputChange}
+              onFocus={() => !disabled && setIsOpen(true)}
+              className="w-full bg-transparent focus:outline-none text-foreground placeholder:text-muted-foreground font-medium text-[13px] relative z-10"
+            />
+            {!searchQuery && selectedOption && (
+              <span className="absolute left-0 pointer-events-none text-foreground font-medium text-[13px] truncate max-w-full">
+                {selectedOption.label}
+              </span>
+            )}
+          </div>
+
+          {!searchQuery && selectedOption?.badge && (
+            <div className="shrink-0 flex items-center">
+              {selectedOption.badge}
+            </div>
+          )}
         </div>
 
         <div className="flex items-center gap-1 shrink-0">
@@ -138,10 +160,10 @@ export function SearchSelect({
               onClick={handleClear}
               className="p-0.5 rounded-full hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
             >
-              <X className="w-3.5 h-3.5" />
+              <XIcon className="w-3.5 h-3.5" />
             </button>
           )}
-          <CaretDown
+          <CaretDownIcon
             className={cn(
               "w-4 h-4 text-muted-foreground transition-transform duration-200 pointer-events-none",
               isOpen && "rotate-180",
@@ -190,7 +212,7 @@ export function SearchSelect({
                       </div>
                     )}
                     {isSelected && (
-                      <Check className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 ml-1" />
+                      <CheckIcon className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 ml-1" />
                     )}
                   </div>
                 );

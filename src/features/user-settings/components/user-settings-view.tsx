@@ -1,5 +1,5 @@
 "use client";
-import { User, Shield, Faders } from "@phosphor-icons/react/dist/ssr";
+import { UserIcon, ShieldIcon, FadersIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -24,17 +24,17 @@ export function UserSettingsView() {
     {
       id: UserSettingsTab.PROFILE,
       label: t(TK.tabs.profile),
-      icon: User,
+      icon: UserIcon,
     },
     {
       id: UserSettingsTab.PREFERENCES,
       label: t(TK.tabs.preferences),
-      icon: Faders,
+      icon: FadersIcon,
     },
     {
       id: UserSettingsTab.SECURITY,
       label: t(TK.tabs.security),
-      icon: Shield,
+      icon: ShieldIcon,
     },
   ];
 

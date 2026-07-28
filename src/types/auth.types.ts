@@ -1,3 +1,5 @@
+import { UploadedFile } from "@/types/api.types";
+
 export interface LoginRequest {
   email: string;
   password: string;
@@ -33,15 +35,23 @@ export interface FcmTokenRequest {
   token: string;
 }
 
+export interface UpdateProfileRequest {
+  fullName?: string;
+  avatarPublicId?: string;
+}
+
 export interface UserResponseDto {
   id: string;
   email: string;
-  name?: string;
   full_name?: string;
-  avatarPublicId?: string;
+  avatar?: UploadedFile | null;
+  avatar_public_id?: string;
   job_title?: string;
   department?: string;
+  global_role?: string;
   role?: string;
+  status?: string;
+  is_email_verified?: boolean;
 }
 
 export interface TokenResponseDto {

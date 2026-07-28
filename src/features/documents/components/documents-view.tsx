@@ -1,17 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import {
-  MagnifyingGlass,
-  Star,
-  SquaresFour,
-  ListBullets,
-  UploadSimple,
-  FolderSimple,
-  UsersThree,
-  Kanban,
-  Plus,
-} from "@phosphor-icons/react/dist/ssr";
+import { MagnifyingGlassIcon, StarIcon, SquaresFourIcon, ListBulletsIcon, UploadSimpleIcon, FolderSimpleIcon, UsersThreeIcon, KanbanIcon, PlusIcon } from "@phosphor-icons/react/dist/ssr";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/utils/cn";
 import { PageContainer } from "@/components/layout/page-container";
@@ -51,14 +41,14 @@ import { useNavigationStore } from "@/store/navigation.store";
 import { useUserStore } from "@/store/user.store";
 
 const VIEW_MODE_TABS: SegmentedControlTab[] = [
-  { id: "grid", label: "Grid", icon: SquaresFour },
-  { id: "list", label: "List", icon: ListBullets },
+  { id: "grid", label: "Grid", icon: SquaresFourIcon },
+  { id: "list", label: "List", icon: ListBulletsIcon },
 ];
 
 const FOLDER_TAB_OPTIONS: SegmentedControlTab[] = [
-  { id: "all", label: "All Folders", icon: FolderSimple },
-  { id: "team", label: "By Team", icon: UsersThree },
-  { id: "project", label: "By Project", icon: Kanban },
+  { id: "all", label: "All Folders", icon: FolderSimpleIcon },
+  { id: "team", label: "By Team", icon: UsersThreeIcon },
+  { id: "project", label: "By Project", icon: KanbanIcon },
 ];
 
 interface DedicatedFolderViewProps {
@@ -103,7 +93,7 @@ function DedicatedFolderView({
           <PageHeader
             title={
               <div className="flex items-center gap-2.5">
-                <FolderSimple
+                <FolderSimpleIcon
                   className="w-6 h-6 text-blue-500 shrink-0"
                   weight="duotone"
                 />
@@ -122,7 +112,7 @@ function DedicatedFolderView({
                   size={ButtonSize.Sm}
                   className="gap-1.5 text-[12px]"
                 >
-                  <UploadSimple className="w-3.5 h-3.5" strokeWidth={2.5} />
+                  <UploadSimpleIcon className="w-3.5 h-3.5" strokeWidth={2.5} />
                   Upload to Folder
                 </Button>
               </div>
@@ -136,7 +126,7 @@ function DedicatedFolderView({
         {/* Filter Controls Row inside Folder */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="relative flex-1 max-w-md">
-            <MagnifyingGlass className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+            <MagnifyingGlassIcon className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
             <Input
               type="text"
               placeholder={`Search files in ${selectedFolderObj.name}...`}
@@ -156,7 +146,7 @@ function DedicatedFolderView({
                   : "bg-secondary/70 text-muted-foreground border-border/60 hover:text-foreground",
               )}
             >
-              <Star
+              <StarIcon
                 className={cn(
                   "w-3.5 h-3.5",
                   onlyStarred ? "fill-amber-500 text-amber-500" : "",
@@ -315,14 +305,14 @@ export function DocumentsView() {
                         size={ButtonSize.Sm}
                         className="gap-1.5 text-[12px]"
                       >
-                        <Plus className="w-3.5 h-3.5" /> New Folder
+                        <PlusIcon className="w-3.5 h-3.5" /> New Folder
                       </Button>
                       <Button
                         variant={ButtonVariant.Primary}
                         size={ButtonSize.Sm}
                         className="gap-1.5 text-[12px]"
                       >
-                        <UploadSimple
+                        <UploadSimpleIcon
                           className="w-3.5 h-3.5"
                           strokeWidth={2.5}
                         />
@@ -360,7 +350,7 @@ export function DocumentsView() {
                               : "bg-secondary/70 text-muted-foreground border-border/60 hover:text-foreground",
                           )}
                         >
-                          <Star
+                          <StarIcon
                             className={cn(
                               "w-3.5 h-3.5",
                               onlyStarred
@@ -383,7 +373,7 @@ export function DocumentsView() {
 
                     <div className="flex items-center gap-3">
                       <div className="relative flex-1 max-w-md">
-                        <MagnifyingGlass className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+                        <MagnifyingGlassIcon className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
                         <Input
                           type="text"
                           placeholder="Search documents by title or description..."
@@ -407,7 +397,7 @@ export function DocumentsView() {
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <h3 className="text-[14px] font-bold text-foreground capitalize flex items-center gap-2">
-                    <FolderSimple className="w-4 h-4 text-blue-500" />
+                    <FolderSimpleIcon className="w-4 h-4 text-blue-500" />
                     <span>Folders</span>
                     <span className="text-muted-foreground font-medium text-[12px] ml-0.5">
                       ({filteredFolders.length})

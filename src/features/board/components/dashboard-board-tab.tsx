@@ -1,4 +1,4 @@
-import { CircleNotch } from "@phosphor-icons/react/dist/ssr";
+import { CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 import { useState, useMemo } from "react";
 import { motion, Variants } from "framer-motion";
 import {
@@ -200,7 +200,7 @@ export function DashboardBoardTab({
   if (isLoading) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <CircleNotch className="w-6 h-6 animate-spin text-muted-foreground" />
+        <CircleNotchIcon className="w-6 h-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -220,8 +220,8 @@ export function DashboardBoardTab({
       <div
         className={
           isMobile
-            ? "flex-1 overflow-y-auto overflow-x-hidden px-4 py-4"
-            : "flex-1 overflow-x-auto overflow-y-hidden px-6 py-4"
+            ? "flex-1 overflow-y-auto overflow-x-hidden hide-scrollbar scrollbar-none [&::-webkit-scrollbar]:hidden [&::-webkit-scrollbar]:w-0 px-4 py-4"
+            : "flex-1 overflow-x-auto overflow-y-hidden hide-scrollbar scrollbar-none [&::-webkit-scrollbar]:hidden [&::-webkit-scrollbar]:w-0 px-6 py-4"
         }
       >
         <motion.div

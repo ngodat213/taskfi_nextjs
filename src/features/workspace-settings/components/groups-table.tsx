@@ -1,9 +1,4 @@
-import {
-  DotsThree,
-  Users,
-  PencilSimple,
-  CircleNotch,
-} from "@phosphor-icons/react/dist/ssr";
+import { DotsThreeIcon, UsersIcon, PencilSimpleIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 import {
   Table,
   TableHeader,
@@ -38,7 +33,7 @@ export function GroupsTable({ onEdit }: GroupsTableProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-8 min-h-50">
-        <CircleNotch className="w-6 h-6 animate-spin text-muted-foreground" />
+        <CircleNotchIcon className="w-6 h-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -46,7 +41,7 @@ export function GroupsTable({ onEdit }: GroupsTableProps) {
   if (groups.length === 0) {
     return (
       <EmptyState
-        icon={Users}
+        icon={UsersIcon}
         title={t(TK.emptyTitle)}
         description={t(TK.emptyDesc)}
       />
@@ -105,10 +100,10 @@ export function GroupsTable({ onEdit }: GroupsTableProps) {
             <TableCell className="text-right">
               <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <TableActionBtn onClick={() => onEdit?.(g)}>
-                  <PencilSimple className="w-4 h-4" />
+                  <PencilSimpleIcon className="w-4 h-4" />
                 </TableActionBtn>
                 <TableActionBtn>
-                  <DotsThree className="w-4 h-4" />
+                  <DotsThreeIcon className="w-4 h-4" />
                 </TableActionBtn>
               </div>
             </TableCell>

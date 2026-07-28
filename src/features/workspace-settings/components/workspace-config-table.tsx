@@ -3,15 +3,15 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  CircleNotch,
-  Plus,
-  Trash,
-  PencilSimple,
-  FloppyDisk,
-  SlidersHorizontal,
-  Tag,
-  CheckCircle,
-  DotsSixVertical,
+  CircleNotchIcon,
+  PlusIcon,
+  TrashIcon,
+  PencilSimpleIcon,
+  FloppyDiskIcon,
+  SlidersHorizontalIcon,
+  TagIcon,
+  CheckCircleIcon,
+  DotsSixVerticalIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import {
   DndContext,
@@ -114,7 +114,7 @@ function SortableStatusRow({
           className="p-1 rounded hover:bg-muted inline-flex items-center justify-center cursor-grab active:cursor-grabbing"
           title="Drag to reorder"
         >
-          <DotsSixVertical className="w-4 h-4" />
+          <DotsSixVerticalIcon className="w-4 h-4" />
         </div>
       </TableCell>
       <TableCell className="w-12 px-2 font-semibold text-[12px] text-muted-foreground">
@@ -147,10 +147,10 @@ function SortableStatusRow({
       <TableCell className="text-right pr-4">
         <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
           <TableActionBtn onClick={onEdit}>
-            <PencilSimple className="w-3.5 h-3.5" />
+            <PencilSimpleIcon className="w-3.5 h-3.5" />
           </TableActionBtn>
           <TableActionBtn onClick={onDelete}>
-            <Trash className="w-3.5 h-3.5 text-destructive" />
+            <TrashIcon className="w-3.5 h-3.5 text-destructive" />
           </TableActionBtn>
         </div>
       </TableCell>
@@ -199,7 +199,7 @@ function SortableTypeRow({
           className="p-1 rounded hover:bg-muted inline-flex items-center justify-center cursor-grab active:cursor-grabbing"
           title="Drag to reorder"
         >
-          <DotsSixVertical className="w-4 h-4" />
+          <DotsSixVerticalIcon className="w-4 h-4" />
         </div>
       </TableCell>
       <TableCell className="w-12 px-2 font-semibold text-[12px] text-muted-foreground">
@@ -222,6 +222,25 @@ function SortableTypeRow({
         </span>
       </TableCell>
       <TableCell>
+        <div className="flex flex-wrap gap-1 items-center">
+          {!type.allowedParentTypes || type.allowedParentTypes.length === 0 ? (
+            <span className="text-[11px] text-muted-foreground italic">
+              None (Top Level)
+            </span>
+          ) : (
+            type.allowedParentTypes.map((pt) => (
+              <span
+                key={pt}
+                className="inline-flex items-center gap-1 text-[11px] font-medium bg-muted text-foreground px-2 py-0.5 rounded border border-border/50"
+              >
+                <TypeIcon type={pt} className="w-3 h-3 shrink-0" />
+                {pt}
+              </span>
+            ))
+          )}
+        </div>
+      </TableCell>
+      <TableCell>
         <div className="flex items-center gap-1.5 text-[12px] font-medium">
           <TypeIcon type={type.name} className="w-3.5 h-3.5" />
           <span>{type.name}</span>
@@ -230,10 +249,10 @@ function SortableTypeRow({
       <TableCell className="text-right pr-4">
         <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
           <TableActionBtn onClick={onEdit}>
-            <PencilSimple className="w-3.5 h-3.5" />
+            <PencilSimpleIcon className="w-3.5 h-3.5" />
           </TableActionBtn>
           <TableActionBtn onClick={onDelete}>
-            <Trash className="w-3.5 h-3.5 text-destructive" />
+            <TrashIcon className="w-3.5 h-3.5 text-destructive" />
           </TableActionBtn>
         </div>
       </TableCell>
@@ -292,6 +311,7 @@ export function WorkspaceConfigTable() {
     name: "",
     icon: "task",
     description: "",
+    allowedParentTypes: [],
   });
 
   const handleSaveAll = () => {
@@ -392,13 +412,17 @@ export function WorkspaceConfigTable() {
       name: "",
       icon: "task",
       description: "",
+      allowedParentTypes: [],
     });
     setIsTypeModalOpen(true);
   };
 
   const handleOpenEditType = (index: number) => {
     setEditingTypeIndex(index);
-    setTypeForm({ ...issueTypes[index] });
+    setTypeForm({
+      allowedParentTypes: [],
+      ...issueTypes[index],
+    });
     setIsTypeModalOpen(true);
   };
 
@@ -427,10 +451,22 @@ export function WorkspaceConfigTable() {
     setIsTypeModalOpen(false);
   };
 
+  const handleToggleParentType = (targetTypeName: string) => {
+    setTypeForm((prev) => {
+      const current = prev.allowedParentTypes || [];
+      const targetLower = targetTypeName.toLowerCase();
+      const exists = current.some((p) => p.toLowerCase() === targetLower);
+      const updated = exists
+        ? current.filter((p) => p.toLowerCase() !== targetLower)
+        : [...current, targetTypeName];
+      return { ...prev, allowedParentTypes: updated };
+    });
+  };
+
   if (isLoading) {
     return (
       <div className="flex-1 w-full bg-transparent flex items-center justify-center min-h-75">
-        <CircleNotch className="w-6 h-6 animate-spin text-muted-foreground" />
+        <CircleNotchIcon className="w-6 h-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -467,11 +503,11 @@ export function WorkspaceConfigTable() {
               className="flex items-center gap-1.5"
             >
               {updateConfigMutation.isPending ? (
-                <CircleNotch className="w-4 h-4 animate-spin" />
+                <CircleNotchIcon className="w-4 h-4 animate-spin" />
               ) : isSaved ? (
-                <CheckCircle className="w-4 h-4 text-emerald-400" />
+                <CheckCircleIcon className="w-4 h-4 text-emerald-400" />
               ) : (
-                <FloppyDisk className="w-4 h-4" />
+                <FloppyDiskIcon className="w-4 h-4" />
               )}
               <span>{isSaved ? "Saved!" : "Save Changes"}</span>
             </Button>
@@ -483,7 +519,7 @@ export function WorkspaceConfigTable() {
         <motion.div variants={SPRING_CARD_VARIANTS} className="mb-8">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-[14px] font-bold text-foreground flex items-center gap-2">
-              <Tag className="w-4 h-4 text-emerald-500" />
+              <TagIcon className="w-4 h-4 text-emerald-500" />
               Statuses{" "}
               <span className="text-muted-foreground font-medium text-[12px] ml-1">
                 ({statuses.length})
@@ -495,14 +531,14 @@ export function WorkspaceConfigTable() {
               onClick={handleOpenAddStatus}
               className="h-8 text-[12px] flex items-center gap-1"
             >
-              <Plus className="w-3.5 h-3.5" />
+              <PlusIcon className="w-3.5 h-3.5" />
               <span>Add Status</span>
             </Button>
           </div>
 
           {statuses.length === 0 ? (
             <EmptyState
-              icon={Tag}
+              icon={TagIcon}
               title="No Statuses Configured"
               description="Add custom statuses for issues in this workspace."
             />
@@ -553,7 +589,7 @@ export function WorkspaceConfigTable() {
         <motion.div variants={SPRING_CARD_VARIANTS} className="mb-8">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-[14px] font-bold text-foreground flex items-center gap-2">
-              <SlidersHorizontal className="w-4 h-4 text-purple-500" />
+              <SlidersHorizontalIcon className="w-4 h-4 text-purple-500" />
               Issue Types{" "}
               <span className="text-muted-foreground font-medium text-[12px] ml-1">
                 ({issueTypes.length})
@@ -565,14 +601,14 @@ export function WorkspaceConfigTable() {
               onClick={handleOpenAddType}
               className="h-8 text-[12px] flex items-center gap-1"
             >
-              <Plus className="w-3.5 h-3.5" />
+              <PlusIcon className="w-3.5 h-3.5" />
               <span>Add Issue Type</span>
             </Button>
           </div>
 
           {issueTypes.length === 0 ? (
             <EmptyState
-              icon={SlidersHorizontal}
+              icon={SlidersHorizontalIcon}
               title="No Issue Types Configured"
               description="Add custom issue types for this workspace."
             />
@@ -589,9 +625,10 @@ export function WorkspaceConfigTable() {
                       <TableHead className="w-10 px-3" />
                       <TableHead className="w-12 px-2">#</TableHead>
                       <TableHead className="w-40">Type Name</TableHead>
-                      <TableHead className="w-32">Icon</TableHead>
+                      <TableHead className="w-28">Icon</TableHead>
                       <TableHead>Description</TableHead>
-                      <TableHead className="w-32">Preview</TableHead>
+                      <TableHead>Allowed Parent Types</TableHead>
+                      <TableHead className="w-28">Preview</TableHead>
                       <TableHead className="w-20 text-right pr-4">
                         Actions
                       </TableHead>
@@ -625,7 +662,7 @@ export function WorkspaceConfigTable() {
         isOpen={isStatusModalOpen}
         onClose={() => setIsStatusModalOpen(false)}
       >
-        <ModalContent maxWidth="max-w-[450px]">
+        <ModalContent maxWidth="max-w-[500px]">
           <ModalHeader
             title={
               editingStatusIndex !== null ? "Edit Status" : "Add New Status"
@@ -716,7 +753,7 @@ export function WorkspaceConfigTable() {
 
       {/* ISSUE TYPE MODAL */}
       <Modal isOpen={isTypeModalOpen} onClose={() => setIsTypeModalOpen(false)}>
-        <ModalContent maxWidth="max-w-[450px]">
+        <ModalContent maxWidth="max-w-[500px]">
           <ModalHeader
             title={
               editingTypeIndex !== null
@@ -776,6 +813,53 @@ export function WorkspaceConfigTable() {
                   }
                   placeholder="e.g. Yêu cầu người dùng"
                 />
+              </div>
+
+              <div className="flex flex-col gap-2 pt-1 border-t border-border/50">
+                <InputLabel>Allowed Parent Types</InputLabel>
+                <p className="text-[11px] text-muted-foreground leading-normal">
+                  Select which issue types can be parents for this type. Leave
+                  unselected if top-level (e.g. Epic).
+                </p>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {issueTypes
+                    .filter(
+                      (t) =>
+                        !typeForm.name ||
+                        t.name.toLowerCase() !== typeForm.name.toLowerCase(),
+                    )
+                    .map((otherType) => {
+                      const isChecked = (
+                        typeForm.allowedParentTypes || []
+                      ).some(
+                        (p) => p.toLowerCase() === otherType.name.toLowerCase(),
+                      );
+                      return (
+                        <label
+                          key={otherType.name}
+                          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border text-[12px] font-medium cursor-pointer transition-colors ${
+                            isChecked
+                              ? "bg-primary/10 border-primary text-primary"
+                              : "bg-card border-border text-muted-foreground hover:bg-muted"
+                          }`}
+                        >
+                          <input
+                            type="checkbox"
+                            className="hidden"
+                            checked={isChecked}
+                            onChange={() =>
+                              handleToggleParentType(otherType.name)
+                            }
+                          />
+                          <TypeIcon
+                            type={otherType.name}
+                            className="w-3.5 h-3.5 shrink-0"
+                          />
+                          <span>{otherType.name}</span>
+                        </label>
+                      );
+                    })}
+                </div>
               </div>
             </div>
           </ModalBody>

@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  FolderSimple,
-  User,
-  DotsThreeVertical,
-  Files,
-} from "@phosphor-icons/react/dist/ssr";
+import { FolderSimpleIcon, UserIcon, DotsThreeVerticalIcon, FilesIcon } from "@phosphor-icons/react/dist/ssr";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 import { FolderItem } from "@/features/documents/types/documents.types";
@@ -57,7 +52,7 @@ export function FolderCard({
               colorStyle.iconBg,
             )}
           >
-            <FolderSimple className="w-4.5 h-4.5" weight="duotone" />
+            <FolderSimpleIcon className="w-4.5 h-4.5" weight="duotone" />
           </div>
 
           <div className="flex items-center gap-1">
@@ -85,7 +80,7 @@ export function FolderCard({
               className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
               title="More options"
             >
-              <DotsThreeVertical className="w-3.5 h-3.5" />
+              <DotsThreeVerticalIcon className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
@@ -103,7 +98,7 @@ export function FolderCard({
         {/* Footer Meta Row */}
         <div className="pt-2 border-t border-border/50 flex items-center justify-between text-[10.5px] text-muted-foreground z-10">
           <div className="flex items-center gap-1 bg-muted/40 px-1.5 py-0.5 rounded border border-border/30">
-            <Files className="w-3 h-3 text-muted-foreground" />
+            <FilesIcon className="w-3 h-3 text-muted-foreground" />
             <span className="font-semibold text-foreground">
               {folder.fileCount} files
             </span>
@@ -148,7 +143,7 @@ export function FolderCard({
               colorStyle.iconBg,
             )}
           >
-            <FolderSimple className="w-4 h-4" weight="duotone" />
+            <FolderSimpleIcon className="w-4 h-4" weight="duotone" />
           </div>
           <span className="text-[13px] font-semibold text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors tracking-tight">
             {folder.name}
@@ -184,7 +179,7 @@ export function FolderCard({
       {/* File Count */}
       <TableCell className="align-middle">
         <div className="flex items-center gap-1 text-[11.5px] text-muted-foreground">
-          <Files className="w-3.5 h-3.5 text-muted-foreground" />
+          <FilesIcon className="w-3.5 h-3.5 text-muted-foreground" />
           <span className="font-semibold text-foreground">
             {folder.fileCount} files
           </span>
@@ -194,7 +189,7 @@ export function FolderCard({
       {/* Owner */}
       <TableCell className="align-middle">
         <div className="flex items-center gap-1 text-[11.5px] text-muted-foreground">
-          <User className="w-3.5 h-3.5 text-muted-foreground" />
+          <UserIcon className="w-3.5 h-3.5 text-muted-foreground" />
           <span>{folder.owner}</span>
         </div>
       </TableCell>
@@ -205,7 +200,7 @@ export function FolderCard({
           onClick={(e) => e.stopPropagation()}
           className="p-1 text-muted-foreground hover:text-foreground rounded-md hover:bg-secondary/60 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
         >
-          <DotsThreeVertical className="w-3.5 h-3.5" />
+          <DotsThreeVerticalIcon className="w-3.5 h-3.5" />
         </button>
       </TableCell>
     </TableRow>

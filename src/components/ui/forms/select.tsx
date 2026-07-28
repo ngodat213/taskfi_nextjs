@@ -1,4 +1,4 @@
-import { CaretDown, Check } from "@phosphor-icons/react/dist/ssr";
+import { CaretDownIcon, CheckIcon } from "@phosphor-icons/react/dist/ssr";
 import * as React from "react";
 import { cn } from "@/utils/cn";
 export interface SelectProps extends Omit<
@@ -153,7 +153,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
           <span className="truncate">
             {selectedOption ? selectedOption.label : placeholder || "Select..."}
           </span>
-          <CaretDown
+          <CaretDownIcon
             className={cn(
               "w-4 h-4 text-muted-foreground transition-transform duration-200",
               isOpen && "rotate-180",
@@ -197,7 +197,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
                   >
                     <span className="truncate">{option.label}</span>
                     {internalValue === option.value && (
-                      <Check className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                      <CheckIcon className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                     )}
                   </div>
                 ))

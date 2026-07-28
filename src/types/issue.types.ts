@@ -1,4 +1,4 @@
-import { UserResponseDto } from "@/features/auth/types/auth.types";
+import { UserResponseDto } from "@/types/auth.types";
 import { PaginationParams } from "@/types/api.types";
 
 export type IssueType = string;
@@ -78,6 +78,20 @@ export interface IssueLink {
   type?: IssueLinkType | string;
 }
 
+export interface IssueUser {
+  id: string;
+  name?: string;
+  full_name?: string;
+  username?: string;
+  email?: string;
+  avatarUrl?: string;
+  avatar_public_id?: string;
+  avatar?: {
+    fileUrl?: string;
+    publicId?: string;
+  } | null;
+}
+
 export interface Issue {
   id: string;
   projectId: string;
@@ -87,7 +101,9 @@ export interface Issue {
   summary: string;
   description: string;
   reporterId: string;
+  reporter?: IssueUser;
   assigneeId: string;
+  assignee?: IssueUser;
   priority: IssuePriority | string;
   parentId?: string | null;
   sprintId?: string;
@@ -132,4 +148,28 @@ export interface GetIssuesParams extends PaginationParams {
   priority?: string;
   hasParent?: boolean;
   childType?: string;
+}
+
+export interface IssueActivityUser {
+  id: string;
+  name?: string;
+  full_name?: string;
+  username?: string;
+  email?: string;
+  avatarUrl?: string;
+  avatar?: {
+    fileUrl?: string;
+    publicId?: string;
+  } | null;
+}
+
+export interface IssueActivity {
+  id: string;
+  issueId: string;
+  userId: string;
+  user?: IssueActivityUser;
+  fieldChanged: string;
+  oldValue: string;
+  newValue: string;
+  createdAt: string;
 }

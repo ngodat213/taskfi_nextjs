@@ -1,4 +1,4 @@
-import { CircleNotch } from "@phosphor-icons/react/dist/ssr";
+import { CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 import { useWorkspaceMembers } from "@/features/workspaces/hooks/use-workspaces";
 ;
 import { WorkspaceMemberQueryParams } from "@/types/workspace.types";
@@ -19,7 +19,7 @@ export function EntityMemberCount({
   });
 
   if (isLoading) {
-    return <CircleNotch className="w-4 h-4 animate-spin text-muted-foreground" />;
+    return <CircleNotchIcon className="w-4 h-4 animate-spin text-muted-foreground" />;
   }
 
   const members = data?.data?.data || [];

@@ -1,4 +1,5 @@
-import { Plus } from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
+import { PlusIcon } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/utils/cn";
 
 interface LogoPickerProps {
@@ -25,14 +26,15 @@ export function LogoPicker({
 
   return (
     <div className={cn("flex justify-center mb-2", className)}>
-      <div className="relative w-[72px] h-[72px] rounded-full bg-muted border border-dashed border-border flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 hover:text-blue-600 transition-all cursor-pointer group overflow-hidden shadow-sm">
+      <div className="relative w-18 h-18 rounded-full bg-muted border border-dashed border-border flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 hover:text-blue-600 transition-all cursor-pointer group overflow-hidden shadow-sm">
         {isValidPreview ? (
           <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={previewUrl}
               alt="Logo"
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
+              unoptimized
             />
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10">
               <span className="text-white text-[11px] font-medium">
@@ -41,7 +43,7 @@ export function LogoPicker({
             </div>
           </>
         ) : (
-          <Plus className="w-6 h-6 text-muted-foreground group-hover:text-blue-500 transition-colors" />
+          <PlusIcon className="w-6 h-6 text-muted-foreground group-hover:text-blue-500 transition-colors" />
         )}
         <input
           type="file"

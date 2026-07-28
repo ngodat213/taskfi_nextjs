@@ -1,11 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  CalendarBlank,
-  CaretLeft,
-  CaretRight,
-} from "@phosphor-icons/react/dist/ssr";
+import { CalendarBlankIcon, CaretLeftIcon, CaretRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/utils/cn";
 
 interface ProjectEvent {
@@ -71,7 +67,7 @@ export function ProjectCalendarView() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border/50 pb-4">
         <div className="flex items-center gap-2.5">
           <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shrink-0">
-            <CalendarBlank className="w-5 h-5" />
+            <CalendarBlankIcon className="w-5 h-5" />
           </div>
           <div>
             <h4 className="text-[15px] font-bold text-foreground flex items-center gap-2">
@@ -89,13 +85,13 @@ export function ProjectCalendarView() {
         {/* Month Navigator Controls */}
         <div className="flex items-center gap-2 shrink-0">
           <button className="p-1.5 rounded-lg bg-secondary/80 text-muted-foreground hover:text-foreground hover:bg-secondary border border-border/60 transition-colors cursor-pointer">
-            <CaretLeft className="w-4 h-4" />
+            <CaretLeftIcon className="w-4 h-4" />
           </button>
           <span className="text-[13px] font-bold text-foreground px-2">
             {currentMonth}
           </span>
           <button className="p-1.5 rounded-lg bg-secondary/80 text-muted-foreground hover:text-foreground hover:bg-secondary border border-border/60 transition-colors cursor-pointer">
-            <CaretRight className="w-4 h-4" />
+            <CaretRightIcon className="w-4 h-4" />
           </button>
         </div>
       </div>

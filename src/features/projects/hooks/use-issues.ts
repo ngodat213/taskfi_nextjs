@@ -1,7 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { issueService, GetIssuesParams } from "@/services/issue.service";
-import { CreateIssueRequest, Issue, IssueComment } from "@/types/issue.types";
-import { PaginatedResponse } from "@/types/api.types";
+import {
+  CreateIssueRequest,
+  Issue,
+  IssueComment,
+  IssueActivity,
+} from "@/types/issue.types";
 
 export const useIssues = (projectId: string, params?: GetIssuesParams) => {
   return useQuery({
@@ -16,6 +20,32 @@ export const useIssue = (projectId: string, issueId: string) => {
     queryKey: ["issues", projectId, issueId],
     queryFn: () => issueService.getIssueById(projectId, issueId),
     enabled: !!projectId && !!issueId,
+  });
+};
+
+export const useParentOptions = (
+  projectId: string,
+  params?: { type?: string; search?: string },
+) => {
+  return useQuery({
+    queryKey: ["parent-options", projectId, params],
+    queryFn: () =>
+      issueService.getParentOptions(projectId, {
+        type: params?.type || "",
+        search: params?.search,
+      }),
+    enabled: !!projectId && !!params?.type,
+  });
+};
+
+export const useChildOptions = (
+  projectId: string,
+  params?: { parentType?: string; search?: string },
+) => {
+  return useQuery({
+    queryKey: ["child-options", projectId, params],
+    queryFn: () => issueService.getChildOptions(projectId, params),
+    enabled: !!projectId,
   });
 };
 
@@ -67,17 +97,44 @@ export const useUpdateIssue = () => {
 
       queryClient.setQueriesData(
         { queryKey: ["issues", projectId] },
-        (old: PaginatedResponse<Issue> | undefined) => {
-          if (!old || !old.data || !old.data.data) return old;
-          return {
-            ...old,
-            data: {
-              ...old.data,
-              data: old.data.data.map((issue: Issue) =>
-                issue.id === issueId ? { ...issue, ...data } : issue,
-              ),
-            },
-          };
+        (old: unknown) => {
+          if (!old || typeof old !== "object") return old;
+          const oldObj = old as Record<string, unknown>;
+
+          // Case 1: Paginated response { data: { data: Issue[] } }
+          if (
+            oldObj.data &&
+            typeof oldObj.data === "object" &&
+            Array.isArray((oldObj.data as Record<string, unknown>).data)
+          ) {
+            const innerData = oldObj.data as Record<string, unknown>;
+            return {
+              ...oldObj,
+              data: {
+                ...innerData,
+                data: (innerData.data as Issue[]).map((i) =>
+                  i.id === issueId ? { ...i, ...data } : i,
+                ),
+              },
+            };
+          }
+
+          // Case 2: Single issue response { data: Issue }
+          if (
+            oldObj.data &&
+            typeof oldObj.data === "object" &&
+            (oldObj.data as Record<string, unknown>).id === issueId
+          ) {
+            return {
+              ...oldObj,
+              data: {
+                ...(oldObj.data as Record<string, unknown>),
+                ...data,
+              },
+            };
+          }
+
+          return old;
         },
       );
 
@@ -94,7 +151,21 @@ export const useUpdateIssue = () => {
       queryClient.invalidateQueries({
         queryKey: ["issues", variables.projectId],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["issue-activities", variables.issueId],
+      });
     },
+  });
+};
+
+export const useIssueActivities = (issueId: string) => {
+  return useQuery<IssueActivity[]>({
+    queryKey: ["issue-activities", issueId],
+    queryFn: async () => {
+      const res = await issueService.getIssueActivities(issueId);
+      return res.data || [];
+    },
+    enabled: !!issueId,
   });
 };
 

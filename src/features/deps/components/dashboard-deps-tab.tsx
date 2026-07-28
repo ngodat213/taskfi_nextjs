@@ -1,14 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import {
-  GitFork,
-  ArrowRight,
-  WarningCircle,
-  CheckCircle,
-  LinkBreak,
-  Pulse,
-} from "@phosphor-icons/react/dist/ssr";
+import { GitForkIcon, ArrowRightIcon, WarningCircleIcon, CheckCircleIcon, LinkBreakIcon, PulseIcon } from "@phosphor-icons/react/dist/ssr";
 import {
   DependencyItem,
   DependencyRiskLevel,
@@ -161,7 +154,7 @@ export function DashboardDepsTab({
           {filteredDeps.length === 0 ? (
             <div className="bg-card border border-border/80 rounded-2xl p-6 shadow-2xs">
               <EmptyState
-                icon={LinkBreak}
+                icon={LinkBreakIcon}
                 title="No dependencies match your filter"
                 description="Try searching with another keyword or change your filter tab."
               />
@@ -218,19 +211,19 @@ export function DashboardDepsTab({
                   <div className="flex items-center gap-1.5 text-[11.5px] font-semibold">
                     {dep.riskLevel === "critical" && (
                       <Badge variant="red" dot>
-                        <WarningCircle className="w-3.5 h-3.5 text-rose-500" />
+                        <WarningCircleIcon className="w-3.5 h-3.5 text-rose-500" />
                         <span>Critical Blocker</span>
                       </Badge>
                     )}
                     {dep.riskLevel === "warning" && (
                       <Badge variant="amber" dot>
-                        <Pulse className="w-3.5 h-3.5 text-amber-500" />
+                        <PulseIcon className="w-3.5 h-3.5 text-amber-500" />
                         <span>In Progress</span>
                       </Badge>
                     )}
                     {dep.riskLevel === "resolved" && (
                       <Badge variant="emerald" dot>
-                        <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
+                        <CheckCircleIcon className="w-3.5 h-3.5 text-emerald-500" />
                         <span>Unblocked / Ready</span>
                       </Badge>
                     )}
@@ -238,7 +231,7 @@ export function DashboardDepsTab({
 
                   <div className="flex items-center gap-1 text-muted-foreground mt-0.5">
                     <span className="text-[10.5px] font-medium">Blocks</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-muted-foreground" />
+                    <ArrowRightIcon className="w-3.5 h-3.5 text-muted-foreground" />
                   </div>
                 </div>
 
@@ -288,7 +281,7 @@ export function DashboardDepsTab({
         <ModalContent maxWidth="max-w-md" className="p-5 flex flex-col gap-4">
           <ModalHeader
             title="Add Issue Dependency"
-            icon={<GitFork className="w-4 h-4 text-blue-500" />}
+            icon={<GitForkIcon className="w-4 h-4 text-blue-500" />}
           />
 
           <form

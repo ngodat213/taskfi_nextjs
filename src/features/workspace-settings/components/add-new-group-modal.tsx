@@ -1,4 +1,4 @@
-import { Users, CircleNotch } from "@phosphor-icons/react/dist/ssr";
+import { UsersIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 ;
 import { useForm } from "react-hook-form";
@@ -151,7 +151,7 @@ export function AddNewGroupModal({
                 ? t(TRANSLATION_KEYS.modals.addGroup.titleUpdate)
                 : t(TRANSLATION_KEYS.modals.addGroup.titleCreate)
             }
-            icon={<Users className="w-4 h-4" />}
+            icon={<UsersIcon className="w-4 h-4" />}
           />
           <ModalBody>
             <ModalScrollArea
@@ -217,7 +217,7 @@ export function AddNewGroupModal({
                 variant={ButtonVariant.Primary}
                 disabled={isLoading}
               >
-                {isLoading && <CircleNotch className="w-3.5 h-3.5 animate-spin" />}
+                {isLoading && <CircleNotchIcon className="w-3.5 h-3.5 animate-spin" />}
                 {isEditMode
                   ? t(TRANSLATION_KEYS.modals.addGroup.btnUpdate)
                   : t(TRANSLATION_KEYS.modals.addGroup.btnCreate)}

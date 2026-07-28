@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link as LinkIcon } from "@phosphor-icons/react/dist/ssr";
+import { LinkIcon as LinkIcon } from "@phosphor-icons/react/dist/ssr";
 import {
   Modal,
   ModalContent,

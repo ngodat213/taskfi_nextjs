@@ -1,4 +1,4 @@
-import { Plus } from "@phosphor-icons/react/dist/ssr";
+import { PlusIcon } from "@phosphor-icons/react/dist/ssr";
 import { useDroppable } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -58,7 +58,7 @@ export function BoardColumn({
           onClick={() => onAddClick?.(col.title)}
           className="w-6 h-6 flex items-center justify-center rounded hover:bg-secondary/50 text-muted-foreground transition-colors"
         >
-          <Plus className="w-4 h-4" />
+          <PlusIcon className="w-4 h-4" />
         </button>
       </div>
 
@@ -66,8 +66,8 @@ export function BoardColumn({
         ref={setNodeRef}
         className={
           isMobile
-            ? "flex flex-row gap-3 overflow-x-auto pb-4 snap-x hide-scrollbar pt-1 px-0.5"
-            : "flex-1 overflow-y-auto flex flex-col gap-3 pt-1.5 pb-4 px-0.5 min-h-37.5"
+            ? "flex flex-row gap-3 overflow-x-auto pb-4 snap-x hide-scrollbar scrollbar-none [&::-webkit-scrollbar]:hidden [&::-webkit-scrollbar]:w-0 pt-1 px-0.5"
+            : "flex-1 overflow-y-auto hide-scrollbar scrollbar-none [&::-webkit-scrollbar]:hidden [&::-webkit-scrollbar]:w-0 flex flex-col gap-3 pt-1.5 pb-4 px-0.5 min-h-37.5"
         }
       >
         <SortableContext

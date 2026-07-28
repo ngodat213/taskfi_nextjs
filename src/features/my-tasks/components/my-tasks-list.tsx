@@ -1,8 +1,15 @@
 "use client";
-import { CalendarBlank, DotsThree, CheckSquare, ArrowElbowDownRight, Bug, Stack, Checks } from "@phosphor-icons/react/dist/ssr";
+import {
+  CalendarBlankIcon,
+  DotsThreeIcon,
+  CheckSquareIcon,
+  ArrowElbowDownRightIcon,
+  BugIcon,
+  StackIcon,
+  ChecksIcon,
+} from "@phosphor-icons/react/dist/ssr";
 
 import { useState } from "react";
-;
 import { cn } from "@/utils/cn";
 import { myTasks } from "./mock-data";
 import {
@@ -40,14 +47,16 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
       <TableCell className="hidden sm:table-cell align-middle">
         <div className="flex items-center gap-1.5 text-muted-foreground">
           {task.type === "Task" && (
-            <CheckSquare className="w-3.5 h-3.5 text-blue-500" />
+            <CheckSquareIcon className="w-3.5 h-3.5 text-blue-500" />
           )}
           {task.type === "Subtask" && (
-            <ArrowElbowDownRight className="w-3.5 h-3.5 text-muted-foreground" />
+            <ArrowElbowDownRightIcon className="w-3.5 h-3.5 text-muted-foreground" />
           )}
-          {task.type === "Bug" && <Bug className="w-3.5 h-3.5 text-red-500" />}
+          {task.type === "Bug" && (
+            <BugIcon className="w-3.5 h-3.5 text-red-500" />
+          )}
           {task.type === "Epic" && (
-            <Stack className="w-3.5 h-3.5 text-purple-500" />
+            <StackIcon className="w-3.5 h-3.5 text-purple-500" />
           )}
           <span className="text-[12px] font-medium">{task.type}</span>
         </div>
@@ -76,7 +85,7 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
               </span>
             </div>
             <div className="flex items-center gap-1.5 text-[11.5px] text-muted-foreground">
-              <CalendarBlank className="w-3.5 h-3.5 text-muted-foreground" />
+              <CalendarBlankIcon className="w-3.5 h-3.5 text-muted-foreground" />
               <span
                 className={cn(
                   isToday(task.dueDate) && "text-amber-600 font-medium",
@@ -108,7 +117,7 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
       {/* Due Date */}
       <TableCell className="hidden sm:table-cell align-middle">
         <div className="flex items-center gap-1.5 text-[12.5px] text-muted-foreground">
-          <CalendarBlank className="w-3.5 h-3.5 text-muted-foreground" />
+          <CalendarBlankIcon className="w-3.5 h-3.5 text-muted-foreground" />
           <span
             className={cn(
               isToday(task.dueDate) && "text-amber-600 font-medium",
@@ -140,7 +149,7 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
       {/* Actions */}
       <TableCell className="text-right align-middle pr-4">
         <button className="p-1.5 text-muted-foreground hover:text-foreground rounded-md hover:bg-secondary/60 transition-all opacity-0 group-hover:opacity-100">
-          <DotsThree className="w-4 h-4" />
+          <DotsThreeIcon className="w-4 h-4" />
         </button>
       </TableCell>
     </TableRow>
@@ -155,9 +164,9 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
       <div className="mb-8 last:mb-0">
         <h3 className="text-[14px] font-bold text-foreground capitalize mb-3 flex items-center gap-2">
           {title === "Done" ? (
-            <CheckSquare className="w-4 h-4 text-emerald-500" />
+            <CheckSquareIcon className="w-4 h-4 text-emerald-500" />
           ) : (
-            <Checks className="w-4 h-4 text-blue-500" />
+            <ChecksIcon className="w-4 h-4 text-blue-500" />
           )}
           {title}{" "}
           <span className="text-muted-foreground font-medium text-[12px] ml-1">
@@ -169,8 +178,8 @@ export function MyTasksList({ activeTab }: { activeTab: string }) {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px] px-4">Key</TableHead>
-                  <TableHead className="w-[120px] hidden sm:table-cell">
+                  <TableHead className="w-25 px-4">Key</TableHead>
+                  <TableHead className="w-30 hidden sm:table-cell">
                     Type
                   </TableHead>
                   <TableHead>Task name</TableHead>

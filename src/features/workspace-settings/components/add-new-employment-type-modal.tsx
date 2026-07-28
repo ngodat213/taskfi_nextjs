@@ -1,4 +1,4 @@
-import { Briefcase, CircleNotch } from "@phosphor-icons/react/dist/ssr";
+import { BriefcaseIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 ;
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -103,7 +103,7 @@ export function AddNewEmploymentTypeModal({
             title={
               isEditing ? t("modals.editEmploymentType.title") : t(TK.title)
             }
-            icon={<Briefcase className="w-5 h-5 text-blue-500" />}
+            icon={<BriefcaseIcon className="w-5 h-5 text-blue-500" />}
           />
           <ModalBody>
             <ModalScrollArea
@@ -144,7 +144,7 @@ export function AddNewEmploymentTypeModal({
                 variant={ButtonVariant.Primary}
                 disabled={isPending}
               >
-                {isPending && <CircleNotch className="w-4 h-4 mr-2 animate-spin" />}
+                {isPending && <CircleNotchIcon className="w-4 h-4 mr-2 animate-spin" />}
                 {isEditing
                   ? isPending
                     ? t(ACT.saving)

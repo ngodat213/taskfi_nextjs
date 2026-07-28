@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { StatCard } from "@/components/ui/data-display/stat-card";
 
 export function CapacitySummaryCards() {
@@ -14,7 +14,7 @@ export function CapacitySummaryCards() {
         trend={{
           text: "Dat Ngo, Alex, Sarah",
           isPositive: true,
-          icon: <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />,
+          icon: <ArrowUpRightIcon className="w-3.5 h-3.5 stroke-[2.5]" />,
         }}
       />
 

@@ -1,9 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { authService } from "@/features/auth/api/auth.service";
-import {
-  LogoutRequest,
-  WrappedStatusResponseDto,
-} from "@/features/auth/types/auth.types";
+import { authService } from "@/services/auth.service";
+import { LogoutRequest, WrappedStatusResponseDto } from "@/types/auth.types";
 import { useAuthStore } from "@/store/auth.store";
 import { useRouter } from "@/i18n/routing";
 import { useWorkspaceStore } from "@/store/workspace.store";
@@ -47,6 +44,17 @@ export function useCurrentUser() {
     queryKey: ["current-user"],
     queryFn: authService.getCurrentUser,
     enabled: !!accessToken,
+  });
+}
+
+export function useUpdateProfile() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: authService.updateProfile,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["current-user"] });
+    },
   });
 }
 

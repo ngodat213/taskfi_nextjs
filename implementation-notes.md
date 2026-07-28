@@ -1,43 +1,96 @@
 # Implementation Notes
 
-## Changes Summary
+## Summary of Recent Changes
 
-1. **Flexible Type Aliases for Dynamic Workspace Configuration ([issue.types.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/types/issue.types.ts))**:
-   - Refactored `IssueType`, `IssueStatus`, `IssuePriority` type definitions to flexible string types `export type IssueType = string;`, `export type IssueStatus = string;`, `export type IssuePriority = string;`.
-   - Merged fallback constant objects `IssueType`, `IssueStatus`, `IssuePriority` so both runtime values and type annotations work seamlessly without breaking legacy references while honoring dynamic values from Workspace Config API.
-2. **Linked Issues 2-Way API & Error Handling ([issue.service.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/services/issue.service.ts), [use-issues.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/projects/hooks/use-issues.ts), [issue-linked-issues.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-linked-issues.tsx))**:
-   - Integrated `POST /api/v1/issues/:issueId/links` for creating bidirectional links.
-   - Integrated `DELETE /api/v1/issues/:issueId/links/:targetIssueId` for removing links.
-   - Integrated `useAutoError` and `ErrorTooltip` to catch and render API errors like `CANNOT_LINK_SELF` and `TARGET_NOT_FOUND`.
-3. **TanStack Query Hooks for Uploads ([use-upload.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/hooks/use-upload.ts))**:
-   - Created `useUploadImage` and `useDeleteImage` custom mutation hooks.
-   - Configured `API_ENDPOINTS.UPLOADS.UPLOAD` and `API_ENDPOINTS.UPLOADS.DELETE` in `src/config/api-endpoints.ts`.
-4. **Alignment with Backend DTOs & Full Dynamic Config Support ([workspace.types.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/types/workspace.types.ts), [issue-linked-issues.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-linked-issues.tsx), [link-issue-modal.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/link-issue-modal.tsx))**:
-   - Updated `WorkspaceConfig` interface to include `priorities?: WorkspacePriority[]` and `linkTypes?: WorkspaceLinkType[]` matching Backend's `UpdateWorkspaceConfigDto`.
-   - Updated `IssueLinkedIssues` and `LinkIssueModal` to consume dynamic `linkTypes` returned from `useWorkspaceConfig` API.
-5. **Relocate Comments & Activity Layout Sections ([issue-main-content.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-main-content.tsx), [issue-properties.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-properties.tsx), [issue-comments.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-comments.tsx))**:
-   - Removed `SegmentedControl` tab component from main content area.
-   - Integrated component `IssueComments` (rich TextEditor, avatar, author role badges, reply & share actions) directly below **Linked Issues** in the left main content column.
-   - Moved **Activity** section to the bottom of the right sidebar directly underneath **Due Date**.
-6. **Real Comment APIs Integration ([api-endpoints.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/config/api-endpoints.ts), [issue.service.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/services/issue.service.ts), [use-issues.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/projects/hooks/use-issues.ts))**:
-   - Mapped `GET /api/v1/issues/:issueId/comments` in `issueService.getIssueComments` and TanStack Query `useIssueComments`.
-   - Mapped `POST /api/v1/issues/:issueId/comments` in `issueService.addComment` and TanStack Query `useAddComment`.
-   - Configured automatic cache invalidation for `issue-comments` and `issue-activities` query keys upon successfully posting a new comment.
-7. **Markdown & Mermaid Diagram Preview Modal for Attachments ([mermaid-diagram.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/components/ui/data-display/mermaid-diagram.tsx), [markdown-preview.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/components/ui/data-display/markdown-preview.tsx), [markdown-preview-modal.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/components/ui/data-display/markdown-preview-modal.tsx), [attachment-card.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/components/ui/forms/attachment-card.tsx))**:
-   - Built `MermaidDiagram` component rendering dynamic Mermaid charts (Flowcharts, ER, Sequence, etc.) with theme auto-sync, code/diagram toggle, and copy features.
-   - Configured `sequence: { useMaxWidth: false }` and CSS `[&_svg]:max-w-none` to prevent text squishing on wide sequence diagrams and enable horizontal scrolling.
-   - Integrated `marked` parser into `MarkdownPreview` component to render full GitHub Flavored Markdown (headings, lists, bold/italic, tables, blockquotes, horizontal rules) with embedded Mermaid code blocks and syntax-highlighted code.
-   - Added `preprocessMarkdownTables` to prevent multiline code blocks inside table cells from splitting single-pipe table rows into broken row fragments, and resolved `&quot;` HTML entity encoding issues for double quotes in code blocks.
-   - Positioned the Eye action button (`<Eye />`) directly adjacent to the Delete button (`<DeleteButton />`) on the right side of `AttachmentCard` and `LocalFileCard`.
-   - Created reusable animated `DeleteButton` component ([delete-button.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/components/ui/actions/delete-button.tsx)) featuring 2-step confirmation (`Confirm?` state + `animate-pulse`), red particle burst animation (`framer-motion`), and 3-second auto-reset timer matching the `RestoreButton` UX pattern.
-   - Built `MarkdownPreviewModal` component to display full interactive Markdown & Mermaid previews when clicking `.md` attachment files in `AttachmentUploader`.
-8. **Allow `.md` and `.markdown` File Uploads ([attachment-uploader.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/components/ui/forms/attachment-uploader.tsx))**:
-   - Updated `accept` filter attribute in `AttachmentUploader` to explicitly include `.md` and `.markdown` file extensions alongside image and office document formats.
-9. **Project Card Edit Button & Update Project API ([projects-view.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/projects/components/projects-view.tsx), [project-group-section.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/projects/components/project-group-section.tsx), [add-new-project-modal.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/projects/components/add-new-project-modal.tsx), [project.service.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/services/project.service.ts), [use-projects.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/projects/hooks/use-projects.ts))**:
-   - Added hoverable `<PencilSimple />` edit action button to each project row item in `ProjectGroupSection`.
-   - Updated `AddNewProjectModal` to support pre-filling project fields in edit mode and triggering `PATCH /api/v1/projects/:projectId` via `useUpdateProject` hook with `logoPublicId` payload (omitting deprecated `logoUrl`).
-10. **LogoPicker Safe URL Validation ([logo-picker.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/components/ui/forms/logo-picker.tsx))**:
-    - Added `isValidPreview` check to ensure non-URL strings (such as raw Cloudinary publicId) do not cause Next.js `<Image>` URL constructor to crash with `Invalid URL`. Safe fallback to `<Plus />` icon when URL format is invalid.
-11. **Shared UploadedFile Interface & Project Response DTO ([api.types.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/types/api.types.ts), [project.types.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/types/project.types.ts), [project-group-section.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/projects/components/project-group-section.tsx))**:
-    - Added shared `UploadedFile` interface in `api.types.ts` matching backend response attachments and project logo object format (`fileUrl`, `publicId`, `uploaderId`, `originalName`).
-    - Updated `Project` interface with `logo?: UploadedFile` and fallback support for `project.logo?.fileUrl || project.logoUrl`.
+1. **Fix Synchronous `setState` inside `useEffect` ([issue-summary-input.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-summary-input.tsx))**:
+   - Replaced synchronous `setState` inside `useEffect` with React's recommended render-phase state adjustment pattern (`if (initialSummary !== prevInitialSummary)`), preventing cascading re-renders.
+
+2. **Clean Code & DRY Refactoring for `IssueSubtasks` ([issue-subtasks.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-subtasks.tsx))**:
+   - Reused existing `<IssueItemCard />` component to eliminate ~40 lines of duplicate subtask item JSX.
+   - Extracted `handleAddSubtask` helper function to flatten inline callbacks in `SearchSelect`.
+
+3. **Unified Box Container Styling for Linked Issues ([issue-linked-issues.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-linked-issues.tsx), [issue-item-card.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-item-card.tsx))**:
+   - Wrapped `Linked Issues` list inside identical container box styling (`className="flex flex-col gap-1.5 p-2 bg-muted/50 rounded-xl border border-border/60"`) matching `IssueSubtasks`.
+   - Enhanced shared `<IssueItemCard />` styling with hover state, smooth transitions, and optional `className` support.
+
+4. **Remove Unused Dead Code (`link-issue-modal.tsx`)**:
+   - Deleted unused legacy component `link-issue-modal.tsx` since issue linking is managed directly inline within `IssueLinkedIssues`.
+
+5. **Expand and Integrate `issue-detail.schema.ts` Schema**:
+   - Extended [issue-detail.schema.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/schemas/issue-detail.schema.ts) to define a complete `updateIssueSchema` Zod validation schema covering all issue fields.
+   - Integrated `updateIssueSchema.safeParse` into `handleUpdate` inside [issue-detail-view.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-detail-view.tsx) for instant client-side field validation prior to triggering update API mutations.
+
+6. **Fix `useTranslations("Dashboard")` Namespace for Issue Detail View Components ([translations.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/constants/translations.ts), [en.json](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/messages/en.json), [vi.json](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/messages/vi.json), [issue-detail-view.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-detail-view.tsx), [issue-subtasks.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-subtasks.tsx), [issue-linked-issues.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-linked-issues.tsx))**:
+   - Passed `"Dashboard"` namespace argument to `useTranslations("Dashboard")` in `IssueDetailView`, `IssueSubtasks`, and `IssueLinkedIssues`.
+   - Fixed un-translated fallback raw key strings (`ISSUESUBTASKS.TITLE`, `IssueSubtasks.placeholder`, `ISSUELINKEDISSUES.TITLE`, etc.) so `next-intl` correctly resolves translations from `messages/en.json` and `messages/vi.json`.
+
+7. **Complete 100% i18n Translation for `IssueMainContent` & `IssueProperties` ([issue-main-content.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-main-content.tsx), [issue-properties.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-properties.tsx))**:
+   - Added translation keys under `TRANSLATION_KEYS.DASHBOARD.IssueMainContent` and `IssueProperties`.
+   - Replaced all remaining hardcoded English text strings (`Parent Task`, `Add Parent Task`, `Description`, `Add a description...`, `Comments`, `Type`, `Status`, `Priority`, `Select priority...`, `Assignee`, `Assign to me`, `Unassigned`, `Reporter`, `Story Points`, `Sprint`, `Due Date`, `Activity`) with `useTranslations("Dashboard")` calls `t(TK.key)`.
+
+8. **Modular Extraction of `StoryPointsSelector` Component ([story-points-selector.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/story-points-selector.tsx), [issue-detail.constants.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/constants/issue-detail.constants.ts), [issue-properties.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-properties.tsx))**:
+   - Extracted `STORY_POINT_OPTIONS` constant into `src/features/issue-detail/constants/issue-detail.constants.ts`.
+   - Created reusable `<StoryPointsSelector />` component under `src/features/issue-detail/components/story-points-selector.tsx` adhering to Clean Code & Single Responsibility principles.
+   - Refactored `IssueProperties` to render `<StoryPointsSelector />`, simplifying parent component JSX.
+
+9. **Custom Shared Reusable `DatePicker` Component ([date-picker.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/components/ui/forms/date-picker.tsx), [issue-properties.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-properties.tsx), [create-task-modal.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/dashboard/components/create-task-modal.tsx))**:
+   - Created modern reusable `<DatePicker />` component with custom Calendar Popover, Month/Year navigation controls, Quick Date Presets (`Today`, `Tomorrow`, `Next Week`), clear `X` button, and outside-click dismissal.
+   - Replaced native HTML `<input type="date">` tags across `IssueProperties` and `CreateTaskModal` with `<DatePicker />` for an ultra-premium UX.
+
+10. **Fix IDE Linter Warnings & React Cascading Render Errors ([date-picker.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/components/ui/forms/date-picker.tsx), [create-task-modal.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/dashboard/components/create-task-modal.tsx))**:
+    - Replaced `useEffect` with render-phase state adjustment pattern (`if (value !== prevValue)`) in `DatePicker`, resolving `setState` inside `useEffect` cascading re-render error.
+    - Cleaned up unused `register` variable in `CreateTaskModal`.
+
+11. **Fix `IssueItemCard` Full-Width Expansion ([issue-item-card.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-item-card.tsx), [issue-main-content.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-main-content.tsx))**:
+    - Added `w-full` class to `IssueItemCard` default styling so item cards stretch to fill 100% of container width.
+    - Removed `items-start` alignment class from Parent Task container in `IssueMainContent` so children stretch horizontally by default.
+
+12. **Fix Due Date Instant Cache Update & Fallback Prop ([use-issues.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/projects/hooks/use-issues.ts), [issue-properties.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-properties.tsx))**:
+    - Extended `onMutate` optimistic query cache updater in `useUpdateIssue` to handle both single issue objects (`old.data`) and paginated issue arrays (`old.data.data`), ensuring `dueDate` changes reflect immediately on `DatePicker` without requiring manual refresh.
+    - Added fallback prop check `issue.dueDate || issue.due_date` to `DatePicker` in `IssueProperties`.
+
+13. **Clean Assignee/Reporter Resolution Logic ([issue-properties.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-properties.tsx))**:
+    - Simplified `currentAssigneeId` and `currentReporterId` to cleanly resolve `issue.assigneeId || issue.assignee?.id` and `issue.reporterId || issue.reporter?.id`.
+    - Added automatic `unshift` insertion for assigned/reporter user into `memberOptions` if not present in paginated workspace members list, ensuring assignee name displays properly in UI.
+
+14. **Full Clean Code, DRY & SOLID Refactoring of `IssueProperties` ([issue-properties.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-properties.tsx))**:
+    - **Single Responsibility (SRP)**: Extracted pure helper `buildMemberOptions` to manage member option generation and missing user injection outside component render loop.
+    - **Don't Repeat Yourself (DRY)**: Created reusable `PropertyUserSelect` sub-component to eliminate duplicate JSX between Assignee and Reporter fields.
+    - **Open-Closed & Clean Architecture**: Ensured component logic is decoupled, type-safe (no `any`), concise, and highly readable.
+
+15. **Modular File Extraction & Separation of Concerns ([property-select.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/property-select.tsx), [property-user-select.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/property-user-select.tsx), [issue-options.utils.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/utils/issue-options.utils.tsx), [issue-properties.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-properties.tsx))**:
+    - Extracted `PropertySelect` to `src/features/issue-detail/components/property-select.tsx`.
+    - Extracted `PropertyUserSelect` to `src/features/issue-detail/components/property-user-select.tsx`.
+    - Extracted `buildMemberOptions` utility function to `src/features/issue-detail/utils/issue-options.utils.tsx`.
+    - Reduced `issue-properties.tsx` to a clean, focused component solely responsible for composing issue property fields.
+
+16. **Enhance Selected Option Display in `SearchSelect` ([search-select.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/components/ui/forms/search-select.tsx))**:
+    - Updated trigger input in `SearchSelect` to render `selectedOption.icon` when present on the left, and hide `MagnifyingGlassIcon` whenever an option is selected (unless actively typing a search query).
+    - Rendered `selectedOption.badge` on the right (e.g., Status Badge) and swapped gray placeholder text for crisp `text-foreground` label.
+
+17. **Fix Priority Icon & Value Matching in `IssueProperties` ([issue-properties.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-properties.tsx))**:
+    - Added `PriorityIcon` component to `priorityOptions` so priority items display colored priority icons in both dropdown and trigger box.
+    - Added `matchedPriorityValue` case-insensitive matching (`toLowerCase()`) to seamlessly match backend uppercase/lowercase values (e.g., `"MEDIUM"` vs `"medium"`).
+
+18. **Strikethrough Title & Item Card Summary for Done Tasks ([issue-summary-input.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-summary-input.tsx), [issue-detail-view.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-detail-view.tsx), [issue-item-card.tsx](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/issue-detail/components/issue-item-card.tsx))**:
+    - Added `isDone` prop to `IssueSummaryInput` and passed status check `(issue.status || "").toLowerCase() === "done"`.
+    - Applied `line-through text-muted-foreground` CSS classes to title input in Issue Detail view and item card summaries in Subtasks/Linked Issues whenever task status is "done".
+
+19. **Clean Up IDE Warnings & Unused Imports ([use-issues.ts](file:///Users/datngovantien/Projects/fontend/taskfi_nextjs/src/features/projects/hooks/use-issues.ts))**:
+    - Removed unused import `PaginatedResponse` from `src/features/projects/hooks/use-issues.ts`.
+    - Verified `@theme` and `@utility` rules in `globals.css` are valid standard Tailwind CSS v4 syntax rules.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

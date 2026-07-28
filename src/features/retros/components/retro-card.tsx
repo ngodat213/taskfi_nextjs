@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import { CheckCircle } from "@phosphor-icons/react/dist/ssr";
+import { CheckCircleIcon } from "@phosphor-icons/react/dist/ssr";
 import { Avatar } from "@/components/ui/data-display/avatar";
 import { Badge } from "@/components/ui/data-display/badge";
 import { ItemCard } from "@/components/ui/data-display/item-card";
@@ -57,7 +57,7 @@ export function RetroCard({
                   : "border-border hover:border-blue-500",
               )}
             >
-              {item.completed && <CheckCircle className="w-3.5 h-3.5" />}
+              {item.completed && <CheckCircleIcon className="w-3.5 h-3.5" />}
             </button>
           ) : undefined
         }

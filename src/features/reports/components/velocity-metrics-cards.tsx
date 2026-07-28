@@ -1,7 +1,7 @@
 "use client";
 
 import { SprintMetricsSummary } from "@/features/reports/types/reports.types";
-import { ArrowUpRight, Clock } from "@phosphor-icons/react/dist/ssr";
+import { ArrowUpRightIcon, ClockIcon } from "@phosphor-icons/react/dist/ssr";
 import { StatCard } from "@/components/ui/data-display/stat-card";
 
 interface VelocityMetricsCardsProps {
@@ -20,7 +20,7 @@ export function VelocityMetricsCards({ summary }: VelocityMetricsCardsProps) {
         trend={{
           text: "+82.8% (+7.4%)",
           isPositive: true,
-          icon: <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />,
+          icon: <ArrowUpRightIcon className="w-3.5 h-3.5 stroke-[2.5]" />,
         }}
       />
 
@@ -33,7 +33,7 @@ export function VelocityMetricsCards({ summary }: VelocityMetricsCardsProps) {
         trend={{
           text: "+82.1% completed",
           isPositive: true,
-          icon: <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />,
+          icon: <ArrowUpRightIcon className="w-3.5 h-3.5 stroke-[2.5]" />,
         }}
       />
 
@@ -46,7 +46,7 @@ export function VelocityMetricsCards({ summary }: VelocityMetricsCardsProps) {
         trend={{
           text: "+15% resolution pace",
           isPositive: true,
-          icon: <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />,
+          icon: <ArrowUpRightIcon className="w-3.5 h-3.5 stroke-[2.5]" />,
         }}
       />
 
@@ -58,7 +58,7 @@ export function VelocityMetricsCards({ summary }: VelocityMetricsCardsProps) {
         subValue="days left"
         footer={
           <div className="flex items-center gap-1.5 text-[12px] font-medium text-muted-foreground">
-            <Clock className="w-3.5 h-3.5 text-blue-500" />
+            <ClockIcon className="w-3.5 h-3.5 text-blue-500" />
             <span>Sprint ends Jul 24, 2026</span>
           </div>
         }

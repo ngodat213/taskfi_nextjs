@@ -1,21 +1,6 @@
 "use client";
 
-import {
-  Folder,
-  CheckSquare,
-  CalendarBlank,
-  BookOpen,
-  TreeStructure,
-  Kanban,
-  ChartLineUp,
-  FileText,
-  Gear,
-  ChartPie,
-  PaintBrush,
-  PenNib,
-  CaretDown,
-  CaretUp,
-} from "@phosphor-icons/react/dist/ssr";
+import { FolderIcon, CheckSquareIcon, CalendarBlankIcon, BookOpenIcon, TreeStructureIcon, KanbanIcon, ChartLineUpIcon, FileTextIcon, GearIcon, ChartPieIcon, PaintBrushIcon, PenNibIcon, CaretDownIcon, CaretUpIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { Link, usePathname } from "@/i18n/routing";
 import { cn } from "@/utils/cn";
@@ -31,33 +16,33 @@ import { SidebarNavItem } from "./sidebar-nav-item";
 import { SidebarUserFooter } from "./sidebar-user-footer";
 
 const navItems = [
-  { icon: Folder, label: "Projects", href: "/" },
-  { icon: CheckSquare, label: "My tasks", href: "/my-tasks" },
-  { icon: CalendarBlank, label: "Calendar", href: "/calendar" },
-  { icon: BookOpen, label: "Documents", href: "/docs" },
-  { icon: TreeStructure, label: "Timeline", href: "/timeline" },
-  { icon: Kanban, label: "Backlog", href: "/backlog" },
-  { icon: Kanban, label: "Active sprints", href: "/active-sprints" },
-  { icon: ChartLineUp, label: "Reports", href: "/reports" },
-  { icon: FileText, label: "Issues", href: "/issues" },
+  { icon: FolderIcon, label: "Projects", href: "/" },
+  { icon: CheckSquareIcon, label: "My tasks", href: "/my-tasks" },
+  { icon: CalendarBlankIcon, label: "Calendar", href: "/calendar" },
+  { icon: BookOpenIcon, label: "Documents", href: "/docs" },
+  { icon: TreeStructureIcon, label: "Timeline", href: "/timeline" },
+  { icon: KanbanIcon, label: "Backlog", href: "/backlog" },
+  { icon: KanbanIcon, label: "Active sprints", href: "/active-sprints" },
+  { icon: ChartLineUpIcon, label: "Reports", href: "/reports" },
+  { icon: FileTextIcon, label: "Issues", href: "/issues" },
 ];
 
 const recentItems = [
   {
     label: "Q1 Recap",
-    icon: ChartPie,
+    icon: ChartPieIcon,
     color: "text-amber-500",
     href: "/calendar",
   },
   {
     label: "Design Team Projects",
-    icon: PaintBrush,
+    icon: PaintBrushIcon,
     color: "text-emerald-500",
     href: "/active-sprints",
   },
   {
     label: "UX Copy Writing",
-    icon: PenNib,
+    icon: PenNibIcon,
     color: "text-purple-500",
     href: "/issues",
   },
@@ -163,7 +148,7 @@ export function Sidebar({
 
             {/* Workspace Settings Item */}
             <SidebarNavItem
-              icon={Gear}
+              icon={GearIcon}
               label="Workspace settings"
               href="/workspace-settings"
               isActive={pathname === "/workspace-settings"}
@@ -184,9 +169,9 @@ export function Sidebar({
                     className="px-3 py-1 text-[11.5px] font-semibold text-muted-foreground/80 hover:text-foreground flex items-center gap-1.5 transition-colors cursor-pointer select-none"
                   >
                     {isRecentOpen ? (
-                      <CaretUp className="w-3 h-3" />
+                      <CaretUpIcon className="w-3 h-3" />
                     ) : (
-                      <CaretDown className="w-3 h-3" />
+                      <CaretDownIcon className="w-3 h-3" />
                     )}
                     <span>Recent</span>
                   </button>
@@ -230,9 +215,9 @@ export function Sidebar({
                     className="px-3 py-1 text-[11.5px] font-semibold text-muted-foreground/80 hover:text-foreground flex items-center gap-1.5 transition-colors cursor-pointer select-none"
                   >
                     {isTeamsOpen ? (
-                      <CaretUp className="w-3 h-3" />
+                      <CaretUpIcon className="w-3 h-3" />
                     ) : (
-                      <CaretDown className="w-3 h-3" />
+                      <CaretDownIcon className="w-3 h-3" />
                     )}
                     <span>Teams</span>
                   </button>

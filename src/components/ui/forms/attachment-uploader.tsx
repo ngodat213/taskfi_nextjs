@@ -1,6 +1,6 @@
 "use client";
 
-import { Paperclip, CircleNotch } from "@phosphor-icons/react/dist/ssr";
+import { PaperclipIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 import React, { useState, useRef, useCallback } from "react";
 import { cn } from "@/utils/cn";
 import { IssueAttachment } from "@/types/issue.types";
@@ -184,13 +184,13 @@ export function AttachmentUploader({
 
           {isUploading ? (
             <div className="flex items-center gap-2 py-1 text-xs text-muted-foreground">
-              <CircleNotch className="w-4 h-4 animate-spin text-primary" />
+              <CircleNotchIcon className="w-4 h-4 animate-spin text-primary" />
               <span>Uploading file...</span>
             </div>
           ) : (
             <>
               <div className="p-2 rounded-full bg-muted text-muted-foreground">
-                <Paperclip className="w-4 h-4" />
+                <PaperclipIcon className="w-4 h-4" />
               </div>
               <div className="text-xs text-muted-foreground">
                 <span className="font-semibold text-foreground">

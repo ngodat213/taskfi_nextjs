@@ -1,4 +1,4 @@
-import { Briefcase, CircleNotch } from "@phosphor-icons/react/dist/ssr";
+import { BriefcaseIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 import {
   Modal,
@@ -87,7 +87,7 @@ export function CreateWorkspaceModal({
       <ModalContent maxWidth="max-w-[400px]">
         <ModalHeader
           title="Create Workspace"
-          icon={<Briefcase className="w-4 h-4" />}
+          icon={<BriefcaseIcon className="w-4 h-4" />}
         />
         <ModalBody>
           <ModalScrollArea
@@ -139,7 +139,7 @@ export function CreateWorkspaceModal({
               className="px-5 py-2 bg-primary hover:bg-primary/90 text-white text-[13px] font-medium rounded-lg shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {(isCreating || isUploading) && (
-                <CircleNotch className="w-3.5 h-3.5 animate-spin" />
+                <CircleNotchIcon className="w-3.5 h-3.5 animate-spin" />
               )}
               Create Workspace
             </button>

@@ -7,10 +7,11 @@ import {
   ResetPasswordRequest,
   FcmTokenRequest,
   LogoutRequest,
+  UpdateProfileRequest,
   WrappedTokenResponseDto,
   WrappedUserResponseDto,
   WrappedStatusResponseDto,
-} from "@/features/auth/types/auth.types";
+} from "@/types/auth.types";
 import { API_ENDPOINTS } from "@/config/api-endpoints";
 
 export const authService = {
@@ -73,6 +74,14 @@ export const authService = {
   getCurrentUser: async () => {
     const response = await apiClient.get<WrappedUserResponseDto>(
       API_ENDPOINTS.AUTH.ME,
+    );
+    return response.data;
+  },
+
+  updateProfile: async (data: UpdateProfileRequest) => {
+    const response = await apiClient.patch<WrappedUserResponseDto>(
+      API_ENDPOINTS.AUTH.ME,
+      data,
     );
     return response.data;
   },

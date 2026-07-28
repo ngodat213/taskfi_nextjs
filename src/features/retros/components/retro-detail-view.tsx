@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useMemo } from "react";
-import { CalendarBlank } from "@phosphor-icons/react/dist/ssr";
+import { CalendarBlankIcon } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/utils/cn";
 import { motion, type Variants } from "framer-motion";
 import { PageContainer } from "@/components/layout/page-container";
@@ -271,7 +271,7 @@ export function RetroDetailView({
 
                       <span>•</span>
                       <div className="inline-flex items-center gap-1.5 bg-muted/60 text-foreground px-2.5 py-0.5 rounded-md border border-border/60 text-xs font-semibold">
-                        <CalendarBlank className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+                        <CalendarBlankIcon className="w-3.5 h-3.5 text-blue-500 shrink-0" />
                         <span>{targetSession.sprintName}</span>
                         <span className="text-[11px] text-muted-foreground font-normal">
                           ({targetSession.date})
@@ -314,7 +314,7 @@ export function RetroDetailView({
                     <span>•</span>
 
                     <div className="flex items-center gap-1.5 font-medium text-foreground">
-                      <CalendarBlank className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                      <CalendarBlankIcon className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
                       <span>{itemState.createdAt}</span>
                     </div>
 

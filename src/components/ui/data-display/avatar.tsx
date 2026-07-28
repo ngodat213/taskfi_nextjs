@@ -29,7 +29,13 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
         {...props}
       >
         {src ? (
-          <Image src={src} alt={alt} fill className="object-cover" />
+          <Image
+            src={src}
+            alt={alt || "Avatar"}
+            fill
+            className="object-cover"
+            unoptimized
+          />
         ) : (
           <span className="font-bold uppercase">
             {fallback?.charAt(0) || alt?.charAt(0) || "?"}

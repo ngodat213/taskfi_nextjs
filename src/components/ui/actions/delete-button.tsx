@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Check } from "@phosphor-icons/react/dist/ssr";
+import { XIcon, CheckIcon } from "@phosphor-icons/react/dist/ssr";
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { cn } from "@/utils/cn";
 
@@ -133,13 +133,13 @@ export function DeleteButton({
           >
             {step === "confirming" ? (
               <>
-                <Check className="w-3 h-3 text-white" />
+                <CheckIcon className="w-3 h-3 text-white" />
                 <span>Confirm?</span>
               </>
             ) : step === "deleting" ? (
               <span>Deleting...</span>
             ) : (
-              <X className="w-3.5 h-3.5" />
+              <XIcon className="w-3.5 h-3.5" />
             )}
           </motion.div>
         </Button>

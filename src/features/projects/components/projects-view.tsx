@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Check,
-  ArrowRight,
-  CircleNotch,
-  FolderOpen,
-} from "@phosphor-icons/react/dist/ssr";
+import { CheckIcon, ArrowRightIcon, CircleNotchIcon, FolderOpenIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { useState } from "react";
 import { motion, Variants } from "framer-motion";
@@ -94,14 +89,14 @@ export function ProjectsView() {
         variants={slideUpVariants}
         className="flex items-center justify-center p-8"
       >
-        <CircleNotch className="w-5 h-5 animate-spin text-muted-foreground" />
+        <CircleNotchIcon className="w-5 h-5 animate-spin text-muted-foreground" />
       </motion.div>
     );
   } else if (groups.length === 0) {
     content = (
       <motion.div variants={slideUpVariants} className="py-12">
         <EmptyState
-          icon={FolderOpen}
+          icon={FolderOpenIcon}
           title={t(TK.noGroupsFound)}
           description={t(TK.noGroupsDesc)}
         />
@@ -155,7 +150,7 @@ export function ProjectsView() {
                 }}
               >
                 {t(TK.newProject)}
-                <ArrowRight className="w-3 h-3" />
+                <ArrowRightIcon className="w-3 h-3" />
               </Button>
             </motion.div>
           }
@@ -187,7 +182,7 @@ export function ProjectsView() {
 
               <label className="flex items-center gap-1.5 cursor-pointer group select-none bg-card border border-border shadow-sm h-8 px-2.5 rounded-md hover:border-border transition-all">
                 <div className="relative w-3.5 h-3.5 rounded-[3px] border border-blue-500 flex items-center justify-center bg-blue-500 shrink-0">
-                  <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
+                  <CheckIcon className="w-2.5 h-2.5 text-white" strokeWidth={3} />
                 </div>
                 <span className="text-[12px] sm:text-[12.5px] font-medium text-muted-foreground group-hover:text-slate-900 transition-colors whitespace-nowrap">
                   {t(TK.groupByProject)}
