@@ -1,9 +1,4 @@
-import {
-  DotsThree,
-  Shield,
-  PencilSimple,
-  CircleNotch,
-} from "@phosphor-icons/react/dist/ssr";
+import { DotsThreeIcon, ShieldIcon, PencilSimpleIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 import { useWorkspaceStore } from "@/store/workspace.store";
 import { useWorkspaceRoles } from "@/features/workspaces/hooks/use-workspaces";
 import { cn } from "@/utils/cn";
@@ -45,7 +40,7 @@ export function RolesTable({
           <TableRow>
             <TableCell colSpan={5} className="h-50 p-0 text-center">
               <div className="flex items-center justify-center h-full w-full">
-                <CircleNotch className="w-5 h-5 animate-spin text-muted-foreground" />
+                <CircleNotchIcon className="w-5 h-5 animate-spin text-muted-foreground" />
               </div>
             </TableCell>
           </TableRow>
@@ -72,7 +67,7 @@ export function RolesTable({
           <TableRow>
             <TableCell colSpan={3} className="h-75 p-0">
               <EmptyState
-                icon={Shield}
+                icon={ShieldIcon}
                 title={t(TK.emptyTitle)}
                 description={t(TK.emptyDesc)}
               />
@@ -133,11 +128,11 @@ export function RolesTable({
                         className="hover:text-blue-500 hover:bg-blue-50"
                         onClick={() => onEdit?.(r)}
                       >
-                        <PencilSimple className="w-4 h-4" />
+                        <PencilSimpleIcon className="w-4 h-4" />
                       </TableActionBtn>
                     )}
                     <TableActionBtn>
-                      <DotsThree className="w-4 h-4" />
+                      <DotsThreeIcon className="w-4 h-4" />
                     </TableActionBtn>
                   </div>
                 </TableCell>

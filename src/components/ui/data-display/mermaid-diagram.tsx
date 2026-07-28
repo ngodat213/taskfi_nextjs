@@ -1,13 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useId } from "react";
-import {
-  Code,
-  Copy,
-  Check,
-  WarningCircle,
-  Eye,
-} from "@phosphor-icons/react/dist/ssr";
+import { CodeIcon, CopyIcon, CheckIcon, WarningCircleIcon, EyeIcon } from "@phosphor-icons/react/dist/ssr";
 import { useTheme } from "next-themes";
 import { cn } from "@/utils/cn";
 
@@ -162,17 +156,17 @@ export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
             type="button"
             onClick={() => setShowCode(!showCode)}
             className="flex items-center gap-1 px-2 py-1 rounded-md text-[11px] hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-            title={showCode ? "View Diagram" : "View Code"}
+            title={showCode ? "View Diagram" : "View CodeIcon"}
           >
             {showCode ? (
               <>
-                <Eye className="w-3.5 h-3.5" />
+                <EyeIcon className="w-3.5 h-3.5" />
                 <span>Diagram</span>
               </>
             ) : (
               <>
-                <Code className="w-3.5 h-3.5" />
-                <span>Code</span>
+                <CodeIcon className="w-3.5 h-3.5" />
+                <span>CodeIcon</span>
               </>
             )}
           </button>
@@ -181,17 +175,17 @@ export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
             type="button"
             onClick={handleCopyCode}
             className="flex items-center gap-1 px-2 py-1 rounded-md text-[11px] hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-            title="Copy Mermaid Code"
+            title="CopyIcon Mermaid CodeIcon"
           >
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5 text-emerald-500" />
+                <CheckIcon className="w-3.5 h-3.5 text-emerald-500" />
                 <span className="text-emerald-500 font-semibold">Copied</span>
               </>
             ) : (
               <>
-                <Copy className="w-3.5 h-3.5" />
-                <span>Copy</span>
+                <CopyIcon className="w-3.5 h-3.5" />
+                <span>CopyIcon</span>
               </>
             )}
           </button>
@@ -211,7 +205,7 @@ export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
           </div>
         ) : error ? (
           <div className="py-4 px-3 w-full flex items-start gap-2 text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-lg">
-            <WarningCircle className="w-4 h-4 shrink-0 mt-0.5" />
+            <WarningCircleIcon className="w-4 h-4 shrink-0 mt-0.5" />
             <div className="flex-1 flex flex-col gap-1">
               <span className="font-semibold">Mermaid Syntax Error</span>
               <pre className="text-[11px] font-mono whitespace-pre-wrap opacity-90">

@@ -1,4 +1,4 @@
-import { DotsThree, PencilSimple, Buildings, CircleNotch } from "@phosphor-icons/react/dist/ssr";
+import { DotsThreeIcon, PencilSimpleIcon, BuildingsIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 ;
 import {
   Table,
@@ -34,7 +34,7 @@ export function DepartmentsTable({ onEdit }: DepartmentsTableProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-8 min-h-[200px]">
-        <CircleNotch className="w-6 h-6 animate-spin text-muted-foreground" />
+        <CircleNotchIcon className="w-6 h-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -42,7 +42,7 @@ export function DepartmentsTable({ onEdit }: DepartmentsTableProps) {
   if (departments.length === 0) {
     return (
       <EmptyState
-        icon={Buildings}
+        icon={BuildingsIcon}
         title={t(TK.emptyTitle)}
         description={t(TK.emptyDesc)}
       />
@@ -93,10 +93,10 @@ export function DepartmentsTable({ onEdit }: DepartmentsTableProps) {
             <TableCell className="text-right">
               <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <TableActionBtn onClick={() => onEdit?.(d)}>
-                  <PencilSimple className="w-4 h-4" />
+                  <PencilSimpleIcon className="w-4 h-4" />
                 </TableActionBtn>
                 <TableActionBtn>
-                  <DotsThree className="w-4 h-4" />
+                  <DotsThreeIcon className="w-4 h-4" />
                 </TableActionBtn>
               </div>
             </TableCell>

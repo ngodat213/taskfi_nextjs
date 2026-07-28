@@ -29,6 +29,17 @@ export interface WorkspaceMember {
   username: string;
   email: string;
   roleName: string;
+  name?: string;
+  fullName?: string;
+  full_name?: string;
+  avatar_public_id?: string;
+  avatarUrl?: string;
+  avatar?: {
+    uploaderId?: string;
+    fileUrl?: string;
+    originalName?: string;
+    publicId?: string;
+  };
   phone?: string;
   location?: string;
   jobTitle?: string;
@@ -140,6 +151,7 @@ export interface WorkspaceIssueType {
   description?: string;
   isSubtask?: boolean;
   isDefault?: boolean;
+  allowedParentTypes?: string[];
 }
 
 export interface WorkspacePriority {

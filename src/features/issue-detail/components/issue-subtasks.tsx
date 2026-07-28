@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { X } from "@phosphor-icons/react/dist/ssr";
+import { XIcon } from "@phosphor-icons/react/dist/ssr";
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import {
   useIssueChildren,
-  useIssues,
+  useChildOptions,
   useUpdateIssue,
 } from "@/features/projects/hooks/use-issues";
 import { IssueType, IssueStatus } from "@/types/issue.types";
@@ -11,6 +11,7 @@ import {
   TypeIcon,
   StatusBadge,
 } from "@/features/dashboard/components/issue-table-row";
+import { mapIssueToSearchOption } from "@/features/issue-detail/utils/issue-options.utils";
 import { cn } from "@/utils/cn";
 import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { SearchSelect } from "@/components/ui/forms/search-select";
@@ -27,12 +28,10 @@ export function IssueSubtasks({ projectId, parentId }: IssueSubtasksProps) {
   const { fieldErrors, handleApiError, clearFieldError } = useAutoError();
 
   const updateIssue = useUpdateIssue();
-  const { data: issuesResponse } = useIssues(projectId, {
-    limit: 50,
+  const { data: childOptionsResponse } = useChildOptions(projectId, {
     search: searchQuery || undefined,
-    hasParent: false,
   });
-  const allIssues = issuesResponse?.data?.data || [];
+  const allIssues = childOptionsResponse?.data || [];
 
   const { data: childrenResponse, isLoading: isLoadingChildren } =
     useIssueChildren(projectId, parentId);
@@ -40,14 +39,7 @@ export function IssueSubtasks({ projectId, parentId }: IssueSubtasksProps) {
 
   const searchOptions = allIssues
     .filter((i) => i.id !== parentId)
-    .map((i) => ({
-      value: i.id,
-      label: `${i.issueKey} - ${i.summary}`,
-      icon: (
-        <TypeIcon type={i.type as IssueType} className="w-3.5 h-3.5 shrink-0" />
-      ),
-      badge: <StatusBadge status={i.status as IssueStatus} />,
-    }));
+    .map(mapIssueToSearchOption);
 
   const handleRemoveSubtask = (issueId: string) => {
     clearFieldError("subtask");
@@ -90,7 +82,7 @@ export function IssueSubtasks({ projectId, parentId }: IssueSubtasksProps) {
               );
             }
           }}
-          placeholder="+ Add or attach subtask..."
+          placeholder="Add or attach subtask..."
           onSearchChange={setSearchQuery}
         />
         <ErrorTooltip message={fieldErrors.subtask || fieldErrors.parentId} />
@@ -126,7 +118,8 @@ export function IssueSubtasks({ projectId, parentId }: IssueSubtasksProps) {
                 <span
                   className={cn(
                     "text-[13px] font-medium tracking-tight transition-colors line-clamp-1 ml-1",
-                    task.status?.toLowerCase() === "done" || task.status === "Done"
+                    task.status?.toLowerCase() === "done" ||
+                      task.status === "Done"
                       ? "text-muted-foreground line-through"
                       : "text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400",
                   )}
@@ -146,7 +139,7 @@ export function IssueSubtasks({ projectId, parentId }: IssueSubtasksProps) {
                   }}
                   title="Remove subtask"
                 >
-                  <X className="w-3.5 h-3.5" />
+                  <XIcon className="w-3.5 h-3.5" />
                 </Button>
               </div>
             </div>

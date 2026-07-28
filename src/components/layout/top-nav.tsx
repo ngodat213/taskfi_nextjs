@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  Bell,
-  Question,
-  MagnifyingGlass,
-  List,
-  CaretLeft,
-  CaretRight,
-  Sun,
-  Moon,
-} from "@phosphor-icons/react/dist/ssr";
+import { BellIcon, QuestionIcon, MagnifyingGlassIcon, ListIcon, CaretLeftIcon, CaretRightIcon, SunIcon, MoonIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
@@ -68,13 +59,13 @@ export function TopNav({ onMenuClick }: { onMenuClick?: () => void }) {
   return (
     <>
       <header className="h-14 w-full bg-transparent flex items-center justify-between px-4 shrink-0 z-30 sticky top-0">
-        {/* Mobile List Button */}
+        {/* Mobile ListIcon Button */}
         <div className="flex items-center md:hidden">
           <button
             onClick={onMenuClick}
             className="w-9 h-9 flex items-center justify-center text-muted-foreground hover:bg-secondary/80 hover:text-foreground rounded-lg transition-colors"
           >
-            <List className="w-5 h-5" />
+            <ListIcon className="w-5 h-5" />
           </button>
         </div>
 
@@ -96,14 +87,14 @@ export function TopNav({ onMenuClick }: { onMenuClick?: () => void }) {
               className="p-1 rounded hover:bg-secondary text-foreground transition-colors cursor-pointer"
               title="Go back"
             >
-              <CaretLeft className="w-5 h-5" strokeWidth={2} />
+              <CaretLeftIcon className="w-5 h-5" strokeWidth={2} />
             </button>
             <button
               onClick={() => router.forward()}
               className="p-1 rounded hover:bg-secondary text-foreground transition-colors cursor-pointer"
               title="Go forward"
             >
-              <CaretRight className="w-5 h-5" strokeWidth={2} />
+              <CaretRightIcon className="w-5 h-5" strokeWidth={2} />
             </button>
           </div>
 
@@ -206,7 +197,7 @@ export function TopNav({ onMenuClick }: { onMenuClick?: () => void }) {
         <div className="flex items-center gap-2">
           {/* Quick Search Input */}
           <div className="relative hidden lg:flex items-center">
-            <MagnifyingGlass className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <MagnifyingGlassIcon className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               placeholder="Search tasks, issues..."
@@ -220,7 +211,7 @@ export function TopNav({ onMenuClick }: { onMenuClick?: () => void }) {
             className="relative w-8.5 h-8.5 flex items-center justify-center text-muted-foreground hover:bg-secondary hover:text-foreground rounded-xl transition-colors cursor-pointer"
             title="Notifications"
           >
-            <Bell className="w-4.5 h-4.5" />
+            <BellIcon className="w-4.5 h-4.5" />
             <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-background animate-pulse" />
           </button>
 
@@ -229,7 +220,7 @@ export function TopNav({ onMenuClick }: { onMenuClick?: () => void }) {
             className="w-8.5 h-8.5 hidden sm:flex items-center justify-center text-muted-foreground hover:bg-secondary hover:text-foreground rounded-xl transition-colors cursor-pointer"
             title="Help & Support"
           >
-            <Question className="w-4.5 h-4.5" />
+            <QuestionIcon className="w-4.5 h-4.5" />
           </button>
 
           {/* Theme Toggle */}
@@ -240,9 +231,9 @@ export function TopNav({ onMenuClick }: { onMenuClick?: () => void }) {
               title="Toggle theme"
             >
               {theme === "dark" ? (
-                <Sun className="w-4.5 h-4.5" />
+                <SunIcon className="w-4.5 h-4.5" />
               ) : (
-                <Moon className="w-4.5 h-4.5" />
+                <MoonIcon className="w-4.5 h-4.5" />
               )}
             </button>
           )}

@@ -1,13 +1,4 @@
-import {
-  DotsThree,
-  CalendarBlank,
-  MapPin,
-  Folder,
-  Users,
-  CircleNotch,
-  PencilSimple,
-  Trash,
-} from "@phosphor-icons/react/dist/ssr";
+import { DotsThreeIcon, CalendarBlankIcon, MapPinIcon, FolderIcon, UsersIcon, CircleNotchIcon, PencilSimpleIcon, TrashIcon } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 import {
   Table,
@@ -72,7 +63,7 @@ export function MembersTable() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-8 min-h-50">
-        <CircleNotch className="w-6 h-6 animate-spin text-muted-foreground" />
+        <CircleNotchIcon className="w-6 h-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -103,7 +94,7 @@ export function MembersTable() {
             <TableRow>
               <TableCell colSpan={6} className="h-75 p-0">
                 <EmptyState
-                  icon={Users}
+                  icon={UsersIcon}
                   title={t(TK.emptyTitle)}
                   description={t(TK.emptyDesc)}
                 />
@@ -125,12 +116,15 @@ export function MembersTable() {
                 statusLabel = t(TK.statusInactive);
               }
 
+              const avatarSrc = m.avatarUrl || m.avatar?.fileUrl;
+
               return (
                 <TableRow key={i} className="group">
                   {/* Employee Info */}
                   <TableCell className="border-l-2 border-transparent group-hover:border-blue-500 transition-colors align-top md:align-middle">
                     <div className="flex items-start md:items-center gap-3">
                       <Avatar
+                        src={avatarSrc}
                         fallback={m.username}
                         size="sm"
                         className="mt-0.5 md:mt-0 bg-linear-to-tr from-blue-100 to-indigo-50 text-blue-600 border-blue-200/60 shadow-sm ring-1 ring-transparent group-hover:ring-blue-100 transition-all"
@@ -181,7 +175,7 @@ export function MembersTable() {
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5 mt-1">
-                        <Folder className="w-3.5 h-3.5 text-muted-foreground" />
+                        <FolderIcon className="w-3.5 h-3.5 text-muted-foreground" />
                         <span className="text-muted-foreground text-[11.5px]">
                           {t(TK.projectsCount, { count: 0 })}
                         </span>
@@ -204,11 +198,11 @@ export function MembersTable() {
                   <TableCell className="hidden xl:table-cell align-top md:align-middle">
                     <div className="flex flex-col gap-1.5 text-[12.5px]">
                       <div className="flex items-center gap-2 text-muted-foreground">
-                        <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
+                        <MapPinIcon className="w-3.5 h-3.5 text-muted-foreground" />
                         <span>{m.location || t(TK.notAvailable)}</span>
                       </div>
                       <div className="flex items-center gap-2 text-muted-foreground">
-                        <CalendarBlank className="w-3.5 h-3.5 text-muted-foreground" />
+                        <CalendarBlankIcon className="w-3.5 h-3.5 text-muted-foreground" />
                         <span>
                           {t(TK.joined)}{" "}
                           {new Date(m.createdAt).toLocaleDateString(locale, {
@@ -248,20 +242,20 @@ export function MembersTable() {
                           setIsEditModalOpen(true);
                         }}
                       >
-                        <PencilSimple className="w-4 h-4 text-blue-500" />
+                        <PencilSimpleIcon className="w-4 h-4 text-blue-500" />
                       </TableActionBtn>
                       <TableActionBtn
                         onClick={() => handleRemoveMember(m.userId)}
                         disabled={removeMutation.isPending}
                       >
                         {removeMutation.isPending ? (
-                          <CircleNotch className="w-4 h-4 text-red-500 animate-spin" />
+                          <CircleNotchIcon className="w-4 h-4 text-red-500 animate-spin" />
                         ) : (
-                          <Trash className="w-4 h-4 text-red-500" />
+                          <TrashIcon className="w-4 h-4 text-red-500" />
                         )}
                       </TableActionBtn>
                       <TableActionBtn>
-                        <DotsThree className="w-4 h-4" />
+                        <DotsThreeIcon className="w-4 h-4" />
                       </TableActionBtn>
                     </div>
                   </TableCell>

@@ -1,11 +1,9 @@
 "use client";
 
-import {
-  WarningCircle,
-  CaretUp,
-  Equals,
-  CaretDown,
-} from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
+import { getInitials } from "@/utils/string";
+import { Tooltip } from "@/components/ui/feedback/tooltip";
+import { WarningCircleIcon, CaretUpIcon, EqualsIcon, CaretDownIcon } from "@phosphor-icons/react/dist/ssr";
 import { Badge } from "@/components/ui/data-display/badge";
 import { ItemCard } from "@/components/ui/data-display/item-card";
 import { Issue } from "@/types/issue.types";
@@ -17,6 +15,34 @@ import { PaginatedResponse } from "@/types/api.types";
 interface TaskCardProps {
   issue: Issue;
   onIssueClick?: (issueId: string) => void;
+}
+
+const TYPE_BADGE_VARIANTS: Record<
+  string,
+  "emerald" | "blue" | "red" | "slate"
+> = {
+  story: "emerald",
+  task: "blue",
+  bug: "red",
+};
+
+const PRIORITY_BADGE_VARIANTS: Record<
+  string,
+  "red" | "orange" | "amber" | "blue"
+> = {
+  critical: "red",
+  high: "orange",
+  medium: "amber",
+  low: "blue",
+};
+
+function PriorityIconComponent({ priority }: { priority: string }) {
+  const p = priority.toLowerCase();
+  if (p === "critical") return <WarningCircleIcon className="w-3 h-3" />;
+  if (p === "high") return <CaretUpIcon className="w-3 h-3" />;
+  if (p === "medium") return <EqualsIcon className="w-3 h-3" />;
+  if (p === "low") return <CaretDownIcon className="w-3 h-3" />;
+  return null;
 }
 
 export function TaskCard({ issue, onIssueClick }: TaskCardProps) {
@@ -50,9 +76,14 @@ export function TaskCard({ issue, onIssueClick }: TaskCardProps) {
   const displayId = issue.issueKey || issue.id || "";
   const type = (issue.type || "task").toLowerCase();
   const priority = issue.priority || "Medium";
-  const assigneeDisplay = issue.assigneeId
-    ? issue.assigneeId.substring(0, 2).toUpperCase()
-    : "UN";
+
+  const assigneeAvatarUrl = issue.assignee?.avatarUrl;
+  const assigneeName = issue.assignee?.name;
+  const assigneeDisplay = assigneeName
+    ? getInitials(assigneeName)
+    : issue.assigneeId
+      ? issue.assigneeId.substring(0, 2).toUpperCase()
+      : "UN";
 
   return (
     <ItemCard
@@ -61,15 +92,7 @@ export function TaskCard({ issue, onIssueClick }: TaskCardProps) {
       itemKey={displayId}
       badge={
         <Badge
-          variant={
-            type === "story"
-              ? "emerald"
-              : type === "task"
-                ? "blue"
-                : type === "bug"
-                  ? "red"
-                  : "slate"
-          }
+          variant={TYPE_BADGE_VARIANTS[type] || "slate"}
           className="capitalize text-[10px]"
         >
           {type}
@@ -93,34 +116,34 @@ export function TaskCard({ issue, onIssueClick }: TaskCardProps) {
       title={issue.summary}
       footerLeft={
         <Badge
-          variant={
-            priority.toLowerCase() === "critical"
-              ? "red"
-              : priority.toLowerCase() === "high"
-                ? "orange"
-                : priority.toLowerCase() === "medium"
-                  ? "amber"
-                  : "blue"
-          }
+          variant={PRIORITY_BADGE_VARIANTS[priority.toLowerCase()] || "blue"}
           className="uppercase tracking-wider text-[10px]"
         >
-          {priority.toLowerCase() === "critical" && (
-            <WarningCircle className="w-3 h-3" />
-          )}
-          {priority.toLowerCase() === "high" && <CaretUp className="w-3 h-3" />}
-          {priority.toLowerCase() === "medium" && (
-            <Equals className="w-3 h-3" />
-          )}
-          {priority.toLowerCase() === "low" && (
-            <CaretDown className="w-3 h-3" />
-          )}
+          <PriorityIconComponent priority={priority} />
           {priority}
         </Badge>
       }
       footerRight={
-        <div className="w-5 h-5 rounded-full bg-secondary border border-border flex items-center justify-center text-[8.5px] font-bold text-muted-foreground overflow-hidden">
-          {assigneeDisplay}
-        </div>
+        <Tooltip
+          content={
+            assigneeName ||
+            (issue.assigneeId ? `Assignee: ${issue.assigneeId}` : "Unassigned")
+          }
+        >
+          <div className="relative w-5 h-5 rounded-full bg-secondary border border-border flex items-center justify-center text-[8.5px] font-bold text-muted-foreground overflow-hidden shrink-0">
+            {assigneeAvatarUrl ? (
+              <Image
+                src={assigneeAvatarUrl}
+                alt={assigneeName || "Assignee"}
+                fill
+                className="object-cover"
+                unoptimized
+              />
+            ) : (
+              assigneeDisplay
+            )}
+          </div>
+        </Tooltip>
       }
     />
   );

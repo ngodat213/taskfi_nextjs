@@ -1,15 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  CalendarBlank,
-  CaretLeft,
-  CaretRight,
-  Rocket,
-  Flame,
-  PaintBrush,
-  ArrowsClockwise,
-} from "@phosphor-icons/react/dist/ssr";
+import { CalendarBlankIcon, CaretLeftIcon, CaretRightIcon, RocketIcon, FlameIcon, PaintBrushIcon, ArrowsClockwiseIcon } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/utils/cn";
 
 interface CalendarSidebarWidgetProps {
@@ -27,7 +19,7 @@ const SPRINT_MILESTONES = [
     date: "July 22, 2026",
     dayNumber: 22,
     tag: "Release",
-    icon: Rocket,
+    icon: RocketIcon,
     iconColor: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20",
   },
   {
@@ -36,7 +28,7 @@ const SPRINT_MILESTONES = [
     date: "July 24, 2026",
     dayNumber: 24,
     tag: "Backend",
-    icon: Flame,
+    icon: FlameIcon,
     iconColor: "text-orange-500 bg-orange-500/10 border-orange-500/20",
   },
   {
@@ -45,7 +37,7 @@ const SPRINT_MILESTONES = [
     date: "July 25, 2026",
     dayNumber: 25,
     tag: "UI/UX",
-    icon: PaintBrush,
+    icon: PaintBrushIcon,
     iconColor: "text-purple-500 bg-purple-500/10 border-purple-500/20",
   },
 ];
@@ -62,17 +54,17 @@ export function CalendarSidebarWidget({
       <div className="bg-card border border-border/80 rounded-2xl p-4 shadow-2xs flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <CalendarBlank className="w-4 h-4 text-muted-foreground" />
+            <CalendarBlankIcon className="w-4 h-4 text-muted-foreground" />
             <h3 className="text-[13.5px] font-bold text-foreground">
               July 2026
             </h3>
           </div>
           <div className="flex items-center gap-1">
             <button className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
-              <CaretLeft className="w-3.5 h-3.5" />
+              <CaretLeftIcon className="w-3.5 h-3.5" />
             </button>
             <button className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
-              <CaretRight className="w-3.5 h-3.5" />
+              <CaretRightIcon className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
@@ -176,7 +168,7 @@ export function CalendarSidebarWidget({
           <span className="font-medium text-foreground">Google Calendar</span>
         </div>
         <div className="flex items-center gap-1 text-[10.5px] text-muted-foreground">
-          <ArrowsClockwise className="w-3 h-3" /> Synced {syncedTime}
+          <ArrowsClockwiseIcon className="w-3 h-3" /> Synced {syncedTime}
         </div>
       </div>
     </div>

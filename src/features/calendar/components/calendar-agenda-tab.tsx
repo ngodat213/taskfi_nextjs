@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { VideoCamera, CalendarBlank } from "@phosphor-icons/react/dist/ssr";
+import { VideoCameraIcon, CalendarBlankIcon } from "@phosphor-icons/react/dist/ssr";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 import { CalendarEvent } from "@/features/calendar/types/calendar.types";
@@ -49,7 +49,7 @@ export function CalendarAgendaTab({
   if (groupedEvents.length === 0) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center p-12 text-center text-muted-foreground">
-        <CalendarBlank className="w-10 h-10 mb-3 opacity-40" />
+        <CalendarBlankIcon className="w-10 h-10 mb-3 opacity-40" />
         <h4 className="text-[15px] font-semibold text-foreground">
           No Meetings Found
         </h4>
@@ -77,7 +77,7 @@ export function CalendarAgendaTab({
                     : "bg-secondary text-foreground border-border/60",
                 )}
               >
-                <CalendarBlank className="w-3.5 h-3.5" />
+                <CalendarBlankIcon className="w-3.5 h-3.5" />
                 <span>{group.title}</span>
                 {group.isToday && (
                   <span className="ml-1 px-1.5 py-0.2 rounded text-[10px] uppercase font-black bg-background text-foreground">
@@ -182,7 +182,7 @@ export function CalendarAgendaTab({
                           onClick={(e) => e.stopPropagation()}
                           className="px-4 py-2 rounded-xl text-[12px] font-semibold bg-primary text-primary-foreground hover:opacity-90 transition-all flex items-center gap-2 shadow-2xs cursor-pointer group-hover:shadow-md"
                         >
-                          <VideoCamera className="w-4 h-4" />
+                          <VideoCameraIcon className="w-4 h-4" />
                           <span>Join Call</span>
                         </a>
                       </div>

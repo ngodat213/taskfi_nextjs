@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  CaretLeft,
-  CaretRight,
-  Plus,
-  MagnifyingGlass,
-  CalendarBlank,
-  ListBullets,
-  Rocket,
-} from "@phosphor-icons/react/dist/ssr";
+import { CaretLeftIcon, CaretRightIcon, PlusIcon, MagnifyingGlassIcon, CalendarBlankIcon, ListBulletsIcon, RocketIcon } from "@phosphor-icons/react/dist/ssr";
 import { motion, AnimatePresence } from "framer-motion";
 import { PageContainer } from "@/components/layout/page-container";
 import { PageHeader } from "@/components/ui/layout/page-header";
@@ -33,9 +25,9 @@ import { CalendarEventModal } from "./calendar-event-modal";
 import { CalendarDatePickerDialog } from "./calendar-date-picker-dialog";
 
 const CALENDAR_MAIN_TABS: SegmentedControlTab[] = [
-  { id: "Timetable", label: "Timetable Grid", icon: CalendarBlank },
-  { id: "Agenda", label: "Agenda List", icon: ListBullets },
-  { id: "Sprint", label: "Sprint Milestones", icon: Rocket },
+  { id: "Timetable", label: "Timetable Grid", icon: CalendarBlankIcon },
+  { id: "Agenda", label: "Agenda List", icon: ListBulletsIcon },
+  { id: "Sprint", label: "Sprint Milestones", icon: RocketIcon },
 ];
 
 const CALENDAR_VIEW_TABS: SegmentedControlTab[] = [
@@ -83,15 +75,15 @@ export function CalendarView() {
                     className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors cursor-pointer"
                     title="Choose Date"
                   >
-                    <CalendarBlank className="w-4 h-4" />
+                    <CalendarBlankIcon className="w-4 h-4" />
                   </button>
                 </div>
                 <div className="flex items-center gap-0.5 bg-secondary/80 rounded-lg p-0.5 border border-border/60">
                   <button className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-card transition-colors cursor-pointer">
-                    <CaretLeft className="w-3.5 h-3.5" />
+                    <CaretLeftIcon className="w-3.5 h-3.5" />
                   </button>
                   <button className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-card transition-colors cursor-pointer">
-                    <CaretRight className="w-3.5 h-3.5" />
+                    <CaretRightIcon className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
@@ -149,7 +141,7 @@ export function CalendarView() {
                   size={ButtonSize.Sm}
                   onClick={() => setIsDatePickerOpen(true)}
                 >
-                  <Plus className="w-3.5 h-3.5" strokeWidth={2.5} /> New
+                  <PlusIcon className="w-3.5 h-3.5" strokeWidth={2.5} /> New
                   Schedule
                 </Button>
               </div>
@@ -166,7 +158,7 @@ export function CalendarView() {
               {/* Filter Bar */}
               <div className="flex flex-wrap items-center gap-3">
                 <div className="relative">
-                  <MagnifyingGlass className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+                  <MagnifyingGlassIcon className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
                   <Input
                     type="text"
                     placeholder="Search meetings or attendees..."

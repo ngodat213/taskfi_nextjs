@@ -12,23 +12,15 @@ interface DashboardIssuesTabProps {
 const EMPTY_ISSUES: Issue[] = [];
 
 export function DashboardIssuesTab({
-  q,
   issues = EMPTY_ISSUES,
   isLoading,
   onIssueClick,
 }: DashboardIssuesTabProps) {
-  const filteredIssues = React.useMemo(() => {
-    const list = issues || EMPTY_ISSUES;
-    return list
-      .filter((i) => i.type?.toLowerCase() === "bug")
-      .filter((i) => !q || i.summary.toLowerCase().includes(q.toLowerCase()));
-  }, [issues, q]);
-
   return (
     <IssueListTab
       title="Issue Tracker"
-      subtitle={`${filteredIssues.length} active bugs`}
-      issues={filteredIssues}
+      subtitle={`${issues.length} issues`}
+      issues={issues}
       isLoading={isLoading}
       onIssueClick={onIssueClick}
     />

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect, useRef } from "react";
-import { ChatCircle, Pulse } from "@phosphor-icons/react/dist/ssr";
+import { ChatCircleIcon, PulseIcon } from "@phosphor-icons/react/dist/ssr";
 import { TextEditor } from "@/components/ui/forms/text-editor";
 import { AttachmentUploader } from "@/components/ui/forms/attachment-uploader";
 import { SegmentedControl } from "@/components/ui/forms/segmented-control";
@@ -154,9 +154,9 @@ export function RetroMainContent({ item, sessionId }: RetroMainContentProps) {
             {
               id: "comments",
               label: "Comments",
-              icon: ChatCircle,
+              icon: ChatCircleIcon,
             },
-            { id: "activity", label: "Activity", icon: Pulse },
+            { id: "activity", label: "Activity", icon: PulseIcon },
           ]}
           activeTab={activeTab}
           onTabChange={setActiveTab}

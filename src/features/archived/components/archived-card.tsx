@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FileText, Lightning } from "@phosphor-icons/react/dist/ssr";
+import { FileTextIcon, LightningIcon } from "@phosphor-icons/react/dist/ssr";
 import { TypeIcon } from "@/features/issues/components/issue-table-row";
 import { ArchivedItem } from "@/features/archived/types/archived.types";
 import { RestoreButton } from "@/components/ui/feedback/restore-button";
@@ -41,9 +41,9 @@ export function ArchivedCard({ item, onRestore }: ArchivedCardProps) {
           isIssue ? (
             <TypeIcon type="task" className="w-4 h-4" />
           ) : isSprint ? (
-            <Lightning className="w-4 h-4 text-emerald-500" />
+            <LightningIcon className="w-4 h-4 text-emerald-500" />
           ) : (
-            <FileText className="w-4 h-4 text-purple-500" />
+            <FileTextIcon className="w-4 h-4 text-purple-500" />
           )
         }
         itemKey={item.key}

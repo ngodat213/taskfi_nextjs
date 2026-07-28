@@ -1,13 +1,5 @@
 "use client";
-import {
-  TextB,
-  TextItalic,
-  TextStrikethrough,
-  TextHTwo,
-  List,
-  ListNumbers,
-  Code,
-} from "@phosphor-icons/react/dist/ssr";
+import { TextBIcon, TextItalicIcon, TextStrikethroughIcon, TextHTwoIcon, ListIcon, ListNumbersIcon, CodeIcon } from "@phosphor-icons/react/dist/ssr";
 
 import * as React from "react";
 import { useEditor, EditorContent, Editor } from "@tiptap/react";
@@ -57,7 +49,7 @@ const MenuBar = ({
           className={toggleBtnClass(editor.isActive("bold"))}
           title="Bold"
         >
-          <TextB size={16} />
+          <TextBIcon size={16} />
         </button>
         <button
           type="button"
@@ -66,7 +58,7 @@ const MenuBar = ({
           className={toggleBtnClass(editor.isActive("italic"))}
           title="Italic"
         >
-          <TextItalic size={16} />
+          <TextItalicIcon size={16} />
         </button>
         <button
           type="button"
@@ -75,7 +67,7 @@ const MenuBar = ({
           className={toggleBtnClass(editor.isActive("strike"))}
           title="Strikethrough"
         >
-          <TextStrikethrough size={16} />
+          <TextStrikethroughIcon size={16} />
         </button>
 
         <div className="w-px h-5 bg-border mx-1 self-center" />
@@ -88,7 +80,7 @@ const MenuBar = ({
           className={toggleBtnClass(editor.isActive("heading", { level: 2 }))}
           title="Heading 2"
         >
-          <TextHTwo size={16} />
+          <TextHTwoIcon size={16} />
         </button>
 
         <div className="w-px h-5 bg-border mx-1 self-center" />
@@ -97,17 +89,17 @@ const MenuBar = ({
           type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={toggleBtnClass(editor.isActive("bulletList"))}
-          title="Bullet List"
+          title="Bullet ListIcon"
         >
-          <List size={16} />
+          <ListIcon size={16} />
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
           className={toggleBtnClass(editor.isActive("orderedList"))}
-          title="Ordered List"
+          title="Ordered ListIcon"
         >
-          <ListNumbers size={16} />
+          <ListNumbersIcon size={16} />
         </button>
 
         <div className="w-px h-5 bg-border mx-1 self-center" />
@@ -116,9 +108,9 @@ const MenuBar = ({
           type="button"
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
           className={toggleBtnClass(editor.isActive("codeBlock"))}
-          title="Code Block"
+          title="CodeIcon Block"
         >
-          <Code size={16} />
+          <CodeIcon size={16} />
         </button>
       </div>
 

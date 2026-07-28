@@ -7,6 +7,7 @@ import {
   ResetPasswordRequest,
   FcmTokenRequest,
   LogoutRequest,
+  UpdateProfileRequest,
   WrappedTokenResponseDto,
   WrappedUserResponseDto,
   WrappedStatusResponseDto,
@@ -73,6 +74,14 @@ export const authService = {
   getCurrentUser: async () => {
     const response = await apiClient.get<WrappedUserResponseDto>(
       API_ENDPOINTS.AUTH.ME,
+    );
+    return response.data;
+  },
+
+  updateProfile: async (data: UpdateProfileRequest) => {
+    const response = await apiClient.patch<WrappedUserResponseDto>(
+      API_ENDPOINTS.AUTH.ME,
+      data,
     );
     return response.data;
   },

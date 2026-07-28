@@ -1,4 +1,4 @@
-import { X } from "@phosphor-icons/react/dist/ssr";
+import { XIcon } from "@phosphor-icons/react/dist/ssr";
 import * as React from "react";
 import { createPortal } from "react-dom";
 ;
@@ -93,7 +93,7 @@ export const ModalHeader = React.forwardRef<HTMLDivElement, ModalHeaderProps>(
             onClick={onClose}
             className="text-muted-foreground hover:text-foreground transition-colors"
           >
-            <X className="w-4 h-4" />
+            <XIcon className="w-4 h-4" />
           </button>
         )}
       </div>

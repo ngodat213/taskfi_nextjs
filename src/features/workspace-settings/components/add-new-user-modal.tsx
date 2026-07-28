@@ -1,4 +1,4 @@
-import { FileText, Sparkle, CircleNotch } from "@phosphor-icons/react/dist/ssr";
+import { FileTextIcon, SparkleIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 ;
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -181,7 +181,7 @@ export function AddNewUserModal({
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader
             title={isEditMode ? "Edit Member" : t(TK.title)}
-            icon={<FileText className="w-4 h-4" />}
+            icon={<FileTextIcon className="w-4 h-4" />}
           />
           <ModalBody>
             <ModalScrollArea
@@ -343,7 +343,7 @@ export function AddNewUserModal({
                       type="button"
                       className="flex items-center gap-1.5 text-[12px] font-medium text-blue-600 hover:text-blue-700 transition-colors"
                     >
-                      <Sparkle className="w-3.5 h-3.5" />
+                      <SparkleIcon className="w-3.5 h-3.5" />
                       {t(TK.generateAi)}
                     </button>
                   </div>
@@ -370,7 +370,7 @@ export function AddNewUserModal({
                 variant={ButtonVariant.Primary}
                 disabled={isPending}
               >
-                {isPending && <CircleNotch className="w-3.5 h-3.5 animate-spin" />}
+                {isPending && <CircleNotchIcon className="w-3.5 h-3.5 animate-spin" />}
                 {isEditMode ? "Save Changes" : t(TK.btn)}
               </Button>
             </ModalFooter>

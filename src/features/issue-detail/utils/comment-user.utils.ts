@@ -10,12 +10,7 @@ export function getUserDisplayName(
   fallback = "User",
 ): string {
   if (!user) return fallback;
-  return (
-    user.full_name?.trim() ||
-    user.name?.trim() ||
-    user.email?.trim() ||
-    fallback
-  );
+  return user.full_name?.trim() || user.email?.trim() || fallback;
 }
 
 /**
@@ -37,7 +32,7 @@ export function getUserAvatarUrl(
   user?: UserResponseDto | null,
 ): string | undefined {
   if (!user) return undefined;
-  return getCloudinaryUrl(user.avatarPublicId) || undefined;
+  return user.avatar?.fileUrl ?? (user.avatar?.publicId ? getCloudinaryUrl(user.avatar.publicId) : undefined) ?? undefined;
 }
 
 /**
@@ -49,7 +44,7 @@ export function getUserSubHeader(
   if (!user) return undefined;
   const jobTitle = user.job_title?.trim();
   const department = user.department?.trim();
-  const role = user.role?.trim();
+  const role = (user.global_role || user.role)?.trim();
 
   if (jobTitle) {
     return department ? `${jobTitle} • ${department}` : jobTitle;

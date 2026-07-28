@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Star,
-  DownloadSimple,
-  ShareNetwork,
-  Clock,
-} from "@phosphor-icons/react/dist/ssr";
+import { StarIcon, DownloadSimpleIcon, ShareNetworkIcon, ClockIcon } from "@phosphor-icons/react/dist/ssr";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 import { DocumentItem } from "@/features/documents/types/documents.types";
@@ -46,7 +41,7 @@ export function DocumentCard({
           )}
         />
 
-        {/* Top Row: File Icon, Meta & Star Action */}
+        {/* Top Row: File Icon, Meta & StarIcon Action */}
         <div className="flex items-start justify-between gap-2.5 z-10">
           <div className="flex items-center gap-2.5 min-w-0">
             <div
@@ -83,9 +78,9 @@ export function DocumentCard({
                 ? "bg-amber-500/10 border-amber-500/30 text-amber-500 shadow-3xs"
                 : "bg-muted/40 border-border/40 text-muted-foreground hover:text-amber-500 hover:bg-amber-500/10 hover:border-amber-500/20",
             )}
-            title={doc.starred ? "Unstar" : "Star document"}
+            title={doc.starred ? "Unstar" : "StarIcon document"}
           >
-            <Star
+            <StarIcon
               className="w-3.5 h-3.5"
               weight={doc.starred ? "fill" : "regular"}
             />
@@ -121,7 +116,7 @@ export function DocumentCard({
 
           <div className="flex items-center gap-1">
             <div className="flex items-center gap-1 text-[10px] text-muted-foreground mr-1">
-              <Clock className="w-3 h-3" />
+              <ClockIcon className="w-3 h-3" />
               <span>{doc.updatedAt}</span>
             </div>
             <button
@@ -129,14 +124,14 @@ export function DocumentCard({
               className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
               title="Share Link"
             >
-              <ShareNetwork className="w-3 h-3" />
+              <ShareNetworkIcon className="w-3 h-3" />
             </button>
             <button
               onClick={(e) => e.stopPropagation()}
               className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
               title="Download"
             >
-              <DownloadSimple className="w-3 h-3" />
+              <DownloadSimpleIcon className="w-3 h-3" />
             </button>
           </div>
         </div>
@@ -224,9 +219,9 @@ export function DocumentCard({
                 ? "text-amber-500 bg-amber-500/10"
                 : "text-muted-foreground hover:bg-muted hover:text-amber-500",
             )}
-            title={doc.starred ? "Unstar" : "Star document"}
+            title={doc.starred ? "Unstar" : "StarIcon document"}
           >
-            <Star
+            <StarIcon
               className="w-3.5 h-3.5"
               weight={doc.starred ? "fill" : "regular"}
             />
@@ -237,7 +232,7 @@ export function DocumentCard({
             className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"
             title="Download"
           >
-            <DownloadSimple className="w-3.5 h-3.5" />
+            <DownloadSimpleIcon className="w-3.5 h-3.5" />
           </button>
         </div>
       </TableCell>

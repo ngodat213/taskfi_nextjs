@@ -1,6 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { issueService, GetIssuesParams } from "@/services/issue.service";
-import { CreateIssueRequest, Issue, IssueComment } from "@/types/issue.types";
+import {
+  CreateIssueRequest,
+  Issue,
+  IssueComment,
+  IssueActivity,
+} from "@/types/issue.types";
 import { PaginatedResponse } from "@/types/api.types";
 
 export const useIssues = (projectId: string, params?: GetIssuesParams) => {
@@ -16,6 +21,32 @@ export const useIssue = (projectId: string, issueId: string) => {
     queryKey: ["issues", projectId, issueId],
     queryFn: () => issueService.getIssueById(projectId, issueId),
     enabled: !!projectId && !!issueId,
+  });
+};
+
+export const useParentOptions = (
+  projectId: string,
+  params?: { type?: string; search?: string },
+) => {
+  return useQuery({
+    queryKey: ["parent-options", projectId, params],
+    queryFn: () =>
+      issueService.getParentOptions(projectId, {
+        type: params?.type || "",
+        search: params?.search,
+      }),
+    enabled: !!projectId && !!params?.type,
+  });
+};
+
+export const useChildOptions = (
+  projectId: string,
+  params?: { parentType?: string; search?: string },
+) => {
+  return useQuery({
+    queryKey: ["child-options", projectId, params],
+    queryFn: () => issueService.getChildOptions(projectId, params),
+    enabled: !!projectId,
   });
 };
 
@@ -94,7 +125,21 @@ export const useUpdateIssue = () => {
       queryClient.invalidateQueries({
         queryKey: ["issues", variables.projectId],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["issue-activities", variables.issueId],
+      });
     },
+  });
+};
+
+export const useIssueActivities = (issueId: string) => {
+  return useQuery<IssueActivity[]>({
+    queryKey: ["issue-activities", issueId],
+    queryFn: async () => {
+      const res = await issueService.getIssueActivities(issueId);
+      return res.data || [];
+    },
+    enabled: !!issueId,
   });
 };
 

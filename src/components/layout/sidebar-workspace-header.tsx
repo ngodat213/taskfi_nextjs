@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { CaretDown, SidebarSimple } from "@phosphor-icons/react/dist/ssr";
+import { CaretDownIcon, SidebarSimpleIcon } from "@phosphor-icons/react/dist/ssr";
 import { motion, AnimatePresence } from "framer-motion";
 
 export interface SidebarWorkspaceHeaderProps {
@@ -57,7 +57,7 @@ export function SidebarWorkspaceHeader({
               <span className="text-[13.5px] font-bold text-foreground truncate tracking-tight group-hover/header:text-primary transition-colors">
                 {currentNav?.name || `${userName || "User"}'s Workspace`}
               </span>
-              <CaretDown className="w-3 h-3 text-muted-foreground shrink-0 mt-0.5" />
+              <CaretDownIcon className="w-3 h-3 text-muted-foreground shrink-0 mt-0.5" />
             </motion.div>
           )}
         </AnimatePresence>
@@ -68,7 +68,7 @@ export function SidebarWorkspaceHeader({
         className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors cursor-pointer shrink-0"
         title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
       >
-        <SidebarSimple className="w-4 h-4" />
+        <SidebarSimpleIcon className="w-4 h-4" />
       </button>
     </div>
   );

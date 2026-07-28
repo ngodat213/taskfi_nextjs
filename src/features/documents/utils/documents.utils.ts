@@ -1,18 +1,11 @@
-import {
-  FileText,
-  FilePdf,
-  FigmaLogo,
-  Code,
-  Table,
-  Archive,
-} from "@phosphor-icons/react/dist/ssr";
+import { FileTextIcon, FilePdfIcon, FigmaLogoIcon, CodeIcon, TableIcon, ArchiveIcon } from "@phosphor-icons/react/dist/ssr";
 import { DocumentFileType } from "@/features/documents/types/documents.types";
 
 export function getFileTypeStyle(type: DocumentFileType) {
   switch (type) {
     case "pdf":
       return {
-        icon: FilePdf,
+        icon: FilePdfIcon,
         style: "text-rose-500 bg-rose-500/10 border-rose-500/25",
         accentGlow: "from-rose-500/20 via-rose-500/5 to-transparent",
         accentBorder: "border-t-rose-500",
@@ -21,7 +14,7 @@ export function getFileTypeStyle(type: DocumentFileType) {
       };
     case "figma":
       return {
-        icon: FigmaLogo,
+        icon: FigmaLogoIcon,
         style: "text-purple-500 bg-purple-500/10 border-purple-500/25",
         accentGlow: "from-purple-500/20 via-purple-500/5 to-transparent",
         accentBorder: "border-t-purple-500",
@@ -30,7 +23,7 @@ export function getFileTypeStyle(type: DocumentFileType) {
       };
     case "markdown":
       return {
-        icon: Code,
+        icon: CodeIcon,
         style: "text-emerald-500 bg-emerald-500/10 border-emerald-500/25",
         accentGlow: "from-emerald-500/20 via-emerald-500/5 to-transparent",
         accentBorder: "border-t-emerald-500",
@@ -39,7 +32,7 @@ export function getFileTypeStyle(type: DocumentFileType) {
       };
     case "spreadsheet":
       return {
-        icon: Table,
+        icon: TableIcon,
         style: "text-amber-500 bg-amber-500/10 border-amber-500/25",
         accentGlow: "from-amber-500/20 via-amber-500/5 to-transparent",
         accentBorder: "border-t-amber-500",
@@ -48,7 +41,7 @@ export function getFileTypeStyle(type: DocumentFileType) {
       };
     case "archive":
       return {
-        icon: Archive,
+        icon: ArchiveIcon,
         style: "text-indigo-500 bg-indigo-500/10 border-indigo-500/25",
         accentGlow: "from-indigo-500/20 via-indigo-500/5 to-transparent",
         accentBorder: "border-t-indigo-500",
@@ -57,7 +50,7 @@ export function getFileTypeStyle(type: DocumentFileType) {
       };
     default:
       return {
-        icon: FileText,
+        icon: FileTextIcon,
         style: "text-blue-500 bg-blue-500/10 border-blue-500/25",
         accentGlow: "from-blue-500/20 via-blue-500/5 to-transparent",
         accentBorder: "border-t-blue-500",

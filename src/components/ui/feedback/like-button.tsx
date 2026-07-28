@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ThumbsUp } from "@phosphor-icons/react/dist/ssr";
+import { ThumbsUpIcon } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/utils/cn";
 
 interface LikeButtonProps {
@@ -121,7 +121,7 @@ export function LikeButton({
             damping: 15,
           }}
         >
-          <ThumbsUp
+          <ThumbsUpIcon
             className={cn(
               "w-3 h-3 transition-colors",
               categoryVariant === "emerald" && "text-emerald-500",

@@ -2,12 +2,13 @@ import { useState } from "react";
 import { SearchSelect } from "@/components/ui/forms/search-select";
 import { TextEditor } from "@/components/ui/forms/text-editor";
 import { AttachmentUploader } from "@/components/ui/forms/attachment-uploader";
-import { useIssues } from "@/features/projects/hooks/use-issues";
+import { useParentOptions } from "@/features/projects/hooks/use-issues";
 import { Issue } from "@/types/issue.types";
 import { IssueItemCard } from "./issue-item-card";
 import { IssueSubtasks } from "./issue-subtasks";
 import { IssueLinkedIssues } from "./issue-linked-issues";
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { mapIssueToSearchOption } from "@/features/issue-detail/utils/issue-options.utils";
 
 import { useDeleteImage } from "@/hooks/use-upload";
 import { getPublicIdFromAttachment } from "@/utils/cloudinary";
@@ -29,12 +30,11 @@ export function IssueMainContent({
 }: IssueMainContentProps) {
   const deleteImageMutation = useDeleteImage();
   const [searchQuery, setSearchQuery] = useState("");
-  const { data: issuesResponse } = useIssues(projectId, {
-    limit: 50,
+  const { data: parentOptionsResponse } = useParentOptions(projectId, {
+    type: issue.type,
     search: searchQuery || undefined,
-    childType: issue.type,
   });
-  const allIssues = issuesResponse?.data?.data || [];
+  const allIssues = parentOptionsResponse?.data || [];
 
   const [desc, setDesc] = useState(issue.description || "");
   const [attachments, setAttachments] = useState<File[]>([]);
@@ -74,18 +74,14 @@ export function IssueMainContent({
 
           const parentOptions = allIssues
             .filter((i) => i.id !== issue.id)
-            .map((i) => ({
-              value: i.id,
-              label: `${i.issueKey} - ${i.summary}`,
-            }));
+            .map(mapIssueToSearchOption);
 
           return (
             <SearchSelect
               options={parentOptions}
               value=""
               onChange={(val) => onUpdate("parentId", val || null)}
-              placeholder="+ Add Parent Task"
-              className="h-8 text-[13px] min-w-50 font-medium"
+              placeholder="Add Parent Task"
               onSearchChange={setSearchQuery}
             />
           );

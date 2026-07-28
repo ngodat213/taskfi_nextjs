@@ -1,5 +1,5 @@
 "use client";
-import { Command } from "@phosphor-icons/react/dist/ssr";
+import { CommandIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { ResetPasswordForm } from "@/features/auth/components/reset-password-form";
 import { AuthLayout } from "@/features/auth/components/auth-layout";
@@ -12,7 +12,7 @@ export default function ResetPasswordPage() {
     <AuthLayout
       title="Create new password"
       description="Please enter the verification code sent to your email and your new password."
-      icon={<Command className="w-8 h-8 text-foreground" />}
+      icon={<CommandIcon className="w-8 h-8 text-foreground" />}
       footer={
         <Link
           href="/forgot-password"

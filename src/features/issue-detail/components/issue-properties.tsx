@@ -13,12 +13,12 @@ import { PRIORITY_OPTIONS } from "@/features/dashboard/helpers/create-task.helpe
 import { ReactNode } from "react";
 import { useCurrentUser } from "@/features/auth/hooks/use-auth";
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
 import {
   TypeIcon,
   StatusBadge,
 } from "@/features/dashboard/components/issue-table-row";
 import { cn } from "@/utils/cn";
+import { IssueActivities } from "./issue-activities";
 
 interface PropertySelectProps {
   label: string;
@@ -209,7 +209,7 @@ export function IssueProperties({
                 "border-destructive focus:ring-destructive/20",
             )}
           >
-            <option value="">System</option>
+            <option value="">Unassigned</option>
             {members.map((m) => (
               <option key={m.userId} value={m.userId}>
                 {m.username || m.email}
@@ -306,15 +306,11 @@ export function IssueProperties({
         </div>
 
         {/* Activity */}
-        <div className="flex flex-col gap-1.5 pt-2 border-t border-border/40">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
             Activity
           </span>
-          <EmptyState
-            title="No activity yet"
-            description="Activity history will appear here."
-            className="py-4 px-4 bg-muted/50 border border-border/60 rounded-xl"
-          />
+          <IssueActivities issueId={issue.id} />
         </div>
       </div>
     </div>

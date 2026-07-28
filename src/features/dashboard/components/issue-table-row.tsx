@@ -1,9 +1,11 @@
-import { CaretDown, CaretRight, CheckSquare } from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
+import { getInitials } from "@/utils/string";
+import { Tooltip } from "@/components/ui/feedback/tooltip";
+import { CaretDownIcon, CaretRightIcon, CheckSquareIcon } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
 import { Issue } from "@/types/issue.types";
 import { cn } from "@/utils/cn";
 import { TableRow, TableCell } from "@/components/ui/data-display/table";
-;
 import {
   ISSUE_TYPE_CONFIG,
   PRIORITY_CONFIG,
@@ -24,8 +26,10 @@ export const TypeIcon = ({
     ISSUE_TYPE_CONFIG[normalizedKey] ||
     ISSUE_TYPE_CONFIG.task;
 
-  const Icon = config ? config.icon : CheckSquare;
-  const colorClass = config ? config.colorClass : "text-blue-600 dark:text-blue-400";
+  const Icon = config ? config.icon : CheckSquareIcon;
+  const colorClass = config
+    ? config.colorClass
+    : "text-blue-600 dark:text-blue-400";
 
   return <Icon className={cn(colorClass, className)} />;
 };
@@ -52,9 +56,7 @@ export const StatusBadge = ({
 }) => {
   const normalizedKey = (status || "").toLowerCase().trim();
   const variant =
-    STATUS_VARIANT_MAP[normalizedKey] ||
-    STATUS_VARIANT_MAP[status] ||
-    "slate";
+    STATUS_VARIANT_MAP[normalizedKey] || STATUS_VARIANT_MAP[status] || "slate";
 
   return (
     <Badge
@@ -89,14 +91,20 @@ export const IssueRow = ({
   const hasChildren = issue.children && issue.children.length > 0;
   const isExpanded = expanded[issue.id];
 
+  const assigneeAvatarUrl = issue.assignee?.avatarUrl;
+  const assigneeName = issue.assignee?.name;
+  const assigneeDisplay = assigneeName
+    ? getInitials(assigneeName)
+    : issue.assigneeId
+      ? issue.assigneeId.substring(0, 2).toUpperCase()
+      : "UN";
+
   return (
     <React.Fragment>
       <TableRow
         className={cn(
           "group cursor-pointer relative",
-          depth > 0
-            ? "bg-muted/40 hover:bg-secondary/50"
-            : "hover:bg-muted/50",
+          depth > 0 ? "bg-muted/40 hover:bg-secondary/50" : "hover:bg-muted/50",
         )}
         onClick={(e) => {
           if (onIssueClick && !hasChildren) {
@@ -153,9 +161,9 @@ export const IssueRow = ({
                   }}
                 >
                   {isExpanded ? (
-                    <CaretDown className="w-3.5 h-3.5" />
+                    <CaretDownIcon className="w-3.5 h-3.5" />
                   ) : (
-                    <CaretRight className="w-3.5 h-3.5" />
+                    <CaretRightIcon className="w-3.5 h-3.5" />
                   )}
                 </button>
               ) : null}
@@ -201,11 +209,28 @@ export const IssueRow = ({
           </div>
         </TableCell>
         <TableCell className="text-right pr-4">
-          <div className="w-6.5 h-6.5 rounded-full bg-secondary border border-border inline-flex items-center justify-center text-[10px] font-bold text-muted-foreground shadow-sm">
-            {issue.assigneeId
-              ? issue.assigneeId.substring(0, 2).toUpperCase()
-              : "UN"}
-          </div>
+          <Tooltip
+            content={
+              assigneeName ||
+              (issue.assigneeId
+                ? `Assignee: ${issue.assigneeId}`
+                : "Unassigned")
+            }
+          >
+            <div className="relative w-6.5 h-6.5 rounded-full bg-secondary border border-border inline-flex items-center justify-center text-[10px] font-bold text-muted-foreground shadow-sm overflow-hidden shrink-0">
+              {assigneeAvatarUrl ? (
+                <Image
+                  src={assigneeAvatarUrl}
+                  alt={assigneeName || "Assignee"}
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+              ) : (
+                assigneeDisplay
+              )}
+            </div>
+          </Tooltip>
         </TableCell>
       </TableRow>
 

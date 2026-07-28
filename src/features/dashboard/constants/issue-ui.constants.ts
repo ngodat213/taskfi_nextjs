@@ -1,23 +1,4 @@
-import {
-  Lightning,
-  BookmarkSimple,
-  CheckSquare,
-  Bug,
-  ArrowElbowDownRight,
-  WarningCircle,
-  CaretUp,
-  Equals,
-  CaretDown,
-  SquaresFour,
-  Checks,
-  FileText,
-  CheckCircle,
-  ChartBar,
-  Users,
-  ClockCounterClockwise,
-  Graph,
-  Archive,
-} from "@phosphor-icons/react/dist/ssr";
+import { LightningIcon, BookmarkSimpleIcon, CheckSquareIcon, BugIcon, ArrowElbowDownRightIcon, WarningCircleIcon, CaretUpIcon, EqualsIcon, CaretDownIcon, SquaresFourIcon, ChecksIcon, FileTextIcon, CheckCircleIcon, ChartBarIcon, UsersIcon, ClockCounterClockwiseIcon, GraphIcon, ArchiveIcon } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
 
 export const ISSUE_TYPE_CONFIG: Record<
@@ -25,63 +6,63 @@ export const ISSUE_TYPE_CONFIG: Record<
   { icon: React.ElementType; colorClass: string }
 > = {
   epic: {
-    icon: Lightning,
+    icon: LightningIcon,
     colorClass: "text-purple-600 dark:text-purple-400",
   },
   story: {
-    icon: BookmarkSimple,
+    icon: BookmarkSimpleIcon,
     colorClass: "text-emerald-600 dark:text-emerald-400",
   },
   task: {
-    icon: CheckSquare,
+    icon: CheckSquareIcon,
     colorClass: "text-blue-600 dark:text-blue-400",
   },
   bug: {
-    icon: Bug,
+    icon: BugIcon,
     colorClass: "text-rose-600 dark:text-rose-400",
   },
   subtask: {
-    icon: ArrowElbowDownRight,
+    icon: ArrowElbowDownRightIcon,
     colorClass: "text-muted-foreground",
   },
   EPIC: {
-    icon: Lightning,
+    icon: LightningIcon,
     colorClass: "text-purple-600 dark:text-purple-400",
   },
   STORY: {
-    icon: BookmarkSimple,
+    icon: BookmarkSimpleIcon,
     colorClass: "text-emerald-600 dark:text-emerald-400",
   },
   TASK: {
-    icon: CheckSquare,
+    icon: CheckSquareIcon,
     colorClass: "text-blue-600 dark:text-blue-400",
   },
   BUG: {
-    icon: Bug,
+    icon: BugIcon,
     colorClass: "text-rose-600 dark:text-rose-400",
   },
   SUBTASK: {
-    icon: ArrowElbowDownRight,
+    icon: ArrowElbowDownRightIcon,
     colorClass: "text-muted-foreground",
   },
   Epic: {
-    icon: Lightning,
+    icon: LightningIcon,
     colorClass: "text-purple-600 dark:text-purple-400",
   },
   Story: {
-    icon: BookmarkSimple,
+    icon: BookmarkSimpleIcon,
     colorClass: "text-emerald-600 dark:text-emerald-400",
   },
   Task: {
-    icon: CheckSquare,
+    icon: CheckSquareIcon,
     colorClass: "text-blue-600 dark:text-blue-400",
   },
-  Bug: {
-    icon: Bug,
+  BugIcon: {
+    icon: BugIcon,
     colorClass: "text-rose-600 dark:text-rose-400",
   },
   Subtask: {
-    icon: ArrowElbowDownRight,
+    icon: ArrowElbowDownRightIcon,
     colorClass: "text-muted-foreground",
   },
 };
@@ -90,14 +71,14 @@ export const PRIORITY_CONFIG: Record<
   string,
   { icon: React.ElementType; colorClass: string }
 > = {
-  Critical: { icon: WarningCircle, colorClass: "text-red-500" },
-  High: { icon: CaretUp, colorClass: "text-orange-500" },
-  Medium: { icon: Equals, colorClass: "text-amber-500" },
-  Low: { icon: CaretDown, colorClass: "text-blue-500" },
-  critical: { icon: WarningCircle, colorClass: "text-red-500" },
-  high: { icon: CaretUp, colorClass: "text-orange-500" },
-  medium: { icon: Equals, colorClass: "text-amber-500" },
-  low: { icon: CaretDown, colorClass: "text-blue-500" },
+  Critical: { icon: WarningCircleIcon, colorClass: "text-red-500" },
+  High: { icon: CaretUpIcon, colorClass: "text-orange-500" },
+  Medium: { icon: EqualsIcon, colorClass: "text-amber-500" },
+  Low: { icon: CaretDownIcon, colorClass: "text-blue-500" },
+  critical: { icon: WarningCircleIcon, colorClass: "text-red-500" },
+  high: { icon: CaretUpIcon, colorClass: "text-orange-500" },
+  medium: { icon: EqualsIcon, colorClass: "text-amber-500" },
+  low: { icon: CaretDownIcon, colorClass: "text-blue-500" },
 };
 
 export const STATUS_VARIANT_MAP: Record<
@@ -116,13 +97,13 @@ export const STATUS_VARIANT_MAP: Record<
 };
 
 export const DASHBOARD_TABS = [
-  { id: "Board", label: "Board", icon: SquaresFour },
-  { id: "Backlog", label: "Backlog", icon: Checks },
-  { id: "Issues", label: "Issues", icon: FileText },
-  { id: "Done", label: "Done", icon: CheckCircle },
-  { id: "Reports", label: "Reports", icon: ChartBar },
-  { id: "Workload", label: "Workload", icon: Users },
-  { id: "Retros", label: "Retros", icon: ClockCounterClockwise },
-  { id: "Deps", label: "Deps", icon: Graph },
-  { id: "Archived", label: "Archived", icon: Archive },
+  { id: "Board", label: "Board", icon: SquaresFourIcon },
+  { id: "Backlog", label: "Backlog", icon: ChecksIcon },
+  { id: "Issues", label: "Issues", icon: FileTextIcon },
+  { id: "Done", label: "Done", icon: CheckCircleIcon },
+  { id: "Reports", label: "Reports", icon: ChartBarIcon },
+  { id: "Workload", label: "Workload", icon: UsersIcon },
+  { id: "Retros", label: "Retros", icon: ClockCounterClockwiseIcon },
+  { id: "Deps", label: "Deps", icon: GraphIcon },
+  { id: "Archived", label: "Archived", icon: ArchiveIcon },
 ];

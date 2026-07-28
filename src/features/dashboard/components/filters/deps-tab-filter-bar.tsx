@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  MagnifyingGlass,
-  SquaresFour,
-  ListBullets,
-} from "@phosphor-icons/react/dist/ssr";
+import { MagnifyingGlassIcon, SquaresFourIcon, ListBulletsIcon } from "@phosphor-icons/react/dist/ssr";
 import { Input } from "@/components/ui/forms/input";
 import { Select } from "@/components/ui/forms/select";
 import {
@@ -13,8 +9,8 @@ import {
 } from "@/components/ui/forms/segmented-control";
 
 const DEPS_VIEW_MODE_TABS: SegmentedControlTab[] = [
-  { id: "graph", label: "Visual Graph", icon: SquaresFour },
-  { id: "list", label: "List Matrix", icon: ListBullets },
+  { id: "graph", label: "Visual Graph", icon: SquaresFourIcon },
+  { id: "list", label: "List Matrix", icon: ListBulletsIcon },
 ];
 
 interface DepsTabFilterBarProps {
@@ -38,7 +34,7 @@ export function DepsTabFilterBar({
     <div className="flex flex-wrap items-center justify-between gap-3 w-full">
       <div className="flex items-center gap-3">
         <div className="relative">
-          <MagnifyingGlass className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+          <MagnifyingGlassIcon className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
           <Input
             type="text"
             variant="pill"

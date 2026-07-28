@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import {
-  MagnifyingGlass,
-  CaretDown,
-  Check,
-  X,
+  MagnifyingGlassIcon,
+  CaretDownIcon,
+  CheckIcon,
+  XIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/utils/cn";
 
@@ -35,7 +35,7 @@ export function SearchSelect({
   options,
   value,
   onChange,
-  placeholder = "+ Add or attach subtask...",
+  placeholder = "Add or attach subtask...",
   className,
   disabled = false,
   clearable = false,
@@ -118,7 +118,7 @@ export function SearchSelect({
         )}
       >
         <div className="flex items-center gap-2 overflow-hidden flex-1 mr-1">
-          <MagnifyingGlass className="w-4 h-4 text-muted-foreground shrink-0" />
+          <MagnifyingGlassIcon className="w-4 h-4 text-muted-foreground shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -138,10 +138,10 @@ export function SearchSelect({
               onClick={handleClear}
               className="p-0.5 rounded-full hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
             >
-              <X className="w-3.5 h-3.5" />
+              <XIcon className="w-3.5 h-3.5" />
             </button>
           )}
-          <CaretDown
+          <CaretDownIcon
             className={cn(
               "w-4 h-4 text-muted-foreground transition-transform duration-200 pointer-events-none",
               isOpen && "rotate-180",
@@ -190,7 +190,7 @@ export function SearchSelect({
                       </div>
                     )}
                     {isSelected && (
-                      <Check className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 ml-1" />
+                      <CheckIcon className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 ml-1" />
                     )}
                   </div>
                 );

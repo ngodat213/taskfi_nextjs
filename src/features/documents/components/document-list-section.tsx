@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, FolderSimple } from "@phosphor-icons/react/dist/ssr";
+import { FileTextIcon, FolderSimpleIcon } from "@phosphor-icons/react/dist/ssr";
 import { motion, AnimatePresence } from "framer-motion";
 import { DocumentItem } from "@/features/documents/types/documents.types";
 import { DocumentCard } from "./document-card";
@@ -36,7 +36,7 @@ export function DocumentListSection({
       {/* Section Header */}
       <div className="flex items-center justify-between">
         <h3 className="text-[14px] font-bold text-foreground capitalize flex items-center gap-2">
-          <FileText className="w-4 h-4 text-blue-500" />
+          <FileTextIcon className="w-4 h-4 text-blue-500" />
           <span>{title}</span>
           <span className="text-muted-foreground font-medium text-[12px] ml-0.5">
             ({count})
@@ -52,7 +52,7 @@ export function DocumentListSection({
             exit={{ opacity: 0 }}
             className="flex flex-col items-center justify-center p-14 text-center text-muted-foreground bg-card/40 border border-border/60 rounded-2xl"
           >
-            <FolderSimple className="w-12 h-12 mb-2.5 opacity-30 text-primary" />
+            <FolderSimpleIcon className="w-12 h-12 mb-2.5 opacity-30 text-primary" />
             <h4 className="text-[14.5px] font-semibold text-foreground">
               {emptyTitle}
             </h4>

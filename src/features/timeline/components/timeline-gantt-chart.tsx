@@ -2,14 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { TimelineItem } from "@/features/timeline/types/timeline.types";
-import {
-  MagnifyingGlass,
-  CheckCircle,
-  Clock,
-  WarningCircle,
-  CaretRight,
-  CaretDown,
-} from "@phosphor-icons/react/dist/ssr";
+import { MagnifyingGlassIcon, CheckCircleIcon, ClockIcon, WarningCircleIcon, CaretRightIcon, CaretDownIcon } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/utils/cn";
 
 interface TimelineGanttChartProps {
@@ -105,7 +98,7 @@ export function TimelineGanttChart({ items }: TimelineGanttChartProps) {
         <div className="flex items-center gap-2 w-full sm:w-auto">
           {/* Search Input */}
           <div className="relative flex-1 sm:w-48">
-            <MagnifyingGlass className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <MagnifyingGlassIcon className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search epic code or title..."
@@ -189,9 +182,9 @@ export function TimelineGanttChart({ items }: TimelineGanttChartProps) {
                         className="text-muted-foreground hover:text-foreground p-0.5 rounded transition-colors"
                       >
                         {isExpanded ? (
-                          <CaretDown className="w-3.5 h-3.5" />
+                          <CaretDownIcon className="w-3.5 h-3.5" />
                         ) : (
-                          <CaretRight className="w-3.5 h-3.5" />
+                          <CaretRightIcon className="w-3.5 h-3.5" />
                         )}
                       </button>
                       <span className="text-[10.5px] font-bold px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 shrink-0">
@@ -254,11 +247,11 @@ export function TimelineGanttChart({ items }: TimelineGanttChartProps) {
 
                         <div className="flex items-center gap-1 shrink-0">
                           {item.status === "completed" ? (
-                            <CheckCircle className="w-3 h-3 text-emerald-400" />
+                            <CheckCircleIcon className="w-3 h-3 text-emerald-400" />
                           ) : item.status === "in_progress" ? (
-                            <Clock className="w-3 h-3 text-blue-400 animate-pulse" />
+                            <ClockIcon className="w-3 h-3 text-blue-400 animate-pulse" />
                           ) : (
-                            <WarningCircle className="w-3 h-3 text-amber-400" />
+                            <WarningCircleIcon className="w-3 h-3 text-amber-400" />
                           )}
                         </div>
                       </div>

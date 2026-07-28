@@ -7,17 +7,9 @@ import {
 } from "@/features/projects/hooks/use-issues";
 import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { IssueItemCard } from "./issue-item-card";
-import {
-  Issue,
-  IssueLinkType,
-  IssueStatus,
-  IssueType,
-} from "@/types/issue.types";
+import { Issue, IssueLinkType } from "@/types/issue.types";
 import { SearchSelect } from "@/components/ui/forms/search-select";
-import {
-  TypeIcon,
-  StatusBadge,
-} from "@/features/dashboard/components/issue-table-row";
+import { mapIssueToSearchOption } from "@/features/issue-detail/utils/issue-options.utils";
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { useAutoError } from "@/hooks/use-auto-error";
 
@@ -84,14 +76,7 @@ export function IssueLinkedIssues({
     (i) => i.id !== issue.id && !existingLinkedIds.includes(i.id),
   );
 
-  const targetIssueOptions = availableIssues.map((i) => ({
-    value: i.id,
-    label: `${i.issueKey} - ${i.summary}`,
-    icon: (
-      <TypeIcon type={i.type as IssueType} className="w-3.5 h-3.5 shrink-0" />
-    ),
-    badge: <StatusBadge status={i.status as IssueStatus} />,
-  }));
+  const targetIssueOptions = availableIssues.map(mapIssueToSearchOption);
 
   const handleApplyLink = () => {
     if (!targetIssueId || !selectedLinkType) return;

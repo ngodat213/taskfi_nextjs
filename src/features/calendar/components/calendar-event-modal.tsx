@@ -1,15 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  X,
-  Clock,
-  VideoCamera,
-  ArrowUpRight,
-  Sparkle,
-  CheckCircle,
-  Users,
-} from "@phosphor-icons/react/dist/ssr";
+import { XIcon, ClockIcon, VideoCameraIcon, ArrowUpRightIcon, SparkleIcon, CheckCircleIcon, UsersIcon } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/utils/cn";
 import { CalendarEvent } from "@/features/calendar/types/calendar.types";
 
@@ -45,7 +37,7 @@ export function CalendarEventModal({
               onClick={onClose}
               className="absolute right-4 top-4 p-1.5 rounded-full hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
             >
-              <X className="w-5 h-5" />
+              <XIcon className="w-5 h-5" />
             </button>
 
             <div>
@@ -62,7 +54,7 @@ export function CalendarEventModal({
             {/* Time & Date Card */}
             <div className="p-3.5 bg-secondary/60 rounded-xl border border-border/60 flex items-center gap-3 text-[13px]">
               <div className="w-9 h-9 rounded-lg bg-background border border-border/60 flex items-center justify-center text-foreground shrink-0 shadow-2xs">
-                <Clock className="w-4 h-4 text-muted-foreground" />
+                <ClockIcon className="w-4 h-4 text-muted-foreground" />
               </div>
               <div>
                 <div className="font-semibold text-foreground">
@@ -83,15 +75,15 @@ export function CalendarEventModal({
                 rel="noreferrer"
                 className="w-full py-2.5 px-4 bg-primary text-primary-foreground hover:bg-primary/90 text-[13px] font-semibold rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 group cursor-pointer"
               >
-                <VideoCamera className="w-4 h-4" /> Join Video Call
-                <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                <VideoCameraIcon className="w-4 h-4" /> Join Video Call
+                <ArrowUpRightIcon className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
             )}
 
             {/* Agenda */}
             <div>
               <h4 className="text-[12px] font-bold uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1.5">
-                <Sparkle className="w-3.5 h-3.5 text-amber-500" /> Agenda
+                <SparkleIcon className="w-3.5 h-3.5 text-amber-500" /> Agenda
               </h4>
               <ul className="space-y-2">
                 {event.agenda.map((item, idx) => (
@@ -99,7 +91,7 @@ export function CalendarEventModal({
                     key={idx}
                     className="flex items-start gap-2 text-[13px] text-foreground"
                   >
-                    <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                    <CheckCircleIcon className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -109,7 +101,7 @@ export function CalendarEventModal({
             {/* Attendees */}
             <div>
               <h4 className="text-[12px] font-bold uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1.5">
-                <Users className="w-3.5 h-3.5 text-blue-500" /> Attendees (
+                <UsersIcon className="w-3.5 h-3.5 text-blue-500" /> Attendees (
                 {event.attendees.length})
               </h4>
               <div className="flex flex-wrap gap-2">

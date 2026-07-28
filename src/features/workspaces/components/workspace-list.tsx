@@ -1,9 +1,4 @@
-import {
-  Plus,
-  Briefcase,
-  CaretRight,
-  CircleNotch,
-} from "@phosphor-icons/react/dist/ssr";
+import { PlusIcon, BriefcaseIcon, CaretRightIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import { Workspace } from "@/types/workspace.types";
 
@@ -24,7 +19,7 @@ export function WorkspaceList({
     <div className="flex flex-col gap-2 w-full max-w-90">
       {isLoading ? (
         <div className="flex justify-center p-4">
-          <CircleNotch className="w-6 h-6 animate-spin text-muted-foreground" />
+          <CircleNotchIcon className="w-6 h-6 animate-spin text-muted-foreground" />
         </div>
       ) : (
         workspaces.map((ws: Workspace) => {
@@ -44,7 +39,7 @@ export function WorkspaceList({
                 />
               ) : (
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-border/60 transition-transform duration-200 group-hover:scale-105 bg-secondary text-foreground">
-                  <Briefcase className="w-4 h-4" strokeWidth={2.5} />
+                  <BriefcaseIcon className="w-4 h-4" strokeWidth={2.5} />
                 </div>
               )}
 
@@ -54,7 +49,7 @@ export function WorkspaceList({
                 </div>
               </div>
 
-              <CaretRight className="w-3.5 h-3.5 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+              <CaretRightIcon className="w-3.5 h-3.5 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
             </button>
           );
         })
@@ -66,7 +61,7 @@ export function WorkspaceList({
         className="group flex items-center gap-3 w-full p-2.5 pr-3.5 bg-background/50 hover:bg-secondary/60 border border-dashed border-border hover:border-primary/50 rounded-xl transition-all duration-200 text-left mt-1"
       >
         <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-dashed border-border bg-card group-hover:border-primary/50 transition-colors">
-          <Plus className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
+          <PlusIcon className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
         </div>
 
         <div className="flex-1 min-w-0">

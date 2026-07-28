@@ -1,4 +1,4 @@
-import { CircleNotch, PencilSimple } from "@phosphor-icons/react/dist/ssr";
+import { CircleNotchIcon, PencilSimpleIcon } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/data-display/badge";
@@ -35,7 +35,7 @@ export function ProjectGroupSection({
   if (isLoadingProjects) {
     content = (
       <div className="flex items-center justify-center p-8 bg-card border border-border rounded-lg">
-        <CircleNotch className="w-5 h-5 animate-spin text-muted-foreground" />
+        <CircleNotchIcon className="w-5 h-5 animate-spin text-muted-foreground" />
       </div>
     );
   } else if (groupProjects.length === 0) {
@@ -119,7 +119,7 @@ export function ProjectGroupSection({
             className="p-1.5 rounded-lg text-muted-foreground/70 hover:text-primary hover:bg-muted transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 cursor-pointer"
             title="Edit Project"
           >
-            <PencilSimple className="w-4 h-4" />
+            <PencilSimpleIcon className="w-4 h-4" />
           </button>
         </div>
 
@@ -157,7 +157,7 @@ export function ProjectGroupSection({
             className="p-1 rounded-md text-muted-foreground/70 hover:text-primary hover:bg-muted transition-all cursor-pointer"
             title="Edit Project"
           >
-            <PencilSimple className="w-3.5 h-3.5" />
+            <PencilSimpleIcon className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
@@ -177,7 +177,7 @@ export function ProjectGroupSection({
         </span>
         <div className="px-1.5 py-px bg-secondary text-muted-foreground rounded text-xs font-semibold uppercase ml-0.5 flex items-center justify-center min-w-15">
           {isLoadingProjects ? (
-            <CircleNotch className="w-2.5 h-2.5 animate-spin" />
+            <CircleNotchIcon className="w-2.5 h-2.5 animate-spin" />
           ) : (
             t(TK.projectsCount, { count: groupProjects.length })
           )}

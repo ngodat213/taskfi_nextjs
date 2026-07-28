@@ -1,8 +1,7 @@
-import {
-  CaretDown,
-  CaretRight,
-  CheckSquare,
-} from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
+import { getInitials } from "@/utils/string";
+import { Tooltip } from "@/components/ui/feedback/tooltip";
+import { CaretDownIcon, CaretRightIcon, CheckSquareIcon } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
 import { Issue } from "@/types/issue.types";
 import { cn } from "@/utils/cn";
@@ -27,7 +26,7 @@ export const TypeIcon = ({
     ISSUE_TYPE_CONFIG[normalizedKey] ||
     ISSUE_TYPE_CONFIG.task;
 
-  const Icon = config ? config.icon : CheckSquare;
+  const Icon = config ? config.icon : CheckSquareIcon;
   const colorClass = config
     ? config.colorClass
     : "text-blue-600 dark:text-blue-400";
@@ -89,6 +88,14 @@ export const IssueRow = ({
 }: IssueRowProps) => {
   const hasChildren = issue.children && issue.children.length > 0;
   const isExpanded = expanded[issue.id];
+
+  const assigneeAvatarUrl = issue.assignee?.avatarUrl;
+  const assigneeName = issue.assignee?.name;
+  const assigneeDisplay = assigneeName
+    ? getInitials(assigneeName)
+    : issue.assigneeId
+      ? issue.assigneeId.substring(0, 2).toUpperCase()
+      : "UN";
 
   return (
     <React.Fragment>
@@ -152,9 +159,9 @@ export const IssueRow = ({
                   }}
                 >
                   {isExpanded ? (
-                    <CaretDown className="w-3.5 h-3.5" />
+                    <CaretDownIcon className="w-3.5 h-3.5" />
                   ) : (
-                    <CaretRight className="w-3.5 h-3.5" />
+                    <CaretRightIcon className="w-3.5 h-3.5" />
                   )}
                 </button>
               ) : null}
@@ -200,11 +207,28 @@ export const IssueRow = ({
           </div>
         </TableCell>
         <TableCell className="text-right pr-4">
-          <div className="w-6.5 h-6.5 rounded-full bg-secondary border border-border inline-flex items-center justify-center text-[10px] font-bold text-muted-foreground shadow-sm">
-            {issue.assigneeId
-              ? issue.assigneeId.substring(0, 2).toUpperCase()
-              : "UN"}
-          </div>
+          <Tooltip
+            content={
+              assigneeName ||
+              (issue.assigneeId
+                ? `Assignee: ${issue.assigneeId}`
+                : "Unassigned")
+            }
+          >
+            <div className="relative w-6.5 h-6.5 rounded-full bg-secondary border border-border inline-flex items-center justify-center text-[10px] font-bold text-muted-foreground shadow-sm overflow-hidden shrink-0">
+              {assigneeAvatarUrl ? (
+                <Image
+                  src={assigneeAvatarUrl}
+                  alt={assigneeName || "Assignee"}
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+              ) : (
+                assigneeDisplay
+              )}
+            </div>
+          </Tooltip>
         </TableCell>
       </TableRow>
 

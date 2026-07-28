@@ -4,6 +4,7 @@ import { PaginatedResponse, BaseResponse } from "@/types/api.types";
 import {
   Issue,
   IssueComment,
+  IssueActivity,
   CreateIssueRequest,
   UpdateIssueRequest,
   GetIssuesParams,
@@ -22,6 +23,26 @@ export const issueService = {
   getIssueById: async (projectId: string, issueId: string) => {
     return apiFetch<BaseResponse<Issue>>(
       `${API_ENDPOINTS.PROJECTS.BASE}/${projectId}/issues/${issueId}`,
+    );
+  },
+
+  getParentOptions: async (
+    projectId: string,
+    params: { type: string; search?: string },
+  ) => {
+    return apiFetch<BaseResponse<Issue[]>>(
+      `${API_ENDPOINTS.PROJECTS.BASE}/${projectId}/issues/parent-options`,
+      { params },
+    );
+  },
+
+  getChildOptions: async (
+    projectId: string,
+    params?: { parentType?: string; search?: string },
+  ) => {
+    return apiFetch<BaseResponse<Issue[]>>(
+      `${API_ENDPOINTS.PROJECTS.BASE}/${projectId}/issues/child-options`,
+      { params },
     );
   },
 
@@ -81,6 +102,12 @@ export const issueService = {
         method: "POST",
         body: { body },
       },
+    );
+  },
+
+  getIssueActivities: async (issueId: string) => {
+    return apiFetch<BaseResponse<IssueActivity[]>>(
+      API_ENDPOINTS.ISSUES.ACTIVITIES(issueId),
     );
   },
 };

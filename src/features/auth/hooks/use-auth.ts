@@ -50,6 +50,17 @@ export function useCurrentUser() {
   });
 }
 
+export function useUpdateProfile() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: authService.updateProfile,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["current-user"] });
+    },
+  });
+}
+
 // 2. Onboarding & Password Hooks
 export function useSignup() {
   return useMutation({ mutationFn: authService.signup });

@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChatText } from "@phosphor-icons/react/dist/ssr";
+import { ChatTextIcon } from "@phosphor-icons/react/dist/ssr";
 import {
   Modal,
   ModalContent,
@@ -82,7 +82,7 @@ export function AddRetroModal({
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader
             title="Add Retrospective Note"
-            icon={<ChatText className="w-4 h-4 text-blue-500" />}
+            icon={<ChatTextIcon className="w-4 h-4 text-blue-500" />}
           />
 
           <ModalBody>

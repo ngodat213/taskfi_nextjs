@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-  Plus,
-  CheckSquare,
-  Link as LinkIcon,
-} from "@phosphor-icons/react/dist/ssr";
+import { PlusIcon, CheckSquareIcon, LinkIcon as LinkIcon } from "@phosphor-icons/react/dist/ssr";
 import {
   Modal,
   ModalContent,
@@ -126,7 +122,7 @@ export function AddSubtaskModal({
       <ModalContent className="max-w-md overflow-visible!">
         <ModalHeader
           title="Add Subtask"
-          icon={<CheckSquare className="w-4 h-4 text-primary" />}
+          icon={<CheckSquareIcon className="w-4 h-4 text-primary" />}
         />
         <form onSubmit={handleSubmit}>
           <ModalBody className="p-5 sm:p-6 space-y-5 overflow-visible!">
@@ -134,7 +130,7 @@ export function AddSubtaskModal({
             <div className="flex justify-center mb-1">
               <SegmentedControl
                 tabs={[
-                  { id: "create", label: "Create New Subtask", icon: Plus },
+                  { id: "create", label: "Create New Subtask", icon: PlusIcon },
                   { id: "link", label: "Link Existing Task", icon: LinkIcon },
                 ]}
                 activeTab={mode}

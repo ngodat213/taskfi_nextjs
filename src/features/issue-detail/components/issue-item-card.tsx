@@ -1,4 +1,4 @@
-import { X } from "@phosphor-icons/react/dist/ssr";
+import { XIcon } from "@phosphor-icons/react/dist/ssr";
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { Issue, IssueStatus, IssueType } from "@/types/issue.types";
 import {
@@ -42,7 +42,7 @@ export function IssueItemCard({ issue, onRemove }: IssueItemCardProps) {
               onRemove();
             }}
           >
-            <X className="w-3.5 h-3.5" />
+            <XIcon className="w-3.5 h-3.5" />
           </Button>
         )}
       </div>

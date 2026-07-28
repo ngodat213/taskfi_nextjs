@@ -2,7 +2,7 @@
 
 import { BurndownPoint } from "@/features/reports/types/reports.types";
 import { cn } from "@/utils/cn";
-import { Calendar, PlusCircle } from "@phosphor-icons/react/dist/ssr";
+import { CalendarIcon, PlusCircleIcon } from "@phosphor-icons/react/dist/ssr";
 import {
   Table,
   TableHeader,
@@ -60,7 +60,7 @@ export function DailyBurnTable({ data }: DailyBurnTableProps) {
                   )}
                 >
                   <TableCell className="px-3.5 py-2.5 flex items-center gap-2 text-foreground font-semibold">
-                    <Calendar className="w-3.5 h-3.5 text-muted-foreground" />
+                    <CalendarIcon className="w-3.5 h-3.5 text-muted-foreground" />
                     <span>{pt.day}</span>
                   </TableCell>
                   <TableCell className="px-3.5 py-2.5 text-muted-foreground">
@@ -80,7 +80,7 @@ export function DailyBurnTable({ data }: DailyBurnTableProps) {
                   <TableCell className="px-3.5 py-2.5 text-center">
                     {pt.scopeAdded > 0 ? (
                       <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
-                        <PlusCircle className="w-3 h-3" />+{pt.scopeAdded} pts
+                        <PlusCircleIcon className="w-3 h-3" />+{pt.scopeAdded} pts
                       </span>
                     ) : (
                       <span className="text-muted-foreground/60 text-[11px]">

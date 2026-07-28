@@ -1,12 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  CalendarBlank,
-  CaretLeft,
-  CaretRight,
-  X,
-} from "@phosphor-icons/react/dist/ssr";
+import { CalendarBlankIcon, CaretLeftIcon, CaretRightIcon, XIcon } from "@phosphor-icons/react/dist/ssr";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/utils/cn";
 
@@ -47,23 +42,23 @@ export function CalendarDatePickerDialog({
           {/* Top Header */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <CalendarBlank className="w-4 h-4 text-muted-foreground" />
+              <CalendarBlankIcon className="w-4 h-4 text-muted-foreground" />
               <h3 className="text-[15px] font-bold text-foreground tracking-tight">
                 {currentMonth}
               </h3>
             </div>
             <div className="flex items-center gap-1.5">
               <button className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
-                <CaretLeft className="w-4 h-4" />
+                <CaretLeftIcon className="w-4 h-4" />
               </button>
               <button className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
-                <CaretRight className="w-4 h-4" />
+                <CaretRightIcon className="w-4 h-4" />
               </button>
               <button
                 onClick={onClose}
                 className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer ml-1"
               >
-                <X className="w-4 h-4" />
+                <XIcon className="w-4 h-4" />
               </button>
             </div>
           </div>

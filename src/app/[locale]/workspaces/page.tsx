@@ -1,5 +1,5 @@
 "use client";
-import { Command, ArrowRight } from "@phosphor-icons/react/dist/ssr";
+import { CommandIcon, ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { useRouter } from "@/i18n/routing";
 import { useWorkspaceStore } from "@/store/workspace.store";
@@ -87,7 +87,7 @@ export default function WorkspaceSelectionPage() {
             variants={itemVariants}
             className="w-13 h-13 bg-primary/10 border border-primary/20 rounded-2xl flex items-center justify-center mb-4 text-primary shadow-xs"
           >
-            <Command className="w-6 h-6" />
+            <CommandIcon className="w-6 h-6" />
           </motion.div>
           <motion.h1
             variants={itemVariants}
@@ -128,7 +128,7 @@ export default function WorkspaceSelectionPage() {
               ? "Signing out..."
               : "Sign in with a different account"}
             {!isLoggingOut && (
-              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+              <ArrowRightIcon className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
             )}
           </button>
         </motion.div>

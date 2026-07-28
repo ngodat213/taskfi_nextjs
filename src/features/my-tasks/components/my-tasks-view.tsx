@@ -1,13 +1,5 @@
 "use client";
-import {
-  Plus,
-  MagnifyingGlass,
-  CaretDown,
-  Checks,
-  Calendar,
-  WarningCircle,
-  CalendarX,
-} from "@phosphor-icons/react/dist/ssr";
+import { PlusIcon, MagnifyingGlassIcon, CaretDownIcon, ChecksIcon, CalendarIcon, WarningCircleIcon, CalendarXIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -24,10 +16,10 @@ import { AddTaskModal } from "./add-task-modal";
 import { PageContainer } from "@/components/layout/page-container";
 
 const tabs = [
-  { id: "all", label: "All", icon: Checks },
-  { id: "due_today", label: "Due Today", icon: Calendar },
-  { id: "overdue", label: "Overdue", icon: WarningCircle },
-  { id: "no_due_date", label: "No Due Date", icon: CalendarX },
+  { id: "all", label: "All", icon: ChecksIcon },
+  { id: "due_today", label: "Due Today", icon: CalendarIcon },
+  { id: "overdue", label: "Overdue", icon: WarningCircleIcon },
+  { id: "no_due_date", label: "No Due Date", icon: CalendarXIcon },
 ];
 
 export function MyTasksView() {
@@ -50,7 +42,7 @@ export function MyTasksView() {
               className="w-fit"
               onClick={() => setIsAddTaskModalOpen(true)}
             >
-              <Plus className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Task
+              <PlusIcon className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Task
             </Button>
           }
         >
@@ -65,15 +57,15 @@ export function MyTasksView() {
             {/* Filters */}
             <div className="flex flex-wrap items-center gap-2.5">
               <button className="h-8 px-3 flex items-center gap-2 bg-card border border-border rounded-lg text-[12.5px] font-medium text-muted-foreground hover:bg-muted hover:border-border transition-colors shadow-sm whitespace-nowrap">
-                <MagnifyingGlass className="w-3.5 h-3.5 text-muted-foreground" />{" "}
+                <MagnifyingGlassIcon className="w-3.5 h-3.5 text-muted-foreground" />{" "}
                 Filter
               </button>
               <button className="h-8 px-3 flex items-center gap-2 bg-card border border-border rounded-lg text-[12.5px] font-medium text-muted-foreground hover:bg-muted hover:border-border transition-colors shadow-sm whitespace-nowrap">
-                Sort <CaretDown className="w-3.5 h-3.5 text-muted-foreground" />
+                Sort <CaretDownIcon className="w-3.5 h-3.5 text-muted-foreground" />
               </button>
               <button className="h-8 px-3 flex items-center gap-2 bg-card border border-border rounded-lg text-[12.5px] font-medium text-muted-foreground hover:bg-muted hover:border-border transition-colors shadow-sm whitespace-nowrap">
                 Customize{" "}
-                <CaretDown className="w-3.5 h-3.5 text-muted-foreground" />
+                <CaretDownIcon className="w-3.5 h-3.5 text-muted-foreground" />
               </button>
             </div>
           </div>

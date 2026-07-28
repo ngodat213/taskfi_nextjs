@@ -3,13 +3,7 @@
 import { TeamMemberVelocity } from "@/features/reports/types/reports.types";
 import { cn } from "@/utils/cn";
 import { getInitials } from "@/utils/string";
-import {
-  CheckCircle,
-  Clock,
-  UserCheck,
-  WarningCircle,
-  Lightning,
-} from "@phosphor-icons/react/dist/ssr";
+import { CheckCircleIcon, ClockIcon, UserCheckIcon, WarningCircleIcon, LightningIcon } from "@phosphor-icons/react/dist/ssr";
 
 interface TeamWorkloadCardProps {
   member: TeamMemberVelocity;
@@ -24,7 +18,7 @@ export function TeamWorkloadCard({ member }: TeamWorkloadCardProps) {
       dot: "bg-blue-500",
       progressBg: "bg-blue-500",
       glow: "from-blue-500/15 to-transparent",
-      icon: UserCheck,
+      icon: UserCheckIcon,
     },
     overburdened: {
       label: "HIGH LOAD",
@@ -33,7 +27,7 @@ export function TeamWorkloadCard({ member }: TeamWorkloadCardProps) {
       dot: "bg-amber-500",
       progressBg: "bg-amber-500",
       glow: "from-amber-500/15 to-transparent",
-      icon: WarningCircle,
+      icon: WarningCircleIcon,
     },
     available: {
       label: "AVAILABLE",
@@ -42,7 +36,7 @@ export function TeamWorkloadCard({ member }: TeamWorkloadCardProps) {
       dot: "bg-emerald-500",
       progressBg: "bg-emerald-500",
       glow: "from-emerald-500/15 to-transparent",
-      icon: Lightning,
+      icon: LightningIcon,
     },
   }[member.status];
 
@@ -128,7 +122,7 @@ export function TeamWorkloadCard({ member }: TeamWorkloadCardProps) {
       {/* Footer Metrics Row */}
       <div className="pt-2 border-t border-border/40 flex items-center justify-between text-[11px] z-10 text-muted-foreground">
         <div className="flex items-center gap-1.5">
-          <CheckCircle className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+          <CheckCircleIcon className="w-3.5 h-3.5 text-blue-500 shrink-0" />
           <span>
             <strong className="text-foreground font-semibold">
               {member.tasksCompleted}
@@ -138,7 +132,7 @@ export function TeamWorkloadCard({ member }: TeamWorkloadCardProps) {
         </div>
 
         <div className="flex items-center gap-1.5">
-          <Clock className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+          <ClockIcon className="w-3.5 h-3.5 text-blue-500 shrink-0" />
           <span>
             <strong className="text-foreground font-semibold">
               {member.avgTimePerTask}

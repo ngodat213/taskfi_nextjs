@@ -1,13 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  File as FileIcon,
-  ImageSquare as ImageIcon,
-  ArrowSquareOut,
-  FileText as MarkdownIcon,
-  Eye,
-} from "@phosphor-icons/react/dist/ssr";
+import { FileIcon as FileIcon, ImageSquareIcon as ImageIcon, ArrowSquareOutIcon, FileTextIcon as MarkdownIcon, EyeIcon } from "@phosphor-icons/react/dist/ssr";
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { DeleteButton } from "@/components/ui/actions/delete-button";
 import { cn } from "@/utils/cn";
@@ -105,7 +99,7 @@ export function AttachmentCard({
             <span className="text-[12px] font-medium text-foreground truncate group-hover:text-primary transition-colors flex items-center gap-1">
               {fileName}
               {!isMd && (
-                <ArrowSquareOut className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                <ArrowSquareOutIcon className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
               )}
             </span>
             {fileSize && (
@@ -116,7 +110,7 @@ export function AttachmentCard({
           </div>
         </a>
 
-        {/* Action Buttons: Preview Eye + Animated 2-Step Delete Button */}
+        {/* Action Buttons: Preview EyeIcon + Animated 2-Step Delete Button */}
         <div className="flex items-center gap-1 shrink-0">
           {isMd && (
             <Button
@@ -130,7 +124,7 @@ export function AttachmentCard({
               }}
               title="Preview Markdown"
             >
-              <Eye className="w-3.5 h-3.5" />
+              <EyeIcon className="w-3.5 h-3.5" />
             </Button>
           )}
 
@@ -226,7 +220,7 @@ export function LocalFileCard({
           </div>
         </div>
 
-        {/* Action Buttons: Preview Eye + Animated 2-Step Delete Button */}
+        {/* Action Buttons: Preview EyeIcon + Animated 2-Step Delete Button */}
         <div className="flex items-center gap-1 shrink-0">
           {isMd && (
             <Button
@@ -240,7 +234,7 @@ export function LocalFileCard({
               }}
               title="Preview Markdown"
             >
-              <Eye className="w-3.5 h-3.5" />
+              <EyeIcon className="w-3.5 h-3.5" />
             </Button>
           )}
 

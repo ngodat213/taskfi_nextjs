@@ -1,12 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  FileText,
-  DownloadSimple,
-  CircleNotch,
-  WarningCircle,
-} from "@phosphor-icons/react/dist/ssr";
+import { FileTextIcon, DownloadSimpleIcon, CircleNotchIcon, WarningCircleIcon } from "@phosphor-icons/react/dist/ssr";
 import {
   Modal,
   ModalContent,
@@ -103,7 +98,7 @@ export function MarkdownPreviewModal({
       <ModalContent maxWidth="max-w-4xl">
         <ModalHeader
           title={fileName || "Markdown Preview"}
-          icon={<FileText className="w-4 h-4 text-primary" />}
+          icon={<FileTextIcon className="w-4 h-4 text-primary" />}
         />
 
         <ModalBody>
@@ -119,7 +114,7 @@ export function MarkdownPreviewModal({
                   onClick={handleDownload}
                   className="h-8 px-3 text-xs gap-1.5 shrink-0"
                 >
-                  <DownloadSimple className="w-3.5 h-3.5" />
+                  <DownloadSimpleIcon className="w-3.5 h-3.5" />
                   <span>Download</span>
                 </Button>
               </div>
@@ -128,12 +123,12 @@ export function MarkdownPreviewModal({
           >
             {isLoading ? (
               <div className="py-12 flex flex-col items-center justify-center gap-2 text-xs text-muted-foreground">
-                <CircleNotch className="w-6 h-6 animate-spin text-primary" />
+                <CircleNotchIcon className="w-6 h-6 animate-spin text-primary" />
                 <span>Loading Markdown preview...</span>
               </div>
             ) : error ? (
               <div className="py-6 px-4 flex items-start gap-2.5 text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-xl">
-                <WarningCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                <WarningCircleIcon className="w-4 h-4 shrink-0 mt-0.5" />
                 <div className="flex flex-col gap-1">
                   <span className="font-semibold">Failed to load preview</span>
                   <span>{error}</span>

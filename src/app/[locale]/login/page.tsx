@@ -1,5 +1,5 @@
 "use client";
-import { Command } from "@phosphor-icons/react/dist/ssr";
+import { CommandIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { LoginForm } from "@/features/auth/components/login-form";
 import { AuthLayout } from "@/features/auth/components/auth-layout";
@@ -15,7 +15,7 @@ export default function LoginPage() {
     <AuthLayout
       title={t("title")}
       description={t("description")}
-      icon={<Command className="w-8 h-8 text-foreground" />}
+      icon={<CommandIcon className="w-8 h-8 text-foreground" />}
       footer={
         <>
           <span className="text-muted-foreground">Don&apos;t have an account?</span>

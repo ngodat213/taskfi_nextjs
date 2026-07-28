@@ -10,24 +10,15 @@ interface DashboardIssuesTabProps {
 }
 
 export function DashboardIssuesTab({
-  q,
   issues = [],
   isLoading,
   onIssueClick,
 }: DashboardIssuesTabProps) {
-  // Filter only bugs
-  const bugIssues = issues.filter((i) => i.type?.toLowerCase() === "bug");
-
-  // Apply search query
-  const filteredIssues = bugIssues.filter(
-    (i) => !q || i.summary.toLowerCase().includes(q.toLowerCase()),
-  );
-
   return (
     <IssueListTab
       title="Issue Tracker"
-      subtitle={`${filteredIssues.length} active bugs`}
-      issues={filteredIssues}
+      subtitle={`${issues.length} issues`}
+      issues={issues}
       isLoading={isLoading}
       onIssueClick={onIssueClick}
     />

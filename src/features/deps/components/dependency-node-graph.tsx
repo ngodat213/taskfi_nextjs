@@ -14,7 +14,7 @@ import {
   MarkerType,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { LinkBreak, Sparkle } from "@phosphor-icons/react/dist/ssr";
+import { LinkBreakIcon, SparkleIcon } from "@phosphor-icons/react/dist/ssr";
 import { DependencyCustomNode } from "./dependency-custom-node";
 import { useIssues } from "@/features/projects/hooks/use-issues";
 import { Issue } from "@/types/issue.types";
@@ -397,7 +397,7 @@ export function DependencyNodeGraph({ projectId }: DependencyNodeGraphProps) {
           size={ButtonSize.Sm}
           className="h-7 px-3 text-[11.5px] font-semibold gap-1.5 rounded-full cursor-pointer shadow-2xs shrink-0"
         >
-          <Sparkle className="w-3.5 h-3.5 text-primary" />
+          <SparkleIcon className="w-3.5 h-3.5 text-primary" />
           <span>Sắp xếp tự động</span>
         </Button>
       </div>
@@ -407,7 +407,7 @@ export function DependencyNodeGraph({ projectId }: DependencyNodeGraphProps) {
         {!isLoading && nodes.length === 0 ? (
           <div className="flex-1 flex items-center justify-center p-8 bg-background/20 rounded-xl border border-dashed border-border/60">
             <EmptyState
-              icon={LinkBreak}
+              icon={LinkBreakIcon}
               title="Chưa có phụ thuộc nào"
               description="Dự án hiện chưa tạo liên kết phụ thuộc hoặc tác vụ con giữa các công việc."
             />
