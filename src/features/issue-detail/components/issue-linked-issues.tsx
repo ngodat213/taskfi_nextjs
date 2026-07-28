@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import {
   useIssues,
@@ -6,15 +8,19 @@ import {
   useUnlinkIssue,
 } from "@/features/projects/hooks/use-issues";
 import { EmptyState } from "@/components/ui/data-display/empty-state";
-import { IssueItemCard } from "./issue-item-card";
+import { IssueItemCard } from "@/features/issue-detail/components/issue-item-card";
 import { Issue, IssueLinkType } from "@/types/issue.types";
 import { SearchSelect } from "@/components/ui/forms/search-select";
-import { mapIssueToSearchOption } from "@/features/issue-detail/utils/issue-options.utils";
+import {
+  mapIssueToSearchOption,
+  getLinkTargetId,
+  resolveRelationshipOptions,
+} from "@/features/issue-detail/utils/issue-options.utils";
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { useAutoError } from "@/hooks/use-auto-error";
-
 import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
 import { useWorkspaceStore } from "@/store/workspace.store";
+import { APP_CONFIG } from "@/config/app.config";
 
 interface IssueLinkedIssuesProps {
   projectId: string;
@@ -22,23 +28,14 @@ interface IssueLinkedIssuesProps {
   onUpdate: (field: keyof Issue, value: unknown) => void;
 }
 
-const RELATIONSHIP_OPTIONS = [
-  { value: IssueLinkType.BLOCKS, label: "blocks" },
-  { value: IssueLinkType.IS_BLOCKED_BY, label: "is blocked by" },
-  { value: IssueLinkType.RELATES_TO, label: "relates to" },
-  { value: IssueLinkType.DUPLICATES, label: "duplicates" },
-  { value: IssueLinkType.IS_DUPLICATED_BY, label: "is duplicated by" },
-  { value: IssueLinkType.CLONES, label: "clones" },
-  { value: IssueLinkType.IS_CLONED_BY, label: "is cloned by" },
-  { value: IssueLinkType.CAUSES, label: "causes" },
-  { value: IssueLinkType.IS_CAUSED_BY, label: "is caused by" },
-];
-
 export function IssueLinkedIssues({
   projectId,
   issue,
   onUpdate,
 }: IssueLinkedIssuesProps) {
+  const t = useTranslations("Dashboard");
+  const TK = TRANSLATION_KEYS.DASHBOARD.IssueLinkedIssues;
+
   const [selectedLinkType, setSelectedLinkType] = useState<string>(
     IssueLinkType.BLOCKS,
   );
@@ -49,34 +46,35 @@ export function IssueLinkedIssues({
   const linkIssue = useLinkIssue();
   const unlinkIssue = useUnlinkIssue();
   const { data: issuesResponse } = useIssues(projectId, {
-    limit: 50,
+    limit: APP_CONFIG.PAGINATION.MAX_LIMIT,
     search: searchQuery || undefined,
   });
   const allIssues = issuesResponse?.data?.data || [];
 
-  const activeWorkspaceId = useWorkspaceStore((s) => s.activeWorkspaceId);
+  const activeWorkspaceId = useWorkspaceStore(
+    (state) => state.activeWorkspaceId,
+  );
   const { data: configResponse } = useWorkspaceConfig(
     activeWorkspaceId as string,
   );
   const workspaceConfig = configResponse?.data;
 
-  const relationshipOptions =
-    workspaceConfig?.linkTypes && workspaceConfig.linkTypes.length > 0
-      ? workspaceConfig.linkTypes.map((l) => ({
-          value: l.type,
-          label: l.outwardLabel || l.type,
-        }))
-      : RELATIONSHIP_OPTIONS;
+  const relationshipOptions = resolveRelationshipOptions(workspaceConfig);
 
-  const existingLinkedIds = (issue.links || []).map((link) =>
-    typeof link === "string" ? link : link.targetIssueId,
-  );
+  const existingLinkedIds = (issue.links || []).map(getLinkTargetId);
 
   const availableIssues = allIssues.filter(
-    (i) => i.id !== issue.id && !existingLinkedIds.includes(i.id),
+    (item) => item.id !== issue.id && !existingLinkedIds.includes(item.id),
   );
 
   const targetIssueOptions = availableIssues.map(mapIssueToSearchOption);
+
+  const validLinkedIssues = (issue.links || [])
+    .map((linkItem) => {
+      const targetId = getLinkTargetId(linkItem);
+      return allIssues.find((target) => target.id === targetId);
+    })
+    .filter((linkedIssue): linkedIssue is Issue => Boolean(linkedIssue));
 
   const handleApplyLink = () => {
     if (!targetIssueId || !selectedLinkType) return;
@@ -110,10 +108,8 @@ export function IssueLinkedIssues({
       },
       {
         onSuccess: () => {
-          const newLinks = (issue.links || []).filter((l) =>
-            typeof l === "string"
-              ? l !== targetId
-              : l.targetIssueId !== targetId,
+          const newLinks = (issue.links || []).filter(
+            (linkItem) => getLinkTargetId(linkItem) !== targetId,
           );
           onUpdate("links", newLinks);
         },
@@ -126,7 +122,7 @@ export function IssueLinkedIssues({
     <div>
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
-          Linked Issues
+          {t(TK.title)}
         </h3>
       </div>
 
@@ -136,8 +132,8 @@ export function IssueLinkedIssues({
           <SearchSelect
             options={targetIssueOptions}
             value={targetIssueId}
-            onChange={(val) => setTargetIssueId(val)}
-            placeholder="Target Issue"
+            onChange={setTargetIssueId}
+            placeholder={t(TK.targetPlaceholder)}
             onSearchChange={setSearchQuery}
           />
         </div>
@@ -145,8 +141,8 @@ export function IssueLinkedIssues({
           <SearchSelect
             options={relationshipOptions}
             value={selectedLinkType}
-            onChange={(val) => setSelectedLinkType(val)}
-            placeholder="Relationship*"
+            onChange={setSelectedLinkType}
+            placeholder={t(TK.relationshipPlaceholder)}
           />
         </div>
 
@@ -156,33 +152,26 @@ export function IssueLinkedIssues({
           disabled={!targetIssueId || !selectedLinkType || linkIssue.isPending}
           onClick={handleApplyLink}
         >
-          {linkIssue.isPending ? "Applying..." : "Apply"}
+          {linkIssue.isPending ? t(TK.applying) : t(TK.apply)}
         </Button>
         <ErrorTooltip message={fieldErrors.links} />
       </div>
 
       {/* Linked Issues List */}
-      {issue.links && issue.links.length > 0 ? (
-        <div className="flex flex-col gap-1.5">
-          {issue.links.map((linkItem) => {
-            const targetId =
-              typeof linkItem === "string" ? linkItem : linkItem.targetIssueId;
-            const linkedIssue = allIssues.find((i) => i.id === targetId);
-            if (!linkedIssue) return null;
-            return (
-              <div key={targetId}>
-                <IssueItemCard
-                  issue={linkedIssue}
-                  onRemove={() => handleRemoveLink(targetId)}
-                />
-              </div>
-            );
-          })}
+      {validLinkedIssues.length > 0 ? (
+        <div className="flex flex-col gap-1.5 p-2 bg-muted/50 rounded-xl border border-border/60">
+          {validLinkedIssues.map((linkedIssue) => (
+            <IssueItemCard
+              key={linkedIssue.id}
+              issue={linkedIssue}
+              onRemove={() => handleRemoveLink(linkedIssue.id)}
+            />
+          ))}
         </div>
       ) : (
         <EmptyState
-          title="No linked issues"
-          description="Link related issues to track dependencies."
+          title={t(TK.emptyTitle)}
+          description={t(TK.emptyDesc)}
           className="py-4 px-5 sm:p-4 bg-muted/50 border border-border/60 rounded-xl"
         />
       )}

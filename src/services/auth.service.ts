@@ -11,7 +11,7 @@ import {
   WrappedTokenResponseDto,
   WrappedUserResponseDto,
   WrappedStatusResponseDto,
-} from "@/features/auth/types/auth.types";
+} from "@/types/auth.types";
 import { API_ENDPOINTS } from "@/config/api-endpoints";
 
 export const authService = {

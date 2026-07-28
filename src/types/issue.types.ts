@@ -1,4 +1,4 @@
-import { UserResponseDto } from "@/features/auth/types/auth.types";
+import { UserResponseDto } from "@/types/auth.types";
 import { PaginationParams } from "@/types/api.types";
 
 export type IssueType = string;

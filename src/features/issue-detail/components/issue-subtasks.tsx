@@ -1,22 +1,17 @@
 import { useState } from "react";
-import { XIcon } from "@phosphor-icons/react/dist/ssr";
-import { Button, ButtonVariant } from "@/components/ui/actions/button";
+import { useTranslations } from "next-intl";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 import {
   useIssueChildren,
   useChildOptions,
   useUpdateIssue,
 } from "@/features/projects/hooks/use-issues";
-import { IssueType, IssueStatus } from "@/types/issue.types";
-import {
-  TypeIcon,
-  StatusBadge,
-} from "@/features/dashboard/components/issue-table-row";
 import { mapIssueToSearchOption } from "@/features/issue-detail/utils/issue-options.utils";
-import { cn } from "@/utils/cn";
 import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { SearchSelect } from "@/components/ui/forms/search-select";
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { useAutoError } from "@/hooks/use-auto-error";
+import { IssueItemCard } from "@/features/issue-detail/components/issue-item-card";
 
 interface IssueSubtasksProps {
   projectId: string;
@@ -24,6 +19,9 @@ interface IssueSubtasksProps {
 }
 
 export function IssueSubtasks({ projectId, parentId }: IssueSubtasksProps) {
+  const t = useTranslations("Dashboard");
+  const TK = TRANSLATION_KEYS.DASHBOARD.IssueSubtasks;
+
   const [searchQuery, setSearchQuery] = useState("");
   const { fieldErrors, handleApiError, clearFieldError } = useAutoError();
 
@@ -40,6 +38,21 @@ export function IssueSubtasks({ projectId, parentId }: IssueSubtasksProps) {
   const searchOptions = allIssues
     .filter((i) => i.id !== parentId)
     .map(mapIssueToSearchOption);
+
+  const handleAddSubtask = (issueId: string) => {
+    if (!issueId) return;
+    clearFieldError("subtask");
+    updateIssue.mutate(
+      {
+        projectId,
+        issueId,
+        data: { parentId },
+      },
+      {
+        onError: (err) => handleApiError(err, "subtask"),
+      },
+    );
+  };
 
   const handleRemoveSubtask = (issueId: string) => {
     clearFieldError("subtask");
@@ -59,7 +72,7 @@ export function IssueSubtasks({ projectId, parentId }: IssueSubtasksProps) {
     <div>
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
-          Subtasks
+          {t(TK.title)}
         </h3>
       </div>
 
@@ -67,22 +80,8 @@ export function IssueSubtasks({ projectId, parentId }: IssueSubtasksProps) {
         <SearchSelect
           options={searchOptions}
           value=""
-          onChange={(val) => {
-            if (val) {
-              clearFieldError("subtask");
-              updateIssue.mutate(
-                {
-                  projectId,
-                  issueId: val,
-                  data: { parentId },
-                },
-                {
-                  onError: (err) => handleApiError(err, "subtask"),
-                },
-              );
-            }
-          }}
-          placeholder="Add or attach subtask..."
+          onChange={handleAddSubtask}
+          placeholder={t(TK.placeholder)}
           onSearchChange={setSearchQuery}
         />
         <ErrorTooltip message={fieldErrors.subtask || fieldErrors.parentId} />
@@ -91,58 +90,23 @@ export function IssueSubtasks({ projectId, parentId }: IssueSubtasksProps) {
       {isLoadingChildren ? (
         <div className="flex flex-col gap-1.5 p-2 bg-muted/50 rounded-xl border border-border/60">
           <div className="p-4 text-center text-sm text-muted-foreground">
-            Loading subtasks...
+            {t(TK.loading)}
           </div>
         </div>
       ) : subtasks.length === 0 ? (
         <EmptyState
-          title="No subtasks yet"
-          description="Create or attach subtasks to break down this issue."
+          title={t(TK.emptyTitle)}
+          description={t(TK.emptyDesc)}
           className="py-4 px-5 sm:p-4 bg-muted/50 border border-border/60 rounded-xl"
         />
       ) : (
         <div className="flex flex-col gap-1.5 p-2 bg-muted/50 rounded-xl border border-border/60">
           {subtasks.map((task) => (
-            <div
+            <IssueItemCard
               key={task.id}
-              className="flex items-center justify-between py-1.5 px-2.5 bg-card hover:bg-muted rounded-lg border border-border/60 transition-colors cursor-pointer group"
-            >
-              <div className="flex items-center gap-2 overflow-hidden flex-1 min-w-0">
-                <TypeIcon
-                  type={task.type as IssueType}
-                  className="w-4 h-4 shrink-0"
-                />
-                <span className="text-[12px] font-medium text-muted-foreground uppercase tracking-wider group-hover:text-foreground transition-colors shrink-0">
-                  {task.issueKey}
-                </span>
-                <span
-                  className={cn(
-                    "text-[13px] font-medium tracking-tight transition-colors line-clamp-1 ml-1",
-                    task.status?.toLowerCase() === "done" ||
-                      task.status === "Done"
-                      ? "text-muted-foreground line-through"
-                      : "text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400",
-                  )}
-                >
-                  {task.summary}
-                </span>
-              </div>
-              <div className="flex items-center gap-2 shrink-0 ml-3">
-                <StatusBadge status={task.status as IssueStatus} />
-                <Button
-                  variant={ButtonVariant.Ghost}
-                  className="h-6 w-6 p-0 text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-all shrink-0"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleRemoveSubtask(task.id);
-                  }}
-                  title="Remove subtask"
-                >
-                  <XIcon className="w-3.5 h-3.5" />
-                </Button>
-              </div>
-            </div>
+              issue={task}
+              onRemove={() => handleRemoveSubtask(task.id)}
+            />
           ))}
         </div>
       )}

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 import { SearchSelect } from "@/components/ui/forms/search-select";
 import { TextEditor } from "@/components/ui/forms/text-editor";
 import { AttachmentUploader } from "@/components/ui/forms/attachment-uploader";
@@ -28,6 +30,9 @@ export function IssueMainContent({
   onUpdate,
   fieldErrors,
 }: IssueMainContentProps) {
+  const t = useTranslations("Dashboard");
+  const TK = TRANSLATION_KEYS.DASHBOARD.IssueMainContent;
+
   const deleteImageMutation = useDeleteImage();
   const [searchQuery, setSearchQuery] = useState("");
   const { data: parentOptionsResponse } = useParentOptions(projectId, {
@@ -54,9 +59,9 @@ export function IssueMainContent({
   return (
     <div className="flex-1 flex flex-col gap-5">
       {/* Parent Task */}
-      <div className="flex flex-col items-start gap-1.5 w-full relative">
+      <div className="flex flex-col gap-1.5 w-full relative">
         <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
-          Parent Task
+          {t(TK.parentTask)}
         </h3>
         {(() => {
           const parentIssue = issue.parentId
@@ -81,7 +86,7 @@ export function IssueMainContent({
               options={parentOptions}
               value=""
               onChange={(val) => onUpdate("parentId", val || null)}
-              placeholder="Add Parent Task"
+              placeholder={t(TK.addParentTask)}
               onSearchChange={setSearchQuery}
             />
           );
@@ -92,13 +97,13 @@ export function IssueMainContent({
       {/* Description */}
       <div className="relative">
         <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">
-          Description
+          {t(TK.description)}
         </h3>
         <TextEditor
           value={desc}
           onChange={setDesc}
           onBlur={handleDescBlur}
-          placeholder="Add a description..."
+          placeholder={t(TK.descriptionPlaceholder)}
         />
         <ErrorTooltip message={fieldErrors?.description} />
       </div>
@@ -140,7 +145,7 @@ export function IssueMainContent({
       {/* Comments Section */}
       <div className="flex flex-col gap-2 mt-2">
         <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
-          Comments
+          {t(TK.comments)}
         </h3>
         <IssueComments issue={issue} />
       </div>

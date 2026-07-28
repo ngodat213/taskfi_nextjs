@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/forms/search-select";
 import { TextEditor } from "@/components/ui/forms/text-editor";
 import { FileUploader } from "@/components/ui/forms/file-uploader";
+import { DatePicker } from "@/components/ui/forms/date-picker";
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import {
   TypeIcon,
@@ -90,7 +91,6 @@ export function CreateTaskModal({
   const statuses: { name: string }[] = workspaceConfig?.statuses || [];
 
   const {
-    register,
     control,
     handleSubmit,
     reset,
@@ -112,6 +112,7 @@ export function CreateTaskModal({
   const selectedAssigneeId = useWatch({ control, name: "assigneeId" });
   const selectedParentId = useWatch({ control, name: "parentId" });
   const selectedStoryPoints = useWatch({ control, name: "storyPoints" });
+  const selectedDueDate = useWatch({ control, name: "dueDate" });
 
   const [selectedChildIds, setSelectedChildIds] = useState<string[]>([]);
   const [subtaskSearchQuery, setSubtaskSearchQuery] = useState("");
@@ -577,17 +578,14 @@ export function CreateTaskModal({
                   </div>
 
                   {/* Due Date */}
-                  <div className="flex flex-col gap-1.5 relative">
-                    <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
-                      Due Date
-                    </span>
-                    <input
-                      type="date"
-                      {...register("dueDate")}
-                      className="h-8 text-[13px] w-full font-medium bg-card border border-border rounded-md px-2.5 text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-colors"
-                    />
-                    <ErrorTooltip message={errors.dueDate?.message} />
-                  </div>
+                  <DatePicker
+                    label="Due Date"
+                    value={selectedDueDate}
+                    onChange={(val) =>
+                      setValue("dueDate", val || "", { shouldValidate: true })
+                    }
+                    errorMessage={errors.dueDate?.message}
+                  />
                 </div>
               </div>
             </ModalScrollArea>

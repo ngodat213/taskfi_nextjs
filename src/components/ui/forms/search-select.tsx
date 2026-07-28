@@ -118,17 +118,39 @@ export function SearchSelect({
         )}
       >
         <div className="flex items-center gap-2 overflow-hidden flex-1 mr-1">
-          <MagnifyingGlassIcon className="w-4 h-4 text-muted-foreground shrink-0" />
-          <input
-            ref={inputRef}
-            type="text"
-            disabled={disabled}
-            placeholder={selectedOption ? selectedOption.label : placeholder}
-            value={searchQuery}
-            onChange={handleInputChange}
-            onFocus={() => !disabled && setIsOpen(true)}
-            className="w-full bg-transparent focus:outline-none text-foreground placeholder:text-muted-foreground font-medium text-[13px]"
-          />
+          {!searchQuery && selectedOption ? (
+            selectedOption.icon ? (
+              <div className="shrink-0 flex items-center justify-center">
+                {selectedOption.icon}
+              </div>
+            ) : null
+          ) : (
+            <MagnifyingGlassIcon className="w-4 h-4 text-muted-foreground shrink-0" />
+          )}
+
+          <div className="relative flex-1 min-w-0 flex items-center">
+            <input
+              ref={inputRef}
+              type="text"
+              disabled={disabled}
+              placeholder={selectedOption ? "" : placeholder}
+              value={searchQuery}
+              onChange={handleInputChange}
+              onFocus={() => !disabled && setIsOpen(true)}
+              className="w-full bg-transparent focus:outline-none text-foreground placeholder:text-muted-foreground font-medium text-[13px] relative z-10"
+            />
+            {!searchQuery && selectedOption && (
+              <span className="absolute left-0 pointer-events-none text-foreground font-medium text-[13px] truncate max-w-full">
+                {selectedOption.label}
+              </span>
+            )}
+          </div>
+
+          {!searchQuery && selectedOption?.badge && (
+            <div className="shrink-0 flex items-center">
+              {selectedOption.badge}
+            </div>
+          )}
         </div>
 
         <div className="flex items-center gap-1 shrink-0">

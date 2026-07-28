@@ -340,6 +340,114 @@
       "cancel": "Hủy",
       "creating": "Đang tạo...",
       "create": "Tạo công việc"
+    },
+    "AddSubtaskModal": {
+      "title": "Thêm nhiệm vụ con",
+      "mode_create": "Tạo nhiệm vụ con mới",
+      "mode_link": "Liên kết nhiệm vụ có sẵn",
+      "subtask_title": "Tiêu đề nhiệm vụ con",
+      "title_placeholder": "Nhập tiêu đề nhiệm vụ con...",
+      "priority": "Mức độ ưu tiên",
+      "assignee": "Người thực hiện",
+      "unassigned": "Chưa phân công",
+      "select_task": "Chọn nhiệm vụ để đính kèm",
+      "select_task_placeholder": "Chọn một nhiệm vụ có sẵn...",
+      "cancel": "Hủy",
+      "adding": "Đang thêm...",
+      "create_btn": "Tạo nhiệm vụ con",
+      "attach_btn": "Đính kèm nhiệm vụ con"
+    },
+    "IssueActivities": {
+      "loading": "Đang tải lịch sử hoạt động...",
+      "empty_title": "Chưa có hoạt động",
+      "empty_desc": "Lịch sử thay đổi công việc sẽ xuất hiện tại đây.",
+      "member_fallback": "Thành viên",
+      "created_task": "Đã tạo công việc",
+      "updated_description": "Đã cập nhật nội dung mô tả",
+      "set_action": "Thiết lập",
+      "removed_action": "Xóa",
+      "fields": {
+        "created": "Khởi tạo",
+        "summary": "Tiêu đề",
+        "description": "Mô tả",
+        "status": "Trạng thái",
+        "priority": "Độ ưu tiên",
+        "type": "Loại công việc",
+        "assignee": "Người thực thi",
+        "reporter": "Người báo cáo",
+        "due_date": "Ngày hết hạn",
+        "story_points": "Story Points",
+        "attachments": "Tệp đính kèm",
+        "links": "Liên kết",
+        "parent": "Công việc cha",
+        "sprint": "Sprint"
+      }
+    },
+    "IssueComments": {
+      "you": "Bạn",
+      "reply": "Trả lời",
+      "share": "Chia sẻ",
+      "copied": "Đã sao chép!",
+      "placeholder": "Viết bình luận, nhắc đến @users...",
+      "submitting": "Đang gửi...",
+      "submit": "Bình luận",
+      "loading": "Đang tải bình luận...",
+      "empty_title": "Chưa có bình luận nào",
+      "empty_desc": "Hãy là người đầu tiên để lại bình luận cho công việc này.",
+      "roles": {
+        "assignee": "Người thực thi",
+        "author": "Tác giả",
+        "member": "Thành viên"
+      }
+    },
+    "IssueDetailView": {
+      "loading": "Đang tải chi tiết công việc...",
+      "not_found": "Không tìm thấy công việc.",
+      "back": "Quay lại"
+    },
+    "IssueSubtasks": {
+      "title": "Công việc phụ (Subtasks)",
+      "placeholder": "Thêm hoặc đính kèm subtask...",
+      "loading": "Đang tải danh sách subtask...",
+      "empty_title": "Chưa có subtask nào",
+      "empty_desc": "Tạo hoặc đính kèm subtask để chia nhỏ công việc này."
+    },
+    "IssueLinkedIssues": {
+      "title": "Công việc liên kết (Linked Issues)",
+      "target_placeholder": "Công việc liên kết",
+      "relationship_placeholder": "Mối quan hệ*",
+      "apply": "Áp dụng",
+      "applying": "Đang áp dụng...",
+      "empty_title": "Chưa có liên kết nào",
+      "empty_desc": "Liên kết các công việc liên quan để theo dõi phụ thuộc."
+    },
+    "IssueMainContent": {
+      "parent_task": "Công việc cha",
+      "add_parent_task": "Thêm công việc cha",
+      "description": "Mô tả",
+      "description_placeholder": "Thêm mô tả công việc...",
+      "comments": "Bình luận"
+    },
+    "IssueProperties": {
+      "type": "Loại công việc",
+      "status": "Trạng thái",
+      "priority": "Độ ưu tiên",
+      "select_priority": "Chọn độ ưu tiên...",
+      "assignee": "Người thực thi",
+      "assign_to_me": "Gán cho tôi",
+      "unassigned": "Chưa phân công",
+      "reporter": "Người báo cáo",
+      "story_points": "Điểm độ khó (Story Points)",
+      "sprint": "Sprint",
+      "due_date": "Hạn hoàn thành",
+      "activity": "Nhật ký hoạt động",
+      "priorities": {
+        "highest": "Rất cao",
+        "high": "Cao",
+        "medium": "Trung bình",
+        "low": "Thấp",
+        "lowest": "Rất thấp"
+      }
     }
   }
 }

@@ -6,7 +6,6 @@ import {
   IssueComment,
   IssueActivity,
 } from "@/types/issue.types";
-import { PaginatedResponse } from "@/types/api.types";
 
 export const useIssues = (projectId: string, params?: GetIssuesParams) => {
   return useQuery({
@@ -98,17 +97,44 @@ export const useUpdateIssue = () => {
 
       queryClient.setQueriesData(
         { queryKey: ["issues", projectId] },
-        (old: PaginatedResponse<Issue> | undefined) => {
-          if (!old || !old.data || !old.data.data) return old;
-          return {
-            ...old,
-            data: {
-              ...old.data,
-              data: old.data.data.map((issue: Issue) =>
-                issue.id === issueId ? { ...issue, ...data } : issue,
-              ),
-            },
-          };
+        (old: unknown) => {
+          if (!old || typeof old !== "object") return old;
+          const oldObj = old as Record<string, unknown>;
+
+          // Case 1: Paginated response { data: { data: Issue[] } }
+          if (
+            oldObj.data &&
+            typeof oldObj.data === "object" &&
+            Array.isArray((oldObj.data as Record<string, unknown>).data)
+          ) {
+            const innerData = oldObj.data as Record<string, unknown>;
+            return {
+              ...oldObj,
+              data: {
+                ...innerData,
+                data: (innerData.data as Issue[]).map((i) =>
+                  i.id === issueId ? { ...i, ...data } : i,
+                ),
+              },
+            };
+          }
+
+          // Case 2: Single issue response { data: Issue }
+          if (
+            oldObj.data &&
+            typeof oldObj.data === "object" &&
+            (oldObj.data as Record<string, unknown>).id === issueId
+          ) {
+            return {
+              ...oldObj,
+              data: {
+                ...(oldObj.data as Record<string, unknown>),
+                ...data,
+              },
+            };
+          }
+
+          return old;
         },
       );
 

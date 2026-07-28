@@ -340,6 +340,114 @@
       "cancel": "Cancel",
       "creating": "Creating...",
       "create": "Create Task"
+    },
+    "AddSubtaskModal": {
+      "title": "Add Subtask",
+      "mode_create": "Create New Subtask",
+      "mode_link": "Link Existing Task",
+      "subtask_title": "Subtask Title",
+      "title_placeholder": "Enter subtask title...",
+      "priority": "Priority",
+      "assignee": "Assignee",
+      "unassigned": "Unassigned",
+      "select_task": "Select Task to Attach",
+      "select_task_placeholder": "Select an existing task...",
+      "cancel": "Cancel",
+      "adding": "Adding...",
+      "create_btn": "Create Subtask",
+      "attach_btn": "Attach Subtask"
+    },
+    "IssueActivities": {
+      "loading": "Loading activity history...",
+      "empty_title": "No activities yet",
+      "empty_desc": "Work change history will appear here.",
+      "member_fallback": "Member",
+      "created_task": "Created task",
+      "updated_description": "Updated description content",
+      "set_action": "Set",
+      "removed_action": "Removed",
+      "fields": {
+        "created": "Creation",
+        "summary": "Title",
+        "description": "Description",
+        "status": "Status",
+        "priority": "Priority",
+        "type": "Issue Type",
+        "assignee": "Assignee",
+        "reporter": "Reporter",
+        "due_date": "Due Date",
+        "story_points": "Story Points",
+        "attachments": "Attachments",
+        "links": "Links",
+        "parent": "Parent Issue",
+        "sprint": "Sprint"
+      }
+    },
+    "IssueComments": {
+      "you": "You",
+      "reply": "Reply",
+      "share": "Share",
+      "copied": "Copied!",
+      "placeholder": "Write a comment, mention @users...",
+      "submitting": "Sending...",
+      "submit": "Comment",
+      "loading": "Loading comments...",
+      "empty_title": "No comments yet",
+      "empty_desc": "Be the first to leave a comment on this task.",
+      "roles": {
+        "assignee": "Assignee",
+        "author": "Author",
+        "member": "Member"
+      }
+    },
+    "IssueDetailView": {
+      "loading": "Loading issue details...",
+      "not_found": "Issue not found.",
+      "back": "Back"
+    },
+    "IssueSubtasks": {
+      "title": "Subtasks",
+      "placeholder": "Add or attach subtask...",
+      "loading": "Loading subtasks...",
+      "empty_title": "No subtasks yet",
+      "empty_desc": "Create or attach subtasks to break down this issue."
+    },
+    "IssueLinkedIssues": {
+      "title": "Linked Issues",
+      "target_placeholder": "Target Issue",
+      "relationship_placeholder": "Relationship*",
+      "apply": "Apply",
+      "applying": "Applying...",
+      "empty_title": "No linked issues",
+      "empty_desc": "Link related issues to track dependencies."
+    },
+    "IssueMainContent": {
+      "parent_task": "Parent Task",
+      "add_parent_task": "Add Parent Task",
+      "description": "Description",
+      "description_placeholder": "Add a description...",
+      "comments": "Comments"
+    },
+    "IssueProperties": {
+      "type": "Type",
+      "status": "Status",
+      "priority": "Priority",
+      "select_priority": "Select priority...",
+      "assignee": "Assignee",
+      "assign_to_me": "Assign to me",
+      "unassigned": "Unassigned",
+      "reporter": "Reporter",
+      "story_points": "Story Points",
+      "sprint": "Sprint",
+      "due_date": "Due Date",
+      "activity": "Activity",
+      "priorities": {
+        "highest": "Highest",
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low",
+        "lowest": "Lowest"
+      }
     }
   }
 }
