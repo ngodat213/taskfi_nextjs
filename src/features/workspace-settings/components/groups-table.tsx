@@ -1,4 +1,9 @@
-import { DotsThreeIcon, UsersIcon, PencilSimpleIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
+import {
+  DotsThreeIcon,
+  UsersIcon,
+  PencilSimpleIcon,
+  CircleNotchIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import {
   Table,
   TableHeader,
@@ -8,6 +13,7 @@ import {
   TableCell,
 } from "@/components/ui/data-display/table";
 import { useGroups } from "@/features/workspace-settings/hooks/use-groups";
+import { APP_CONFIG } from "@/config/app.config";
 import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { Avatar } from "@/components/ui/data-display/avatar";
 import { TableActionBtn } from "@/components/ui/data-display/table-action-btn";
@@ -24,11 +30,13 @@ interface GroupsTableProps {
 export function GroupsTable({ onEdit }: GroupsTableProps) {
   const t = useTranslations("WorkspaceSettings");
   const TK = TRANSLATION_KEYS.tables.groups;
-  const { data: groupsResponse, isLoading } = useGroups();
+  const { data: groupsResponse, isLoading } = useGroups({
+    limit: APP_CONFIG.PAGINATION.MAX_LIMIT,
+  });
   const activeWorkspaceId = useWorkspaceStore(
     (state) => state.activeWorkspaceId,
   );
-  const groups = groupsResponse?.data || [];
+  const groups = groupsResponse?.data?.data || [];
 
   if (isLoading) {
     return (

@@ -1,4 +1,7 @@
-import { FolderOpenIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
+import {
+  FolderOpenIcon,
+  CircleNotchIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -54,8 +57,10 @@ export function AddNewProjectModal({
     });
   const members = membersData?.data?.data || [];
 
-  const { data: groupsResponse, isLoading: isLoadingGroups } = useGroups();
-  const groups = Array.isArray(groupsResponse?.data) ? groupsResponse.data : [];
+  const { data: groupsResponse, isLoading: isLoadingGroups } = useGroups({
+    limit: APP_CONFIG.PAGINATION.MAX_LIMIT,
+  });
+  const groups = groupsResponse?.data?.data || [];
 
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [logoPreview, setLogoPreview] = useState("");

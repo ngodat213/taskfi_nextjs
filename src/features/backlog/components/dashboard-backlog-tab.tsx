@@ -8,7 +8,10 @@ interface DashboardBacklogTabProps {
   q?: string;
   issues?: Issue[];
   isLoading?: boolean;
-  onIssueClick?: (issueId: string) => void;
+  onIssueClick?: (
+    issueId: string,
+    issueData?: { issueKey?: string; type?: string },
+  ) => void;
 }
 
 const EMPTY_ISSUES: Issue[] = [];
@@ -54,9 +57,7 @@ export function DashboardBacklogTab({
       .filter((i) =>
         backlogStatusNames.includes((i.status || "").toLowerCase()),
       )
-      .filter(
-        (i) => !q || i.summary.toLowerCase().includes(q.toLowerCase()),
-      );
+      .filter((i) => !q || i.summary.toLowerCase().includes(q.toLowerCase()));
   }, [issues, q, backlogStatusNames]);
 
   return (

@@ -12,6 +12,8 @@ import {
   IssueRow,
   TypeIcon,
 } from "@/features/issues/components/issue-table-row";
+import { CheckSquareIcon } from "@phosphor-icons/react/dist/ssr";
+import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
 import { useWorkspaceStore } from "@/store/workspace.store";
 
@@ -28,7 +30,10 @@ interface IssueListTabProps {
   subtitle: string;
   issues: Issue[];
   isLoading?: boolean;
-  onIssueClick?: (issueId: string) => void;
+  onIssueClick?: (
+    issueId: string,
+    issueData?: { issueKey?: string; type?: string },
+  ) => void;
 }
 
 export function IssueListTab({
@@ -100,54 +105,67 @@ export function IssueListTab({
           </div>
         </motion.div>
 
-        {issueTypeNames.map((type) => {
-          const typeIssues = groupedIssues[type] || [];
-          if (typeIssues.length === 0) return null;
+        {issues.length === 0 ? (
+          <motion.div
+            variants={itemVariants}
+            className="bg-card border border-border/60 rounded-xl p-6 shadow-sm"
+          >
+            <EmptyState
+              icon={CheckSquareIcon}
+              title="No issues found"
+              description="There are currently no tasks or issues created in this view."
+            />
+          </motion.div>
+        ) : (
+          issueTypeNames.map((type) => {
+            const typeIssues = groupedIssues[type] || [];
+            if (typeIssues.length === 0) return null;
 
-          return (
-            <motion.div
-              key={type}
-              variants={itemVariants}
-              className="mb-8 last:mb-0"
-            >
-              <h3 className="text-[14px] font-bold text-foreground capitalize mb-3 flex items-center gap-2">
-                <TypeIcon type={type} className="w-4 h-4" />
-                {type}{" "}
-                <span className="text-muted-foreground font-medium text-[12px] ml-1">
-                  ({typeIssues.length})
-                </span>
-              </h3>
+            return (
+              <motion.div
+                key={type}
+                variants={itemVariants}
+                className="mb-8 last:mb-0"
+              >
+                <h3 className="text-[14px] font-bold text-foreground capitalize mb-3 flex items-center gap-2">
+                  <TypeIcon type={type} className="w-4 h-4" />
+                  {type}{" "}
+                  <span className="text-muted-foreground font-medium text-[12px] ml-1">
+                    ({typeIssues.length})
+                  </span>
+                </h3>
 
-              <div className="bg-card rounded-lg border border-border/60 shadow-sm overflow-hidden flex flex-col w-full">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="hover:bg-transparent">
-                      <TableHead className="w-32.5 px-4">Key</TableHead>
-                      <TableHead>Summary</TableHead>
-                      <TableHead className="w-30">Status</TableHead>
-                      <TableHead className="w-22.5">Sub-issues</TableHead>
-                      <TableHead className="w-27.5">Priority</TableHead>
-                      <TableHead className="w-17.5 text-right pr-4">
-                        Assignee
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {typeIssues.map((issue) => (
-                      <IssueRow
-                        key={issue.id}
-                        issue={issue}
-                        expanded={expanded}
-                        toggleExpand={toggleExpand}
-                        onIssueClick={onIssueClick}
-                      />
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </motion.div>
-          );
-        })}
+                <div className="bg-card rounded-lg border border-border/60 shadow-sm overflow-hidden flex flex-col w-full">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="hover:bg-transparent">
+                        <TableHead className="w-32.5 px-4">Key</TableHead>
+                        <TableHead>Summary</TableHead>
+                        <TableHead className="w-30">Status</TableHead>
+                        <TableHead className="w-22.5">Sub-issues</TableHead>
+                        <TableHead className="w-27.5">Priority</TableHead>
+                        <TableHead className="w-17.5 text-right pr-4">
+                          Assignee
+                        </TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {typeIssues.map((issue) => (
+                        <IssueRow
+                          key={issue.id}
+                          issue={issue}
+                          expanded={expanded}
+                          toggleExpand={toggleExpand}
+                          onIssueClick={onIssueClick}
+                        />
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </motion.div>
+            );
+          })
+        )}
       </div>
     </motion.div>
   );

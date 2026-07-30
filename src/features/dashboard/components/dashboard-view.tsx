@@ -3,7 +3,8 @@
 import { PlusIcon, PulseIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { useState, useMemo, useCallback } from "react";
-import { motion, Variants } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
+import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
 import { useTranslations } from "next-intl";
 import { PageHeader } from "@/components/ui/layout/page-header";
 import { SegmentedControl } from "@/components/ui/forms/segmented-control";
@@ -88,17 +89,9 @@ export function DashboardView({ projectId }: { projectId: string }) {
 
   // Retros Contextual Filter State
   const [retrosSprint, setRetrosSprint] = useState<string>("sprint-24");
-  const [retrosSearch, setRetrosSearch] = useState<string>("");
 
-  // Deps Contextual Filter State
-  const [depsViewMode, setDepsViewMode] = useState<"graph" | "list">("graph");
-  const [depsFilterRisk, setDepsFilterRisk] = useState<string>("all");
-  const [depsSearch, setDepsSearch] = useState<string>("");
-
-  // Archived Contextual Filter State
-  const [archivedFilterType, setArchivedFilterType] = useState<string>("all");
-  const [archivedSearch, setArchivedSearch] = useState<string>("");
-
+  const { data: projectResponse } = useProject(projectId);
+  const project = projectResponse?.data;
   const selectedIssueId = searchParams.get("issueId");
   const setSelectedIssueId = useCallback(
     (id: string | null) => {
@@ -127,12 +120,26 @@ export function DashboardView({ projectId }: { projectId: string }) {
     [searchParams, pathname, router],
   );
 
+  const [retrosSearch, setRetrosSearch] = useState<string>("");
+
+  // Deps Contextual Filter State
+  const [depsViewMode, setDepsViewMode] = useState<"graph" | "list">("graph");
+  const [depsFilterRisk, setDepsFilterRisk] = useState<string>("all");
+  const [depsSearch, setDepsSearch] = useState<string>("");
+  const [depsSelectedStatuses, setDepsSelectedStatuses] = useState<string[]>([
+    "to do",
+    "in progress",
+    "in review",
+    "done",
+  ]);
+
+  // Archived Contextual Filter State
+  const [archivedFilterType, setArchivedFilterType] = useState<string>("all");
+  const [archivedSearch, setArchivedSearch] = useState<string>("");
+
   const [assigneeFilter, setAssigneeFilter] = useState<string>("");
   const [typeFilter, setTypeFilter] = useState<string>("");
   const [priorityFilter, setPriorityFilter] = useState<string>("");
-
-  const { data: projectResponse } = useProject(projectId);
-  const project = projectResponse?.data;
 
   const issueFilters = useMemo(() => {
     const filters: GetIssuesParams = {
@@ -206,6 +213,8 @@ export function DashboardView({ projectId }: { projectId: string }) {
           onSearchChange={setDepsSearch}
           filterRisk={depsFilterRisk}
           onFilterRiskChange={setDepsFilterRisk}
+          selectedStatuses={depsSelectedStatuses}
+          onSelectedStatusesChange={setDepsSelectedStatuses}
         />
       );
     }
@@ -238,7 +247,8 @@ export function DashboardView({ projectId }: { projectId: string }) {
             size={ButtonSize.Sm}
             onClick={() => setIsRetroModalOpen(true)}
           >
-            <PlusIcon className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Retro Note
+            <PlusIcon className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Retro
+            Note
           </Button>
         </>
       );
@@ -256,7 +266,8 @@ export function DashboardView({ projectId }: { projectId: string }) {
             size={ButtonSize.Sm}
             onClick={() => setIsDepModalOpen(true)}
           >
-            <PlusIcon className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Dependency
+            <PlusIcon className="w-3.5 h-3.5" strokeWidth={2.5} /> Add
+            Dependency
           </Button>
         </>
       );
@@ -355,8 +366,10 @@ export function DashboardView({ projectId }: { projectId: string }) {
             onFilterRiskChange={setDepsFilterRisk}
             searchQuery={depsSearch}
             onSearchQueryChange={setDepsSearch}
+            selectedStatuses={depsSelectedStatuses}
             isAddModalOpen={isDepModalOpen}
             onAddModalOpenChange={setIsDepModalOpen}
+            onIssueClick={setSelectedIssueId}
           />
         );
       case "archived":
@@ -381,19 +394,39 @@ export function DashboardView({ projectId }: { projectId: string }) {
 
   return (
     <PageContainer>
-      {selectedIssueId ? (
-        <IssueDetailView
-          projectId={projectId}
-          issueId={selectedIssueId}
-          onClose={() => setSelectedIssueId(null)}
-        />
-      ) : selectedRetroId ? (
-        <RetroDetailView
-          projectId={projectId}
-          retroId={selectedRetroId}
-          onClose={() => setSelectedRetroId(null)}
-        />
-      ) : (
+      <AnimatePresence mode="popLayout">
+        {selectedIssueId ? (
+          <motion.div
+            key={`issue-detail-${selectedIssueId}`}
+            variants={TAB_CONTENT_VARIANTS}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="w-full h-full"
+          >
+            <IssueDetailView
+              projectId={projectId}
+              issueId={selectedIssueId}
+              onClose={() => setSelectedIssueId(null)}
+              onIssueSelect={(id) => setSelectedIssueId(id)}
+            />
+          </motion.div>
+        ) : selectedRetroId ? (
+          <motion.div
+            key={`retro-detail-${selectedRetroId}`}
+            variants={TAB_CONTENT_VARIANTS}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="w-full h-full"
+          >
+            <RetroDetailView
+              projectId={projectId}
+              retroId={selectedRetroId}
+              onClose={() => setSelectedRetroId(null)}
+            />
+          </motion.div>
+        ) : (
         <>
           {/* Project Header Area */}
           <div className="bg-transparent border-b border-border/60 shrink-0">
@@ -451,6 +484,7 @@ export function DashboardView({ projectId }: { projectId: string }) {
           />
         </>
       )}
+      </AnimatePresence>
     </PageContainer>
   );
 }

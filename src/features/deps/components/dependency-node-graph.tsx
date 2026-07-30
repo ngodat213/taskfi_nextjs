@@ -28,25 +28,46 @@ import { EmptyState } from "@/components/ui/data-display/empty-state";
 import {
   formatDependencyLabel,
   calculateDependencyRiskLevel,
+  getAssigneeName,
+  getAssigneeAvatar,
+  isStatusSelected,
 } from "@/features/deps/utils/deps.utils";
+
+import { APP_CONFIG } from "@/config/app.config";
 
 interface DependencyNodeGraphProps {
   projectId?: string;
+  selectedStatuses?: string[];
+  onIssueClick?: (issueId: string) => void;
 }
 
-export function DependencyNodeGraph({ projectId }: DependencyNodeGraphProps) {
-  const { data: issuesResponse, isLoading } = useIssues(projectId || "");
+export function DependencyNodeGraph({
+  projectId,
+  selectedStatuses,
+  onIssueClick,
+}: DependencyNodeGraphProps) {
+  const { data: issuesResponse, isLoading } = useIssues(projectId || "", {
+    limit: APP_CONFIG.PAGINATION.MAX_LIMIT,
+  });
   const realIssues: Issue[] = useMemo(
     () => issuesResponse?.data?.data || [],
     [issuesResponse],
   );
 
+  const filteredRealIssues = useMemo(() => {
+    if (!selectedStatuses) return realIssues;
+    if (selectedStatuses.length === 0) return [];
+    return realIssues.filter((issue) =>
+      isStatusSelected(issue.status, selectedStatuses),
+    );
+  }, [realIssues, selectedStatuses]);
+
   const { initialNodes, initialEdges } = useMemo(() => {
-    if (!realIssues || realIssues.length === 0) {
+    if (!filteredRealIssues || filteredRealIssues.length === 0) {
       return { initialNodes: [], initialEdges: [] };
     }
 
-    const issueMap = new Map(realIssues.map((item) => [item.id, item]));
+    const issueMap = new Map(filteredRealIssues.map((item) => [item.id, item]));
 
     const rawEdges: {
       source: string;
@@ -56,7 +77,7 @@ export function DependencyNodeGraph({ projectId }: DependencyNodeGraphProps) {
       isSubtask: boolean;
     }[] = [];
 
-    realIssues.forEach((issue) => {
+    filteredRealIssues.forEach((issue) => {
       // Process explicit links
       if (Array.isArray(issue.links)) {
         issue.links.forEach((link) => {
@@ -93,22 +114,22 @@ export function DependencyNodeGraph({ projectId }: DependencyNodeGraphProps) {
 
     // 1. Calculate BFS levels with cycle protection
     const levelMap = new Map<string, number>();
-    realIssues.forEach((issue) => levelMap.set(issue.id, 0));
+    filteredRealIssues.forEach((issue) => levelMap.set(issue.id, 0));
 
     const targetsSet = new Set(rawEdges.map((e) => e.target));
     const visited = new Set<string>();
     const queue: { id: string; lvl: number }[] = [];
 
-    realIssues.forEach((issue) => {
+    filteredRealIssues.forEach((issue) => {
       if (!targetsSet.has(issue.id)) {
         queue.push({ id: issue.id, lvl: 0 });
         visited.add(issue.id);
       }
     });
 
-    if (queue.length === 0 && realIssues.length > 0) {
-      queue.push({ id: realIssues[0].id, lvl: 0 });
-      visited.add(realIssues[0].id);
+    if (queue.length === 0 && filteredRealIssues.length > 0) {
+      queue.push({ id: filteredRealIssues[0].id, lvl: 0 });
+      visited.add(filteredRealIssues[0].id);
     }
 
     let head = 0;
@@ -127,7 +148,7 @@ export function DependencyNodeGraph({ projectId }: DependencyNodeGraphProps) {
     }
 
     // Default remaining unvisited nodes
-    realIssues.forEach((issue) => {
+    filteredRealIssues.forEach((issue) => {
       if (!visited.has(issue.id)) {
         levelMap.set(issue.id, 0);
       }
@@ -139,7 +160,7 @@ export function DependencyNodeGraph({ projectId }: DependencyNodeGraphProps) {
     ).sort((a, b) => a - b);
 
     const columnNodes: Map<number, Issue[]> = new Map();
-    realIssues.forEach((issue) => {
+    filteredRealIssues.forEach((issue) => {
       const rawLvl = levelMap.get(issue.id) || 0;
       if (!columnNodes.has(rawLvl)) columnNodes.set(rawLvl, []);
       columnNodes.get(rawLvl)!.push(issue);
@@ -176,12 +197,14 @@ export function DependencyNodeGraph({ projectId }: DependencyNodeGraphProps) {
             y: 40 + subRow * ROW_HEIGHT,
           },
           data: {
+            issue,
             key: issue.issueKey || `TSK-${issue.id.slice(0, 4)}`,
             title: issue.summary || "Untitled Issue",
-            assignee: issue.assigneeId || "Chưa phân công",
-            avatar: undefined,
+            assignee: getAssigneeName(issue),
+            avatar: getAssigneeAvatar(issue),
             status: issue.status || "Todo",
             risk,
+            onIssueClick,
           },
         });
       });
@@ -259,7 +282,7 @@ export function DependencyNodeGraph({ projectId }: DependencyNodeGraphProps) {
     });
 
     return { initialNodes: mappedNodes, initialEdges: mappedEdges };
-  }, [realIssues]);
+  }, [filteredRealIssues, onIssueClick]);
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -376,6 +399,14 @@ export function DependencyNodeGraph({ projectId }: DependencyNodeGraphProps) {
           </h4>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-[11.5px] text-muted-foreground font-medium">
             <span className="flex items-center gap-1.5">
+              <span className="w-3 h-2.5 rounded border border-slate-300 dark:border-white/90 bg-white/10" />
+              <span>Task Cha (Viền Trắng)</span>
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-3 h-2.5 rounded border border-emerald-500 dark:border-emerald-400 bg-emerald-500/20" />
+              <span>Task Con (Viền Xanh)</span>
+            </span>
+            <span className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-rose-500" />
               <span>Critical Blocker</span>
             </span>
@@ -419,6 +450,11 @@ export function DependencyNodeGraph({ projectId }: DependencyNodeGraphProps) {
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
+            onNodeClick={(_, node) => {
+              if (onIssueClick && node.id) {
+                onIssueClick(node.id);
+              }
+            }}
             onNodeMouseEnter={onNodeMouseEnter}
             onNodeMouseLeave={onNodeMouseLeave}
             nodeTypes={nodeTypes}

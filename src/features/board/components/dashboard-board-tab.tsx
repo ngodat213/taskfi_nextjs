@@ -35,7 +35,10 @@ interface DashboardBoardTabProps {
   q: string;
   issues?: Issue[];
   isLoading?: boolean;
-  onIssueClick?: (issueId: string) => void;
+  onIssueClick?: (
+    issueId: string,
+    issueData?: { issueKey?: string; type?: string },
+  ) => void;
   onAddClick?: (status: string) => void;
 }
 

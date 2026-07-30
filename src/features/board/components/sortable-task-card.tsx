@@ -10,7 +10,10 @@ export function SortableTaskCard({
 }: {
   issue: Issue;
   isMobile: boolean;
-  onIssueClick?: (issueId: string) => void;
+  onIssueClick?: (
+    issueId: string,
+    issueData?: { issueKey?: string; type?: string },
+  ) => void;
 }) {
   const {
     attributes,

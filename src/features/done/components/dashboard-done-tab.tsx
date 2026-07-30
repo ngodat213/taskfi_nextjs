@@ -8,7 +8,10 @@ interface DashboardDoneTabProps {
   q: string;
   issues?: Issue[];
   isLoading?: boolean;
-  onIssueClick?: (issueId: string) => void;
+  onIssueClick?: (
+    issueId: string,
+    issueData?: { issueKey?: string; type?: string },
+  ) => void;
 }
 
 const EMPTY_ISSUES: Issue[] = [];

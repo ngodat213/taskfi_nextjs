@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { getInitials } from "@/utils/string";
 import { Tooltip } from "@/components/ui/feedback/tooltip";
-import { WarningCircleIcon, CaretUpIcon, EqualsIcon, CaretDownIcon } from "@phosphor-icons/react/dist/ssr";
 import { Badge } from "@/components/ui/data-display/badge";
+import { PriorityBadge } from "@/components/ui/data-display/priority-badge";
 import { Issue } from "@/types/issue.types";
 import { TypeIcon } from "@/features/dashboard/components/issue-table-row";
 import { useQueryClient } from "@tanstack/react-query";
@@ -14,27 +14,14 @@ interface TaskCardProps {
   onIssueClick?: (issueId: string) => void;
 }
 
-const TYPE_BADGE_VARIANTS: Record<string, "emerald" | "blue" | "red" | "slate"> = {
+const TYPE_BADGE_VARIANTS: Record<
+  string,
+  "emerald" | "blue" | "red" | "slate"
+> = {
   story: "emerald",
   task: "blue",
   bug: "red",
 };
-
-const PRIORITY_BADGE_VARIANTS: Record<string, "red" | "orange" | "amber" | "blue"> = {
-  critical: "red",
-  high: "orange",
-  medium: "amber",
-  low: "blue",
-};
-
-function PriorityIconComponent({ priority }: { priority: string }) {
-  const p = priority.toLowerCase();
-  if (p === "critical") return <WarningCircleIcon className="w-3 h-3" />;
-  if (p === "high") return <CaretUpIcon className="w-3 h-3" />;
-  if (p === "medium") return <EqualsIcon className="w-3 h-3" />;
-  if (p === "low") return <CaretDownIcon className="w-3 h-3" />;
-  return null;
-}
 
 export function TaskCard({ issue, onIssueClick }: TaskCardProps) {
   const queryClient = useQueryClient();
@@ -115,13 +102,7 @@ export function TaskCard({ issue, onIssueClick }: TaskCardProps) {
       </p>
 
       <div className="flex items-center justify-between mt-auto">
-        <Badge
-          variant={PRIORITY_BADGE_VARIANTS[priority.toLowerCase()] || "blue"}
-          className="uppercase tracking-wider text-[10px]"
-        >
-          <PriorityIconComponent priority={priority} />
-          {priority}
-        </Badge>
+        <PriorityBadge priority={priority} />
 
         <Tooltip
           content={

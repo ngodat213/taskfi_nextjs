@@ -28,7 +28,7 @@ export function AiChatSidebar() {
       </div>
 
       {/* Chat History */}
-      <div className="flex-1 overflow-y-auto py-6 flex flex-col gap-5 custom-scrollbar relative">
+      <div className="flex-1 overflow-y-auto py-6 flex flex-col gap-5 hide-scrollbar relative">
         {/* Divider */}
         <div className="flex items-center gap-3">
           <div className="flex-1 h-px bg-secondary" />

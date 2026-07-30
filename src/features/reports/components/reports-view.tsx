@@ -14,7 +14,13 @@ import {
 } from "@/components/ui/forms/segmented-control";
 import { Select } from "@/components/ui/forms/select";
 import { useGroups } from "@/features/workspace-settings/hooks/use-groups";
-import { DownloadSimpleIcon, UsersThreeIcon, CalendarCheckIcon, SquaresFourIcon } from "@phosphor-icons/react/dist/ssr";
+import { APP_CONFIG } from "@/config/app.config";
+import {
+  DownloadSimpleIcon,
+  UsersThreeIcon,
+  CalendarCheckIcon,
+  SquaresFourIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import { motion, AnimatePresence } from "framer-motion";
 import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
 
@@ -43,8 +49,10 @@ export function ReportsView() {
     useState<string>("Sprint 24 (Active)");
 
   // Fetch groups dynamically from workspace
-  const { data: groupsResponse } = useGroups();
-  const groups = groupsResponse?.data || [];
+  const { data: groupsResponse } = useGroups({
+    limit: APP_CONFIG.PAGINATION.MAX_LIMIT,
+  });
+  const groups = groupsResponse?.data?.data || [];
 
   // Get report dataset based on selected project & group
   const reportData = getReportDataByProject(selectedProject, selectedGroup);
@@ -64,7 +72,10 @@ export function ReportsView() {
                   size={ButtonSize.Sm}
                   className="gap-1.5 text-[12px] shadow-2xs"
                 >
-                  <DownloadSimpleIcon className="w-3.5 h-3.5" strokeWidth={2.5} />
+                  <DownloadSimpleIcon
+                    className="w-3.5 h-3.5"
+                    strokeWidth={2.5}
+                  />
                   Export Report
                 </Button>
               }

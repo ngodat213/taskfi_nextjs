@@ -12,11 +12,30 @@ export function normalizeIssueStatus(
   status?: string,
 ): "Todo" | "In Progress" | "In Review" | "Done" {
   if (!status) return "Todo";
-  const s = status.toLowerCase();
-  if (s === "done" || s === "completed") return "Done";
-  if (s === "in progress" || s === "in_progress") return "In Progress";
-  if (s === "in review" || s === "in_review") return "In Review";
+  const s = status.toLowerCase().replace(/[-_]/g, " ").trim();
+  if (s.includes("done") || s.includes("complete")) return "Done";
+  if (s.includes("progress") || s.includes("doing") || s.includes("dev"))
+    return "In Progress";
+  if (s.includes("review") || s.includes("testing") || s.includes("qa"))
+    return "In Review";
   return "Todo";
+}
+
+/**
+ * Checks whether an issue status matches selected status filters
+ */
+export function isStatusSelected(
+  issueStatus?: string,
+  selectedStatuses?: string[],
+): boolean {
+  if (!selectedStatuses) return true;
+  if (selectedStatuses.length === 0) return false;
+
+  const normIssueStatus = normalizeIssueStatus(issueStatus);
+
+  return selectedStatuses.some((sel) => {
+    return normalizeIssueStatus(sel) === normIssueStatus;
+  });
 }
 
 /**
@@ -66,9 +85,30 @@ export function formatDependencyLabel(linkType: string): string {
 /**
  * Maps raw API Issues into a structured list of DependencyItem
  */
+export function getAssigneeName(issue?: Issue | null): string {
+  if (!issue) return "Chưa phân công";
+  return (
+    issue.assignee?.name ||
+    (issue.assignee as unknown as { fullName?: string })?.fullName ||
+    issue.assignee?.username ||
+    issue.assignee?.email ||
+    (typeof issue.assigneeId === "string" ? issue.assigneeId : "") ||
+    "Chưa phân công"
+  );
+}
+
+export function getAssigneeAvatar(issue?: Issue | null): string | undefined {
+  if (!issue) return undefined;
+  return (
+    issue.assignee?.avatarUrl ||
+    (issue.assignee as unknown as { avatar?: string })?.avatar
+  );
+}
+
 export function mapIssuesToDependencies(issues: Issue[]): DependencyItem[] {
   if (!issues || issues.length === 0) return [];
-  const issueMap = new Map(issues.map((item) => [item.id, item]));
+
+  const issueMap = new Map(issues.map((i) => [i.id, i]));
   const items: DependencyItem[] = [];
 
   issues.forEach((issue) => {
@@ -87,16 +127,20 @@ export function mapIssuesToDependencies(issues: Issue[]): DependencyItem[] {
 
           items.push({
             id: `dep-${issue.id}-${target.id}-${idx}`,
+            sourceIssueId: issue.id,
             sourceIssueKey: issue.issueKey || `TSK-${issue.id.slice(0, 4)}`,
             sourceIssueSummary: issue.summary || "Untitled Issue",
-            sourceAssigneeName: issue.assigneeId || "Chưa phân công",
-            sourceAssigneeAvatar: undefined,
+            sourceType: issue.type,
+            sourceAssigneeName: getAssigneeName(issue),
+            sourceAssigneeAvatar: getAssigneeAvatar(issue),
             sourceStatus: normalizeIssueStatus(issue.status),
 
+            targetIssueId: target.id,
             targetIssueKey: target.issueKey || `TSK-${target.id.slice(0, 4)}`,
             targetIssueSummary: target.summary || "Untitled Issue",
-            targetAssigneeName: target.assigneeId || "Chưa phân công",
-            targetAssigneeAvatar: undefined,
+            targetType: target.type,
+            targetAssigneeName: getAssigneeName(target),
+            targetAssigneeAvatar: getAssigneeAvatar(target),
             targetStatus: normalizeIssueStatus(target.status),
 
             type,
@@ -113,16 +157,20 @@ export function mapIssuesToDependencies(issues: Issue[]): DependencyItem[] {
       if (parent) {
         items.push({
           id: `subtask-${parent.id}-${issue.id}`,
+          sourceIssueId: parent.id,
           sourceIssueKey: parent.issueKey || `TSK-${parent.id.slice(0, 4)}`,
           sourceIssueSummary: parent.summary || "Untitled Issue",
-          sourceAssigneeName: parent.assigneeId || "Chưa phân công",
-          sourceAssigneeAvatar: undefined,
+          sourceType: parent.type,
+          sourceAssigneeName: getAssigneeName(parent),
+          sourceAssigneeAvatar: getAssigneeAvatar(parent),
           sourceStatus: normalizeIssueStatus(parent.status),
 
+          targetIssueId: issue.id,
           targetIssueKey: issue.issueKey || `TSK-${issue.id.slice(0, 4)}`,
           targetIssueSummary: issue.summary || "Untitled Issue",
-          targetAssigneeName: issue.assigneeId || "Chưa phân công",
-          targetAssigneeAvatar: undefined,
+          targetType: issue.type,
+          targetAssigneeName: getAssigneeName(issue),
+          targetAssigneeAvatar: getAssigneeAvatar(issue),
           targetStatus: normalizeIssueStatus(issue.status),
 
           type: "relies_on",

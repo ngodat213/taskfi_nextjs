@@ -21,6 +21,7 @@ import { useTranslations } from "next-intl";
 import { TRANSLATION_KEYS } from "@/constants/translations";
 
 import { Project } from "@/types/project.types";
+import { APP_CONFIG } from "@/config/app.config";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -79,8 +80,10 @@ export function ProjectsView() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
 
-  const { data: groupsResponse, isLoading: isLoadingGroups } = useGroups();
-  const groups = groupsResponse?.data || [];
+  const { data: groupsResponse, isLoading: isLoadingGroups } = useGroups({
+    limit: APP_CONFIG.PAGINATION.MAX_LIMIT,
+  });
+  const groups = groupsResponse?.data?.data || [];
 
   let content = null;
   if (isLoadingGroups) {

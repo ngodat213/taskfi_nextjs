@@ -120,9 +120,11 @@ export function DatePicker({
   return (
     <div className="flex flex-col gap-1.5 relative w-full" ref={containerRef}>
       {label && (
-        <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
-          {label}
-        </span>
+        <div className="flex items-center justify-between min-h-4">
+          <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+            {label}
+          </span>
+        </div>
       )}
 
       <div className="relative w-full">
@@ -130,7 +132,7 @@ export function DatePicker({
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
           className={cn(
-            "h-8 text-[13px] w-full font-medium bg-card border border-border rounded-md px-2.5 text-foreground flex items-center justify-between transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 cursor-pointer group",
+            "h-9 text-[13px] w-full font-medium bg-card border border-border rounded-md px-2.5 text-foreground flex items-center justify-between transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 cursor-pointer group",
             errorMessage && "border-destructive focus:ring-destructive/20",
             className,
           )}

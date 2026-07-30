@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { GitForkIcon, ArrowRightIcon, WarningCircleIcon, CheckCircleIcon, LinkBreakIcon, PulseIcon } from "@phosphor-icons/react/dist/ssr";
+import {
+  GitForkIcon,
+  ArrowRightIcon,
+  WarningCircleIcon,
+  CheckCircleIcon,
+  LinkBreakIcon,
+  PulseIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import {
   DependencyItem,
   DependencyRiskLevel,
@@ -23,7 +30,12 @@ import { Modal, ModalContent, ModalHeader } from "@/components/ui/layout/modal";
 import { motion, type Variants } from "framer-motion";
 import { SPRING_CARD_VARIANTS } from "@/constants/animations";
 
-import { mapIssuesToDependencies } from "@/features/deps/utils/deps.utils";
+import {
+  mapIssuesToDependencies,
+  isStatusSelected,
+} from "@/features/deps/utils/deps.utils";
+
+import { APP_CONFIG } from "@/config/app.config";
 
 const depCardVariants: Variants = SPRING_CARD_VARIANTS;
 
@@ -35,8 +47,10 @@ interface DashboardDepsTabProps {
   onFilterRiskChange?: (risk: string) => void;
   searchQuery?: string;
   onSearchQueryChange?: (q: string) => void;
+  selectedStatuses?: string[];
   isAddModalOpen?: boolean;
   onAddModalOpenChange?: (open: boolean) => void;
+  onIssueClick?: (issueId: string) => void;
 }
 
 export function DashboardDepsTab({
@@ -44,10 +58,14 @@ export function DashboardDepsTab({
   viewMode = "graph",
   filterRisk = "all",
   searchQuery = "",
+  selectedStatuses,
   isAddModalOpen: externalIsAddModalOpen,
   onAddModalOpenChange,
+  onIssueClick,
 }: DashboardDepsTabProps) {
-  const { data: issuesResponse } = useIssues(projectId || "");
+  const { data: issuesResponse } = useIssues(projectId || "", {
+    limit: APP_CONFIG.PAGINATION.MAX_LIMIT,
+  });
   const realIssues: Issue[] = useMemo(
     () => issuesResponse?.data?.data || [],
     [issuesResponse],
@@ -97,9 +115,17 @@ export function DashboardDepsTab({
           .includes(searchQuery.toLowerCase()) ||
         dep.sourceIssueKey.toLowerCase().includes(searchQuery.toLowerCase()) ||
         dep.targetIssueKey.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesRisk && matchesSearch;
+
+      const matchesStatus = !selectedStatuses
+        ? true
+        : selectedStatuses.length === 0
+          ? false
+          : isStatusSelected(dep.sourceStatus, selectedStatuses) ||
+            isStatusSelected(dep.targetStatus, selectedStatuses);
+
+      return matchesRisk && matchesSearch && matchesStatus;
     });
-  }, [allDependencies, filterRisk, searchQuery]);
+  }, [allDependencies, filterRisk, searchQuery, selectedStatuses]);
 
   const handleAddDependency = (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,7 +172,13 @@ export function DashboardDepsTab({
   return (
     <div className="flex-1 overflow-y-auto px-6 py-5 flex flex-col gap-4">
       {/* VIEW MODE 1: VISUAL INTERACTIVE NODE GRAPH */}
-      {viewMode === "graph" && <DependencyNodeGraph projectId={projectId} />}
+      {viewMode === "graph" && (
+        <DependencyNodeGraph
+          projectId={projectId}
+          selectedStatuses={selectedStatuses}
+          onIssueClick={onIssueClick}
+        />
+      )}
 
       {/* VIEW MODE 2: LIST MATRIX CARDS */}
       {viewMode === "list" && (
@@ -168,10 +200,15 @@ export function DashboardDepsTab({
                 whileHover={{ y: -2, scale: 1.008 }}
                 whileTap={{ scale: 0.985 }}
                 transition={{ type: "spring", stiffness: 380, damping: 24 }}
-                className="bg-card border border-border/80 hover:border-primary/50 rounded-xl p-3.5 shadow-2xs hover:shadow-md transition-all duration-200 backdrop-blur-xs cursor-pointer flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3.5 group select-none overflow-hidden"
+                className="bg-card border border-border/80 hover:border-primary/50 rounded-xl p-3.5 shadow-2xs hover:shadow-md transition-all duration-200 backdrop-blur-xs flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3.5 group select-none overflow-hidden"
               >
                 {/* Left Side: Upstream / Blocker Task */}
-                <div className="flex-1 min-w-0 bg-secondary/30 border border-border/50 rounded-lg p-2.5 flex flex-col gap-1.5">
+                <div
+                  onClick={() =>
+                    dep.sourceIssueId && onIssueClick?.(dep.sourceIssueId)
+                  }
+                  className="flex-1 min-w-0 bg-secondary/30 border border-border/50 hover:border-primary/40 rounded-lg p-2.5 flex flex-col gap-1.5 cursor-pointer transition-colors"
+                >
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-[10.5px] font-semibold text-muted-foreground uppercase tracking-wider truncate">
                       Task Cần Xong Trước (Blocker)
@@ -236,7 +273,10 @@ export function DashboardDepsTab({
                 </div>
 
                 {/* Right Side: Downstream / Blocked Task */}
-                <div className="flex-1 min-w-0 bg-secondary/30 border border-border/50 rounded-lg p-2.5 flex flex-col gap-1.5">
+                <div
+                  onClick={() => dep.targetIssueId && onIssueClick?.(dep.targetIssueId)}
+                  className="flex-1 min-w-0 bg-secondary/30 border border-border/50 hover:border-primary/40 rounded-lg p-2.5 flex flex-col gap-1.5 cursor-pointer transition-colors"
+                >
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-[10.5px] font-semibold text-muted-foreground uppercase tracking-wider truncate">
                       Task Đang Phụ Thuộc (Blocked)

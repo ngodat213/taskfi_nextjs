@@ -8,11 +8,19 @@ import {
   CreateIssueRequest,
   UpdateIssueRequest,
   GetIssuesParams,
+  GetMyTasksParams,
 } from "@/types/issue.types";
 
-export type { GetIssuesParams };
+export type { GetIssuesParams, GetMyTasksParams };
 
 export const issueService = {
+  getMyTasks: async (workspaceId: string, params?: GetMyTasksParams) => {
+    return apiFetch<PaginatedResponse<Issue>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/my-tasks`,
+      { params },
+    );
+  },
+
   getIssuesByProject: async (projectId: string, params?: GetIssuesParams) => {
     return apiFetch<PaginatedResponse<Issue>>(
       `${API_ENDPOINTS.PROJECTS.BASE}/${projectId}/issues`,

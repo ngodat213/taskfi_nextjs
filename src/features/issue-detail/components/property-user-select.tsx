@@ -24,7 +24,7 @@ export function PropertyUserSelect({
 }: PropertyUserSelectProps) {
   return (
     <div className="flex flex-col gap-1.5 relative">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between min-h-4">
         <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
           {label}
         </span>
@@ -34,7 +34,7 @@ export function PropertyUserSelect({
         value={value}
         onChange={(val) => onChange(val || null)}
         className={cn(
-          "h-8 text-[13px] w-full font-medium",
+          "h-9 text-[13px] w-full font-medium",
           errorMessage && "border-destructive focus:ring-destructive/20",
         )}
       >

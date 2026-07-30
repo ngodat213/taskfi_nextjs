@@ -18,11 +18,13 @@ export function StoryPointsSelector({
   errorMessage,
 }: StoryPointsSelectorProps) {
   return (
-    <div className="flex flex-col gap-2 relative">
-      <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
-        {label}
-      </span>
-      <div className="grid grid-cols-4 gap-2 mt-0.5">
+    <div className="flex flex-col gap-1.5 relative">
+      <div className="flex items-center justify-between min-h-4">
+        <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+          {label}
+        </span>
+      </div>
+      <div className="grid grid-cols-4 gap-2">
         {STORY_POINT_OPTIONS.map((pt: StoryPointOption) => {
           const isSelected =
             value === pt.value ||

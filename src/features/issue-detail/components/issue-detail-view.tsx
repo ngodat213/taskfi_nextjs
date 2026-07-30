@@ -11,16 +11,31 @@ import { IssueSummaryInput } from "@/features/issue-detail/components/issue-summ
 import { useAutoError } from "@/hooks/use-auto-error";
 import { updateIssueSchema } from "@/features/issue-detail/schemas/issue-detail.schema";
 
+import { useEffect } from "react";
+import { motion } from "framer-motion";
+import { useNavigationStore } from "@/store/navigation.store";
+import {
+  STAGGER_CONTAINER_VARIANTS,
+  SLIDE_IN_LEFT_VARIANTS,
+  SLIDE_IN_RIGHT_VARIANTS,
+  FADE_SLIDE_UP_VARIANTS,
+} from "@/constants/animations";
+
 interface IssueDetailViewProps {
   projectId: string;
   issueId: string;
   onClose: () => void;
+  onIssueSelect?: (
+    issueId: string,
+    issueData?: { issueKey?: string; type?: string },
+  ) => void;
 }
 
 export function IssueDetailView({
   projectId,
   issueId,
   onClose,
+  onIssueSelect,
 }: IssueDetailViewProps) {
   const t = useTranslations("Dashboard");
   const TK = TRANSLATION_KEYS.DASHBOARD.IssueDetailView;
@@ -29,6 +44,26 @@ export function IssueDetailView({
   const issue = issueResponse?.data;
   const updateIssue = useUpdateIssue();
   const { fieldErrors, handleApiError, clearFieldError } = useAutoError();
+
+  useEffect(() => {
+    if (issue?.issueKey) {
+      const stack = useNavigationStore.getState().stack;
+      const lastItem = stack[stack.length - 1];
+      if (
+        lastItem &&
+        lastItem.id === `issue-${issueId}` &&
+        lastItem.name !== issue.issueKey
+      ) {
+        const newStack = [...stack];
+        newStack[newStack.length - 1] = {
+          ...lastItem,
+          name: issue.issueKey,
+          iconType: (issue.type || "task").toLowerCase(),
+        };
+        useNavigationStore.getState().setStack(newStack);
+      }
+    }
+  }, [issue?.issueKey, issue?.type, issueId]);
 
   const handleUpdate = (field: keyof Issue, value: unknown) => {
     if (!issue) return;
@@ -75,18 +110,28 @@ export function IssueDetailView({
   }
 
   return (
-    <div className="flex flex-col lg:flex-row h-full bg-transparent w-full animate-in fade-in duration-200 overflow-hidden">
+    <motion.div
+      variants={STAGGER_CONTAINER_VARIANTS}
+      initial="hidden"
+      animate="show"
+      className="flex flex-col lg:flex-row h-full bg-transparent w-full overflow-hidden"
+    >
       {/* AI Chatbox Sidebar (Left) */}
-      <AiChatSidebar />
+      <motion.div variants={SLIDE_IN_LEFT_VARIANTS} className="hidden lg:flex shrink-0">
+        <AiChatSidebar />
+      </motion.div>
 
       {/* Main Content Area (Right) */}
-      <div className="flex-1 h-full py-6 pl-6 pr-0 lg:py-8 lg:pl-6 lg:pr-0 bg-transparent overflow-hidden flex flex-col">
+      <motion.div
+        variants={FADE_SLIDE_UP_VARIANTS}
+        className="flex-1 h-full py-6 pl-6 pr-0 lg:py-8 lg:pl-6 lg:pr-0 bg-transparent overflow-hidden flex flex-col"
+      >
         <div className="flex flex-col gap-6 w-full h-full">
           {/* Main Issue Card */}
           <div className="w-full h-full bg-card/60 backdrop-blur-md rounded-l-xl border border-border/50 flex flex-col overflow-hidden shadow-sm">
-            <div className="p-6 md:p-8 flex flex-col gap-5 overflow-y-auto custom-scrollbar flex-1">
+            <div className="p-6 md:p-8 flex flex-col gap-5 overflow-y-auto hide-scrollbar flex-1">
               {/* Header */}
-              <div>
+              <motion.div variants={FADE_SLIDE_UP_VARIANTS}>
                 <div className="flex items-center gap-2 mb-2">
                   <TypeIcon
                     type={issue.type as IssueType}
@@ -105,7 +150,7 @@ export function IssueDetailView({
                   errorMessage={fieldErrors["summary"]}
                   isDone={(issue.status || "").toLowerCase() === "done"}
                 />
-              </div>
+              </motion.div>
 
               {/* Main Grid */}
               <div className="flex flex-col-reverse 2xl:flex-row gap-5 2xl:gap-12 w-full">
@@ -114,20 +159,24 @@ export function IssueDetailView({
                   projectId={projectId}
                   onUpdate={handleUpdate}
                   fieldErrors={fieldErrors}
+                  onIssueSelect={onIssueSelect}
                 />
 
-                <div className="w-full 2xl:w-75 shrink-0">
+                <motion.div
+                  variants={SLIDE_IN_RIGHT_VARIANTS}
+                  className="w-full 2xl:w-75 shrink-0"
+                >
                   <IssueProperties
                     issue={issue}
                     onUpdate={handleUpdate}
                     fieldErrors={fieldErrors}
                   />
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

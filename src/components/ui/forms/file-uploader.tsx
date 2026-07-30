@@ -1,14 +1,20 @@
 "use client";
-import { CloudArrowUpIcon, XIcon, FileIcon as FileIcon } from "@phosphor-icons/react/dist/ssr";
+import {
+  CloudArrowUpIcon,
+  XIcon,
+  FileIcon,
+  FolderIcon,
+} from "@phosphor-icons/react/dist/ssr";
 
 import React, { useRef, useState } from "react";
-;
 import { cn } from "@/utils/cn";
 import { InputLabel } from "./input-label";
+import { DocumentPickerModal } from "@/features/documents/components/document-picker-modal";
+import { DocumentItem } from "@/features/documents/types/documents.types";
 
 export interface FileUploaderProps {
   label?: string;
-  value: string[]; // URLs or file names
+  value: string[];
   onChange: (urls: string[]) => void;
   className?: string;
 }
@@ -21,6 +27,7 @@ export function FileUploader({
 }: FileUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -29,10 +36,13 @@ export function FileUploader({
   };
 
   const handleFiles = (files: File[]) => {
-    // In a real app, you would upload these files to a server here
-    // and get back the URLs. We will mock the URLs with file names for now.
     const newUrls = files.map((f) => URL.createObjectURL(f));
     onChange([...value, ...newUrls]);
+  };
+
+  const handleSelectDocsFromPicker = (selectedDocs: DocumentItem[]) => {
+    const newDocTitles = selectedDocs.map((d) => d.title);
+    onChange([...value, ...newDocTitles]);
   };
 
   const handleRemove = (urlToRemove: string) => {
@@ -59,7 +69,17 @@ export function FileUploader({
 
   return (
     <div className={cn("flex flex-col gap-2", className)}>
-      {label && <InputLabel>{label}</InputLabel>}
+      <div className="flex items-center justify-between">
+        {label && <InputLabel>{label}</InputLabel>}
+        <button
+          type="button"
+          onClick={() => setIsPickerOpen(true)}
+          className="flex items-center gap-1.5 text-[11px] font-semibold text-primary hover:text-primary/80 transition-colors cursor-pointer bg-primary/10 hover:bg-primary/15 px-2 py-0.5 rounded-lg"
+        >
+          <FolderIcon className="w-3.5 h-3.5" />
+          <span>Browse Project Docs</span>
+        </button>
+      </div>
 
       <div
         className={cn(
@@ -99,14 +119,14 @@ export function FileUploader({
           {value.map((url, idx) => (
             <div
               key={idx}
-              className="flex items-center justify-between p-2.5 rounded-lg border border-border bg-card shadow-sm"
+              className="flex items-center justify-between p-2.5 rounded-lg border border-border bg-card shadow-2xs"
             >
               <div className="flex items-center gap-2.5 overflow-hidden">
-                <div className="w-8 h-8 rounded bg-blue-50 flex items-center justify-center text-blue-600 flex-shrink-0">
+                <div className="w-8 h-8 rounded bg-primary/10 flex items-center justify-center text-primary shrink-0">
                   <FileIcon className="w-4 h-4" />
                 </div>
-                <span className="text-sm font-medium text-foreground truncate">
-                  Attachment {idx + 1}
+                <span className="text-xs font-semibold text-foreground truncate">
+                  {url.startsWith("blob:") ? `Attachment ${idx + 1}` : url}
                 </span>
               </div>
               <button
@@ -123,6 +143,12 @@ export function FileUploader({
           ))}
         </div>
       )}
+
+      <DocumentPickerModal
+        isOpen={isPickerOpen}
+        onClose={() => setIsPickerOpen(false)}
+        onSelectDocuments={handleSelectDocsFromPicker}
+      />
     </div>
   );
 }

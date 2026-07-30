@@ -9,6 +9,8 @@ import {
 } from "@/features/projects/hooks/use-issues";
 import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { IssueItemCard } from "@/features/issue-detail/components/issue-item-card";
+import { motion, AnimatePresence } from "framer-motion";
+import { STAGGER_CONTAINER_VARIANTS, SPRING_CARD_VARIANTS } from "@/constants/animations";
 import { Issue, IssueLinkType } from "@/types/issue.types";
 import { SearchSelect } from "@/components/ui/forms/search-select";
 import {
@@ -26,12 +28,14 @@ interface IssueLinkedIssuesProps {
   projectId: string;
   issue: Issue;
   onUpdate: (field: keyof Issue, value: unknown) => void;
+  onIssueSelect?: (issueId: string) => void;
 }
 
 export function IssueLinkedIssues({
   projectId,
   issue,
   onUpdate,
+  onIssueSelect,
 }: IssueLinkedIssuesProps) {
   const t = useTranslations("Dashboard");
   const TK = TRANSLATION_KEYS.DASHBOARD.IssueLinkedIssues;
@@ -119,15 +123,15 @@ export function IssueLinkedIssues({
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-2">
-        <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+    <div className="flex flex-col gap-1.5 relative">
+      <div className="flex items-center justify-between min-h-4">
+        <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
           {t(TK.title)}
-        </h3>
+        </span>
       </div>
 
       {/* Relationship + Target Issue SearchSelect + Apply Button */}
-      <div className="flex flex-col sm:flex-row gap-2 mb-3 items-stretch sm:items-center relative">
+      <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center relative">
         <div className="w-full sm:flex-1 min-w-0">
           <SearchSelect
             options={targetIssueOptions}
@@ -159,15 +163,24 @@ export function IssueLinkedIssues({
 
       {/* Linked Issues List */}
       {validLinkedIssues.length > 0 ? (
-        <div className="flex flex-col gap-1.5 p-2 bg-muted/50 rounded-xl border border-border/60">
-          {validLinkedIssues.map((linkedIssue) => (
-            <IssueItemCard
-              key={linkedIssue.id}
-              issue={linkedIssue}
-              onRemove={() => handleRemoveLink(linkedIssue.id)}
-            />
-          ))}
-        </div>
+        <motion.div
+          variants={STAGGER_CONTAINER_VARIANTS}
+          initial="hidden"
+          animate="show"
+          className="flex flex-col gap-1.5 p-2 bg-muted/50 rounded-xl border border-border/60"
+        >
+          <AnimatePresence mode="popLayout">
+            {validLinkedIssues.map((linkedIssue) => (
+              <motion.div key={linkedIssue.id} variants={SPRING_CARD_VARIANTS} layout>
+                <IssueItemCard
+                  issue={linkedIssue}
+                  onRemove={() => handleRemoveLink(linkedIssue.id)}
+                  onClick={() => onIssueSelect?.(linkedIssue.id)}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       ) : (
         <EmptyState
           title={t(TK.emptyTitle)}

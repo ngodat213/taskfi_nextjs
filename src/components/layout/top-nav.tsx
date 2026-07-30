@@ -1,60 +1,224 @@
 "use client";
 
-import { BellIcon, QuestionIcon, MagnifyingGlassIcon, ListIcon, CaretLeftIcon, CaretRightIcon, SunIcon, MoonIcon } from "@phosphor-icons/react/dist/ssr";
+import {
+  BellIcon,
+  QuestionIcon,
+  MagnifyingGlassIcon,
+  ListIcon,
+  CaretLeftIcon,
+  CaretRightIcon,
+  SunIcon,
+  MoonIcon,
+} from "@phosphor-icons/react/dist/ssr";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
 import { cn } from "@/utils/cn";
 import React, { useEffect, useState, useMemo } from "react";
-import { useProject } from "@/features/projects/hooks/use-project";
-import { useIssue } from "@/features/projects/hooks/use-issues";
 import { TypeIcon } from "@/features/dashboard/components/issue-table-row";
 import { Issue } from "@/types/issue.types";
-import { useNavigationStore } from "@/store/navigation.store";
+import { useQueryClient } from "@tanstack/react-query";
+import { useProject } from "@/features/projects/hooks/use-project";
+import { useIssue } from "@/features/projects/hooks/use-issues";
 import { NotificationsDrawer } from "@/components/layout/notifications-drawer";
+
+import { motion, AnimatePresence, Variants } from "framer-motion";
+
+interface BreadcrumbNode {
+  id: string;
+  name: string;
+  href: string;
+  iconType?: string;
+}
+
+const breadcrumbContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.04,
+    },
+  },
+};
+
+const breadcrumbItemVariants: Variants = {
+  hidden: { opacity: 0, x: -8, scale: 0.95 },
+  show: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 420,
+      damping: 26,
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: -8,
+    scale: 0.95,
+    transition: {
+      duration: 0.15,
+    },
+  },
+};
+
+function findIssueInCache(
+  queries: [unknown, unknown][],
+  issueId: string,
+): Issue | null {
+  for (const [, queryData] of queries) {
+    const raw = (queryData as { data?: unknown })?.data;
+    if (!raw) continue;
+    const list: Issue[] = Array.isArray(raw)
+      ? (raw as Issue[])
+      : Array.isArray((raw as { data?: Issue[] })?.data)
+        ? (raw as { data: Issue[] }).data
+        : [raw as Issue];
+    const match = list.find((i) => i && i.id === issueId);
+    if (match) return match;
+  }
+  return null;
+}
 
 export function TopNav({ onMenuClick }: { onMenuClick?: () => void }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const segments = pathname.split("/").filter(Boolean);
+  const queryClient = useQueryClient();
 
-  const stack = useNavigationStore((state) => state.stack);
-  const popNav = useNavigationStore((state) => state.pop);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-
-  const activeSubNav = useMemo(() => {
-    return stack.find(
-      (item) => item.backLink === "/docs" || item.backLink === pathname,
-    );
-  }, [stack, pathname]);
-
-  const breadcrumbSegments = segments.filter(
-    (seg, index) => !(index === 0 && /^[a-z]{2}(-[A-Z]{2})?$/.test(seg)),
-  );
-
-  const projectIndex = breadcrumbSegments.findIndex(
-    (seg) => seg === "projects",
-  );
-  const projectId =
-    projectIndex !== -1 && projectIndex + 1 < breadcrumbSegments.length
-      ? breadcrumbSegments[projectIndex + 1]
-      : undefined;
-
-  const { data: projectResponse, isLoading: isLoadingProject } =
-    useProject(projectId);
-  const project = projectResponse?.data;
-
-  const issueId = searchParams.get("issueId");
-  const { data: issueResponse } = useIssue(projectId || "", issueId || "");
-  const issue = issueResponse?.data;
-
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 0);
     return () => clearTimeout(timer);
   }, []);
+
+  const cleanPathname = useMemo(() => {
+    return pathname.replace(/^\/[a-z]{2}(-[A-Z]{2})?/, "") || "/";
+  }, [pathname]);
+
+  const projectMatch = useMemo(() => {
+    return cleanPathname.match(/^\/projects\/([^/]+)/);
+  }, [cleanPathname]);
+
+  const projectId = projectMatch ? projectMatch[1] : undefined;
+  const { data: projectResponse } = useProject(projectId);
+  const project = projectResponse?.data;
+
+  const issueId = searchParams.get("issueId");
+  const retroId = searchParams.get("retroId");
+  const { data: issueResponse } = useIssue(projectId || "", issueId || "");
+  const issue = issueResponse?.data;
+
+  // Synchronous 0ms React Query Cache Lookup for Issue Data
+  const cachedIssue = useMemo(() => {
+    if (!projectId || !issueId) return null;
+    const queries = queryClient.getQueriesData<unknown>({
+      queryKey: ["issues", projectId],
+    });
+    return findIssueInCache(queries, issueId);
+  }, [projectId, issueId, queryClient]);
+
+  const targetIssue = issue || cachedIssue;
+
+  // Compute Breadcrumb Stack Automatically & Synchronously from URL & Data
+  const stack = useMemo(() => {
+    if (cleanPathname === "/workspaces") {
+      return [
+        {
+          id: "workspaces",
+          name: "Workspaces",
+          href: "/workspaces",
+        },
+      ];
+    }
+
+    if (cleanPathname === "/" || cleanPathname === "") {
+      return [
+        {
+          id: "projects-root",
+          name: "Projects",
+          href: "/",
+        },
+      ];
+    }
+
+    if (projectId) {
+      const projectTitle = project?.name || "Project Detail";
+      const items: BreadcrumbNode[] = [
+        {
+          id: "projects-root",
+          name: "Projects",
+          href: "/",
+        },
+        {
+          id: `project-${projectId}`,
+          name: projectTitle,
+          href: `/projects/${projectId}`,
+        },
+      ];
+
+      if (issueId) {
+        const issueKey = targetIssue?.issueKey || "Loading...";
+        items.push({
+          id: `issue-${issueId}`,
+          name: issueKey,
+          href: `/projects/${projectId}?issueId=${issueId}`,
+          iconType: (targetIssue?.type || "task").toLowerCase(),
+        });
+      } else if (retroId) {
+        items.push({
+          id: `retro-${retroId}`,
+          name: "Retro Detail",
+          href: `/projects/${projectId}?retroId=${retroId}`,
+        });
+      }
+
+      return items;
+    }
+
+    const featureNames: Record<string, string> = {
+      "/my-tasks": "My Tasks",
+      "/calendar": "Calendar",
+      "/docs": "Documents",
+      "/timeline": "Timeline",
+      "/backlog": "Backlog",
+      "/active-sprints": "Active Sprints",
+      "/reports": "Reports",
+      "/issues": "Issues",
+      "/user-settings": "User Settings",
+      "/workspace-settings": "Workspace Settings",
+      "/retros": "Retrospectives",
+    };
+
+    const title =
+      featureNames[cleanPathname] ||
+      cleanPathname.replace(/^\//, "").replace(/-/g, " ");
+
+    return [
+      {
+        id: `feature-${cleanPathname}`,
+        name: title,
+        href: cleanPathname,
+      },
+    ];
+  }, [
+    cleanPathname,
+    projectId,
+    project?.name,
+    issueId,
+    retroId,
+    targetIssue?.issueKey,
+    targetIssue?.type,
+  ]);
+
+  const handleBreadcrumbClick = (item: BreadcrumbNode, isLast: boolean) => {
+    if (isLast) return;
+    router.push(item.href);
+  };
 
   return (
     <>
@@ -69,128 +233,82 @@ export function TopNav({ onMenuClick }: { onMenuClick?: () => void }) {
           </button>
         </div>
 
-        {/* Left section - Breadcrumbs (Desktop) */}
+        {/* Left section - Native Browser Navigation & Auto Breadcrumbs */}
         <div className="hidden md:flex items-center gap-4 text-[14px] font-medium ml-2">
           <div className="flex items-center gap-1.5">
-            <button
-              onClick={() => {
-                if (activeSubNav) {
-                  popNav();
-                } else if (issueId) {
-                  const params = new URLSearchParams(searchParams.toString());
-                  params.delete("issueId");
-                  router.replace(`${pathname}?${params.toString()}`);
-                } else {
-                  router.back();
-                }
-              }}
-              className="p-1 rounded hover:bg-secondary text-foreground transition-colors cursor-pointer"
+            <motion.button
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.88 }}
+              onClick={() => router.back()}
+              className="p-1 rounded transition-colors cursor-pointer text-foreground hover:bg-secondary"
               title="Go back"
             >
               <CaretLeftIcon className="w-5 h-5" strokeWidth={2} />
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.88 }}
               onClick={() => router.forward()}
-              className="p-1 rounded hover:bg-secondary text-foreground transition-colors cursor-pointer"
+              className="p-1 rounded transition-colors cursor-pointer text-foreground hover:bg-secondary"
               title="Go forward"
             >
               <CaretRightIcon className="w-5 h-5" strokeWidth={2} />
-            </button>
+            </motion.button>
           </div>
 
-          <div className="flex items-center gap-1">
-            {breadcrumbSegments.length === 0 ? (
-              <div className="flex items-center gap-2 px-2 py-1.5 text-foreground">
-                <span>Home</span>
-              </div>
-            ) : (
-              <>
-                {breadcrumbSegments.map((seg, index) => {
-                  const isLast =
-                    index === breadcrumbSegments.length - 1 &&
-                    !issueId &&
-                    !activeSubNav;
-                  const isProjectIdSeg = index === projectIndex + 1;
+          <motion.div
+            variants={breadcrumbContainerVariants}
+            initial="hidden"
+            animate="show"
+            className="flex items-center gap-1"
+          >
+            <AnimatePresence mode="popLayout">
+              {stack.map((item, index) => {
+                const isLast = index === stack.length - 1;
 
-                  let title =
-                    seg.charAt(0).toUpperCase() +
-                    seg.slice(1).replace(/-/g, " ");
-
-                  if (isProjectIdSeg) {
-                    if (isLoadingProject) {
-                      title = "";
-                    } else if (project?.name) {
-                      title = project.name;
-                    }
-                  }
-
-                  const targetPath =
-                    "/" +
-                    segments.slice(0, segments.indexOf(seg) + 1).join("/");
-
-                  return (
-                    <React.Fragment key={seg}>
-                      <div
-                        onClick={() => {
-                          if (activeSubNav) {
-                            popNav();
-                          }
-                          if (issueId && isProjectIdSeg) {
-                            const params = new URLSearchParams(
-                              searchParams.toString(),
-                            );
-                            params.delete("issueId");
-                            router.push(`${targetPath}?${params.toString()}`);
-                          } else {
-                            router.push(targetPath);
-                          }
-                        }}
-                        className="flex items-center gap-2 hover:bg-secondary px-2 py-1.5 rounded-md transition-colors cursor-pointer text-foreground"
-                      >
-                        <span
-                          className={cn(
-                            !isProjectIdSeg && "capitalize",
-                            isLast
-                              ? "text-foreground font-bold"
-                              : "text-muted-foreground",
-                          )}
-                        >
-                          {title}
-                        </span>
-                      </div>
-                      {(!isLast || issueId || activeSubNav) && (
-                        <span className="text-muted-foreground font-light px-1">
-                          /
-                        </span>
+                return (
+                  <motion.div
+                    key={item.id || `${item.name}-${index}`}
+                    layout
+                    variants={breadcrumbItemVariants}
+                    initial="hidden"
+                    animate="show"
+                    exit="exit"
+                    className="flex items-center gap-1"
+                  >
+                    <motion.div
+                      whileHover={!isLast ? { scale: 1.03, y: -1 } : undefined}
+                      whileTap={!isLast ? { scale: 0.96 } : undefined}
+                      onClick={() => handleBreadcrumbClick(item, isLast)}
+                      className={cn(
+                        "flex items-center gap-1.5 px-2 py-1.5 rounded-md transition-colors text-foreground select-none",
+                        !isLast && "hover:bg-secondary cursor-pointer",
                       )}
-                    </React.Fragment>
-                  );
-                })}
-
-                {/* Append Active Sub Navigation item (e.g., Folder Name) */}
-                {activeSubNav && (
-                  <div className="flex items-center gap-2 hover:bg-secondary px-2 py-1.5 rounded-md transition-colors text-foreground font-bold">
-                    <span>{activeSubNav.name}</span>
-                  </div>
-                )}
-
-                {/* Append Issue Key if present */}
-                {issueId && issue && (
-                  <div className="flex items-center gap-2 hover:bg-secondary px-2 py-1.5 rounded-md transition-colors cursor-pointer text-foreground">
-                    <div className="flex items-center gap-1.5 text-foreground font-medium">
-                      <TypeIcon
-                        type={
-                          (issue.type || "task").toLowerCase() as Issue["type"]
-                        }
-                        className="w-4 h-4"
-                      />
-                      <span>{issue.issueKey || issue.id}</span>
-                    </div>
-                  </div>
-                )}
-              </>
-            )}
-          </div>
+                    >
+                      {item.iconType && (
+                        <TypeIcon
+                          type={item.iconType as Issue["type"]}
+                          className="w-4 h-4 shrink-0"
+                        />
+                      )}
+                      <span
+                        className={cn(
+                          isLast
+                            ? "text-foreground font-bold"
+                            : "text-muted-foreground",
+                        )}
+                      >
+                        {item.name}
+                      </span>
+                    </motion.div>
+                    {!isLast && (
+                      <CaretRightIcon className="w-3.5 h-3.5 text-muted-foreground/40 shrink-0 select-none mx-0.5" />
+                    )}
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </motion.div>
         </div>
 
         {/* Right Section Header Controls */}

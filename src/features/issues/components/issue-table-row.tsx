@@ -12,6 +12,7 @@ import {
   STATUS_VARIANT_MAP,
 } from "@/features/issues/constants/issue-ui.constants";
 import { Badge } from "@/components/ui/data-display/badge";
+import { PriorityBadge } from "@/components/ui/data-display/priority-badge";
 
 export const TypeIcon = ({
   type,
@@ -75,7 +76,10 @@ export interface IssueRowProps {
   isLastChildArray?: boolean[];
   expanded: Record<string, boolean>;
   toggleExpand: (id: string, e: React.MouseEvent) => void;
-  onIssueClick?: (issueId: string) => void;
+  onIssueClick?: (
+    issueId: string,
+    issueData?: { issueKey?: string; type?: string },
+  ) => void;
 }
 
 export const IssueRow = ({
@@ -105,9 +109,10 @@ export const IssueRow = ({
           depth > 0 ? "bg-muted/40 hover:bg-secondary/50" : "hover:bg-muted/50",
         )}
         onClick={(e) => {
-          if (onIssueClick && !hasChildren) {
-            onIssueClick(issue.id);
-          } else if (hasChildren) {
+          if (onIssueClick) {
+            onIssueClick(issue.id, issue);
+          }
+          if (hasChildren) {
             toggleExpand(issue.id, e);
           }
         }}
@@ -199,12 +204,7 @@ export const IssueRow = ({
           )}
         </TableCell>
         <TableCell>
-          <div className="flex items-center gap-1.5">
-            <PriorityIcon priority={issue.priority} className="w-4 h-4" />
-            <span className="text-muted-foreground font-medium text-[12.5px]">
-              {issue.priority}
-            </span>
-          </div>
+          <PriorityBadge priority={issue.priority} />
         </TableCell>
         <TableCell className="text-right pr-4">
           <Tooltip

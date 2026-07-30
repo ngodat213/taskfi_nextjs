@@ -1,7 +1,7 @@
 import { UserResponseDto } from "@/types/auth.types";
 import { PaginationParams } from "@/types/api.types";
 
-export type IssueType = string;
+export type IssueType = (typeof IssueType)[keyof typeof IssueType] | string;
 export const IssueType = {
   EPIC: "epic",
   STORY: "story",
@@ -10,7 +10,7 @@ export const IssueType = {
   SUBTASK: "subtask",
 } as const;
 
-export type IssueStatus = string;
+export type IssueStatus = (typeof IssueStatus)[keyof typeof IssueStatus] | string;
 export const IssueStatus = {
   TODO: "To Do",
   IN_PROGRESS: "In Progress",
@@ -18,7 +18,7 @@ export const IssueStatus = {
   DONE: "Done",
 } as const;
 
-export type IssuePriority = string;
+export type IssuePriority = (typeof IssuePriority)[keyof typeof IssuePriority] | string;
 export const IssuePriority = {
   CRITICAL: "Critical",
   HIGH: "High",
@@ -92,26 +92,36 @@ export interface IssueUser {
   } | null;
 }
 
+export interface IssueProject {
+  id: string;
+  name: string;
+  key: string;
+  workspaceId?: string;
+  avatarUrl?: string;
+  logoUrl?: string;
+}
+
 export interface Issue {
   id: string;
   projectId: string;
+  project?: IssueProject;
   issueKey: string;
   type: IssueType | string;
   status: IssueStatus | string;
   summary: string;
-  description: string;
+  description?: string;
   reporterId: string;
   reporter?: IssueUser;
-  assigneeId: string;
+  assigneeId?: string;
   assignee?: IssueUser;
   priority: IssuePriority | string;
   parentId?: string | null;
   sprintId?: string;
-  storyPoints: number;
-  originalEstimateSeconds: number;
-  remainingEstimateSeconds: number;
-  timeSpentSeconds: number;
-  dueDate: string;
+  storyPoints?: number;
+  originalEstimateSeconds?: number;
+  remainingEstimateSeconds?: number;
+  timeSpentSeconds?: number;
+  dueDate?: string | null;
   links?: (IssueLink | string)[];
   attachments?: (IssueAttachment | string)[];
   createdAt?: string;
@@ -148,6 +158,14 @@ export interface GetIssuesParams extends PaginationParams {
   priority?: string;
   hasParent?: boolean;
   childType?: string;
+}
+
+export interface GetMyTasksParams extends PaginationParams {
+  projectId?: string;
+  search?: string;
+  type?: string;
+  status?: string;
+  priority?: string;
 }
 
 export interface IssueActivityUser {
