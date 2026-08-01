@@ -28,16 +28,10 @@ export function PriorityBadge({
   const variant = PRIORITY_VARIANT_MAP[priorityKey] || "slate";
 
   return (
-    <Badge
-      variant={variant}
-      className={cn(
-        "gap-1.5 uppercase font-bold tracking-wider text-[10.5px]",
-        className,
-      )}
-    >
+    <Badge variant={variant} className={cn("capitalize", className)}>
       {PriorityIconComp && (
         <PriorityIconComp
-          className={cn("w-3.5 h-3.5", priorityConf?.colorClass)}
+          className={cn("w-3.5 h-3.5 shrink-0", priorityConf?.colorClass)}
         />
       )}
       <span>{priority}</span>

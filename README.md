@@ -1,13 +1,5 @@
 # 🚀 TaskFi - Modern Project Management & Task Platform
 
-[![Next.js 15](https://img.shields.io/badge/Next.js-15.0-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
-[![React 19](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.0-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![Framer Motion](https://img.shields.io/badge/Framer_Motion-11.0-black?style=for-the-badge&logo=framer&logoColor=blue)](https://www.framer.com/motion/)
-[![Zustand](https://img.shields.io/badge/Zustand-State_Management-orange?style=for-the-badge)](https://github.com/pmndrs/zustand)
-[![i18n](https://img.shields.io/badge/next--intl-Multilingual-emerald?style=for-the-badge)](https://next-intl-docs.vercel.app/)
-
 > **TaskFi** là một hệ thống ứng dụng web quản lý dự án và công việc cao cấp thế hệ mới, tích hợp công nghệ **Next.js 15 App Router**, giao diện **Glassmorphism & Pill UI**, hệ thống bộ lọc nâng cao, quản lý tài liệu và lịch trình thời gian thực.
 
 ---

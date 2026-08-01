@@ -121,6 +121,8 @@ const MenuBar = ({
   );
 };
 
+import { marked } from "marked";
+
 export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
   ({ className, value, onChange, onBlur, placeholder, rightAction }, ref) => {
     const editor = useEditor({
@@ -151,6 +153,23 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
         },
       },
     });
+
+    // 🔹 Sync value prop with TipTap editor instance when value changes externally
+    React.useEffect(() => {
+      if (!editor || value === undefined) return;
+
+      const currentHTML = editor.getHTML();
+      // If value is markdown string, parse to HTML so TipTap renders rich elements
+      const targetContent =
+        typeof value === "string" &&
+        (value.includes("#") || value.includes("*") || value.includes("\n") || value.includes("- "))
+          ? (marked.parse(value) as string)
+          : value;
+
+      if (currentHTML !== targetContent && currentHTML !== value) {
+        editor.commands.setContent(targetContent || "", { emitUpdate: false });
+      }
+    }, [editor, value]);
 
     return (
       <div

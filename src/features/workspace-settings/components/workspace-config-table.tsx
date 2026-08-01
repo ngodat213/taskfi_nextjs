@@ -50,6 +50,7 @@ import {
   StatusBadge,
   TypeIcon,
 } from "@/features/dashboard/components/issue-table-row";
+import { TypeBadge } from "@/components/ui/data-display/type-badge";
 import {
   Button,
   ButtonVariant,
@@ -217,6 +218,19 @@ function SortableTypeRow({
         </span>
       </TableCell>
       <TableCell>
+        <div className="flex items-center gap-2">
+          <span
+            className="w-3.5 h-3.5 rounded-full border border-black/10 shrink-0"
+            style={{
+              backgroundColor: type.color || "#3b82f6",
+            }}
+          />
+          <span className="text-[12px] font-mono text-muted-foreground">
+            {type.color || "#3b82f6"}
+          </span>
+        </div>
+      </TableCell>
+      <TableCell>
         <span className="text-[12px] text-muted-foreground">
           {type.description || "—"}
         </span>
@@ -241,10 +255,7 @@ function SortableTypeRow({
         </div>
       </TableCell>
       <TableCell>
-        <div className="flex items-center gap-1.5 text-[12px] font-medium">
-          <TypeIcon type={type.name} className="w-3.5 h-3.5" />
-          <span>{type.name}</span>
-        </div>
+        <TypeBadge type={type.name} color={type.color} />
       </TableCell>
       <TableCell className="text-right pr-4">
         <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -410,6 +421,7 @@ export function WorkspaceConfigTable() {
     setTypeForm({
       no: issueTypes.length + 1,
       name: "",
+      color: "#3b82f6",
       icon: "task",
       description: "",
       allowedParentTypes: [],
@@ -626,6 +638,7 @@ export function WorkspaceConfigTable() {
                       <TableHead className="w-12 px-2">#</TableHead>
                       <TableHead className="w-40">Type Name</TableHead>
                       <TableHead className="w-28">Icon</TableHead>
+                      <TableHead className="w-28">Color</TableHead>
                       <TableHead>Description</TableHead>
                       <TableHead>Allowed Parent Types</TableHead>
                       <TableHead className="w-28">Preview</TableHead>
@@ -802,6 +815,27 @@ export function WorkspaceConfigTable() {
                   <option value="bug">bug (Bug)</option>
                   <option value="subtask">subtask (Corner Arrow)</option>
                 </Select>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <InputLabel>Color Hex Code</InputLabel>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="color"
+                    value={typeForm.color || "#3b82f6"}
+                    onChange={(e) =>
+                      setTypeForm((p) => ({ ...p, color: e.target.value }))
+                    }
+                    className="w-9 h-9 p-0.5 rounded cursor-pointer border border-border bg-card"
+                  />
+                  <Input
+                    value={typeForm.color || ""}
+                    onChange={(e) =>
+                      setTypeForm((p) => ({ ...p, color: e.target.value }))
+                    }
+                    placeholder="#3b82f6"
+                  />
+                </div>
               </div>
 
               <div className="flex flex-col gap-1.5">

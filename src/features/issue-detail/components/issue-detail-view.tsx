@@ -4,7 +4,6 @@ import { useIssue, useUpdateIssue } from "@/features/projects/hooks/use-issues";
 import { Issue, IssueType } from "@/types/issue.types";
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { TypeIcon } from "@/features/dashboard/components/issue-table-row";
-import { AiChatSidebar } from "@/features/issue-detail/components/ai-chat-sidebar";
 import { IssueMainContent } from "@/features/issue-detail/components/issue-main-content";
 import { IssueProperties } from "@/features/issue-detail/components/issue-properties";
 import { IssueSummaryInput } from "@/features/issue-detail/components/issue-summary-input";
@@ -20,6 +19,8 @@ import {
   SLIDE_IN_RIGHT_VARIANTS,
   FADE_SLIDE_UP_VARIANTS,
 } from "@/constants/animations";
+
+import { AiChatSidebar, IssueFormDraft } from "@/features/ai-assistant";
 
 interface IssueDetailViewProps {
   projectId: string;
@@ -44,6 +45,30 @@ export function IssueDetailView({
   const issue = issueResponse?.data;
   const updateIssue = useUpdateIssue();
   const { fieldErrors, handleApiError, clearFieldError } = useAutoError();
+
+  const handleApplyFormDraft = (draft: IssueFormDraft) => {
+    if (!issue) return;
+
+    const payload: Partial<Issue> = {};
+    if (draft.summary) payload.summary = draft.summary;
+    if (draft.description) payload.description = draft.description;
+    if (draft.type) payload.type = draft.type as IssueType;
+    if (draft.status) payload.status = draft.status as Issue["status"];
+    if (draft.priority) payload.priority = draft.priority as Issue["priority"];
+
+    if (Object.keys(payload).length === 0) return;
+
+    updateIssue.mutate(
+      {
+        projectId,
+        issueId: issue.id,
+        data: payload,
+      },
+      {
+        onError: (err) => handleApiError(err, "draft"),
+      },
+    );
+  };
 
   useEffect(() => {
     if (issue?.issueKey) {
@@ -117,8 +142,14 @@ export function IssueDetailView({
       className="flex flex-col lg:flex-row h-full bg-transparent w-full overflow-hidden"
     >
       {/* AI Chatbox Sidebar (Left) */}
-      <motion.div variants={SLIDE_IN_LEFT_VARIANTS} className="hidden lg:flex shrink-0">
-        <AiChatSidebar />
+      <motion.div
+        variants={SLIDE_IN_LEFT_VARIANTS}
+        className="hidden lg:flex shrink-0"
+      >
+        <AiChatSidebar
+          onApplyFormDraft={handleApplyFormDraft}
+          contextIssue={issue}
+        />
       </motion.div>
 
       {/* Main Content Area (Right) */}

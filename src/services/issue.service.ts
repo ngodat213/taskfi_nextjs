@@ -10,10 +10,36 @@ import {
   GetIssuesParams,
   GetMyTasksParams,
 } from "@/types/issue.types";
+import { AiGenerateIssueResponse } from "@/types/ai.types";
 
 export type { GetIssuesParams, GetMyTasksParams };
 
 export const issueService = {
+  aiGenerateIssue: async (
+    workspaceId: string,
+    prompt: string,
+    contextIssue?: {
+      id?: string;
+      summary?: string;
+      description?: string;
+      type?: string;
+      status?: string;
+      priority?: string;
+      storyPoints?: number;
+    },
+  ): Promise<AiGenerateIssueResponse> => {
+    const res = await apiFetch<
+      BaseResponse<AiGenerateIssueResponse> | AiGenerateIssueResponse
+    >(API_ENDPOINTS.WORKSPACES.AI_GENERATE(workspaceId), {
+      method: "POST",
+      body: { prompt, contextIssue },
+    });
+
+    if ("data" in res && res.data) {
+      return res.data;
+    }
+    return res as AiGenerateIssueResponse;
+  },
   getMyTasks: async (workspaceId: string, params?: GetMyTasksParams) => {
     return apiFetch<PaginatedResponse<Issue>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/my-tasks`,

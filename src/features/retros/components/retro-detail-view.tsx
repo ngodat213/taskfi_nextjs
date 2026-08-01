@@ -8,7 +8,7 @@ import { PageContainer } from "@/components/layout/page-container";
 import { Badge } from "@/components/ui/data-display/badge";
 import { Avatar } from "@/components/ui/data-display/avatar";
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
-import { AiChatSidebar } from "@/features/issue-detail/components/ai-chat-sidebar";
+import { AiChatSidebar } from "@/features/ai-assistant";
 import {
   RetroItem,
   getRetroTags,
@@ -123,7 +123,12 @@ export function RetroDetailView({
 
   useEffect(() => {
     const trimmedTitle = debouncedTitle.trim();
-    if (trimmedTitle && trimmedTitle !== lastSavedTitleRef.current && apiItem && activeSession) {
+    if (
+      trimmedTitle &&
+      trimmedTitle !== lastSavedTitleRef.current &&
+      apiItem &&
+      activeSession
+    ) {
       lastSavedTitleRef.current = trimmedTitle;
       updateItem.mutate({
         sessionId: activeSession.id,
@@ -179,7 +184,12 @@ export function RetroDetailView({
 
   const handleTitleBlur = () => {
     const trimmedTitle = title.trim();
-    if (trimmedTitle && trimmedTitle !== lastSavedTitleRef.current && apiItem && activeSession) {
+    if (
+      trimmedTitle &&
+      trimmedTitle !== lastSavedTitleRef.current &&
+      apiItem &&
+      activeSession
+    ) {
       lastSavedTitleRef.current = trimmedTitle;
       updateItem.mutate({
         sessionId: activeSession.id,
