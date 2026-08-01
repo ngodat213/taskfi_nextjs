@@ -1,16 +1,17 @@
 "use client";
 
-import { BurndownPoint } from "@/features/reports/types/reports.types";
-import { cn } from "@/utils/cn";
 import { CalendarIcon, PlusCircleIcon } from "@phosphor-icons/react/dist/ssr";
+
 import {
   Table,
-  TableHeader,
   TableBody,
-  TableRow,
-  TableHead,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/data-display/table";
+import { BurndownPoint } from "@/features/reports/types/reports.types";
+import { cn } from "@/utils/cn";
 
 interface DailyBurnTableProps {
   data: BurndownPoint[];
@@ -80,7 +81,8 @@ export function DailyBurnTable({ data }: DailyBurnTableProps) {
                   <TableCell className="px-3.5 py-2.5 text-center">
                     {pt.scopeAdded > 0 ? (
                       <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
-                        <PlusCircleIcon className="w-3 h-3" />+{pt.scopeAdded} pts
+                        <PlusCircleIcon className="w-3 h-3" />+{pt.scopeAdded}{" "}
+                        pts
                       </span>
                     ) : (
                       <span className="text-muted-foreground/60 text-[11px]">

@@ -1,18 +1,52 @@
-import { apiFetch } from "@/lib/api-fetch";
 import { API_ENDPOINTS } from "@/config/api-endpoints";
-import { PaginatedResponse, BaseResponse } from "@/types/api.types";
+import { apiFetch } from "@/lib/api-fetch";
+import { AiGenerateIssueResponse } from "@/types/ai.types";
+import { BaseResponse, PaginatedResponse } from "@/types/api.types";
 import {
-  Issue,
-  IssueComment,
-  IssueActivity,
   CreateIssueRequest,
-  UpdateIssueRequest,
   GetIssuesParams,
+  GetMyTasksParams,
+  Issue,
+  IssueActivity,
+  IssueComment,
+  UpdateIssueRequest,
 } from "@/types/issue.types";
 
-export type { GetIssuesParams };
+export type { GetIssuesParams, GetMyTasksParams };
 
 export const issueService = {
+  aiGenerateIssue: async (
+    workspaceId: string,
+    prompt: string,
+    contextIssue?: {
+      id?: string;
+      summary?: string;
+      description?: string;
+      type?: string;
+      status?: string;
+      priority?: string;
+      storyPoints?: number;
+    },
+  ): Promise<AiGenerateIssueResponse> => {
+    const res = await apiFetch<
+      BaseResponse<AiGenerateIssueResponse> | AiGenerateIssueResponse
+    >(API_ENDPOINTS.WORKSPACES.AI_GENERATE(workspaceId), {
+      method: "POST",
+      body: { prompt, contextIssue },
+    });
+
+    if ("data" in res && res.data) {
+      return res.data;
+    }
+    return res as AiGenerateIssueResponse;
+  },
+  getMyTasks: async (workspaceId: string, params?: GetMyTasksParams) => {
+    return apiFetch<PaginatedResponse<Issue>>(
+      `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/my-tasks`,
+      { params },
+    );
+  },
+
   getIssuesByProject: async (projectId: string, params?: GetIssuesParams) => {
     return apiFetch<PaginatedResponse<Issue>>(
       `${API_ENDPOINTS.PROJECTS.BASE}/${projectId}/issues`,

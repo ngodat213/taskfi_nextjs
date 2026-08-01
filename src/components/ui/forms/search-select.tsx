@@ -1,12 +1,14 @@
 "use client";
 
 import * as React from "react";
+
 import {
-  MagnifyingGlassIcon,
   CaretDownIcon,
   CheckIcon,
+  MagnifyingGlassIcon,
   XIcon,
 } from "@phosphor-icons/react/dist/ssr";
+
 import { cn } from "@/utils/cn";
 
 export interface SearchSelectOption {

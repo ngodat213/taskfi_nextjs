@@ -1,10 +1,11 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 import { retroService } from "@/services/retro.service";
 import {
-  CreateRetroSessionRequest,
-  UpdateRetroSessionRequest,
   CreateRetroItemRequest,
+  CreateRetroSessionRequest,
   UpdateRetroItemRequest,
+  UpdateRetroSessionRequest,
 } from "@/types/retro.types";
 
 export const useRetroSessions = (projectId: string, sprintId?: string) => {
@@ -104,12 +105,8 @@ export const useDeleteRetroItem = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      itemId,
-    }: {
-      sessionId: string;
-      itemId: string;
-    }) => retroService.deleteRetroItem(itemId),
+    mutationFn: ({ itemId }: { sessionId: string; itemId: string }) =>
+      retroService.deleteRetroItem(itemId),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: ["retroDetail", variables.sessionId],
@@ -122,12 +119,8 @@ export const useToggleRetroVote = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      itemId,
-    }: {
-      sessionId: string;
-      itemId: string;
-    }) => retroService.toggleVote(itemId),
+    mutationFn: ({ itemId }: { sessionId: string; itemId: string }) =>
+      retroService.toggleVote(itemId),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: ["retroDetail", variables.sessionId],

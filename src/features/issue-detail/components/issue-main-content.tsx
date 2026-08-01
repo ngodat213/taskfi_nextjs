@@ -1,27 +1,29 @@
 import { useState } from "react";
+
 import { useTranslations } from "next-intl";
-import { TRANSLATION_KEYS } from "@/constants/translations";
+
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { AttachmentUploader } from "@/components/ui/forms/attachment-uploader";
 import { SearchSelect } from "@/components/ui/forms/search-select";
 import { TextEditor } from "@/components/ui/forms/text-editor";
-import { AttachmentUploader } from "@/components/ui/forms/attachment-uploader";
-import { useParentOptions } from "@/features/projects/hooks/use-issues";
-import { Issue } from "@/types/issue.types";
-import { IssueItemCard } from "./issue-item-card";
-import { IssueSubtasks } from "./issue-subtasks";
-import { IssueLinkedIssues } from "./issue-linked-issues";
-import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 import { mapIssueToSearchOption } from "@/features/issue-detail/utils/issue-options.utils";
-
+import { useParentOptions } from "@/features/projects/hooks/use-issues";
 import { useDeleteImage } from "@/hooks/use-upload";
+import { Issue } from "@/types/issue.types";
 import { getPublicIdFromAttachment } from "@/utils/cloudinary";
 
 import { IssueComments } from "./issue-comments";
+import { IssueItemCard } from "./issue-item-card";
+import { IssueLinkedIssues } from "./issue-linked-issues";
+import { IssueSubtasks } from "./issue-subtasks";
 
 interface IssueMainContentProps {
   issue: Issue;
   projectId: string;
   onUpdate: (field: keyof Issue, value: unknown) => void;
   fieldErrors?: Record<string, string>;
+  onIssueSelect?: (issueId: string) => void;
 }
 
 export function IssueMainContent({
@@ -29,6 +31,7 @@ export function IssueMainContent({
   projectId,
   onUpdate,
   fieldErrors,
+  onIssueSelect,
 }: IssueMainContentProps) {
   const t = useTranslations("Dashboard");
   const TK = TRANSLATION_KEYS.DASHBOARD.IssueMainContent;
@@ -57,12 +60,14 @@ export function IssueMainContent({
   };
 
   return (
-    <div className="flex-1 flex flex-col gap-5">
+    <div className="flex-1 flex flex-col gap-4">
       {/* Parent Task */}
       <div className="flex flex-col gap-1.5 w-full relative">
-        <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
-          {t(TK.parentTask)}
-        </h3>
+        <div className="flex items-center justify-between min-h-4">
+          <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+            {t(TK.parentTask)}
+          </span>
+        </div>
         {(() => {
           const parentIssue = issue.parentId
             ? allIssues.find((i) => i.id === issue.parentId)
@@ -73,6 +78,7 @@ export function IssueMainContent({
               <IssueItemCard
                 issue={parentIssue}
                 onRemove={() => onUpdate("parentId", null)}
+                onClick={() => onIssueSelect?.(parentIssue.id)}
               />
             );
           }
@@ -95,10 +101,12 @@ export function IssueMainContent({
       </div>
 
       {/* Description */}
-      <div className="relative">
-        <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">
-          {t(TK.description)}
-        </h3>
+      <div className="flex flex-col gap-1.5 relative">
+        <div className="flex items-center justify-between min-h-4">
+          <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+            {t(TK.description)}
+          </span>
+        </div>
         <TextEditor
           value={desc}
           onChange={setDesc}
@@ -133,13 +141,18 @@ export function IssueMainContent({
       />
 
       {/* Subtasks */}
-      <IssueSubtasks projectId={projectId} parentId={issue.id} />
+      <IssueSubtasks
+        projectId={projectId}
+        parentId={issue.id}
+        onIssueSelect={onIssueSelect}
+      />
 
       {/* Linked Issues */}
       <IssueLinkedIssues
         projectId={projectId}
         issue={issue}
         onUpdate={onUpdate}
+        onIssueSelect={onIssueSelect}
       />
 
       {/* Comments Section */}

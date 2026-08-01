@@ -1,39 +1,50 @@
 "use client";
-import { UsersIcon, ShieldIcon, SquaresFourIcon, BuildingsIcon, BriefcaseIcon, PlusIcon, MagnifyingGlassIcon, SlidersHorizontalIcon } from "@phosphor-icons/react/dist/ssr";
-
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Button,
-  ButtonVariant,
-  ButtonSize,
-} from "@/components/ui/actions/button";
-import { TRANSLATION_KEYS } from "@/constants/translations";
-import { Input } from "@/components/ui/forms/input";
-import { PageHeader } from "@/components/ui/layout/page-header";
-import { SegmentedControl } from "@/components/ui/forms/segmented-control";
+
 import { useTranslations } from "next-intl";
 
+import {
+  BriefcaseIcon,
+  BuildingsIcon,
+  MagnifyingGlassIcon,
+  PlusIcon,
+  ShieldIcon,
+  SlidersHorizontalIcon,
+  SquaresFourIcon,
+  UsersIcon,
+} from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
+
+import { PageContainer } from "@/components/layout/page-container";
+import {
+  Button,
+  ButtonSize,
+  ButtonVariant,
+} from "@/components/ui/actions/button";
+import { Input } from "@/components/ui/forms/input";
+import { SegmentedControl } from "@/components/ui/forms/segmented-control";
+import { PageHeader } from "@/components/ui/layout/page-header";
 import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
-import { WorkspaceSettingsTab } from "@/features/workspace-settings/enums/workspace.enum";
-import { MembersTable } from "./members-table";
-import { GroupsTable } from "./groups-table";
-import { RolesTable } from "./roles-table";
-import { AddNewUserModal } from "./add-new-user-modal";
-import { AddNewGroupModal } from "./add-new-group-modal";
-import { AddNewRoleModal } from "./add-new-role-modal";
-import { DepartmentsTable } from "@/features/workspace-settings/components/departments-table";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 import { AddNewDepartmentModal } from "@/features/workspace-settings/components/add-new-department-modal";
-import { EmploymentTypesTable } from "@/features/workspace-settings/components/employment-types-table";
 import { AddNewEmploymentTypeModal } from "@/features/workspace-settings/components/add-new-employment-type-modal";
+import { DepartmentsTable } from "@/features/workspace-settings/components/departments-table";
+import { EmploymentTypesTable } from "@/features/workspace-settings/components/employment-types-table";
 import { WorkspaceConfigTable } from "@/features/workspace-settings/components/workspace-config-table";
+import { WorkspaceSettingsTab } from "@/features/workspace-settings/enums/workspace.enum";
 import { Group } from "@/types/group.types";
 import {
-  WorkspaceRole,
   Department,
   EmploymentType,
+  WorkspaceRole,
 } from "@/types/workspace.types";
-import { PageContainer } from "@/components/layout/page-container";
+
+import { AddNewGroupModal } from "./add-new-group-modal";
+import { AddNewRoleModal } from "./add-new-role-modal";
+import { AddNewUserModal } from "./add-new-user-modal";
+import { GroupsTable } from "./groups-table";
+import { MembersTable } from "./members-table";
+import { RolesTable } from "./roles-table";
 
 export function WorkspaceSettingsView() {
   const t = useTranslations("WorkspaceSettings");
@@ -52,7 +63,11 @@ export function WorkspaceSettingsView() {
       label: t(TK_TABS.groups),
       icon: SquaresFourIcon,
     },
-    { id: WorkspaceSettingsTab.ROLES, label: t(TK_TABS.roles), icon: ShieldIcon },
+    {
+      id: WorkspaceSettingsTab.ROLES,
+      label: t(TK_TABS.roles),
+      icon: ShieldIcon,
+    },
     {
       id: WorkspaceSettingsTab.DEPARTMENTS,
       label: t(TK_TABS.departments),

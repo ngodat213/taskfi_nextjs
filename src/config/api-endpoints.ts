@@ -15,6 +15,8 @@ export const API_ENDPOINTS = {
   WORKSPACES: {
     LIST: "/workspaces",
     CREATE: "/workspaces",
+    AI_GENERATE: (workspaceId: string) =>
+      `/workspaces/${workspaceId}/issues/ai-generate`,
   },
   UPLOADS: {
     UPLOAD: "/uploads/image",

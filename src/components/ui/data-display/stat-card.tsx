@@ -1,7 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { motion, type Variants } from "framer-motion";
+
+import { type Variants, motion } from "framer-motion";
+
 import { cn } from "@/utils/cn";
 
 export interface StatCardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -47,7 +49,8 @@ export const StatCard = React.forwardRef<HTMLDivElement, StatCardProps>(
       <div
         className={cn(
           "bg-card border border-border/80 rounded-xl p-3.5 shadow-2xs transition-all duration-200 flex flex-col justify-between gap-1.5 group h-full",
-          isInteractive && "hover:border-primary/50 cursor-pointer hover:shadow-xs",
+          isInteractive &&
+            "hover:border-primary/50 cursor-pointer hover:shadow-xs",
           className,
         )}
       >

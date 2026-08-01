@@ -1,17 +1,25 @@
-import Image from "next/image";
-import { getInitials } from "@/utils/string";
-import { Tooltip } from "@/components/ui/feedback/tooltip";
-import { CaretDownIcon, CaretRightIcon, CheckSquareIcon } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
-import { Issue } from "@/types/issue.types";
-import { cn } from "@/utils/cn";
-import { TableRow, TableCell } from "@/components/ui/data-display/table";
+
+import Image from "next/image";
+
+import {
+  CaretDownIcon,
+  CaretRightIcon,
+  CheckSquareIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
+import { Badge } from "@/components/ui/data-display/badge";
+import { PriorityBadge } from "@/components/ui/data-display/priority-badge";
+import { TableCell, TableRow } from "@/components/ui/data-display/table";
+import { Tooltip } from "@/components/ui/feedback/tooltip";
 import {
   ISSUE_TYPE_CONFIG,
   PRIORITY_CONFIG,
   STATUS_VARIANT_MAP,
 } from "@/features/dashboard/constants/issue-ui.constants";
-import { Badge } from "@/components/ui/data-display/badge";
+import { Issue } from "@/types/issue.types";
+import { cn } from "@/utils/cn";
+import { getInitials } from "@/utils/string";
 
 export const TypeIcon = ({
   type,
@@ -201,12 +209,7 @@ export const IssueRow = ({
           )}
         </TableCell>
         <TableCell>
-          <div className="flex items-center gap-1.5">
-            <PriorityIcon priority={issue.priority} className="w-4 h-4" />
-            <span className="text-muted-foreground font-medium text-[12.5px]">
-              {issue.priority}
-            </span>
-          </div>
+          <PriorityBadge priority={issue.priority} />
         </TableCell>
         <TableCell className="text-right pr-4">
           <Tooltip

@@ -1,6 +1,7 @@
+import hljs from "highlight.js";
+
 import { UserResponseDto } from "@/types/auth.types";
 import { getCloudinaryUrl } from "@/utils/cloudinary";
-import hljs from "highlight.js";
 
 /**
  * Returns the best display name for a user (full_name -> name -> email -> fallback)

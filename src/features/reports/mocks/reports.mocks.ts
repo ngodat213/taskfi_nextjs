@@ -1,10 +1,10 @@
 import {
   BurndownPoint,
-  TeamMemberVelocity,
   CategoryBreakdown,
+  ProjectReportData,
   SprintHistoryItem,
   SprintMetricsSummary,
-  ProjectReportData,
+  TeamMemberVelocity,
 } from "@/features/reports/types/reports.types";
 
 export const MOCK_BURNDOWN_DATA: BurndownPoint[] = [

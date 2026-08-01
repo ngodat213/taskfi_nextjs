@@ -1,28 +1,40 @@
-import { DotsThreeIcon, CalendarBlankIcon, MapPinIcon, FolderIcon, UsersIcon, CircleNotchIcon, PencilSimpleIcon, TrashIcon } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-} from "@/components/ui/data-display/table";
-import { Badge } from "@/components/ui/data-display/badge";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
-import { Avatar } from "@/components/ui/data-display/avatar";
-import { TablePagination } from "@/components/ui/data-display/table-pagination";
-import { TableActionBtn } from "@/components/ui/data-display/table-action-btn";
+
+import { useLocale, useTranslations } from "next-intl";
 
 import {
-  useWorkspaceMembers,
+  CalendarBlankIcon,
+  CircleNotchIcon,
+  DotsThreeIcon,
+  FolderIcon,
+  MapPinIcon,
+  PencilSimpleIcon,
+  TrashIcon,
+  UsersIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
+import { Avatar } from "@/components/ui/data-display/avatar";
+import { Badge } from "@/components/ui/data-display/badge";
+import { EmptyState } from "@/components/ui/data-display/empty-state";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/data-display/table";
+import { TableActionBtn } from "@/components/ui/data-display/table-action-btn";
+import { TablePagination } from "@/components/ui/data-display/table-pagination";
+import { TRANSLATION_KEYS } from "@/constants/translations";
+import {
   useRemoveWorkspaceMember,
+  useWorkspaceMembers,
 } from "@/features/workspaces/hooks/use-workspaces";
 import { useWorkspaceStore } from "@/store/workspace.store";
-import { useTranslations, useLocale } from "next-intl";
-import { AddNewUserModal } from "./add-new-user-modal";
-import { TRANSLATION_KEYS } from "@/constants/translations";
 import { WorkspaceMember } from "@/types/workspace.types";
+
+import { AddNewUserModal } from "./add-new-user-modal";
 
 export function MembersTable() {
   const t = useTranslations("WorkspaceSettings");

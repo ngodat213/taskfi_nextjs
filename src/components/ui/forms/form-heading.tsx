@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { cn } from "@/utils/cn";
 
 export interface FormHeadingProps extends Omit<
@@ -23,7 +24,9 @@ export const FormHeading = React.forwardRef<HTMLDivElement, FormHeadingProps>(
           )}
         </div>
         {description && (
-          <p className="text-[13.5px] text-muted-foreground mt-1.5">{description}</p>
+          <p className="text-[13.5px] text-muted-foreground mt-1.5">
+            {description}
+          </p>
         )}
       </div>
     );

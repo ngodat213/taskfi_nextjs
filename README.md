@@ -1,13 +1,5 @@
 # 🚀 TaskFi - Modern Project Management & Task Platform
 
-[![Next.js 15](https://img.shields.io/badge/Next.js-15.0-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
-[![React 19](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.0-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![Framer Motion](https://img.shields.io/badge/Framer_Motion-11.0-black?style=for-the-badge&logo=framer&logoColor=blue)](https://www.framer.com/motion/)
-[![Zustand](https://img.shields.io/badge/Zustand-State_Management-orange?style=for-the-badge)](https://github.com/pmndrs/zustand)
-[![i18n](https://img.shields.io/badge/next--intl-Multilingual-emerald?style=for-the-badge)](https://next-intl-docs.vercel.app/)
-
 > **TaskFi** là một hệ thống ứng dụng web quản lý dự án và công việc cao cấp thế hệ mới, tích hợp công nghệ **Next.js 15 App Router**, giao diện **Glassmorphism & Pill UI**, hệ thống bộ lọc nâng cao, quản lý tài liệu và lịch trình thời gian thực.
 
 ---
@@ -44,6 +36,7 @@ TaskFi được thiết kế hướng tới tối ưu hóa trải nghiệm ngư�
 ## 🔥 Chi Tiết Các Tính Năng Độc Quyền (Detailed Features)
 
 ### 🎨 1. Design System & Theme Engine (Pill UI + Glassmorphism)
+
 - **Dark Mode Chuyên Sâu**:
   - **Phông nền ứng dụng (`--background`)**: `#171717` (Neutral Charcoal 900).
   - **Khung thẻ & Sidebar (`--card`, `--popover`)**: `#1C1C1C` tạo lớp phông nền tương phản nhẹ nhàng, cao cấp và chống mỏi mắt.
@@ -58,6 +51,7 @@ TaskFi được thiết kế hướng tới tối ưu hóa trải nghiệm ngư�
 ---
 
 ### 📊 2. Dashboard & Kanban Board Management
+
 - **Hai Chế Độ Hiển Thị Trực Quan**:
   - **Board View**: Bảng Kanban kéo thả công việc theo các cột trạng thái (`To Do`, `In Progress`, `In Review`, `Done`).
   - **List View**: Danh sách hiển thị dạng bảng linh hoạt, hỗ trợ phân cấp cây Subtasks con.
@@ -70,6 +64,7 @@ TaskFi được thiết kế hướng tới tối ưu hóa trải nghiệm ngư�
 ---
 
 ### 📅 3. Calendar & Timetable Grid System
+
 - **Timetable Grid 24 Hours**:
   - Lưới thời gian theo giờ trong ngày, hiển thị các khối sự kiện và công việc trực quan theo thời lượng.
 - **Chế Độ Agenda & Sprint View**:
@@ -81,6 +76,7 @@ TaskFi được thiết kế hướng tới tối ưu hóa trải nghiệm ngư�
 ---
 
 ### 📚 4. Documents & Knowledge Hub
+
 - **Quản Lý Cấu Trúc Thư Mục & Tài Liệu**:
   - Hiển thị danh sách thư mục (`FolderCard`) và thẻ tài liệu (`DocumentCard`) theo lưới Grid.
 - **Chỉ Báo Thị Giác Sắc Nét**:
@@ -90,6 +86,7 @@ TaskFi được thiết kế hướng tới tối ưu hóa trải nghiệm ngư�
 ---
 
 ### 🧩 5. Subtasks & AI Assistant Sidebar
+
 - **Quản Lý Công Việc Con Phân Cấp (Subtask Hierarchy)**:
   - Cây danh sách công việc con hiển thị độ sâu (depth indent), cho phép bật/tắt mở rộng (expand/collapse) trực tiếp trên từng dòng.
 - **AI Assistant Chat Sidebar**:
@@ -98,6 +95,7 @@ TaskFi được thiết kế hướng tới tối ưu hóa trải nghiệm ngư�
 ---
 
 ### 🏢 6. Workspace & Organization Management
+
 - **Sidebar Điều Hướng Thông Minh**:
   - Nút chuyển đổi Workspace linh hoạt đính kèm logo và tên đại diện.
   - Hỗ trợ cơ chế thu gọn/mở rộng Sidebar (`isCollapsed`) mượt mà dạng Spring Animation.
@@ -164,6 +162,7 @@ taskfi_nextjs/
 ## 🧩 Hệ Thống Linh Kiện UI (Component Design System Specs)
 
 ### 1. `Button` (`src/components/ui/actions/button.tsx`)
+
 ```tsx
 import { Button, ButtonVariant, ButtonSize } from "@/components/ui/actions/button";
 
@@ -179,6 +178,7 @@ import { Button, ButtonVariant, ButtonSize } from "@/components/ui/actions/butto
 ```
 
 ### 2. `SegmentedControl` (`src/components/ui/forms/segmented-control.tsx`)
+
 ```tsx
 <SegmentedControl
   tabs={[
@@ -191,6 +191,7 @@ import { Button, ButtonVariant, ButtonSize } from "@/components/ui/actions/butto
 ```
 
 ### 3. `Input` & `Select` (`src/components/ui/forms/`)
+
 - Cung cấp dạng viên thuốc Pill `rounded-full px-3.5 h-9` đồng bộ trải nghiệm nhập liệu và chọn phần tử.
 
 ---
@@ -219,36 +220,43 @@ Các lệnh gọi API được đóng gói sạch sẽ trong thư mục `src/ser
 ## ⚙️ Hướng Dẫn Cài Đặt & Phát Triển (Getting Started)
 
 ### Yêu Cầu Hệ Thống (Prerequisites)
+
 - **Node.js**: phiên bản `18.18.0` trở lên.
 - **npm** (hoặc `pnpm` / `yarn`).
 
 ### Các Bước Cài Đặt Detail:
 
 1. **Cloning Repository**:
+
    ```bash
    git clone https://github.com/ngodat213/taskfi_nextjs.git
    cd taskfi_nextjs
    ```
 
 2. **Cài Đặt Packages Dependencies**:
+
    ```bash
    npm install
    ```
 
 3. **Cấu Hình Môi Trường (`.env.local`)**:
    Tạo file `.env.local` tại thư mục gốc dự án:
+
    ```env
    NEXT_PUBLIC_API_URL=https://api.taskfi.example.com
    NEXT_PUBLIC_DEFAULT_LOCALE=en
    ```
 
 4. **Khởi Chạy Server Phát Triển (Development Server)**:
+
    ```bash
    npm run dev
    ```
+
    Truy cập ứng dụng tại: `http://localhost:3000`.
 
 5. **Kiểm Tra Type Checking (TypeScript)**:
+
    ```bash
    npx tsc --noEmit
    ```

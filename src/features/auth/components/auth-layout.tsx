@@ -1,7 +1,9 @@
 "use client";
 
 import { ReactNode } from "react";
-import { motion, Variants } from "framer-motion";
+
+import { Variants, motion } from "framer-motion";
+
 import { AnimatedBackground } from "@/components/ui/layout/animated-background";
 
 interface AuthLayoutProps {

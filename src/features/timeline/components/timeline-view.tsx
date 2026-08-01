@@ -1,28 +1,34 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { StackIcon, FlagIcon, PlusIcon } from "@phosphor-icons/react/dist/ssr";
-import { PageHeader } from "@/components/ui/layout/page-header";
-import { Select } from "@/components/ui/forms/select";
-import {
-  SegmentedControl,
-  SegmentedControlTab,
-} from "@/components/ui/forms/segmented-control";
+
+import { FlagIcon, PlusIcon, StackIcon } from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
+
 import {
   Button,
   ButtonSize,
   ButtonVariant,
 } from "@/components/ui/actions/button";
-import { TimelineSummaryCards } from "./timeline-summary-cards";
-import { TimelineGanttChart } from "./timeline-gantt-chart";
-import { TimelineMilestoneList } from "./timeline-milestone-list";
 import {
-  MOCK_TIMELINE_ITEMS,
+  SegmentedControl,
+  SegmentedControlTab,
+} from "@/components/ui/forms/segmented-control";
+import { Select } from "@/components/ui/forms/select";
+import { PageHeader } from "@/components/ui/layout/page-header";
+import {
   MOCK_MILESTONES,
+  MOCK_TIMELINE_ITEMS,
   MOCK_TIMELINE_SUMMARY,
 } from "@/features/timeline/mocks/timeline.mocks";
-import { TimelineViewMode, TimelineZoom } from "@/features/timeline/types/timeline.types";
+import {
+  TimelineViewMode,
+  TimelineZoom,
+} from "@/features/timeline/types/timeline.types";
+
+import { TimelineGanttChart } from "./timeline-gantt-chart";
+import { TimelineMilestoneList } from "./timeline-milestone-list";
+import { TimelineSummaryCards } from "./timeline-summary-cards";
 
 const GROUPS = [
   { id: "grp-1", name: "Core Engineering" },

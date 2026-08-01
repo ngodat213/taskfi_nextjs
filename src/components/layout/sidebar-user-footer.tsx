@@ -1,14 +1,16 @@
 "use client";
 
 import Image from "next/image";
+
+import { GearIcon } from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
+
+import { Tooltip } from "@/components/ui/feedback/tooltip";
+import { useCurrentUser } from "@/features/auth/hooks/use-auth";
 import { Link } from "@/i18n/routing";
+import { useUserStore } from "@/store/user.store";
 import { cn } from "@/utils/cn";
 import { getInitials } from "@/utils/string";
-import { Tooltip } from "@/components/ui/feedback/tooltip";
-import { GearIcon } from "@phosphor-icons/react/dist/ssr";
-import { motion, AnimatePresence } from "framer-motion";
-import { useCurrentUser } from "@/features/auth/hooks/use-auth";
-import { useUserStore } from "@/store/user.store";
 
 export interface SidebarUserFooterProps {
   user?: {

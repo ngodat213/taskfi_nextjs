@@ -1,25 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowBendUpLeftIcon, ShareNetworkIcon, CheckIcon, DotsThreeIcon } from "@phosphor-icons/react/dist/ssr";
-import { Avatar } from "@/components/ui/data-display/avatar";
-import { MarkdownPreview } from "@/components/ui/data-display/markdown-preview";
+
+import {
+  ArrowBendUpLeftIcon,
+  CheckIcon,
+  DotsThreeIcon,
+  ShareNetworkIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import {
   Button,
-  ButtonVariant,
   ButtonSize,
+  ButtonVariant,
 } from "@/components/ui/actions/button";
+import { Avatar } from "@/components/ui/data-display/avatar";
+import { MarkdownPreview } from "@/components/ui/data-display/markdown-preview";
 import { LikeButton } from "@/components/ui/feedback/like-button";
-import { RetroComment } from "@/types/retro.types";
+import { useCurrentUser } from "@/features/auth/hooks/use-auth";
 import {
   getUserAvatarUrl,
   getUserInitials,
 } from "@/features/issue-detail/utils/comment-user.utils";
-import { useCurrentUser } from "@/features/auth/hooks/use-auth";
 import { useUserStore } from "@/store/user.store";
-import { formatRelativeTime } from "@/utils/date";
-import { cn } from "@/utils/cn";
 import "@/styles/code-theme.css";
+import { RetroComment } from "@/types/retro.types";
+import { cn } from "@/utils/cn";
+import { formatRelativeTime } from "@/utils/date";
 
 interface RetroCommentItemProps {
   comment: RetroComment;

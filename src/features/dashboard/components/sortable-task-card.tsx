@@ -1,7 +1,9 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { TaskCard } from "./task-card";
+
 import { Issue } from "@/types/issue.types";
+
+import { TaskCard } from "./task-card";
 
 export function SortableTaskCard({
   issue,

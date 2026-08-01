@@ -1,14 +1,24 @@
 "use client";
-import { TextBIcon, TextItalicIcon, TextStrikethroughIcon, TextHTwoIcon, ListIcon, ListNumbersIcon, CodeIcon } from "@phosphor-icons/react/dist/ssr";
-
 import * as React from "react";
-import { useEditor, EditorContent, Editor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Placeholder from "@tiptap/extension-placeholder";
+
+import {
+  CodeIcon,
+  ListIcon,
+  ListNumbersIcon,
+  TextBIcon,
+  TextHTwoIcon,
+  TextItalicIcon,
+  TextStrikethroughIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
-import { createLowlight, all } from "lowlight";
-import { cn } from "@/utils/cn";
+import Placeholder from "@tiptap/extension-placeholder";
+import { Editor, EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { all, createLowlight } from "lowlight";
+import { marked } from "marked";
+
 import "@/styles/code-theme.css";
+import { cn } from "@/utils/cn";
 
 const lowlight = createLowlight(all);
 
@@ -151,6 +161,26 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
         },
       },
     });
+
+    // 🔹 Sync value prop with TipTap editor instance when value changes externally
+    React.useEffect(() => {
+      if (!editor || value === undefined) return;
+
+      const currentHTML = editor.getHTML();
+      // If value is markdown string, parse to HTML so TipTap renders rich elements
+      const targetContent =
+        typeof value === "string" &&
+        (value.includes("#") ||
+          value.includes("*") ||
+          value.includes("\n") ||
+          value.includes("- "))
+          ? (marked.parse(value) as string)
+          : value;
+
+      if (currentHTML !== targetContent && currentHTML !== value) {
+        editor.commands.setContent(targetContent || "", { emitUpdate: false });
+      }
+    }, [editor, value]);
 
     return (
       <div

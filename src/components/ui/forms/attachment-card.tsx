@@ -1,18 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import { FileIcon as FileIcon, ImageSquareIcon as ImageIcon, ArrowSquareOutIcon, FileTextIcon as MarkdownIcon, EyeIcon } from "@phosphor-icons/react/dist/ssr";
+
+import {
+  ArrowSquareOutIcon,
+  EyeIcon,
+  FileIcon,
+  ImageSquareIcon as ImageIcon,
+  FileTextIcon as MarkdownIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { DeleteButton } from "@/components/ui/actions/delete-button";
-import { cn } from "@/utils/cn";
+import { MarkdownPreviewModal } from "@/components/ui/data-display/markdown-preview-modal";
 import { IssueAttachment } from "@/types/issue.types";
 import {
-  getCloudinaryUrl,
   formatBytes,
+  getCloudinaryUrl,
   getFileNameFromUrl,
   isImageUrl,
 } from "@/utils/cloudinary";
-import { MarkdownPreviewModal } from "@/components/ui/data-display/markdown-preview-modal";
+import { cn } from "@/utils/cn";
 
 export interface AttachmentCardProps {
   item: IssueAttachment | string;

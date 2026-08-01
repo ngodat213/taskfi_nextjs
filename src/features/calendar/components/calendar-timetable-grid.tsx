@@ -1,14 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { cn } from "@/utils/cn";
-import { CalendarEvent } from "@/features/calendar/types/calendar.types";
+
 import {
-  WEEK_DAYS,
-  TIME_SLOTS,
-  COLOR_STYLES,
   CALENDAR_CONFIG,
+  COLOR_STYLES,
+  TIME_SLOTS,
+  WEEK_DAYS,
 } from "@/features/calendar/constants/calendar.constants";
+import { CalendarEvent } from "@/features/calendar/types/calendar.types";
+import { cn } from "@/utils/cn";
 
 interface CalendarTimetableGridProps {
   events: CalendarEvent[];

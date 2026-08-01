@@ -1,7 +1,8 @@
-import { XIcon } from "@phosphor-icons/react/dist/ssr";
 import * as React from "react";
 import { createPortal } from "react-dom";
-;
+
+import { XIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { cn } from "@/utils/cn";
 
 // Context to share onClose down to ModalHeader/Footer
@@ -110,7 +111,7 @@ export const ModalBody = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "bg-card rounded-[16px] border border-border/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden flex flex-col h-full",
+        "bg-card rounded-2xl border border-border/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden flex flex-col h-full",
         className,
       )}
     >

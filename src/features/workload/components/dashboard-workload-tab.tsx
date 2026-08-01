@@ -1,16 +1,16 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { useMemo } from "react";
+
+import { type Variants, motion } from "framer-motion";
+
+import {
+  SPRING_CARD_VARIANTS,
+  STAGGER_CONTAINER_VARIANTS,
+} from "@/constants/animations";
 import { CapacitySummaryCards } from "@/features/reports/components/capacity-summary-cards";
 import { TeamWorkloadTable } from "@/features/reports/components/team-workload-card";
 import { getReportDataByProject } from "@/features/reports/mocks/reports.mocks";
-
-import { useMemo } from "react";
-
-import {
-  STAGGER_CONTAINER_VARIANTS,
-  SPRING_CARD_VARIANTS,
-} from "@/constants/animations";
 
 const containerVariants: Variants = STAGGER_CONTAINER_VARIANTS;
 const itemVariants: Variants = SPRING_CARD_VARIANTS;

@@ -1,77 +1,79 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import {
-  CircleNotchIcon,
-  PlusIcon,
-  TrashIcon,
-  PencilSimpleIcon,
-  FloppyDiskIcon,
-  SlidersHorizontalIcon,
-  TagIcon,
-  CheckCircleIcon,
-  DotsSixVerticalIcon,
-} from "@phosphor-icons/react/dist/ssr";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  DragEndEvent,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-  useSortable,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 
 import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-} from "@/components/ui/data-display/table";
+  DndContext,
+  DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 import {
-  useWorkspaceConfig,
-  useUpdateWorkspaceConfig,
-} from "@/features/workspaces/hooks/use-workspaces";
-import { useWorkspaceStore } from "@/store/workspace.store";
+  SortableContext,
+  arrayMove,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import {
+  CheckCircleIcon,
+  CircleNotchIcon,
+  DotsSixVerticalIcon,
+  FloppyDiskIcon,
+  PencilSimpleIcon,
+  PlusIcon,
+  SlidersHorizontalIcon,
+  TagIcon,
+  TrashIcon,
+} from "@phosphor-icons/react/dist/ssr";
+import { motion } from "framer-motion";
+
+import {
+  Button,
+  ButtonSize,
+  ButtonVariant,
+} from "@/components/ui/actions/button";
+import { EmptyState } from "@/components/ui/data-display/empty-state";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/data-display/table";
 import { TableActionBtn } from "@/components/ui/data-display/table-action-btn";
-import { WorkspaceStatus, WorkspaceIssueType } from "@/types/workspace.types";
+import { TypeBadge } from "@/components/ui/data-display/type-badge";
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { Input } from "@/components/ui/forms/input";
+import { InputLabel } from "@/components/ui/forms/input-label";
+import { Select } from "@/components/ui/forms/select";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+} from "@/components/ui/layout/modal";
+import {
+  SPRING_CARD_VARIANTS,
+  STAGGER_CONTAINER_VARIANTS,
+} from "@/constants/animations";
 import {
   StatusBadge,
   TypeIcon,
 } from "@/features/dashboard/components/issue-table-row";
 import {
-  Button,
-  ButtonVariant,
-  ButtonSize,
-} from "@/components/ui/actions/button";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "@/components/ui/layout/modal";
-import { Input } from "@/components/ui/forms/input";
-import { InputLabel } from "@/components/ui/forms/input-label";
-import { Select } from "@/components/ui/forms/select";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
+  useUpdateWorkspaceConfig,
+  useWorkspaceConfig,
+} from "@/features/workspaces/hooks/use-workspaces";
 import { useAutoError } from "@/hooks/use-auto-error";
-import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
-import {
-  STAGGER_CONTAINER_VARIANTS,
-  SPRING_CARD_VARIANTS,
-} from "@/constants/animations";
+import { useWorkspaceStore } from "@/store/workspace.store";
+import { WorkspaceIssueType, WorkspaceStatus } from "@/types/workspace.types";
 
 // Sortable Row for Statuses
 function SortableStatusRow({
@@ -217,6 +219,19 @@ function SortableTypeRow({
         </span>
       </TableCell>
       <TableCell>
+        <div className="flex items-center gap-2">
+          <span
+            className="w-3.5 h-3.5 rounded-full border border-black/10 shrink-0"
+            style={{
+              backgroundColor: type.color || "#3b82f6",
+            }}
+          />
+          <span className="text-[12px] font-mono text-muted-foreground">
+            {type.color || "#3b82f6"}
+          </span>
+        </div>
+      </TableCell>
+      <TableCell>
         <span className="text-[12px] text-muted-foreground">
           {type.description || "—"}
         </span>
@@ -241,10 +256,7 @@ function SortableTypeRow({
         </div>
       </TableCell>
       <TableCell>
-        <div className="flex items-center gap-1.5 text-[12px] font-medium">
-          <TypeIcon type={type.name} className="w-3.5 h-3.5" />
-          <span>{type.name}</span>
-        </div>
+        <TypeBadge type={type.name} color={type.color} />
       </TableCell>
       <TableCell className="text-right pr-4">
         <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -410,6 +422,7 @@ export function WorkspaceConfigTable() {
     setTypeForm({
       no: issueTypes.length + 1,
       name: "",
+      color: "#3b82f6",
       icon: "task",
       description: "",
       allowedParentTypes: [],
@@ -626,6 +639,7 @@ export function WorkspaceConfigTable() {
                       <TableHead className="w-12 px-2">#</TableHead>
                       <TableHead className="w-40">Type Name</TableHead>
                       <TableHead className="w-28">Icon</TableHead>
+                      <TableHead className="w-28">Color</TableHead>
                       <TableHead>Description</TableHead>
                       <TableHead>Allowed Parent Types</TableHead>
                       <TableHead className="w-28">Preview</TableHead>
@@ -802,6 +816,27 @@ export function WorkspaceConfigTable() {
                   <option value="bug">bug (Bug)</option>
                   <option value="subtask">subtask (Corner Arrow)</option>
                 </Select>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <InputLabel>Color Hex Code</InputLabel>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="color"
+                    value={typeForm.color || "#3b82f6"}
+                    onChange={(e) =>
+                      setTypeForm((p) => ({ ...p, color: e.target.value }))
+                    }
+                    className="w-9 h-9 p-0.5 rounded cursor-pointer border border-border bg-card"
+                  />
+                  <Input
+                    value={typeForm.color || ""}
+                    onChange={(e) =>
+                      setTypeForm((p) => ({ ...p, color: e.target.value }))
+                    }
+                    placeholder="#3b82f6"
+                  />
+                </div>
               </div>
 
               <div className="flex flex-col gap-1.5">

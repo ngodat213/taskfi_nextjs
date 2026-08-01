@@ -1,32 +1,34 @@
-import { UsersIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
-;
 import { useForm } from "react-hook-form";
+
+import { useTranslations } from "next-intl";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalScrollArea,
-  ModalFooter,
-} from "@/components/ui/layout/modal";
+import { CircleNotchIcon, UsersIcon } from "@phosphor-icons/react/dist/ssr";
+
+import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { FormInput } from "@/components/ui/forms/form-input";
 import { FormTextarea } from "@/components/ui/forms/form-textarea";
-import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { LogoPicker } from "@/components/ui/forms/logo-picker";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalScrollArea,
+} from "@/components/ui/layout/modal";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 import {
   useCreateGroup,
   useUpdateGroup,
 } from "@/features/workspace-settings/hooks/use-groups";
+import {
+  GroupFormData,
+  groupSchema,
+} from "@/features/workspace-settings/schema/group.schema";
 import { uploadService } from "@/services/upload.service";
 import { Group } from "@/types/group.types";
-import { useTranslations } from "next-intl";
-import {
-  groupSchema,
-  GroupFormData,
-} from "@/features/workspace-settings/schema/group.schema";
-import { TRANSLATION_KEYS } from "@/constants/translations";
 
 export function AddNewGroupModal({
   isOpen,
@@ -217,7 +219,9 @@ export function AddNewGroupModal({
                 variant={ButtonVariant.Primary}
                 disabled={isLoading}
               >
-                {isLoading && <CircleNotchIcon className="w-3.5 h-3.5 animate-spin" />}
+                {isLoading && (
+                  <CircleNotchIcon className="w-3.5 h-3.5 animate-spin" />
+                )}
                 {isEditMode
                   ? t(TRANSLATION_KEYS.modals.addGroup.btnUpdate)
                   : t(TRANSLATION_KEYS.modals.addGroup.btnCreate)}

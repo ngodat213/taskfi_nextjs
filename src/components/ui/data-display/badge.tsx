@@ -1,19 +1,15 @@
+import { CSSProperties, ReactNode } from "react";
+
 import { cn } from "@/utils/cn";
-import { ReactNode } from "react";
 
 export type BadgeVariant =
-  | "slate"
-  | "blue"
-  | "emerald"
-  | "amber"
-  | "red"
-  | "purple"
-  | "orange";
+  "slate" | "blue" | "emerald" | "amber" | "red" | "purple" | "orange";
 
 interface BadgeProps {
   children: ReactNode;
   variant?: BadgeVariant;
   className?: string;
+  style?: CSSProperties;
   dot?: boolean;
 }
 
@@ -45,12 +41,14 @@ export function Badge({
   children,
   variant = "slate",
   className,
+  style,
   dot,
 }: BadgeProps) {
   return (
     <span
+      style={style}
       className={cn(
-        "inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10.5px] font-semibold border shrink-0 select-none",
+        "inline-flex items-center gap-1.5 px-1.5 h-[22px] rounded-md text-[10.5px] font-medium border leading-none shrink-0 select-none",
         variantStyles[variant],
         className,
       )}

@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
+
+import { MOCK_CALENDAR_EVENTS } from "@/features/calendar/mocks/calendar.mocks";
 import {
   CalendarEvent,
   CalendarEventAttendee,
   CalendarViewMode,
 } from "@/features/calendar/types/calendar.types";
-import { MOCK_CALENDAR_EVENTS } from "@/features/calendar/mocks/calendar.mocks";
 
 export function useCalendarEvents() {
   const [activeTab, setActiveTab] = useState("Timetable");

@@ -1,8 +1,13 @@
 "use client";
 
-import { ArrowUpRightIcon, ClockIcon, ShieldCheckIcon } from "@phosphor-icons/react/dist/ssr";
-import { TimelineSummary } from "@/features/timeline/types/timeline.types";
+import {
+  ArrowUpRightIcon,
+  ClockIcon,
+  ShieldCheckIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { StatCard } from "@/components/ui/data-display/stat-card";
+import { TimelineSummary } from "@/features/timeline/types/timeline.types";
 
 interface TimelineSummaryCardsProps {
   summary: TimelineSummary;

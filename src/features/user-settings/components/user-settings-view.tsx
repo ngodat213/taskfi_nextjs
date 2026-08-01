@@ -1,19 +1,25 @@
 "use client";
-import { UserIcon, ShieldIcon, FadersIcon } from "@phosphor-icons/react/dist/ssr";
-
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useTranslations } from "next-intl";
-import { TRANSLATION_KEYS } from "@/constants/translations";
-import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
-import { PageHeader } from "@/components/ui/layout/page-header";
-import { SegmentedControl } from "@/components/ui/forms/segmented-control";
 
-import { UserSettingsTab } from "@/features/user-settings/enums/user-settings.enum";
-import { ProfileSetting } from "./profile-setting";
-import { PreferencesSetting } from "./preferences-setting";
-import { SecuritySetting } from "./security-setting";
+import { useTranslations } from "next-intl";
+
+import {
+  FadersIcon,
+  ShieldIcon,
+  UserIcon,
+} from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
+
 import { PageContainer } from "@/components/layout/page-container";
+import { SegmentedControl } from "@/components/ui/forms/segmented-control";
+import { PageHeader } from "@/components/ui/layout/page-header";
+import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
+import { TRANSLATION_KEYS } from "@/constants/translations";
+import { UserSettingsTab } from "@/features/user-settings/enums/user-settings.enum";
+
+import { PreferencesSetting } from "./preferences-setting";
+import { ProfileSetting } from "./profile-setting";
+import { SecuritySetting } from "./security-setting";
 
 export function UserSettingsView() {
   const t = useTranslations("UserSettings");

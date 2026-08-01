@@ -1,15 +1,16 @@
 "use client";
 
 import {
-  ResponsiveContainer,
-  AreaChart,
   Area,
+  AreaChart,
+  CartesianGrid,
   Line,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  Tooltip,
-  CartesianGrid,
 } from "recharts";
+
 import { BurndownPoint } from "@/features/reports/types/reports.types";
 import { cn } from "@/utils/cn";
 

@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+
 import { PlusIcon, XIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { AVAILABLE_TAGS } from "@/features/retros/constants/retro.constants";
 
 interface RetroTagSelectorProps {

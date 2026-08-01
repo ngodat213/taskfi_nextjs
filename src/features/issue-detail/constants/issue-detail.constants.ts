@@ -1,7 +1,7 @@
 import {
-  IssueType,
-  IssueLinkType,
   ISSUE_LINK_TYPE_LABELS,
+  IssueLinkType,
+  IssueType,
 } from "@/types/issue.types";
 
 export const DEFAULT_ISSUE_TYPE_OPTIONS: IssueType[] = [

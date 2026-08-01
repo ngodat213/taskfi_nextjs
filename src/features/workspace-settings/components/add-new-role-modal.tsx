@@ -1,34 +1,41 @@
-import { ShieldIcon, SparkleIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 import { useEffect } from "react";
-;
+import { useForm, useWatch } from "react-hook-form";
+
+import { useTranslations } from "next-intl";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalScrollArea,
-  ModalFooter,
-} from "@/components/ui/layout/modal";
+  CircleNotchIcon,
+  ShieldIcon,
+  SparkleIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
+import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { FormInput } from "@/components/ui/forms/form-input";
 import { Label } from "@/components/ui/forms/label";
 import { Select } from "@/components/ui/forms/select";
-import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { Textarea } from "@/components/ui/forms/textarea";
-import { useTranslations } from "next-intl";
-import { PermissionMatrixTable } from "./permission-matrix-table";
-import { useForm, useWatch } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalScrollArea,
+} from "@/components/ui/layout/modal";
+import { TRANSLATION_KEYS } from "@/constants/translations";
+import {
+  CreateRoleFormData,
+  createRoleSchema,
+} from "@/features/workspace-settings/schema/role.schema";
 import {
   useCreateWorkspaceRole,
   useUpdateWorkspaceRole,
 } from "@/features/workspaces/hooks/use-workspaces";
 import { useWorkspaceStore } from "@/store/workspace.store";
 import { WorkspaceRole } from "@/types/workspace.types";
-import {
-  createRoleSchema,
-  CreateRoleFormData,
-} from "@/features/workspace-settings/schema/role.schema";
-import { TRANSLATION_KEYS } from "@/constants/translations";
+
+import { PermissionMatrixTable } from "./permission-matrix-table";
 
 interface AddNewRoleModalProps {
   isOpen: boolean;
@@ -233,7 +240,9 @@ export function AddNewRoleModal({
                 {t(TRANSLATION_KEYS.actions.cancel)}
               </Button>
               <Button type="submit" disabled={isPending}>
-                {isPending && <CircleNotchIcon className="w-3.5 h-3.5 animate-spin" />}
+                {isPending && (
+                  <CircleNotchIcon className="w-3.5 h-3.5 animate-spin" />
+                )}
                 {isEditMode
                   ? t(TRANSLATION_KEYS.actions.save)
                   : t(TRANSLATION_KEYS.modals.addRole.btn)}

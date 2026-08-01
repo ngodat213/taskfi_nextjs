@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-import { LinkIcon as LinkIcon } from "@phosphor-icons/react/dist/ssr";
+
+import { LinkIcon } from "@phosphor-icons/react/dist/ssr";
+
+import { Button, ButtonVariant } from "@/components/ui/actions/button";
+import { InputLabel } from "@/components/ui/forms/input-label";
+import { Select } from "@/components/ui/forms/select";
 import {
   Modal,
-  ModalContent,
-  ModalHeader,
   ModalBody,
+  ModalContent,
   ModalFooter,
+  ModalHeader,
 } from "@/components/ui/layout/modal";
-import { Button, ButtonVariant } from "@/components/ui/actions/button";
-import { Select } from "@/components/ui/forms/select";
-import { InputLabel } from "@/components/ui/forms/input-label";
+import { useIssues, useLinkIssue } from "@/features/projects/hooks/use-issues";
 import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
 import { useWorkspaceStore } from "@/store/workspace.store";
-import { useIssues, useLinkIssue } from "@/features/projects/hooks/use-issues";
 import { Issue, IssueLinkType } from "@/types/issue.types";
 
 interface LinkIssueModalProps {

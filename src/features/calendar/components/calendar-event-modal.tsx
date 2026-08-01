@@ -1,9 +1,18 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { XIcon, ClockIcon, VideoCameraIcon, ArrowUpRightIcon, SparkleIcon, CheckCircleIcon, UsersIcon } from "@phosphor-icons/react/dist/ssr";
-import { cn } from "@/utils/cn";
+import {
+  ArrowUpRightIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  SparkleIcon,
+  UsersIcon,
+  VideoCameraIcon,
+  XIcon,
+} from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
+
 import { CalendarEvent } from "@/features/calendar/types/calendar.types";
+import { cn } from "@/utils/cn";
 
 interface CalendarEventModalProps {
   event: CalendarEvent | null;

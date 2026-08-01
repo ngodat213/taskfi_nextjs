@@ -1,28 +1,30 @@
 "use client";
 
 import { useEffect } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChatTextIcon } from "@phosphor-icons/react/dist/ssr";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalScrollArea,
-  ModalFooter,
-} from "@/components/ui/layout/modal";
+
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { FormInput } from "@/components/ui/forms/form-input";
-import { TextEditor } from "@/components/ui/forms/text-editor";
-import { Select } from "@/components/ui/forms/select";
 import { InputLabel } from "@/components/ui/forms/input-label";
-import { RetroItem } from "@/types/retro.types";
+import { Select } from "@/components/ui/forms/select";
+import { TextEditor } from "@/components/ui/forms/text-editor";
 import {
-  addRetroSchema,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalScrollArea,
+} from "@/components/ui/layout/modal";
+import {
   AddRetroFormValues,
   DEFAULT_ADD_RETRO_VALUES,
+  addRetroSchema,
 } from "@/features/retros/schemas/add-retro.schema";
+import { RetroItem } from "@/types/retro.types";
 
 interface AddRetroModalProps {
   isOpen: boolean;

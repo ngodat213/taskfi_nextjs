@@ -1,10 +1,15 @@
 "use client";
 
 import { useMemo } from "react";
-import { VideoCameraIcon, CalendarBlankIcon } from "@phosphor-icons/react/dist/ssr";
+
+import {
+  CalendarBlankIcon,
+  VideoCameraIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import { motion } from "framer-motion";
-import { cn } from "@/utils/cn";
+
 import { CalendarEvent } from "@/features/calendar/types/calendar.types";
+import { cn } from "@/utils/cn";
 
 interface CalendarAgendaTabProps {
   events: CalendarEvent[];

@@ -1,31 +1,35 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+import { usePathname } from "next/navigation";
+
 import { CalendarBlankIcon } from "@phosphor-icons/react/dist/ssr";
-import { cn } from "@/utils/cn";
-import { motion, type Variants } from "framer-motion";
+import { type Variants, motion } from "framer-motion";
+
 import { PageContainer } from "@/components/layout/page-container";
-import { Badge } from "@/components/ui/data-display/badge";
-import { Avatar } from "@/components/ui/data-display/avatar";
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
-import { AiChatSidebar } from "@/features/issue-detail/components/ai-chat-sidebar";
+import { Avatar } from "@/components/ui/data-display/avatar";
+import { Badge } from "@/components/ui/data-display/badge";
+import { AiChatSidebar } from "@/features/ai-assistant";
 import {
-  RetroItem,
-  getRetroTags,
-  RetroItemResponseDto,
-} from "@/types/retro.types";
-import {
-  useRetroSessions,
   useRetroSessionDetail,
+  useRetroSessions,
   useUpdateRetroItem,
 } from "@/features/retros/hooks/use-retros";
-import { RetroTagSelector } from "./retro-tag-selector";
-import { RetroMainContent } from "./retro-main-content";
-import { RetroSidebarStatus } from "./retro-sidebar-status";
 import { mapDtoToRetroItem } from "@/features/retros/utils/retro.utils";
 import { useDebounce } from "@/hooks/use-debounce";
-import { usePathname } from "next/navigation";
 import { useNavigationStore } from "@/store/navigation.store";
+import {
+  RetroItem,
+  RetroItemResponseDto,
+  getRetroTags,
+} from "@/types/retro.types";
+import { cn } from "@/utils/cn";
+
+import { RetroMainContent } from "./retro-main-content";
+import { RetroSidebarStatus } from "./retro-sidebar-status";
+import { RetroTagSelector } from "./retro-tag-selector";
 
 interface RetroDetailViewProps {
   retroId?: string;
@@ -123,7 +127,12 @@ export function RetroDetailView({
 
   useEffect(() => {
     const trimmedTitle = debouncedTitle.trim();
-    if (trimmedTitle && trimmedTitle !== lastSavedTitleRef.current && apiItem && activeSession) {
+    if (
+      trimmedTitle &&
+      trimmedTitle !== lastSavedTitleRef.current &&
+      apiItem &&
+      activeSession
+    ) {
       lastSavedTitleRef.current = trimmedTitle;
       updateItem.mutate({
         sessionId: activeSession.id,
@@ -179,7 +188,12 @@ export function RetroDetailView({
 
   const handleTitleBlur = () => {
     const trimmedTitle = title.trim();
-    if (trimmedTitle && trimmedTitle !== lastSavedTitleRef.current && apiItem && activeSession) {
+    if (
+      trimmedTitle &&
+      trimmedTitle !== lastSavedTitleRef.current &&
+      apiItem &&
+      activeSession
+    ) {
       lastSavedTitleRef.current = trimmedTitle;
       updateItem.mutate({
         sessionId: activeSession.id,

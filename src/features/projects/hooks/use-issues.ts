@@ -1,11 +1,27 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { issueService, GetIssuesParams } from "@/services/issue.service";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+import {
+  GetIssuesParams,
+  GetMyTasksParams,
+  issueService,
+} from "@/services/issue.service";
 import {
   CreateIssueRequest,
   Issue,
-  IssueComment,
   IssueActivity,
+  IssueComment,
 } from "@/types/issue.types";
+
+export const useMyTasks = (
+  workspaceId?: string | null,
+  params?: GetMyTasksParams,
+) => {
+  return useQuery({
+    queryKey: ["my-tasks", workspaceId, params],
+    queryFn: () => issueService.getMyTasks(workspaceId!, params),
+    enabled: !!workspaceId,
+  });
+};
 
 export const useIssues = (projectId: string, params?: GetIssuesParams) => {
   return useQuery({

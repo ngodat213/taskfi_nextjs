@@ -1,21 +1,24 @@
 "use client";
 
+import { useMemo } from "react";
 import { useForm, useWatch } from "react-hook-form";
+
+import { useTranslations } from "next-intl";
+
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import { Button } from "@/components/ui/actions/button";
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { Input } from "@/components/ui/forms/input";
 import { Label } from "@/components/ui/forms/label";
-import { useSignup } from "@/features/auth/hooks/use-auth";
-import { handleFormError } from "@/utils/error";
-import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { PasswordStrength } from "@/components/ui/forms/password-strength";
-import { useRouter } from "@/i18n/routing";
-import { useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { useSignup } from "@/features/auth/hooks/use-auth";
 import {
-  getRegisterSchema,
   RegisterFormValues,
+  getRegisterSchema,
 } from "@/features/auth/schemas/auth.schema";
+import { useRouter } from "@/i18n/routing";
+import { handleFormError } from "@/utils/error";
 
 export function RegisterForm() {
   const router = useRouter();

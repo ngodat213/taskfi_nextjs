@@ -1,16 +1,18 @@
 "use client";
 
 import { FileTextIcon, FolderSimpleIcon } from "@phosphor-icons/react/dist/ssr";
-import { motion, AnimatePresence } from "framer-motion";
-import { DocumentItem } from "@/features/documents/types/documents.types";
-import { DocumentCard } from "./document-card";
+import { AnimatePresence, motion } from "framer-motion";
+
 import {
   Table,
-  TableHeader,
   TableBody,
-  TableRow,
   TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/data-display/table";
+import { DocumentItem } from "@/features/documents/types/documents.types";
+
+import { DocumentCard } from "./document-card";
 
 interface DocumentListSectionProps {
   title: string;

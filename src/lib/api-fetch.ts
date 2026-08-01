@@ -1,5 +1,6 @@
+import type { AxiosError, AxiosRequestConfig } from "axios";
+
 import { apiClient } from "./axios";
-import type { AxiosRequestConfig, AxiosError } from "axios";
 
 export type ApiMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 

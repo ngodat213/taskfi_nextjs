@@ -1,7 +1,8 @@
 import * as React from "react";
+
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { Input, InputProps } from "@/components/ui/forms/input";
 import { InputLabel } from "@/components/ui/forms/input-label";
-import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { cn } from "@/utils/cn";
 
 export interface FormInputProps extends Omit<InputProps, "error"> {

@@ -1,16 +1,17 @@
 import { useTranslations } from "next-intl";
+
 import { Avatar } from "@/components/ui/data-display/avatar";
-import { IssueActivity } from "@/types/issue.types";
-import { WorkspaceMember } from "@/types/workspace.types";
-import { formatRelativeTime } from "@/utils/date";
 import { TRANSLATION_KEYS } from "@/constants/translations";
 import { ACTIVITY_FIELD_TRANSLATION_KEYS } from "@/features/issue-detail/constants/issue-activity.constants";
 import {
   formatFieldValue,
-  getActivityUserDisplayName,
   getActivityUserAvatarUrl,
+  getActivityUserDisplayName,
   getInitials,
 } from "@/features/issue-detail/utils/issue-activity.utils";
+import { IssueActivity } from "@/types/issue.types";
+import { WorkspaceMember } from "@/types/workspace.types";
+import { formatRelativeTime } from "@/utils/date";
 
 export interface IssueActivityItemProps {
   activity: IssueActivity;
@@ -89,8 +90,7 @@ export function IssueActivityItem({
   const avatarUrl = getActivityUserAvatarUrl(activity.user);
   const initials = getInitials(userDisplayName);
 
-  const translationKey =
-    ACTIVITY_FIELD_TRANSLATION_KEYS[activity.fieldChanged];
+  const translationKey = ACTIVITY_FIELD_TRANSLATION_KEYS[activity.fieldChanged];
   const fieldLabel = translationKey ? t(translationKey) : activity.fieldChanged;
 
   return (

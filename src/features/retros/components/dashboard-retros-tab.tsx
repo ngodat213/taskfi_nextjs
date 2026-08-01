@@ -1,20 +1,23 @@
 "use client";
 
 import { useState } from "react";
+
+import { type Variants, motion } from "framer-motion";
+
 import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { KanbanColumn } from "@/components/ui/layout/kanban-column";
+import {
+  SPRING_CARD_VARIANTS,
+  STAGGER_CONTAINER_VARIANTS,
+} from "@/constants/animations";
+import {
+  DEFAULT_SPRINT_ID,
+  RETRO_COLUMNS,
+} from "@/features/retros/constants/retro.constants";
+import { useDashboardRetros } from "@/features/retros/hooks/use-dashboard-retros";
+
 import { AddRetroModal } from "./add-retro-modal";
 import { RetroCard } from "./retro-card";
-import { motion, type Variants } from "framer-motion";
-import {
-  STAGGER_CONTAINER_VARIANTS,
-  SPRING_CARD_VARIANTS,
-} from "@/constants/animations";
-import { useDashboardRetros } from "@/features/retros/hooks/use-dashboard-retros";
-import {
-  RETRO_COLUMNS,
-  DEFAULT_SPRINT_ID,
-} from "@/features/retros/constants/retro.constants";
 
 interface DashboardRetrosTabProps {
   projectId?: string;

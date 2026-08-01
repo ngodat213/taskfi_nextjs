@@ -1,11 +1,17 @@
 "use client";
 
-import { FolderSimpleIcon, UserIcon, DotsThreeVerticalIcon, FilesIcon } from "@phosphor-icons/react/dist/ssr";
+import {
+  DotsThreeVerticalIcon,
+  FilesIcon,
+  FolderSimpleIcon,
+  UserIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import { motion } from "framer-motion";
-import { cn } from "@/utils/cn";
+
+import { TableCell, TableRow } from "@/components/ui/data-display/table";
 import { FolderItem } from "@/features/documents/types/documents.types";
 import { getFolderColorStyle } from "@/features/documents/utils/documents.utils";
-import { TableRow, TableCell } from "@/components/ui/data-display/table";
+import { cn } from "@/utils/cn";
 
 interface FolderCardProps {
   folder: FolderItem;

@@ -1,6 +1,9 @@
-import { CaretDownIcon, CheckIcon } from "@phosphor-icons/react/dist/ssr";
 import * as React from "react";
+
+import { CaretDownIcon, CheckIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { cn } from "@/utils/cn";
+
 export interface SelectProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   "onChange"

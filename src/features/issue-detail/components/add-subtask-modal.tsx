@@ -1,35 +1,38 @@
 import React, { useState } from "react";
+
 import { useTranslations } from "next-intl";
+
 import {
-  PlusIcon,
   CheckSquareIcon,
   LinkIcon,
+  PlusIcon,
 } from "@phosphor-icons/react/dist/ssr";
+
+import { Button, ButtonVariant } from "@/components/ui/actions/button";
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { Input } from "@/components/ui/forms/input";
+import { InputLabel } from "@/components/ui/forms/input-label";
+import { SearchSelect } from "@/components/ui/forms/search-select";
+import { SegmentedControl } from "@/components/ui/forms/segmented-control";
+import { Select } from "@/components/ui/forms/select";
 import {
   Modal,
-  ModalContent,
-  ModalHeader,
   ModalBody,
+  ModalContent,
   ModalFooter,
+  ModalHeader,
 } from "@/components/ui/layout/modal";
-import { Button, ButtonVariant } from "@/components/ui/actions/button";
-import { Select } from "@/components/ui/forms/select";
-import { InputLabel } from "@/components/ui/forms/input-label";
-import { Input } from "@/components/ui/forms/input";
-import { SegmentedControl } from "@/components/ui/forms/segmented-control";
-import { SearchSelect } from "@/components/ui/forms/search-select";
-import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
-import { useAutoError } from "@/hooks/use-auto-error";
+import { TRANSLATION_KEYS } from "@/constants/translations";
+import { PRIORITY_OPTIONS } from "@/features/dashboard/helpers/create-task.helpers";
+import { mapIssueToSearchOption } from "@/features/issue-detail/utils/issue-options.utils";
 import {
   useChildOptions,
   useCreateIssue,
   useUpdateIssue,
 } from "@/features/projects/hooks/use-issues";
-import { PRIORITY_OPTIONS } from "@/features/dashboard/helpers/create-task.helpers";
-import { mapIssueToSearchOption } from "@/features/issue-detail/utils/issue-options.utils";
 import { useWorkspaceMembers } from "@/features/workspaces/hooks/use-workspaces";
+import { useAutoError } from "@/hooks/use-auto-error";
 import { useWorkspaceStore } from "@/store/workspace.store";
-import { TRANSLATION_KEYS } from "@/constants/translations";
 
 interface AddSubtaskModalProps {
   isOpen: boolean;

@@ -1,9 +1,10 @@
 "use client";
 
+import { Icon } from "@phosphor-icons/react";
+import { AnimatePresence, motion } from "framer-motion";
+
 import { Link } from "@/i18n/routing";
 import { cn } from "@/utils/cn";
-import { motion, AnimatePresence } from "framer-motion";
-import { Icon } from "@phosphor-icons/react";
 
 export interface SidebarNavItemProps {
   icon: Icon;

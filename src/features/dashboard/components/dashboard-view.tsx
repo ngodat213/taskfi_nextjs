@@ -1,50 +1,51 @@
 "use client";
 
-import { PlusIcon, PulseIcon } from "@phosphor-icons/react/dist/ssr";
+import { useCallback, useMemo, useState } from "react";
+import { useEffect } from "react";
 
-import { useState, useMemo, useCallback } from "react";
-import { motion, Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { PageHeader } from "@/components/ui/layout/page-header";
-import { SegmentedControl } from "@/components/ui/forms/segmented-control";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+import { PlusIcon, PulseIcon } from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, Variants, motion } from "framer-motion";
+
+import { PageContainer } from "@/components/layout/page-container";
 import {
   Button,
-  ButtonVariant,
   ButtonSize,
+  ButtonVariant,
 } from "@/components/ui/actions/button";
-import { DashboardBoardTab } from "@/features/board/components/dashboard-board-tab";
-import { DashboardBacklogTab } from "@/features/backlog/components/dashboard-backlog-tab";
-import { DashboardIssuesTab } from "@/features/issues/components/dashboard-issues-tab";
-import { DashboardDoneTab } from "@/features/done/components/dashboard-done-tab";
-import { DashboardReportsTab } from "./dashboard-reports-tab";
-import { DashboardWorkloadTab } from "@/features/workload/components/dashboard-workload-tab";
-import { DashboardRetrosTab } from "@/features/retros/components/dashboard-retros-tab";
-import { DashboardDepsTab } from "@/features/deps/components/dashboard-deps-tab";
-import { DashboardArchivedTab } from "@/features/archived/components/dashboard-archived-tab";
-import { PageContainer } from "@/components/layout/page-container";
+import { SegmentedControl } from "@/components/ui/forms/segmented-control";
+import { PageHeader } from "@/components/ui/layout/page-header";
 import { APP_CONFIG } from "@/config/app.config";
-import { CreateTaskModal } from "./create-task-modal";
-import { DASHBOARD_TABS } from "@/features/issues/constants/issue-ui.constants";
-import { IssueDetailView } from "@/features/issue-detail/components/issue-detail-view";
-import { RetroDetailView } from "@/features/retros/components/retro-detail-view";
-
-import { useProject } from "@/features/projects/hooks/use-project";
-import { useIssues } from "@/features/projects/hooks/use-issues";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
 import { TRANSLATION_KEYS } from "@/constants/translations";
+import { DashboardArchivedTab } from "@/features/archived/components/dashboard-archived-tab";
+import { DashboardBacklogTab } from "@/features/backlog/components/dashboard-backlog-tab";
+import { DashboardBoardTab } from "@/features/board/components/dashboard-board-tab";
+import { DashboardDepsTab } from "@/features/deps/components/dashboard-deps-tab";
+import { DashboardDoneTab } from "@/features/done/components/dashboard-done-tab";
+import { IssueDetailView } from "@/features/issue-detail/components/issue-detail-view";
+import { DashboardIssuesTab } from "@/features/issues/components/dashboard-issues-tab";
+import { DASHBOARD_TABS } from "@/features/issues/constants/issue-ui.constants";
+import { useIssues } from "@/features/projects/hooks/use-issues";
+import { useProject } from "@/features/projects/hooks/use-project";
+import { DashboardRetrosTab } from "@/features/retros/components/dashboard-retros-tab";
+import { RetroDetailView } from "@/features/retros/components/retro-detail-view";
+import { DashboardWorkloadTab } from "@/features/workload/components/dashboard-workload-tab";
 import { GetIssuesParams } from "@/services/issue.service";
+import { Issue } from "@/types/issue.types";
 
+import { CreateTaskModal } from "./create-task-modal";
+import { DashboardReportsTab } from "./dashboard-reports-tab";
 import {
+  ArchivedTabFilterBar,
+  DepsTabFilterBar,
   IssueTabFilterBar,
   ReportsTabFilterBar,
-  WorkloadTabFilterBar,
   RetrosTabFilterBar,
-  DepsTabFilterBar,
-  ArchivedTabFilterBar,
+  WorkloadTabFilterBar,
 } from "./filters";
-
-import { Issue } from "@/types/issue.types";
-import { useEffect } from "react";
 
 const EMPTY_ISSUES: Issue[] = [];
 
@@ -88,17 +89,9 @@ export function DashboardView({ projectId }: { projectId: string }) {
 
   // Retros Contextual Filter State
   const [retrosSprint, setRetrosSprint] = useState<string>("sprint-24");
-  const [retrosSearch, setRetrosSearch] = useState<string>("");
 
-  // Deps Contextual Filter State
-  const [depsViewMode, setDepsViewMode] = useState<"graph" | "list">("graph");
-  const [depsFilterRisk, setDepsFilterRisk] = useState<string>("all");
-  const [depsSearch, setDepsSearch] = useState<string>("");
-
-  // Archived Contextual Filter State
-  const [archivedFilterType, setArchivedFilterType] = useState<string>("all");
-  const [archivedSearch, setArchivedSearch] = useState<string>("");
-
+  const { data: projectResponse } = useProject(projectId);
+  const project = projectResponse?.data;
   const selectedIssueId = searchParams.get("issueId");
   const setSelectedIssueId = useCallback(
     (id: string | null) => {
@@ -127,12 +120,26 @@ export function DashboardView({ projectId }: { projectId: string }) {
     [searchParams, pathname, router],
   );
 
+  const [retrosSearch, setRetrosSearch] = useState<string>("");
+
+  // Deps Contextual Filter State
+  const [depsViewMode, setDepsViewMode] = useState<"graph" | "list">("graph");
+  const [depsFilterRisk, setDepsFilterRisk] = useState<string>("all");
+  const [depsSearch, setDepsSearch] = useState<string>("");
+  const [depsSelectedStatuses, setDepsSelectedStatuses] = useState<string[]>([
+    "to do",
+    "in progress",
+    "in review",
+    "done",
+  ]);
+
+  // Archived Contextual Filter State
+  const [archivedFilterType, setArchivedFilterType] = useState<string>("all");
+  const [archivedSearch, setArchivedSearch] = useState<string>("");
+
   const [assigneeFilter, setAssigneeFilter] = useState<string>("");
   const [typeFilter, setTypeFilter] = useState<string>("");
   const [priorityFilter, setPriorityFilter] = useState<string>("");
-
-  const { data: projectResponse } = useProject(projectId);
-  const project = projectResponse?.data;
 
   const issueFilters = useMemo(() => {
     const filters: GetIssuesParams = {
@@ -206,6 +213,8 @@ export function DashboardView({ projectId }: { projectId: string }) {
           onSearchChange={setDepsSearch}
           filterRisk={depsFilterRisk}
           onFilterRiskChange={setDepsFilterRisk}
+          selectedStatuses={depsSelectedStatuses}
+          onSelectedStatusesChange={setDepsSelectedStatuses}
         />
       );
     }
@@ -238,7 +247,8 @@ export function DashboardView({ projectId }: { projectId: string }) {
             size={ButtonSize.Sm}
             onClick={() => setIsRetroModalOpen(true)}
           >
-            <PlusIcon className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Retro Note
+            <PlusIcon className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Retro
+            Note
           </Button>
         </>
       );
@@ -256,7 +266,8 @@ export function DashboardView({ projectId }: { projectId: string }) {
             size={ButtonSize.Sm}
             onClick={() => setIsDepModalOpen(true)}
           >
-            <PlusIcon className="w-3.5 h-3.5" strokeWidth={2.5} /> Add Dependency
+            <PlusIcon className="w-3.5 h-3.5" strokeWidth={2.5} /> Add
+            Dependency
           </Button>
         </>
       );
@@ -355,8 +366,10 @@ export function DashboardView({ projectId }: { projectId: string }) {
             onFilterRiskChange={setDepsFilterRisk}
             searchQuery={depsSearch}
             onSearchQueryChange={setDepsSearch}
+            selectedStatuses={depsSelectedStatuses}
             isAddModalOpen={isDepModalOpen}
             onAddModalOpenChange={setIsDepModalOpen}
+            onIssueClick={setSelectedIssueId}
           />
         );
       case "archived":
@@ -381,76 +394,97 @@ export function DashboardView({ projectId }: { projectId: string }) {
 
   return (
     <PageContainer>
-      {selectedIssueId ? (
-        <IssueDetailView
-          projectId={projectId}
-          issueId={selectedIssueId}
-          onClose={() => setSelectedIssueId(null)}
-        />
-      ) : selectedRetroId ? (
-        <RetroDetailView
-          projectId={projectId}
-          retroId={selectedRetroId}
-          onClose={() => setSelectedRetroId(null)}
-        />
-      ) : (
-        <>
-          {/* Project Header Area */}
-          <div className="bg-transparent border-b border-border/60 shrink-0">
-            <div className="w-full px-6 pt-5">
-              <PageHeader
-                title={
-                  <>
-                    {getHeaderTitle()}
-                    <div className="flex items-center gap-1.5 mt-0.5">
-                      <span className="px-2 py-0.5 rounded text-[11px] font-medium border border-orange-200 bg-orange-50 text-orange-600">
-                        Kanban
-                      </span>
-                      <span className="px-2 py-0.5 rounded text-[11px] font-medium border border-emerald-200 bg-emerald-50 text-emerald-600">
-                        ND
-                      </span>
-                    </div>
-                  </>
-                }
-                description={t(TRANSLATION_KEYS.DASHBOARD.kanbanFlow)}
-                actions={renderHeaderActions()}
-              >
-                <div className="flex flex-col gap-2.5 mb-2">
-                  {/* Tabs */}
-                  <SegmentedControl
-                    tabs={DASHBOARD_TABS}
-                    activeTab={activeTab}
-                    onTabChange={setActiveTab}
-                  />
-                  {/* Contextual Filter Bar Tailored Per Active Tab */}
-                  {renderHeaderFilterBar()}
-                </div>
-              </PageHeader>
+      <AnimatePresence mode="popLayout">
+        {selectedIssueId ? (
+          <motion.div
+            key={`issue-detail-${selectedIssueId}`}
+            variants={TAB_CONTENT_VARIANTS}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="w-full h-full"
+          >
+            <IssueDetailView
+              projectId={projectId}
+              issueId={selectedIssueId}
+              onClose={() => setSelectedIssueId(null)}
+              onIssueSelect={(id) => setSelectedIssueId(id)}
+            />
+          </motion.div>
+        ) : selectedRetroId ? (
+          <motion.div
+            key={`retro-detail-${selectedRetroId}`}
+            variants={TAB_CONTENT_VARIANTS}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="w-full h-full"
+          >
+            <RetroDetailView
+              projectId={projectId}
+              retroId={selectedRetroId}
+              onClose={() => setSelectedRetroId(null)}
+            />
+          </motion.div>
+        ) : (
+          <>
+            {/* Project Header Area */}
+            <div className="bg-transparent border-b border-border/60 shrink-0">
+              <div className="w-full px-6 pt-5">
+                <PageHeader
+                  title={
+                    <>
+                      {getHeaderTitle()}
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <span className="px-2 py-0.5 rounded text-[11px] font-medium border border-orange-200 bg-orange-50 text-orange-600">
+                          Kanban
+                        </span>
+                        <span className="px-2 py-0.5 rounded text-[11px] font-medium border border-emerald-200 bg-emerald-50 text-emerald-600">
+                          ND
+                        </span>
+                      </div>
+                    </>
+                  }
+                  description={t(TRANSLATION_KEYS.DASHBOARD.kanbanFlow)}
+                  actions={renderHeaderActions()}
+                >
+                  <div className="flex flex-col gap-2.5 mb-2">
+                    {/* Tabs */}
+                    <SegmentedControl
+                      tabs={DASHBOARD_TABS}
+                      activeTab={activeTab}
+                      onTabChange={setActiveTab}
+                    />
+                    {/* Contextual Filter Bar Tailored Per Active Tab */}
+                    {renderHeaderFilterBar()}
+                  </div>
+                </PageHeader>
+              </div>
             </div>
-          </div>
 
-          {/* Tab Content Area */}
-          <div className="flex-1 min-h-0 overflow-hidden">
-            <motion.div
-              key={activeTab}
-              variants={tabVariants}
-              initial="hidden"
-              animate="show"
-              className="w-full h-full flex flex-col"
-            >
-              {renderTabContent()}
-            </motion.div>
-          </div>
+            {/* Tab Content Area */}
+            <div className="flex-1 min-h-0 overflow-hidden">
+              <motion.div
+                key={activeTab}
+                variants={tabVariants}
+                initial="hidden"
+                animate="show"
+                className="w-full h-full flex flex-col"
+              >
+                {renderTabContent()}
+              </motion.div>
+            </div>
 
-          {/* Create Task Modal */}
-          <CreateTaskModal
-            projectId={projectId}
-            isOpen={isCreateModalOpen}
-            onClose={() => setIsCreateModalOpen(false)}
-            defaultStatus={createModalStatus}
-          />
-        </>
-      )}
+            {/* Create Task Modal */}
+            <CreateTaskModal
+              projectId={projectId}
+              isOpen={isCreateModalOpen}
+              onClose={() => setIsCreateModalOpen(false)}
+              defaultStatus={createModalStatus}
+            />
+          </>
+        )}
+      </AnimatePresence>
     </PageContainer>
   );
 }

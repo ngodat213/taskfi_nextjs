@@ -1,5 +1,9 @@
-import { ListIcon, SquaresFourIcon, CalendarBlankIcon } from "@phosphor-icons/react/dist/ssr";
-;
+import {
+  CalendarBlankIcon,
+  ListIcon,
+  SquaresFourIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { SegmentedControlTab } from "@/components/ui/forms/segmented-control";
 
 export const PROJECT_VIEW_TABS: SegmentedControlTab[] = [

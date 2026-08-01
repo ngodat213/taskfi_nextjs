@@ -1,7 +1,7 @@
 import {
+  RetroCategory,
   RetroItem,
   RetroItemResponseDto,
-  RetroCategory,
   getRetroTags,
   mapBackendCategoryToFrontend,
 } from "@/types/retro.types";

@@ -1,5 +1,12 @@
-import { PlusIcon, BriefcaseIcon, CaretRightIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
+
+import {
+  BriefcaseIcon,
+  CaretRightIcon,
+  CircleNotchIcon,
+  PlusIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { Workspace } from "@/types/workspace.types";
 
 interface WorkspaceListProps {

@@ -1,11 +1,12 @@
 import { useTranslations } from "next-intl";
+
 import { EmptyState } from "@/components/ui/data-display/empty-state";
+import { APP_CONFIG } from "@/config/app.config";
+import { TRANSLATION_KEYS } from "@/constants/translations";
+import { IssueActivityItem } from "@/features/issue-detail/components/issue-activity-item";
 import { useIssueActivities } from "@/features/projects/hooks/use-issues";
 import { useWorkspaceMembers } from "@/features/workspaces/hooks/use-workspaces";
 import { useWorkspaceStore } from "@/store/workspace.store";
-import { TRANSLATION_KEYS } from "@/constants/translations";
-import { IssueActivityItem } from "@/features/issue-detail/components/issue-activity-item";
-import { APP_CONFIG } from "@/config/app.config";
 
 interface IssueActivitiesProps {
   issueId: string;

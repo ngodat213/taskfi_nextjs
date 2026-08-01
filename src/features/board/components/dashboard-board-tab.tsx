@@ -1,30 +1,31 @@
-import { CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
-import { useState, useMemo } from "react";
-import { motion, Variants } from "framer-motion";
+import { useMemo, useState } from "react";
+
 import {
   DndContext,
   DragEndEvent,
   DragOverEvent,
   DragOverlay,
-  closestCorners,
   KeyboardSensor,
   PointerSensor,
+  closestCorners,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-
-import { BoardColumn } from "./board-column";
-import { useUpdateIssue } from "@/features/projects/hooks/use-issues";
-import { TaskCard } from "./task-card";
-import { Issue } from "@/types/issue.types";
-import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
-import { useIsMobile } from "@/hooks/use-media-query";
+import { CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
+import { Variants, motion } from "framer-motion";
 
 import {
-  STAGGER_CONTAINER_VARIANTS,
   SPRING_CARD_VARIANTS,
+  STAGGER_CONTAINER_VARIANTS,
 } from "@/constants/animations";
+import { useUpdateIssue } from "@/features/projects/hooks/use-issues";
+import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
+import { useIsMobile } from "@/hooks/use-media-query";
+import { Issue } from "@/types/issue.types";
+
+import { BoardColumn } from "./board-column";
+import { TaskCard } from "./task-card";
 
 const containerVariants: Variants = STAGGER_CONTAINER_VARIANTS;
 const columnVariants: Variants = SPRING_CARD_VARIANTS;
@@ -35,7 +36,10 @@ interface DashboardBoardTabProps {
   q: string;
   issues?: Issue[];
   isLoading?: boolean;
-  onIssueClick?: (issueId: string) => void;
+  onIssueClick?: (
+    issueId: string,
+    issueData?: { issueKey?: string; type?: string },
+  ) => void;
   onAddClick?: (status: string) => void;
 }
 

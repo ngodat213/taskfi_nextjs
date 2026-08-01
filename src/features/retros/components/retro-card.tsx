@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
 import { CheckCircleIcon } from "@phosphor-icons/react/dist/ssr";
+import { type Variants, motion } from "framer-motion";
+
 import { Avatar } from "@/components/ui/data-display/avatar";
 import { Badge } from "@/components/ui/data-display/badge";
 import { ItemCard } from "@/components/ui/data-display/item-card";

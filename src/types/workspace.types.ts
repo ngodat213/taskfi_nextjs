@@ -147,6 +147,7 @@ export interface WorkspaceIssueType {
   key?: string;
   no?: number;
   name: string;
+  color?: string;
   icon?: string;
   description?: string;
   isSubtask?: boolean;

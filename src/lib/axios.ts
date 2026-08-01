@@ -1,6 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { useAuthStore } from "@/store/auth.store";
+
 import { API_ENDPOINTS } from "@/config/api-endpoints";
+import { useAuthStore } from "@/store/auth.store";
 
 type QueuedRequest = {
   resolve: (token: string) => void;

@@ -1,35 +1,41 @@
-import { FileTextIcon, SparkleIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
-;
-import { useForm, Controller } from "react-hook-form";
+import { useEffect, useMemo } from "react";
+import { Controller, useForm } from "react-hook-form";
+
+import { useTranslations } from "next-intl";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalScrollArea,
-  ModalFooter,
-} from "@/components/ui/layout/modal";
+  CircleNotchIcon,
+  FileTextIcon,
+  SparkleIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
+import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { FormInput } from "@/components/ui/forms/form-input";
 import { FormSelect } from "@/components/ui/forms/form-select";
+import { Label } from "@/components/ui/forms/label";
 import { Textarea } from "@/components/ui/forms/textarea";
-import { Button, ButtonVariant } from "@/components/ui/actions/button";
-import { useMemo, useEffect } from "react";
-import { useWorkspaceStore } from "@/store/workspace.store";
 import {
-  useWorkspaceRoles,
-  useInviteWorkspaceMember,
-  useUpdateWorkspaceMember,
-} from "@/features/workspaces/hooks/use-workspaces";
-import { useTranslations } from "next-intl";
-import {
-  inviteUserSchema,
-  InviteUserFormData,
-} from "@/features/workspace-settings/schema/user.schema";
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalScrollArea,
+} from "@/components/ui/layout/modal";
 import { TRANSLATION_KEYS } from "@/constants/translations";
 import { useDepartments } from "@/features/workspace-settings/hooks/use-departments";
 import { useEmploymentTypes } from "@/features/workspace-settings/hooks/use-employment-types";
-import { Label } from "@/components/ui/forms/label";
+import {
+  InviteUserFormData,
+  inviteUserSchema,
+} from "@/features/workspace-settings/schema/user.schema";
+import {
+  useInviteWorkspaceMember,
+  useUpdateWorkspaceMember,
+  useWorkspaceRoles,
+} from "@/features/workspaces/hooks/use-workspaces";
+import { useWorkspaceStore } from "@/store/workspace.store";
 import { WorkspaceMember } from "@/types/workspace.types";
 
 interface AddNewUserModalProps {
@@ -370,7 +376,9 @@ export function AddNewUserModal({
                 variant={ButtonVariant.Primary}
                 disabled={isPending}
               >
-                {isPending && <CircleNotchIcon className="w-3.5 h-3.5 animate-spin" />}
+                {isPending && (
+                  <CircleNotchIcon className="w-3.5 h-3.5 animate-spin" />
+                )}
                 {isEditMode ? "Save Changes" : t(TK.btn)}
               </Button>
             </ModalFooter>

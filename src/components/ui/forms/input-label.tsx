@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { Label, LabelProps } from "@/components/ui/forms/label";
 
 export interface InputLabelProps extends LabelProps {

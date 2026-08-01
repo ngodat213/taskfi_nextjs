@@ -1,9 +1,16 @@
 "use client";
 
+import {
+  CheckCircleIcon,
+  ClockIcon,
+  LightningIcon,
+  UserCheckIcon,
+  WarningCircleIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { TeamMemberVelocity } from "@/features/reports/types/reports.types";
 import { cn } from "@/utils/cn";
 import { getInitials } from "@/utils/string";
-import { CheckCircleIcon, ClockIcon, UserCheckIcon, WarningCircleIcon, LightningIcon } from "@phosphor-icons/react/dist/ssr";
 
 interface TeamWorkloadCardProps {
   member: TeamMemberVelocity;

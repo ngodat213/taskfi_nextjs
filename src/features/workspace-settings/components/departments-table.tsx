@@ -1,22 +1,27 @@
-import { DotsThreeIcon, PencilSimpleIcon, BuildingsIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
-;
+import { useTranslations } from "next-intl";
+
+import {
+  BuildingsIcon,
+  CircleNotchIcon,
+  DotsThreeIcon,
+  PencilSimpleIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
+import { EmptyState } from "@/components/ui/data-display/empty-state";
 import {
   Table,
-  TableHeader,
   TableBody,
-  TableRow,
-  TableHead,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/data-display/table";
-import { useDepartments } from "@/features/workspace-settings/hooks/use-departments";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { TableActionBtn } from "@/components/ui/data-display/table-action-btn";
-import { Department } from "@/types/workspace.types";
-import { useTranslations } from "next-intl";
-;
 import { TRANSLATION_KEYS } from "@/constants/translations";
 import { EntityMemberCount } from "@/features/workspace-settings/components/entity-member-count";
+import { useDepartments } from "@/features/workspace-settings/hooks/use-departments";
 import { useWorkspaceStore } from "@/store/workspace.store";
+import { Department } from "@/types/workspace.types";
 
 interface DepartmentsTableProps {
   onEdit?: (department: Department) => void;

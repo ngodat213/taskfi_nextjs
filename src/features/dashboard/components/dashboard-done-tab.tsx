@@ -1,6 +1,8 @@
 import React from "react";
-import { Issue } from "@/types/issue.types";
+
 import { IssueListTab } from "@/features/dashboard/components/issue-list-tab";
+import { Issue } from "@/types/issue.types";
+
 interface DashboardDoneTabProps {
   q: string;
   issues?: Issue[];

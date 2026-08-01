@@ -1,15 +1,19 @@
-import { apiFetch } from "@/lib/api-fetch";
 import { API_ENDPOINTS } from "@/config/api-endpoints";
-import { BaseResponse, PaginationParams } from "@/types/api.types";
+import { apiFetch } from "@/lib/api-fetch";
 import {
-  Group,
+  BaseResponse,
+  PaginatedResponse,
+  PaginationParams,
+} from "@/types/api.types";
+import {
   CreateGroupRequest,
+  Group,
   UpdateGroupRequest,
 } from "@/types/group.types";
 
 export const groupService = {
   getGroups: async (workspaceId: string, params?: PaginationParams) => {
-    return apiFetch<BaseResponse<Group[]>>(
+    return apiFetch<PaginatedResponse<Group>>(
       `${API_ENDPOINTS.WORKSPACES.LIST}/${workspaceId}/groups`,
       { params },
     );

@@ -1,11 +1,14 @@
 "use client";
 
 import { useMemo } from "react";
-import { marked } from "marked";
+
 import hljs from "highlight.js";
-import { MermaidDiagram } from "./mermaid-diagram";
+import { marked } from "marked";
+
 import { renderFormattedCommentContent } from "@/features/issue-detail/utils/comment-user.utils";
 import { cn } from "@/utils/cn";
+
+import { MermaidDiagram } from "./mermaid-diagram";
 
 interface MarkdownPreviewProps {
   content?: string | null;

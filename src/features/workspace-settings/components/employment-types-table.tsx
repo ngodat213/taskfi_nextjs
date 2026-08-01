@@ -1,22 +1,27 @@
-import { DotsThreeIcon, PencilSimpleIcon, BriefcaseIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
-;
+import { useTranslations } from "next-intl";
+
+import {
+  BriefcaseIcon,
+  CircleNotchIcon,
+  DotsThreeIcon,
+  PencilSimpleIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
+import { EmptyState } from "@/components/ui/data-display/empty-state";
 import {
   Table,
-  TableHeader,
   TableBody,
-  TableRow,
-  TableHead,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/data-display/table";
-import { useEmploymentTypes } from "@/features/workspace-settings/hooks/use-employment-types";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { TableActionBtn } from "@/components/ui/data-display/table-action-btn";
-import { EmploymentType } from "@/types/workspace.types";
-import { useTranslations } from "next-intl";
-;
 import { TRANSLATION_KEYS } from "@/constants/translations";
 import { EntityMemberCount } from "@/features/workspace-settings/components/entity-member-count";
+import { useEmploymentTypes } from "@/features/workspace-settings/hooks/use-employment-types";
 import { useWorkspaceStore } from "@/store/workspace.store";
+import { EmploymentType } from "@/types/workspace.types";
 
 interface EmploymentTypesTableProps {
   onEdit?: (employmentType: EmploymentType) => void;

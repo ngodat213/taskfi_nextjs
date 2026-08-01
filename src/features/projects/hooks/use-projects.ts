@@ -1,7 +1,8 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 import { projectService } from "@/services/project.service";
-import { CreateProjectRequest } from "@/types/project.types";
 import { PaginationParams } from "@/types/api.types";
+import { CreateProjectRequest } from "@/types/project.types";
 
 export function useProjects(groupId: string, params?: PaginationParams) {
   return useQuery({

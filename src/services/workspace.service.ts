@@ -1,30 +1,30 @@
-import { apiFetch } from "@/lib/api-fetch";
 import { API_ENDPOINTS } from "@/config/api-endpoints";
-import {
-  CreateWorkspaceRequest,
-  UpdateWorkspaceRequest,
-  Workspace,
-  WorkspaceMember,
-  InviteWorkspaceMemberRequest,
-  UpdateWorkspaceMemberRequest,
-  WorkspaceMemberQueryParams,
-  WorkspaceRole,
-  CreateRoleRequest,
-  UpdateRoleRequest,
-  Department,
-  CreateDepartmentRequest,
-  UpdateDepartmentRequest,
-  EmploymentType,
-  CreateEmploymentTypeRequest,
-  UpdateEmploymentTypeRequest,
-  WorkspaceConfig,
-  UpdateWorkspaceConfigRequest,
-} from "@/types/workspace.types";
+import { apiFetch } from "@/lib/api-fetch";
 import {
   BaseResponse,
   PaginatedResponse,
   PaginationParams,
 } from "@/types/api.types";
+import {
+  CreateDepartmentRequest,
+  CreateEmploymentTypeRequest,
+  CreateRoleRequest,
+  CreateWorkspaceRequest,
+  Department,
+  EmploymentType,
+  InviteWorkspaceMemberRequest,
+  UpdateDepartmentRequest,
+  UpdateEmploymentTypeRequest,
+  UpdateRoleRequest,
+  UpdateWorkspaceConfigRequest,
+  UpdateWorkspaceMemberRequest,
+  UpdateWorkspaceRequest,
+  Workspace,
+  WorkspaceConfig,
+  WorkspaceMember,
+  WorkspaceMemberQueryParams,
+  WorkspaceRole,
+} from "@/types/workspace.types";
 
 export const workspaceService = {
   getWorkspaces: async (params?: PaginationParams) => {

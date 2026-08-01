@@ -1,60 +1,59 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
-import { useForm, Controller, useWatch } from "react-hook-form";
+import { useEffect, useRef, useState } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FileTextIcon } from "@phosphor-icons/react/dist/ssr";
 
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalScrollArea,
-  ModalFooter,
-} from "@/components/ui/layout/modal";
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
-import { Select } from "@/components/ui/forms/select";
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { DatePicker } from "@/components/ui/forms/date-picker";
+import { FileUploader } from "@/components/ui/forms/file-uploader";
 import {
   SearchSelect,
   SearchSelectOption,
 } from "@/components/ui/forms/search-select";
+import { Select } from "@/components/ui/forms/select";
 import { TextEditor } from "@/components/ui/forms/text-editor";
-import { FileUploader } from "@/components/ui/forms/file-uploader";
-import { DatePicker } from "@/components/ui/forms/date-picker";
-import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import {
-  TypeIcon,
-  StatusBadge,
-} from "@/features/dashboard/components/issue-table-row";
-import { IssueItemCard } from "@/features/issue-detail/components/issue-item-card";
-import { mapIssueToSearchOption } from "@/features/issue-detail/utils/issue-options.utils";
-
-import { useWorkspaceStore } from "@/store/workspace.store";
-import {
-  useWorkspaceMembers,
-  useWorkspaceConfig,
-} from "@/features/workspaces/hooks/use-workspaces";
-import {
-  useIssues,
-  useParentOptions,
-  useChildOptions,
-  useCreateIssue,
-  useUpdateIssue,
-} from "@/features/projects/hooks/use-issues";
-import { useCurrentUser } from "@/features/auth/hooks/use-auth";
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalScrollArea,
+} from "@/components/ui/layout/modal";
 import { APP_CONFIG } from "@/config/app.config";
-import { Issue, IssueType, IssueStatus } from "@/types/issue.types";
-import { cn } from "@/utils/cn";
-
+import { useCurrentUser } from "@/features/auth/hooks/use-auth";
 import {
-  createTaskSchema,
-  CreateTaskFormValues,
-} from "@/features/dashboard/schema/create-task.schema";
+  StatusBadge,
+  TypeIcon,
+} from "@/features/dashboard/components/issue-table-row";
 import {
   DEFAULT_CREATE_TASK_VALUES,
   PRIORITY_OPTIONS,
   formatCreateTaskPayload,
 } from "@/features/dashboard/helpers/create-task.helpers";
+import {
+  CreateTaskFormValues,
+  createTaskSchema,
+} from "@/features/dashboard/schema/create-task.schema";
+import { IssueItemCard } from "@/features/issue-detail/components/issue-item-card";
+import { mapIssueToSearchOption } from "@/features/issue-detail/utils/issue-options.utils";
+import {
+  useChildOptions,
+  useCreateIssue,
+  useIssues,
+  useParentOptions,
+  useUpdateIssue,
+} from "@/features/projects/hooks/use-issues";
+import {
+  useWorkspaceConfig,
+  useWorkspaceMembers,
+} from "@/features/workspaces/hooks/use-workspaces";
+import { useWorkspaceStore } from "@/store/workspace.store";
+import { Issue, IssueStatus, IssueType } from "@/types/issue.types";
+import { cn } from "@/utils/cn";
 
 export interface CreateTaskModalProps {
   isOpen: boolean;

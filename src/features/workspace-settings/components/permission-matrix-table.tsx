@@ -1,15 +1,16 @@
+import { useTranslations } from "next-intl";
+
 import {
   Table,
-  TableHeader,
   TableBody,
-  TableRow,
-  TableHead,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/data-display/table";
 import { Checkbox } from "@/components/ui/forms/checkbox";
 import { PERMISSION_MATRIX } from "@/constants/permissions";
 import { TRANSLATION_KEYS } from "@/constants/translations";
-import { useTranslations } from "next-intl";
 import { cn } from "@/utils/cn";
 
 interface PermissionMatrixTableProps {

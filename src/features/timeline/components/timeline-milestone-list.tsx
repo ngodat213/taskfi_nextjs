@@ -1,7 +1,8 @@
 "use client";
 
-import { MilestoneItem } from "@/features/timeline/types/timeline.types";
 import { CalendarBlankIcon } from "@phosphor-icons/react/dist/ssr";
+
+import { MilestoneItem } from "@/features/timeline/types/timeline.types";
 import { cn } from "@/utils/cn";
 
 interface TimelineMilestoneListProps {

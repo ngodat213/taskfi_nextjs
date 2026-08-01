@@ -1,13 +1,22 @@
 "use client";
 
-import { PaperclipIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
-import React, { useState, useRef, useCallback } from "react";
-import { cn } from "@/utils/cn";
-import { IssueAttachment } from "@/types/issue.types";
-import { AttachmentCard, LocalFileCard } from "./attachment-card";
-import { useUploadImage } from "@/hooks/use-upload";
-import { extractApiError } from "@/utils/error";
+import React, { useCallback, useRef, useState } from "react";
+
+import {
+  CircleNotchIcon,
+  FolderIcon,
+  PaperclipIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { DocumentPickerModal } from "@/features/documents/components/document-picker-modal";
+import { DocumentItem } from "@/features/documents/types/documents.types";
+import { useUploadImage } from "@/hooks/use-upload";
+import { IssueAttachment } from "@/types/issue.types";
+import { cn } from "@/utils/cn";
+import { extractApiError } from "@/utils/error";
+
+import { AttachmentCard, LocalFileCard } from "./attachment-card";
 
 export interface AttachmentUploaderProps {
   label?: string;
@@ -38,6 +47,7 @@ export function AttachmentUploader({
 }: AttachmentUploaderProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [internalIsUploading, setInternalIsUploading] = useState(false);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -142,6 +152,29 @@ export function AttachmentUploader({
     }
   };
 
+  const handleSelectDocsFromPicker = (selectedDocs: DocumentItem[]) => {
+    const newAttachments: IssueAttachment[] = selectedDocs.map((doc) => ({
+      fileUrl: doc.downloadUrl || "#",
+      originalName: `${doc.title}.${doc.extension.toLowerCase()}`,
+      original_name: `${doc.title}.${doc.extension.toLowerCase()}`,
+      name: doc.title,
+      fileSize: 1024 * 1024 * 2,
+      ...(validUploaderId ? { uploaderId: validUploaderId } : {}),
+    }));
+
+    const currentList: IssueAttachment[] = attachments.map((a) =>
+      typeof a === "string"
+        ? ({
+            fileUrl: a,
+            fileSize: 0,
+            ...(validUploaderId ? { uploaderId: validUploaderId } : {}),
+          } as IssueAttachment)
+        : a,
+    );
+
+    onAttachmentsChange?.([...currentList, ...newAttachments]);
+  };
+
   const removeFile = (index: number) => {
     const newFiles = value.filter((_, i) => i !== index);
     onChange?.(newFiles);
@@ -151,11 +184,21 @@ export function AttachmentUploader({
 
   return (
     <div className={cn("flex flex-col gap-1.5 w-full relative", className)}>
-      {label && (
-        <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
-          {label}
-        </h3>
-      )}
+      <div className="flex items-center justify-between">
+        {label && (
+          <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+            {label}
+          </h3>
+        )}
+        <button
+          type="button"
+          onClick={() => setIsPickerOpen(true)}
+          className="flex items-center gap-1.5 text-[11px] font-semibold text-primary hover:text-primary/80 transition-colors cursor-pointer bg-primary/10 hover:bg-primary/15 px-2 py-0.5 rounded-lg"
+        >
+          <FolderIcon className="w-3.5 h-3.5" />
+          <span>Browse Project Docs</span>
+        </button>
+      </div>
 
       <div className="flex flex-col gap-3 w-full">
         <div
@@ -247,6 +290,12 @@ export function AttachmentUploader({
           </div>
         )}
       </div>
+
+      <DocumentPickerModal
+        isOpen={isPickerOpen}
+        onClose={() => setIsPickerOpen(false)}
+        onSelectDocuments={handleSelectDocsFromPicker}
+      />
     </div>
   );
 }

@@ -1,44 +1,55 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { MagnifyingGlassIcon, StarIcon, SquaresFourIcon, ListBulletsIcon, UploadSimpleIcon, FolderSimpleIcon, UsersThreeIcon, KanbanIcon, PlusIcon } from "@phosphor-icons/react/dist/ssr";
-import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/utils/cn";
+import { useMemo, useState } from "react";
+
+import {
+  FolderSimpleIcon,
+  KanbanIcon,
+  ListBulletsIcon,
+  MagnifyingGlassIcon,
+  PlusIcon,
+  SquaresFourIcon,
+  StarIcon,
+  UploadSimpleIcon,
+  UsersThreeIcon,
+} from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
+
 import { PageContainer } from "@/components/layout/page-container";
-import { PageHeader } from "@/components/ui/layout/page-header";
-import { Input } from "@/components/ui/forms/input";
 import {
   Button,
-  ButtonVariant,
   ButtonSize,
+  ButtonVariant,
 } from "@/components/ui/actions/button";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/data-display/table";
+import { Input } from "@/components/ui/forms/input";
 import {
   SegmentedControl,
   SegmentedControlTab,
 } from "@/components/ui/forms/segmented-control";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-} from "@/components/ui/data-display/table";
-
-import {
-  DocumentItem,
-  FolderItem,
-} from "@/features/documents/types/documents.types";
+import { PageHeader } from "@/components/ui/layout/page-header";
+import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
 import { DOCUMENT_CATEGORIES } from "@/features/documents/constants/documents.constants";
 import {
   MOCK_DOCUMENTS,
   MOCK_FOLDERS,
 } from "@/features/documents/mocks/documents.mocks";
-import { FolderCard } from "./folder-card";
-import { DocumentListSection } from "./document-list-section";
-import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
+import {
+  DocumentItem,
+  FolderItem,
+} from "@/features/documents/types/documents.types";
 import { useNavigationStore } from "@/store/navigation.store";
-
 import { useUserStore } from "@/store/user.store";
+import { cn } from "@/utils/cn";
+
+import { DocumentListSection } from "./document-list-section";
+import { FolderCard } from "./folder-card";
 
 const VIEW_MODE_TABS: SegmentedControlTab[] = [
   { id: "grid", label: "Grid", icon: SquaresFourIcon },

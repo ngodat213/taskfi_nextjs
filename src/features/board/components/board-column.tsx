@@ -1,10 +1,12 @@
-import { PlusIcon } from "@phosphor-icons/react/dist/ssr";
 import { useDroppable } from "@dnd-kit/core";
 import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { PlusIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { Issue } from "@/types/issue.types";
+
 import { SortableTaskCard } from "./sortable-task-card";
 
 interface BoardColumnProps {
@@ -17,7 +19,10 @@ interface BoardColumnProps {
   };
   isMobile: boolean;
   q: string;
-  onIssueClick?: (issueId: string) => void;
+  onIssueClick?: (
+    issueId: string,
+    issueData?: { issueKey?: string; type?: string },
+  ) => void;
   onAddClick?: (status: string) => void;
 }
 
@@ -87,6 +92,22 @@ export function BoardColumn({
               />
             ))}
         </SortableContext>
+
+        {col.issues.filter(
+          (i) => !q || i.summary.toLowerCase().includes(q.toLowerCase()),
+        ).length === 0 && (
+          <div className="flex-1 flex flex-col items-center justify-center p-6 rounded-xl border border-dashed border-border/60 bg-card/30 text-center min-h-36 transition-colors">
+            <span className="text-[12.5px] font-medium text-muted-foreground/80 mb-1.5">
+              No tasks in {col.title}
+            </span>
+            <button
+              onClick={() => onAddClick?.(col.title)}
+              className="text-[12px] font-medium text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 transition-colors"
+            >
+              <PlusIcon className="w-3.5 h-3.5" /> Add task
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

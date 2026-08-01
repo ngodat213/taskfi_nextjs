@@ -1,34 +1,41 @@
 "use client";
 
 import { useState } from "react";
+
+import {
+  CalendarCheckIcon,
+  DownloadSimpleIcon,
+  SquaresFourIcon,
+  UsersThreeIcon,
+} from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
+
 import { PageContainer } from "@/components/layout/page-container";
-import { PageHeader } from "@/components/ui/layout/page-header";
 import {
   Button,
-  ButtonVariant,
   ButtonSize,
+  ButtonVariant,
 } from "@/components/ui/actions/button";
 import {
   SegmentedControl,
   SegmentedControlTab,
 } from "@/components/ui/forms/segmented-control";
 import { Select } from "@/components/ui/forms/select";
-import { useGroups } from "@/features/workspace-settings/hooks/use-groups";
-import { DownloadSimpleIcon, UsersThreeIcon, CalendarCheckIcon, SquaresFourIcon } from "@phosphor-icons/react/dist/ssr";
-import { motion, AnimatePresence } from "framer-motion";
+import { PageHeader } from "@/components/ui/layout/page-header";
+import { APP_CONFIG } from "@/config/app.config";
 import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
-
 import { getReportDataByProject } from "@/features/reports/mocks/reports.mocks";
+import { useGroups } from "@/features/workspace-settings/hooks/use-groups";
 
-import { VelocityMetricsCards } from "./velocity-metrics-cards";
 import { BurndownChart } from "./burndown-chart";
-import { TeamWorkloadTable } from "./team-workload-card";
+import { CapacitySummaryCards } from "./capacity-summary-cards";
 import {
-  WorkBreakdownCard,
   VelocityGrowthCard,
+  WorkBreakdownCard,
 } from "./category-distribution-card";
 import { DailyBurnTable } from "./daily-burn-table";
-import { CapacitySummaryCards } from "./capacity-summary-cards";
+import { TeamWorkloadTable } from "./team-workload-card";
+import { VelocityMetricsCards } from "./velocity-metrics-cards";
 
 const REPORT_TAB_OPTIONS: SegmentedControlTab[] = [
   { id: "overview", label: "Overview", icon: SquaresFourIcon },
@@ -43,8 +50,10 @@ export function ReportsView() {
     useState<string>("Sprint 24 (Active)");
 
   // Fetch groups dynamically from workspace
-  const { data: groupsResponse } = useGroups();
-  const groups = groupsResponse?.data || [];
+  const { data: groupsResponse } = useGroups({
+    limit: APP_CONFIG.PAGINATION.MAX_LIMIT,
+  });
+  const groups = groupsResponse?.data?.data || [];
 
   // Get report dataset based on selected project & group
   const reportData = getReportDataByProject(selectedProject, selectedGroup);
@@ -64,7 +73,10 @@ export function ReportsView() {
                   size={ButtonSize.Sm}
                   className="gap-1.5 text-[12px] shadow-2xs"
                 >
-                  <DownloadSimpleIcon className="w-3.5 h-3.5" strokeWidth={2.5} />
+                  <DownloadSimpleIcon
+                    className="w-3.5 h-3.5"
+                    strokeWidth={2.5}
+                  />
                   Export Report
                 </Button>
               }

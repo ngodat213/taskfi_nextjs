@@ -1,23 +1,29 @@
-import { DotsThreeIcon, ShieldIcon, PencilSimpleIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
-import { useWorkspaceStore } from "@/store/workspace.store";
-import { useWorkspaceRoles } from "@/features/workspaces/hooks/use-workspaces";
-import { cn } from "@/utils/cn";
+import { useTranslations } from "next-intl";
+
+import {
+  CircleNotchIcon,
+  DotsThreeIcon,
+  PencilSimpleIcon,
+  ShieldIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
+import { EmptyState } from "@/components/ui/data-display/empty-state";
 import {
   Table,
-  TableHeader,
   TableBody,
-  TableRow,
-  TableHead,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/data-display/table";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { TableActionBtn } from "@/components/ui/data-display/table-action-btn";
-import { useTranslations } from "next-intl";
-import { EntityMemberCount } from "@/features/workspace-settings/components/entity-member-count";
-
-import { WorkspaceRole } from "@/types/workspace.types";
-import { SYSTEM_ROLES } from "@/features/workspace-settings/constants/role.constants";
 import { TRANSLATION_KEYS } from "@/constants/translations";
+import { EntityMemberCount } from "@/features/workspace-settings/components/entity-member-count";
+import { SYSTEM_ROLES } from "@/features/workspace-settings/constants/role.constants";
+import { useWorkspaceRoles } from "@/features/workspaces/hooks/use-workspaces";
+import { useWorkspaceStore } from "@/store/workspace.store";
+import { WorkspaceRole } from "@/types/workspace.types";
+import { cn } from "@/utils/cn";
 
 export function RolesTable({
   onEdit,

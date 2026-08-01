@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
 import { Workspace } from "@/types/workspace.types";
 
 interface WorkspaceState {
