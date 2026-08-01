@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { motion, type Variants } from "framer-motion";
-import { Issue, IssueType } from "@/types/issue.types";
+
+import { CheckSquareIcon } from "@phosphor-icons/react/dist/ssr";
+import { type Variants, motion } from "framer-motion";
+
+import { EmptyState } from "@/components/ui/data-display/empty-state";
 import {
   Table,
   TableBody,
@@ -9,18 +12,16 @@ import {
   TableRow,
 } from "@/components/ui/data-display/table";
 import {
+  SPRING_CARD_VARIANTS,
+  STAGGER_CONTAINER_VARIANTS,
+} from "@/constants/animations";
+import {
   IssueRow,
   TypeIcon,
 } from "@/features/issues/components/issue-table-row";
-import { CheckSquareIcon } from "@phosphor-icons/react/dist/ssr";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
 import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
 import { useWorkspaceStore } from "@/store/workspace.store";
-
-import {
-  STAGGER_CONTAINER_VARIANTS,
-  SPRING_CARD_VARIANTS,
-} from "@/constants/animations";
+import { Issue, IssueType } from "@/types/issue.types";
 
 const containerVariants: Variants = STAGGER_CONTAINER_VARIANTS;
 const itemVariants: Variants = SPRING_CARD_VARIANTS;

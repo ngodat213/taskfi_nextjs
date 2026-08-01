@@ -1,11 +1,12 @@
 "use client";
 
-import { Handle, Position, NodeProps } from "@xyflow/react";
-import { TaskCard } from "@/features/board/components/task-card";
-import { Issue } from "@/types/issue.types";
+import { Handle, NodeProps, Position } from "@xyflow/react";
+
 import { Avatar } from "@/components/ui/data-display/avatar";
 import { Badge } from "@/components/ui/data-display/badge";
 import { ItemCard } from "@/components/ui/data-display/item-card";
+import { TaskCard } from "@/features/board/components/task-card";
+import { Issue } from "@/types/issue.types";
 import { cn } from "@/utils/cn";
 
 export interface DependencyNodeData {

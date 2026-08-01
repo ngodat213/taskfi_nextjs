@@ -1,8 +1,9 @@
 import React from "react";
-import { Issue } from "@/types/issue.types";
+
 import { IssueListTab } from "@/features/issues/components/issue-list-tab";
 import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
 import { useWorkspaceStore } from "@/store/workspace.store";
+import { Issue } from "@/types/issue.types";
 
 interface DashboardDoneTabProps {
   q: string;

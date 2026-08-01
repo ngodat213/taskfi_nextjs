@@ -1,24 +1,27 @@
 import { useState } from "react";
+
 import { useTranslations } from "next-intl";
+
 import { PlusIcon } from "@phosphor-icons/react/dist/ssr";
-import { TRANSLATION_KEYS } from "@/constants/translations";
+import { AnimatePresence, motion } from "framer-motion";
+
+import { EmptyState } from "@/components/ui/data-display/empty-state";
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { SearchSelect } from "@/components/ui/forms/search-select";
 import {
-  useIssueChildren,
+  SPRING_CARD_VARIANTS,
+  STAGGER_CONTAINER_VARIANTS,
+} from "@/constants/animations";
+import { TRANSLATION_KEYS } from "@/constants/translations";
+import { CreateTaskModal } from "@/features/dashboard/components/create-task-modal";
+import { IssueItemCard } from "@/features/issue-detail/components/issue-item-card";
+import { mapIssueToSearchOption } from "@/features/issue-detail/utils/issue-options.utils";
+import {
   useChildOptions,
+  useIssueChildren,
   useUpdateIssue,
 } from "@/features/projects/hooks/use-issues";
-import { mapIssueToSearchOption } from "@/features/issue-detail/utils/issue-options.utils";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
-import { SearchSelect } from "@/components/ui/forms/search-select";
-import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { useAutoError } from "@/hooks/use-auto-error";
-import { IssueItemCard } from "@/features/issue-detail/components/issue-item-card";
-import { CreateTaskModal } from "@/features/dashboard/components/create-task-modal";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  STAGGER_CONTAINER_VARIANTS,
-  SPRING_CARD_VARIANTS,
-} from "@/constants/animations";
 
 interface IssueSubtasksProps {
   projectId: string;

@@ -1,5 +1,25 @@
-import { LightningIcon, BookmarkSimpleIcon, CheckSquareIcon, BugIcon, ArrowElbowDownRightIcon, WarningCircleIcon, CaretUpIcon, EqualsIcon, CaretDownIcon, SquaresFourIcon, ChecksIcon, FileTextIcon, CheckCircleIcon, ChartBarIcon, UsersIcon, ClockCounterClockwiseIcon, GraphIcon, ArchiveIcon } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
+
+import {
+  ArchiveIcon,
+  ArrowElbowDownRightIcon,
+  BookmarkSimpleIcon,
+  BugIcon,
+  CaretDownIcon,
+  CaretUpIcon,
+  ChartBarIcon,
+  CheckCircleIcon,
+  CheckSquareIcon,
+  ChecksIcon,
+  ClockCounterClockwiseIcon,
+  EqualsIcon,
+  FileTextIcon,
+  GraphIcon,
+  LightningIcon,
+  SquaresFourIcon,
+  UsersIcon,
+  WarningCircleIcon,
+} from "@phosphor-icons/react/dist/ssr";
 
 export const ISSUE_TYPE_CONFIG: Record<
   string,

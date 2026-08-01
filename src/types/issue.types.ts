@@ -1,5 +1,5 @@
-import { UserResponseDto } from "@/types/auth.types";
 import { PaginationParams } from "@/types/api.types";
+import { UserResponseDto } from "@/types/auth.types";
 
 export type IssueType = (typeof IssueType)[keyof typeof IssueType] | string;
 export const IssueType = {
@@ -10,7 +10,8 @@ export const IssueType = {
   SUBTASK: "subtask",
 } as const;
 
-export type IssueStatus = (typeof IssueStatus)[keyof typeof IssueStatus] | string;
+export type IssueStatus =
+  (typeof IssueStatus)[keyof typeof IssueStatus] | string;
 export const IssueStatus = {
   TODO: "To Do",
   IN_PROGRESS: "In Progress",
@@ -18,7 +19,8 @@ export const IssueStatus = {
   DONE: "Done",
 } as const;
 
-export type IssuePriority = (typeof IssuePriority)[keyof typeof IssuePriority] | string;
+export type IssuePriority =
+  (typeof IssuePriority)[keyof typeof IssuePriority] | string;
 export const IssuePriority = {
   CRITICAL: "Critical",
   HIGH: "High",

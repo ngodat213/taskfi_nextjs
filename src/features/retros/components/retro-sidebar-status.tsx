@@ -1,10 +1,11 @@
 "use client";
 
 import { CheckCircleIcon } from "@phosphor-icons/react/dist/ssr";
+
 import {
   Button,
-  ButtonVariant,
   ButtonSize,
+  ButtonVariant,
 } from "@/components/ui/actions/button";
 
 interface RetroSidebarStatusProps {

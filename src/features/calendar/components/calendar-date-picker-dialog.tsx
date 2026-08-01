@@ -1,8 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarBlankIcon, CaretLeftIcon, CaretRightIcon, XIcon } from "@phosphor-icons/react/dist/ssr";
-import { motion, AnimatePresence } from "framer-motion";
+
+import {
+  CalendarBlankIcon,
+  CaretLeftIcon,
+  CaretRightIcon,
+  XIcon,
+} from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
+
 import { cn } from "@/utils/cn";
 
 interface CalendarDatePickerDialogProps {

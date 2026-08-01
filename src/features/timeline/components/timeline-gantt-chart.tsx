@@ -1,8 +1,17 @@
 "use client";
 
 import { useMemo, useState } from "react";
+
+import {
+  CaretDownIcon,
+  CaretRightIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  MagnifyingGlassIcon,
+  WarningCircleIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { TimelineItem } from "@/features/timeline/types/timeline.types";
-import { MagnifyingGlassIcon, CheckCircleIcon, ClockIcon, WarningCircleIcon, CaretRightIcon, CaretDownIcon } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/utils/cn";
 
 interface TimelineGanttChartProps {

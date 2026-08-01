@@ -1,12 +1,20 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { ArchiveIcon, ArrowCounterClockwiseIcon, FileTextIcon, LightningIcon } from "@phosphor-icons/react/dist/ssr";
+import { useMemo, useState } from "react";
+
+import {
+  ArchiveIcon,
+  ArrowCounterClockwiseIcon,
+  FileTextIcon,
+  LightningIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
+import { EmptyState } from "@/components/ui/data-display/empty-state";
+import { StatCard } from "@/components/ui/data-display/stat-card";
+import { KanbanColumn } from "@/components/ui/layout/kanban-column";
 import { MOCK_ARCHIVED_ITEMS } from "@/features/archived/mocks/archived.mocks";
 import { ArchivedItem } from "@/features/archived/types/archived.types";
-import { StatCard } from "@/components/ui/data-display/stat-card";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
-import { KanbanColumn } from "@/components/ui/layout/kanban-column";
+
 import { ArchivedCard } from "./archived-card";
 
 interface DashboardArchivedTabProps {

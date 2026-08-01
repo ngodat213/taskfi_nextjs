@@ -1,7 +1,8 @@
-import { XIcon } from "@phosphor-icons/react/dist/ssr";
 import * as React from "react";
 import { createPortal } from "react-dom";
-;
+
+import { XIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { cn } from "@/utils/cn";
 
 // Context to share onClose down to ModalHeader/Footer

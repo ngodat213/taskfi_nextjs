@@ -1,6 +1,6 @@
 import { WarningCircleIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { cn } from "@/utils/cn";
-;
 
 interface ErrorTooltipProps {
   message?: string;

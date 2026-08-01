@@ -1,25 +1,27 @@
-import { CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
-import { motion, Variants } from "framer-motion";
+
 import {
   DndContext,
   DragEndEvent,
   DragOverEvent,
   DragOverlay,
-  closestCorners,
   KeyboardSensor,
   PointerSensor,
+  closestCorners,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
+import { Variants, motion } from "framer-motion";
 
-import { BoardColumn } from "./board-column";
 import { useUpdateIssue } from "@/features/projects/hooks/use-issues";
-import { TaskCard } from "./task-card";
-import { Issue } from "@/types/issue.types";
 import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
 import { useIsMobile } from "@/hooks/use-media-query";
+import { Issue } from "@/types/issue.types";
+
+import { BoardColumn } from "./board-column";
+import { TaskCard } from "./task-card";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },

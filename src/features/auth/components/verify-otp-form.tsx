@@ -1,24 +1,27 @@
 "use client";
 
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+
+import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import { Button } from "@/components/ui/actions/button";
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { Input } from "@/components/ui/forms/input";
 import { Label } from "@/components/ui/forms/label";
 import {
-  useVerifyEmail,
   useResendSignupOtp,
+  useVerifyEmail,
 } from "@/features/auth/hooks/use-auth";
-import { handleFormError } from "@/utils/error";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "@/i18n/routing";
-import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
-import { Suspense, useEffect, useState, useMemo } from "react";
-import { useTranslations } from "next-intl";
 import {
-  getVerifyOtpSchema,
   VerifyOtpValues,
+  getVerifyOtpSchema,
 } from "@/features/auth/schemas/auth.schema";
+import { useRouter } from "@/i18n/routing";
+import { handleFormError } from "@/utils/error";
 
 function VerifyOtpFormInner() {
   const router = useRouter();

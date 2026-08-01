@@ -1,31 +1,32 @@
-import { BriefcaseIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
-;
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalScrollArea,
-  ModalFooter,
-} from "@/components/ui/layout/modal";
+import { useTranslations } from "next-intl";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { BriefcaseIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
+
+import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { FormInput } from "@/components/ui/forms/form-input";
 import { FormTextarea } from "@/components/ui/forms/form-textarea";
-import { Button, ButtonVariant } from "@/components/ui/actions/button";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalScrollArea,
+} from "@/components/ui/layout/modal";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 import {
   useCreateEmploymentType,
   useUpdateEmploymentType,
 } from "@/features/workspace-settings/hooks/use-employment-types";
-import { EmploymentType } from "@/types/workspace.types";
-import { useTranslations } from "next-intl";
 import {
-  employmentTypeSchema,
   EmploymentTypeFormData,
+  employmentTypeSchema,
 } from "@/features/workspace-settings/schema/employment-type.schema";
-import { TRANSLATION_KEYS } from "@/constants/translations";
+import { EmploymentType } from "@/types/workspace.types";
 
 export function AddNewEmploymentTypeModal({
   isOpen,
@@ -144,7 +145,9 @@ export function AddNewEmploymentTypeModal({
                 variant={ButtonVariant.Primary}
                 disabled={isPending}
               >
-                {isPending && <CircleNotchIcon className="w-4 h-4 mr-2 animate-spin" />}
+                {isPending && (
+                  <CircleNotchIcon className="w-4 h-4 mr-2 animate-spin" />
+                )}
                 {isEditing
                   ? isPending
                     ? t(ACT.saving)

@@ -1,26 +1,28 @@
 import { useTranslations } from "next-intl";
-import { TRANSLATION_KEYS } from "@/constants/translations";
+
 import { DatePicker } from "@/components/ui/forms/date-picker";
-import { StoryPointsSelector } from "@/features/issue-detail/components/story-points-selector";
-import { PropertySelect } from "@/features/issue-detail/components/property-select";
-import { PropertyUserSelect } from "@/features/issue-detail/components/property-user-select";
 import { SearchSelectOption } from "@/components/ui/forms/search-select";
-import { Issue, IssueStatus, IssueType } from "@/types/issue.types";
-import { useWorkspaceStore } from "@/store/workspace.store";
-import {
-  useWorkspaceMembers,
-  useWorkspaceConfig,
-} from "@/features/workspaces/hooks/use-workspaces";
-import { PRIORITY_OPTIONS } from "@/features/dashboard/helpers/create-task.helpers";
+import { APP_CONFIG } from "@/config/app.config";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 import { useCurrentUser } from "@/features/auth/hooks/use-auth";
 import {
-  TypeIcon,
-  StatusBadge,
   PriorityIcon,
+  StatusBadge,
+  TypeIcon,
 } from "@/features/dashboard/components/issue-table-row";
-import { IssueActivities } from "./issue-activities";
-import { APP_CONFIG } from "@/config/app.config";
+import { PRIORITY_OPTIONS } from "@/features/dashboard/helpers/create-task.helpers";
+import { PropertySelect } from "@/features/issue-detail/components/property-select";
+import { PropertyUserSelect } from "@/features/issue-detail/components/property-user-select";
+import { StoryPointsSelector } from "@/features/issue-detail/components/story-points-selector";
 import { buildMemberOptions } from "@/features/issue-detail/utils/issue-options.utils";
+import {
+  useWorkspaceConfig,
+  useWorkspaceMembers,
+} from "@/features/workspaces/hooks/use-workspaces";
+import { useWorkspaceStore } from "@/store/workspace.store";
+import { Issue, IssueStatus, IssueType } from "@/types/issue.types";
+
+import { IssueActivities } from "./issue-activities";
 
 interface IssuePropertiesProps {
   issue: Issue;

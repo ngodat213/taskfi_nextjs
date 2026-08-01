@@ -1,40 +1,42 @@
-import {
-  FolderOpenIcon,
-  CircleNotchIcon,
-} from "@phosphor-icons/react/dist/ssr";
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 
+import { useTranslations } from "next-intl";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalScrollArea,
-  ModalFooter,
-} from "@/components/ui/layout/modal";
+  CircleNotchIcon,
+  FolderOpenIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
+import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { FormInput } from "@/components/ui/forms/form-input";
 import { FormTextarea } from "@/components/ui/forms/form-textarea";
+import { LogoPicker } from "@/components/ui/forms/logo-picker";
 import { Select } from "@/components/ui/forms/select";
-import { Button, ButtonVariant } from "@/components/ui/actions/button";
-import { useTranslations } from "next-intl";
 import {
-  createProjectSchema,
-  CreateProjectFormData,
-} from "@/features/projects/schema/project.schema";
-import { Project } from "@/types/project.types";
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalScrollArea,
+} from "@/components/ui/layout/modal";
+import { APP_CONFIG } from "@/config/app.config";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 import {
   useCreateProject,
   useUpdateProject,
 } from "@/features/projects/hooks/use-projects";
-import { useWorkspaceMembers } from "@/features/workspaces/hooks/use-workspaces";
+import {
+  CreateProjectFormData,
+  createProjectSchema,
+} from "@/features/projects/schema/project.schema";
 import { useGroups } from "@/features/workspace-settings/hooks/use-groups";
-import { useWorkspaceStore } from "@/store/workspace.store";
-import { LogoPicker } from "@/components/ui/forms/logo-picker";
+import { useWorkspaceMembers } from "@/features/workspaces/hooks/use-workspaces";
 import { uploadService } from "@/services/upload.service";
-import { APP_CONFIG } from "@/config/app.config";
-import { TRANSLATION_KEYS } from "@/constants/translations";
+import { useWorkspaceStore } from "@/store/workspace.store";
+import { Project } from "@/types/project.types";
 
 export function AddNewProjectModal({
   isOpen,

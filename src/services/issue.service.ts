@@ -1,16 +1,16 @@
-import { apiFetch } from "@/lib/api-fetch";
 import { API_ENDPOINTS } from "@/config/api-endpoints";
-import { PaginatedResponse, BaseResponse } from "@/types/api.types";
+import { apiFetch } from "@/lib/api-fetch";
+import { AiGenerateIssueResponse } from "@/types/ai.types";
+import { BaseResponse, PaginatedResponse } from "@/types/api.types";
 import {
-  Issue,
-  IssueComment,
-  IssueActivity,
   CreateIssueRequest,
-  UpdateIssueRequest,
   GetIssuesParams,
   GetMyTasksParams,
+  Issue,
+  IssueActivity,
+  IssueComment,
+  UpdateIssueRequest,
 } from "@/types/issue.types";
-import { AiGenerateIssueResponse } from "@/types/ai.types";
 
 export type { GetIssuesParams, GetMyTasksParams };
 

@@ -1,7 +1,8 @@
 "use client";
 
-import { Badge } from "@/components/ui/data-display/badge";
 import { CalendarBlankIcon } from "@phosphor-icons/react/dist/ssr";
+
+import { Badge } from "@/components/ui/data-display/badge";
 import { cn } from "@/utils/cn";
 
 interface DueDatePillProps {

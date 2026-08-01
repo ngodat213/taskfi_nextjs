@@ -1,28 +1,34 @@
 import { useState } from "react";
+
 import { useTranslations } from "next-intl";
-import { TRANSLATION_KEYS } from "@/constants/translations";
+
+import { AnimatePresence, motion } from "framer-motion";
+
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
+import { EmptyState } from "@/components/ui/data-display/empty-state";
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { SearchSelect } from "@/components/ui/forms/search-select";
+import { APP_CONFIG } from "@/config/app.config";
+import {
+  SPRING_CARD_VARIANTS,
+  STAGGER_CONTAINER_VARIANTS,
+} from "@/constants/animations";
+import { TRANSLATION_KEYS } from "@/constants/translations";
+import { IssueItemCard } from "@/features/issue-detail/components/issue-item-card";
+import {
+  getLinkTargetId,
+  mapIssueToSearchOption,
+  resolveRelationshipOptions,
+} from "@/features/issue-detail/utils/issue-options.utils";
 import {
   useIssues,
   useLinkIssue,
   useUnlinkIssue,
 } from "@/features/projects/hooks/use-issues";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
-import { IssueItemCard } from "@/features/issue-detail/components/issue-item-card";
-import { motion, AnimatePresence } from "framer-motion";
-import { STAGGER_CONTAINER_VARIANTS, SPRING_CARD_VARIANTS } from "@/constants/animations";
-import { Issue, IssueLinkType } from "@/types/issue.types";
-import { SearchSelect } from "@/components/ui/forms/search-select";
-import {
-  mapIssueToSearchOption,
-  getLinkTargetId,
-  resolveRelationshipOptions,
-} from "@/features/issue-detail/utils/issue-options.utils";
-import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
-import { useAutoError } from "@/hooks/use-auto-error";
 import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
+import { useAutoError } from "@/hooks/use-auto-error";
 import { useWorkspaceStore } from "@/store/workspace.store";
-import { APP_CONFIG } from "@/config/app.config";
+import { Issue, IssueLinkType } from "@/types/issue.types";
 
 interface IssueLinkedIssuesProps {
   projectId: string;
@@ -171,7 +177,11 @@ export function IssueLinkedIssues({
         >
           <AnimatePresence mode="popLayout">
             {validLinkedIssues.map((linkedIssue) => (
-              <motion.div key={linkedIssue.id} variants={SPRING_CARD_VARIANTS} layout>
+              <motion.div
+                key={linkedIssue.id}
+                variants={SPRING_CARD_VARIANTS}
+                layout
+              >
                 <IssueItemCard
                   issue={linkedIssue}
                   onRemove={() => handleRemoveLink(linkedIssue.id)}

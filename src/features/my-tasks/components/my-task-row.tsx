@@ -1,13 +1,14 @@
 "use client";
 import { CalendarBlankIcon } from "@phosphor-icons/react/dist/ssr";
-import { cn } from "@/utils/cn";
-import { Issue } from "@/types/issue.types";
-import { TableRow, TableCell } from "@/components/ui/data-display/table";
-import { PriorityBadge } from "@/components/ui/data-display/priority-badge";
+
 import { Avatar } from "@/components/ui/data-display/avatar";
+import { PriorityBadge } from "@/components/ui/data-display/priority-badge";
+import { TableCell, TableRow } from "@/components/ui/data-display/table";
 import { Tooltip } from "@/components/ui/feedback/tooltip";
-import { isToday, isOverdue, formatDueDate } from "@/utils/date";
 import { ISSUE_TYPE_CONFIG } from "@/features/issues/constants/issue-ui.constants";
+import { Issue } from "@/types/issue.types";
+import { cn } from "@/utils/cn";
+import { formatDueDate, isOverdue, isToday } from "@/utils/date";
 
 interface MyTaskRowProps {
   task: Issue;

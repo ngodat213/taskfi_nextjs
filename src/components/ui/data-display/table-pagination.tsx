@@ -1,9 +1,15 @@
-import { CaretLeftIcon, CaretRightIcon } from "@phosphor-icons/react/dist/ssr";
 import * as React from "react";
-;
-import { Button, ButtonVariant, ButtonSize } from "@/components/ui/actions/button";
-import { cn } from "@/utils/cn";
+
 import { useTranslations } from "next-intl";
+
+import { CaretLeftIcon, CaretRightIcon } from "@phosphor-icons/react/dist/ssr";
+
+import {
+  Button,
+  ButtonSize,
+  ButtonVariant,
+} from "@/components/ui/actions/button";
+import { cn } from "@/utils/cn";
 
 export interface TablePaginationProps {
   page: number;

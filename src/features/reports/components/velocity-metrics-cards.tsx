@@ -1,8 +1,9 @@
 "use client";
 
-import { SprintMetricsSummary } from "@/features/reports/types/reports.types";
 import { ArrowUpRightIcon, ClockIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { StatCard } from "@/components/ui/data-display/stat-card";
+import { SprintMetricsSummary } from "@/features/reports/types/reports.types";
 
 interface VelocityMetricsCardsProps {
   summary: SprintMetricsSummary;

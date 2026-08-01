@@ -1,5 +1,4 @@
 import { BarricadeIcon } from "@phosphor-icons/react/dist/ssr";
-;
 
 export function PlaceholderView({ title }: { title: string }) {
   return (

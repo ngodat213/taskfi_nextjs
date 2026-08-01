@@ -1,4 +1,8 @@
-import { TimelineItem, MilestoneItem, TimelineSummary } from "../types/timeline.types";
+import {
+  MilestoneItem,
+  TimelineItem,
+  TimelineSummary,
+} from "../types/timeline.types";
 
 export const MOCK_TIMELINE_ITEMS: TimelineItem[] = [
   {
@@ -56,9 +60,7 @@ export const MOCK_TIMELINE_ITEMS: TimelineItem[] = [
     color: "#60a5fa",
     subItemsCount: 6,
     tags: ["Analytics", "Export"],
-    assignees: [
-      { id: "u-4", name: "Maria Garcia", avatarBg: "bg-amber-500" },
-    ],
+    assignees: [{ id: "u-4", name: "Maria Garcia", avatarBg: "bg-amber-500" }],
   },
   {
     id: "tl-4",
@@ -95,9 +97,7 @@ export const MOCK_TIMELINE_ITEMS: TimelineItem[] = [
     color: "#2563eb",
     subItemsCount: 9,
     tags: ["RBAC", "Security"],
-    assignees: [
-      { id: "u-2", name: "Alex Rivers", avatarBg: "bg-emerald-500" },
-    ],
+    assignees: [{ id: "u-2", name: "Alex Rivers", avatarBg: "bg-emerald-500" }],
   },
   {
     id: "tl-6",
@@ -114,9 +114,7 @@ export const MOCK_TIMELINE_ITEMS: TimelineItem[] = [
     color: "#3b82f6",
     subItemsCount: 12,
     tags: ["DevOps", "Sockets"],
-    assignees: [
-      { id: "u-5", name: "Michael Vance", avatarBg: "bg-rose-500" },
-    ],
+    assignees: [{ id: "u-5", name: "Michael Vance", avatarBg: "bg-rose-500" }],
   },
 ];
 
@@ -143,7 +141,8 @@ export const MOCK_MILESTONES: MilestoneItem[] = [
     owner: { id: "u-2", name: "Alex Rivers", avatarBg: "bg-emerald-500" },
     completedTasks: 14,
     totalTasks: 18,
-    keyDeliverable: "Zero critical CVE vulnerabilities & encrypted storage audit",
+    keyDeliverable:
+      "Zero critical CVE vulnerabilities & encrypted storage audit",
   },
   {
     id: "ms-3",
@@ -155,7 +154,8 @@ export const MOCK_MILESTONES: MilestoneItem[] = [
     owner: { id: "u-3", name: "Sarah Chen", avatarBg: "bg-purple-500" },
     completedTasks: 5,
     totalTasks: 16,
-    keyDeliverable: "Predictive burn rate model connected to Firestore Data Connect",
+    keyDeliverable:
+      "Predictive burn rate model connected to Firestore Data Connect",
   },
 ];
 

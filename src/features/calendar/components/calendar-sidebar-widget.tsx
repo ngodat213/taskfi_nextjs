@@ -1,7 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarBlankIcon, CaretLeftIcon, CaretRightIcon, RocketIcon, FlameIcon, PaintBrushIcon, ArrowsClockwiseIcon } from "@phosphor-icons/react/dist/ssr";
+
+import {
+  ArrowsClockwiseIcon,
+  CalendarBlankIcon,
+  CaretLeftIcon,
+  CaretRightIcon,
+  FlameIcon,
+  PaintBrushIcon,
+  RocketIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { cn } from "@/utils/cn";
 
 interface CalendarSidebarWidgetProps {

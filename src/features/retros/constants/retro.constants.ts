@@ -1,5 +1,10 @@
+import {
+  CheckCircleIcon,
+  SmileyIcon,
+  WarningCircleIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { RetroCategory } from "@/types/retro.types";
-import { SmileyIcon, WarningCircleIcon, CheckCircleIcon } from "@phosphor-icons/react/dist/ssr";
 
 export const HEX_OBJECT_ID_REGEX = /^[0-9a-fA-F]{24}$/;
 export const SPRINT_PREFIX_REGEX = /^sprint[-_\s]*/i;

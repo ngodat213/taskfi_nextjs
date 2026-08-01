@@ -1,30 +1,32 @@
-import { BuildingsIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 import { useEffect } from "react";
-;
 import { useForm } from "react-hook-form";
+
+import { useTranslations } from "next-intl";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalScrollArea,
-  ModalFooter,
-} from "@/components/ui/layout/modal";
+import { BuildingsIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
+
+import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { FormInput } from "@/components/ui/forms/form-input";
 import { FormTextarea } from "@/components/ui/forms/form-textarea";
-import { Button, ButtonVariant } from "@/components/ui/actions/button";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalScrollArea,
+} from "@/components/ui/layout/modal";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 import {
   useCreateDepartment,
   useUpdateDepartment,
 } from "@/features/workspace-settings/hooks/use-departments";
-import { Department } from "@/types/workspace.types";
-import { useTranslations } from "next-intl";
 import {
-  departmentSchema,
   DepartmentFormData,
+  departmentSchema,
 } from "@/features/workspace-settings/schema/department.schema";
-import { TRANSLATION_KEYS } from "@/constants/translations";
+import { Department } from "@/types/workspace.types";
 
 export function AddNewDepartmentModal({
   isOpen,
@@ -135,7 +137,9 @@ export function AddNewDepartmentModal({
                 variant={ButtonVariant.Primary}
                 disabled={isPending}
               >
-                {isPending && <CircleNotchIcon className="w-4 h-4 mr-2 animate-spin" />}
+                {isPending && (
+                  <CircleNotchIcon className="w-4 h-4 mr-2 animate-spin" />
+                )}
                 {isEditing
                   ? isPending
                     ? t(ACT.saving)

@@ -1,4 +1,4 @@
-import { UseFormSetError, FieldValues, Path } from "react-hook-form";
+import { FieldValues, Path, UseFormSetError } from "react-hook-form";
 
 export interface ApiErrorResponseData {
   success?: boolean;
@@ -58,7 +58,9 @@ export function extractApiError(err: unknown): MappedApiError {
   const errorKey = data?.errorKey;
 
   const rawMsg =
-    data?.message || error?.message || "Something went wrong. Please try again.";
+    data?.message ||
+    error?.message ||
+    "Something went wrong. Please try again.";
   const message = Array.isArray(rawMsg)
     ? rawMsg.map(formatErrorMessage).join(", ")
     : formatErrorMessage(String(rawMsg));

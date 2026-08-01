@@ -1,27 +1,30 @@
 "use client";
 
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+
 import { ChatCircleIcon, PulseIcon } from "@phosphor-icons/react/dist/ssr";
-import { TextEditor } from "@/components/ui/forms/text-editor";
-import { AttachmentUploader } from "@/components/ui/forms/attachment-uploader";
-import { SegmentedControl } from "@/components/ui/forms/segmented-control";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
+
 import {
   Button,
-  ButtonVariant,
   ButtonSize,
+  ButtonVariant,
 } from "@/components/ui/actions/button";
-import { RetroItem, RetroComment } from "@/types/retro.types";
-import { IssueAttachment } from "@/types/issue.types";
+import { EmptyState } from "@/components/ui/data-display/empty-state";
+import { AttachmentUploader } from "@/components/ui/forms/attachment-uploader";
+import { SegmentedControl } from "@/components/ui/forms/segmented-control";
+import { TextEditor } from "@/components/ui/forms/text-editor";
 import { useCurrentUser } from "@/features/auth/hooks/use-auth";
-import { useUserStore } from "@/store/user.store";
-import { useDebounce } from "@/hooks/use-debounce";
-import { RetroCommentItem } from "./retro-comment-item";
 import {
-  useRetroComments,
   useAddRetroComment,
+  useRetroComments,
   useUpdateRetroItem,
 } from "@/features/retros/hooks/use-retros";
+import { useDebounce } from "@/hooks/use-debounce";
+import { useUserStore } from "@/store/user.store";
+import { IssueAttachment } from "@/types/issue.types";
+import { RetroComment, RetroItem } from "@/types/retro.types";
+
+import { RetroCommentItem } from "./retro-comment-item";
 
 interface RetroMainContentProps {
   item: RetroItem;

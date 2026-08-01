@@ -1,41 +1,42 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
+
 import {
-  GitForkIcon,
   ArrowRightIcon,
-  WarningCircleIcon,
   CheckCircleIcon,
+  GitForkIcon,
   LinkBreakIcon,
   PulseIcon,
+  WarningCircleIcon,
 } from "@phosphor-icons/react/dist/ssr";
+import { type Variants, motion } from "framer-motion";
+
+import {
+  Button,
+  ButtonSize,
+  ButtonVariant,
+} from "@/components/ui/actions/button";
+import { Avatar } from "@/components/ui/data-display/avatar";
+import { Badge } from "@/components/ui/data-display/badge";
+import { EmptyState } from "@/components/ui/data-display/empty-state";
+import { Input } from "@/components/ui/forms/input";
+import { Select } from "@/components/ui/forms/select";
+import { Modal, ModalContent, ModalHeader } from "@/components/ui/layout/modal";
+import { APP_CONFIG } from "@/config/app.config";
+import { SPRING_CARD_VARIANTS } from "@/constants/animations";
 import {
   DependencyItem,
   DependencyRiskLevel,
 } from "@/features/deps/types/deps.types";
-import { DependencyNodeGraph } from "./dependency-node-graph";
+import {
+  isStatusSelected,
+  mapIssuesToDependencies,
+} from "@/features/deps/utils/deps.utils";
 import { useIssues } from "@/features/projects/hooks/use-issues";
 import { Issue } from "@/types/issue.types";
-import {
-  Button,
-  ButtonVariant,
-  ButtonSize,
-} from "@/components/ui/actions/button";
-import { Input } from "@/components/ui/forms/input";
-import { Select } from "@/components/ui/forms/select";
-import { Badge } from "@/components/ui/data-display/badge";
-import { Avatar } from "@/components/ui/data-display/avatar";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
-import { Modal, ModalContent, ModalHeader } from "@/components/ui/layout/modal";
-import { motion, type Variants } from "framer-motion";
-import { SPRING_CARD_VARIANTS } from "@/constants/animations";
 
-import {
-  mapIssuesToDependencies,
-  isStatusSelected,
-} from "@/features/deps/utils/deps.utils";
-
-import { APP_CONFIG } from "@/config/app.config";
+import { DependencyNodeGraph } from "./dependency-node-graph";
 
 const depCardVariants: Variants = SPRING_CARD_VARIANTS;
 
@@ -274,7 +275,9 @@ export function DashboardDepsTab({
 
                 {/* Right Side: Downstream / Blocked Task */}
                 <div
-                  onClick={() => dep.targetIssueId && onIssueClick?.(dep.targetIssueId)}
+                  onClick={() =>
+                    dep.targetIssueId && onIssueClick?.(dep.targetIssueId)
+                  }
                   className="flex-1 min-w-0 bg-secondary/30 border border-border/50 hover:border-primary/40 rounded-lg p-2.5 flex flex-col gap-1.5 cursor-pointer transition-colors"
                 >
                   <div className="flex items-center justify-between gap-2">

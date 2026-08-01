@@ -1,7 +1,15 @@
 "use client";
 
-import { RocketIcon, FlameIcon, PaintBrushIcon, ClockIcon, CalendarBlankIcon, FlagIcon } from "@phosphor-icons/react/dist/ssr";
+import {
+  CalendarBlankIcon,
+  ClockIcon,
+  FlagIcon,
+  FlameIcon,
+  PaintBrushIcon,
+  RocketIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import { motion } from "framer-motion";
+
 import { cn } from "@/utils/cn";
 
 const SPRINT_COLUMNS = [

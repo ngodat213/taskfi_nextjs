@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
-import { TRANSLATION_KEYS } from "@/constants/translations";
+
 import { Select } from "@/components/ui/forms/select";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 
 export function PreferencesSetting() {
   const t = useTranslations("UserSettings");
@@ -13,7 +14,9 @@ export function PreferencesSetting() {
           <h3 className="text-[14px] font-semibold text-foreground">
             {t(TK.title)}
           </h3>
-          <p className="text-[13px] text-muted-foreground mt-1">{t(TK.subtitle)}</p>
+          <p className="text-[13px] text-muted-foreground mt-1">
+            {t(TK.subtitle)}
+          </p>
         </div>
 
         <div className="p-5 space-y-6">

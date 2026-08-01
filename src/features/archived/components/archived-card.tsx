@@ -1,14 +1,15 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { FileTextIcon, LightningIcon } from "@phosphor-icons/react/dist/ssr";
-import { TypeIcon } from "@/features/issues/components/issue-table-row";
-import { ArchivedItem } from "@/features/archived/types/archived.types";
-import { RestoreButton } from "@/components/ui/feedback/restore-button";
-import { Badge } from "@/components/ui/data-display/badge";
+import { motion } from "framer-motion";
+
 import { Avatar } from "@/components/ui/data-display/avatar";
+import { Badge } from "@/components/ui/data-display/badge";
 import { ItemCard } from "@/components/ui/data-display/item-card";
+import { RestoreButton } from "@/components/ui/feedback/restore-button";
 import { SPRING_CARD_VARIANTS } from "@/constants/animations";
+import { ArchivedItem } from "@/features/archived/types/archived.types";
+import { TypeIcon } from "@/features/issues/components/issue-table-row";
 
 const archivedItemVariants = {
   ...SPRING_CARD_VARIANTS,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Issue, IssueType } from "@/types/issue.types";
+
 import {
   Table,
   TableBody,
@@ -11,6 +11,7 @@ import {
   IssueRow,
   TypeIcon,
 } from "@/features/dashboard/components/issue-table-row";
+import { Issue, IssueType } from "@/types/issue.types";
 
 interface IssueListTabProps {
   title: string;

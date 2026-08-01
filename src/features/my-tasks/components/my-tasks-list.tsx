@@ -1,25 +1,26 @@
 "use client";
-import { motion, type Variants } from "framer-motion";
 import {
   CheckSquareIcon,
   ChecksIcon,
   CircleNotchIcon,
 } from "@phosphor-icons/react/dist/ssr";
+import { type Variants, motion } from "framer-motion";
 
-import { Issue } from "@/types/issue.types";
 import {
   Table,
+  TableBody,
+  TableHead,
   TableHeader,
   TableRow,
-  TableHead,
-  TableBody,
 } from "@/components/ui/data-display/table";
-import { isToday, isOverdue } from "@/utils/date";
-import { MyTaskRow } from "./my-task-row";
 import {
-  STAGGER_CONTAINER_VARIANTS,
   SPRING_CARD_VARIANTS,
+  STAGGER_CONTAINER_VARIANTS,
 } from "@/constants/animations";
+import { Issue } from "@/types/issue.types";
+import { isOverdue, isToday } from "@/utils/date";
+
+import { MyTaskRow } from "./my-task-row";
 
 const containerVariants: Variants = STAGGER_CONTAINER_VARIANTS;
 const itemVariants: Variants = SPRING_CARD_VARIANTS;

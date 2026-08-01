@@ -1,17 +1,18 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { MagnifyingGlassIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { Input } from "@/components/ui/forms/input";
 import { Select } from "@/components/ui/forms/select";
-import { IssueType, IssuePriority } from "@/types/issue.types";
-import { useTranslations } from "next-intl";
 import { TRANSLATION_KEYS } from "@/constants/translations";
-
 import {
   useWorkspaceConfig,
   useWorkspaceMembers,
 } from "@/features/workspaces/hooks/use-workspaces";
 import { useWorkspaceStore } from "@/store/workspace.store";
+import { IssuePriority, IssueType } from "@/types/issue.types";
 
 interface IssueTabFilterBarProps {
   q: string;

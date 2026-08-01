@@ -1,32 +1,35 @@
 import { useState } from "react";
+
 import { useTranslations } from "next-intl";
+
 import {
   ArrowBendUpLeftIcon,
-  ShareNetworkIcon,
   CheckIcon,
   DotsThreeIcon,
+  ShareNetworkIcon,
 } from "@phosphor-icons/react/dist/ssr";
-import { Avatar } from "@/components/ui/data-display/avatar";
+
 import {
   Button,
-  ButtonVariant,
   ButtonSize,
+  ButtonVariant,
 } from "@/components/ui/actions/button";
+import { Avatar } from "@/components/ui/data-display/avatar";
 import { LikeButton } from "@/components/ui/feedback/like-button";
 import { TRANSLATION_KEYS } from "@/constants/translations";
-import { UserResponseDto } from "@/types/auth.types";
-import { Issue, IssueComment } from "@/types/issue.types";
 import {
+  getCommentRoleBadgeInfo,
+  getUserAvatarUrl,
   getUserDisplayName,
   getUserInitials,
-  getUserAvatarUrl,
   getUserSubHeader,
   renderFormattedCommentContent,
-  getCommentRoleBadgeInfo,
 } from "@/features/issue-detail/utils/comment-user.utils";
+import "@/styles/code-theme.css";
+import { UserResponseDto } from "@/types/auth.types";
+import { Issue, IssueComment } from "@/types/issue.types";
 import { cn } from "@/utils/cn";
 import { formatRelativeTime } from "@/utils/date";
-import "@/styles/code-theme.css";
 
 export interface CommentItemProps {
   comment: IssueComment;

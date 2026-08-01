@@ -1,17 +1,19 @@
 import React from "react";
+
 import {
-  PlusIcon,
+  ArrowUpIcon,
   AtIcon,
-  MicrophoneIcon,
-  SquareIcon,
+  BugIcon,
   CaretDownIcon,
   FadersIcon,
-  ArrowUpIcon,
-  SparkleIcon,
   LightbulbIcon,
   LightningIcon,
-  BugIcon,
+  MicrophoneIcon,
+  PlusIcon,
+  SparkleIcon,
+  SquareIcon,
 } from "@phosphor-icons/react";
+
 import { cn } from "@/utils/cn";
 
 interface AiChatInputAreaProps {

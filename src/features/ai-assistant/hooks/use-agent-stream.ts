@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { issueService } from "@/services/issue.service";
-import { AiGenerateIssueResponse } from "@/types/ai.types";
+
 import {
   AgentStep,
   IssueFormDraft,
 } from "@/features/ai-assistant/types/ai-chat.types";
+import { issueService } from "@/services/issue.service";
+import { AiGenerateIssueResponse } from "@/types/ai.types";
 
 export type StreamPayload =
   | { type: "step"; data: AgentStep }

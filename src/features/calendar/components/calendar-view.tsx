@@ -1,28 +1,37 @@
 "use client";
 
-import { CaretLeftIcon, CaretRightIcon, PlusIcon, MagnifyingGlassIcon, CalendarBlankIcon, ListBulletsIcon, RocketIcon } from "@phosphor-icons/react/dist/ssr";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  CalendarBlankIcon,
+  CaretLeftIcon,
+  CaretRightIcon,
+  ListBulletsIcon,
+  MagnifyingGlassIcon,
+  PlusIcon,
+  RocketIcon,
+} from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
+
 import { PageContainer } from "@/components/layout/page-container";
-import { PageHeader } from "@/components/ui/layout/page-header";
+import {
+  Button,
+  ButtonSize,
+  ButtonVariant,
+} from "@/components/ui/actions/button";
 import { Input } from "@/components/ui/forms/input";
-import { Select } from "@/components/ui/forms/select";
 import {
   SegmentedControl,
   SegmentedControlTab,
 } from "@/components/ui/forms/segmented-control";
-import {
-  Button,
-  ButtonVariant,
-  ButtonSize,
-} from "@/components/ui/actions/button";
-
+import { Select } from "@/components/ui/forms/select";
+import { PageHeader } from "@/components/ui/layout/page-header";
 import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
 import { useCalendarEvents } from "@/features/calendar/hooks/use-calendar-events";
-import { CalendarTimetableGrid } from "./calendar-timetable-grid";
+
 import { CalendarAgendaTab } from "./calendar-agenda-tab";
-import { CalendarSprintTab } from "./calendar-sprint-tab";
-import { CalendarEventModal } from "./calendar-event-modal";
 import { CalendarDatePickerDialog } from "./calendar-date-picker-dialog";
+import { CalendarEventModal } from "./calendar-event-modal";
+import { CalendarSprintTab } from "./calendar-sprint-tab";
+import { CalendarTimetableGrid } from "./calendar-timetable-grid";
 
 const CALENDAR_MAIN_TABS: SegmentedControlTab[] = [
   { id: "Timetable", label: "Timetable Grid", icon: CalendarBlankIcon },

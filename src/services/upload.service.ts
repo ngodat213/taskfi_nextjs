@@ -1,5 +1,5 @@
-import { apiFetch } from "@/lib/api-fetch";
 import { API_ENDPOINTS } from "@/config/api-endpoints";
+import { apiFetch } from "@/lib/api-fetch";
 import { BaseResponse, UploadResponse } from "@/types/api.types";
 
 export const uploadService = {

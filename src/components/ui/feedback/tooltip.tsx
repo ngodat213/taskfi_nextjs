@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useRef, ReactNode, useSyncExternalStore } from "react";
+import { ReactNode, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
+
+import { AnimatePresence, motion } from "framer-motion";
+
 import { cn } from "@/utils/cn";
 
 const emptySubscribe = () => () => {};

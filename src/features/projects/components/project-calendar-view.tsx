@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarBlankIcon, CaretLeftIcon, CaretRightIcon } from "@phosphor-icons/react/dist/ssr";
+
+import {
+  CalendarBlankIcon,
+  CaretLeftIcon,
+  CaretRightIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { cn } from "@/utils/cn";
 
 interface ProjectEvent {
@@ -77,7 +83,8 @@ export function ProjectCalendarView() {
               </span>
             </h4>
             <p className="text-[12px] text-muted-foreground">
-              Scheduled project releases, sprint target deadlines, and key milestones
+              Scheduled project releases, sprint target deadlines, and key
+              milestones
             </p>
           </div>
         </div>
@@ -119,7 +126,9 @@ export function ProjectCalendarView() {
         {daysInMonth.map((dayNum) => {
           const formattedDay = dayNum < 10 ? `0${dayNum}` : `${dayNum}`;
           const dateStr = `2026-07-${formattedDay}`;
-          const dayEvents = MOCK_PROJECT_EVENTS.filter((e) => e.date === dateStr);
+          const dayEvents = MOCK_PROJECT_EVENTS.filter(
+            (e) => e.date === dateStr,
+          );
           const isToday = dayNum === 23;
 
           return (

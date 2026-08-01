@@ -1,6 +1,7 @@
-import { CheckIcon } from "@phosphor-icons/react/dist/ssr";
-;
 import { useMemo } from "react";
+
+import { CheckIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { cn } from "@/utils/cn";
 
 interface PasswordStrengthProps {

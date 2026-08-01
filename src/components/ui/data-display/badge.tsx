@@ -1,14 +1,9 @@
-import { cn } from "@/utils/cn";
 import { CSSProperties, ReactNode } from "react";
 
+import { cn } from "@/utils/cn";
+
 export type BadgeVariant =
-  | "slate"
-  | "blue"
-  | "emerald"
-  | "amber"
-  | "red"
-  | "purple"
-  | "orange";
+  "slate" | "blue" | "emerald" | "amber" | "red" | "purple" | "orange";
 
 interface BadgeProps {
   children: ReactNode;

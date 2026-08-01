@@ -1,16 +1,17 @@
 "use client";
-import { CommandIcon, ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
-
-import { useRouter } from "@/i18n/routing";
-import { useWorkspaceStore } from "@/store/workspace.store";
-import { useNavigationStore } from "@/store/navigation.store";
-import { Workspace } from "@/types/workspace.types";
 import { useState } from "react";
-import { motion, Variants } from "framer-motion";
+
+import { ArrowRightIcon, CommandIcon } from "@phosphor-icons/react/dist/ssr";
+import { Variants, motion } from "framer-motion";
+
 import { useLogout } from "@/features/auth/hooks/use-auth";
-import { useWorkspaces } from "@/features/workspaces/hooks/use-workspaces";
 import { CreateWorkspaceModal } from "@/features/workspaces/components/create-workspace-modal";
 import { WorkspaceList } from "@/features/workspaces/components/workspace-list";
+import { useWorkspaces } from "@/features/workspaces/hooks/use-workspaces";
+import { useRouter } from "@/i18n/routing";
+import { useNavigationStore } from "@/store/navigation.store";
+import { useWorkspaceStore } from "@/store/workspace.store";
+import { Workspace } from "@/types/workspace.types";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0, y: 16, filter: "blur(6px)" },

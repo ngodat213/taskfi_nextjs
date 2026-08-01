@@ -1,17 +1,19 @@
-import React, { useState, useRef, useEffect } from "react";
-import { SidebarSimpleIcon, CornersOutIcon } from "@phosphor-icons/react";
-import { useWorkspaceStore } from "@/store/workspace.store";
+import React, { useEffect, useRef, useState } from "react";
+
+import { CornersOutIcon, SidebarSimpleIcon } from "@phosphor-icons/react";
+
 import { useAgentStream } from "@/features/ai-assistant/hooks/use-agent-stream";
 import {
   ChatMessage,
   IssueFormDraft,
 } from "@/features/ai-assistant/types/ai-chat.types";
+import { useWorkspaceStore } from "@/store/workspace.store";
+import { Issue } from "@/types/issue.types";
+
+import { AgentStreamView } from "./agent-stream-view";
 import { AiChatInputArea } from "./ai-chat-input-area";
 import { AiChatMessageList } from "./ai-chat-message-list";
-import { AgentStreamView } from "./agent-stream-view";
 import { AiChatModal } from "./ai-chat-modal";
-
-import { Issue } from "@/types/issue.types";
 
 interface AiChatSidebarProps {
   onApplyFormDraft?: (draft: IssueFormDraft) => void;

@@ -1,9 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { authService } from "@/services/auth.service";
-import { LogoutRequest, WrappedStatusResponseDto } from "@/types/auth.types";
-import { useAuthStore } from "@/store/auth.store";
+
 import { useRouter } from "@/i18n/routing";
+import { authService } from "@/services/auth.service";
+import { useAuthStore } from "@/store/auth.store";
 import { useWorkspaceStore } from "@/store/workspace.store";
+import { LogoutRequest, WrappedStatusResponseDto } from "@/types/auth.types";
 
 export function useLogin() {
   const setAuth = useAuthStore((state) => state.setAuth);

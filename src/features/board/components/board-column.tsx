@@ -1,10 +1,12 @@
-import { PlusIcon } from "@phosphor-icons/react/dist/ssr";
 import { useDroppable } from "@dnd-kit/core";
 import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { PlusIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { Issue } from "@/types/issue.types";
+
 import { SortableTaskCard } from "./sortable-task-card";
 
 interface BoardColumnProps {

@@ -1,47 +1,48 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useMemo, useState } from "react";
+
 import {
-  MagnifyingGlassIcon,
-  CheckIcon,
-  FolderSimpleIcon,
-  FilesIcon,
-  UserIcon,
   CaretLeftIcon,
+  CheckIcon,
+  FilesIcon,
+  FolderSimpleIcon,
+  MagnifyingGlassIcon,
+  UserIcon,
 } from "@phosphor-icons/react/dist/ssr";
 
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalScrollArea,
-  ModalFooter,
-} from "@/components/ui/layout/modal";
-import {
   Button,
-  ButtonVariant,
   ButtonSize,
+  ButtonVariant,
 } from "@/components/ui/actions/button";
+import { Avatar } from "@/components/ui/data-display/avatar";
 import {
   Table,
-  TableHeader,
-  TableHead,
   TableBody,
-  TableRow,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/data-display/table";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalScrollArea,
+} from "@/components/ui/layout/modal";
 import {
   MOCK_DOCUMENTS,
   MOCK_FOLDERS,
 } from "@/features/documents/mocks/documents.mocks";
 import { DocumentItem } from "@/features/documents/types/documents.types";
 import {
-  getFolderColorStyle,
   getFileTypeStyle,
+  getFolderColorStyle,
 } from "@/features/documents/utils/documents.utils";
 import { cn } from "@/utils/cn";
-import { Avatar } from "@/components/ui/data-display/avatar";
 
 interface DocumentPickerModalProps {
   isOpen: boolean;

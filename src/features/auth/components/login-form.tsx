@@ -1,21 +1,24 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "@/i18n/routing";
+
+import { useTranslations } from "next-intl";
+
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { Input } from "@/components/ui/forms/input";
 import { Label } from "@/components/ui/forms/label";
 import { useLogin, useResendSignupOtp } from "@/features/auth/hooks/use-auth";
-import { handleFormError } from "@/utils/error";
-import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
-import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
-import { useRouter } from "@/i18n/routing";
 import {
-  getLoginSchema,
   LoginFormValues,
+  getLoginSchema,
 } from "@/features/auth/schemas/auth.schema";
+import { Link } from "@/i18n/routing";
+import { useRouter } from "@/i18n/routing";
+import { handleFormError } from "@/utils/error";
 
 export function LoginForm() {
   const router = useRouter();

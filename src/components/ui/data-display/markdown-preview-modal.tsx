@@ -1,16 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FileTextIcon, DownloadSimpleIcon, CircleNotchIcon, WarningCircleIcon } from "@phosphor-icons/react/dist/ssr";
+
+import {
+  CircleNotchIcon,
+  DownloadSimpleIcon,
+  FileTextIcon,
+  WarningCircleIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
+import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import {
   Modal,
+  ModalBody,
   ModalContent,
   ModalHeader,
-  ModalBody,
   ModalScrollArea,
 } from "@/components/ui/layout/modal";
+
 import { MarkdownPreview } from "./markdown-preview";
-import { Button, ButtonVariant } from "@/components/ui/actions/button";
 
 interface MarkdownPreviewModalProps {
   isOpen: boolean;

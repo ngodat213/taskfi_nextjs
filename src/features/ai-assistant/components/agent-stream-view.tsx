@@ -1,18 +1,23 @@
 import React, { useState } from "react";
+
 import {
-  CheckIcon,
   CaretRightIcon,
+  CheckIcon,
   CircleNotchIcon,
-  XCircleIcon,
   SparkleIcon,
+  XCircleIcon,
 } from "@phosphor-icons/react/dist/ssr";
-import { AgentStep, IssueFormDraft } from "@/features/ai-assistant/types/ai-chat.types";
+
 import { MarkdownPreview } from "@/components/ui/data-display/markdown-preview";
+import { PriorityBadge } from "@/components/ui/data-display/priority-badge";
+import {
+  AgentStep,
+  IssueFormDraft,
+} from "@/features/ai-assistant/types/ai-chat.types";
 import {
   StatusBadge,
   TypeIcon,
 } from "@/features/dashboard/components/issue-table-row";
-import { PriorityBadge } from "@/components/ui/data-display/priority-badge";
 import { Issue } from "@/types/issue.types";
 
 interface AgentStreamViewProps {

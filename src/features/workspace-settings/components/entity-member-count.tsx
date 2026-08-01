@@ -1,8 +1,8 @@
 import { CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
-import { useWorkspaceMembers } from "@/features/workspaces/hooks/use-workspaces";
-;
-import { WorkspaceMemberQueryParams } from "@/types/workspace.types";
+
 import { AvatarGroup } from "@/components/ui/data-display/avatar-group";
+import { useWorkspaceMembers } from "@/features/workspaces/hooks/use-workspaces";
+import { WorkspaceMemberQueryParams } from "@/types/workspace.types";
 
 interface EntityMemberCountProps {
   workspaceId: string;
@@ -19,7 +19,9 @@ export function EntityMemberCount({
   });
 
   if (isLoading) {
-    return <CircleNotchIcon className="w-4 h-4 animate-spin text-muted-foreground" />;
+    return (
+      <CircleNotchIcon className="w-4 h-4 animate-spin text-muted-foreground" />
+    );
   }
 
   const members = data?.data?.data || [];

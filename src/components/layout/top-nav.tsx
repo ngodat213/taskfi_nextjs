@@ -1,28 +1,29 @@
 "use client";
 
+import React, { useEffect, useMemo, useState } from "react";
+
+import { useTheme } from "next-themes";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
 import {
   BellIcon,
-  QuestionIcon,
-  MagnifyingGlassIcon,
-  ListIcon,
   CaretLeftIcon,
   CaretRightIcon,
-  SunIcon,
+  ListIcon,
+  MagnifyingGlassIcon,
   MoonIcon,
+  QuestionIcon,
+  SunIcon,
 } from "@phosphor-icons/react/dist/ssr";
-
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { useTheme } from "next-themes";
-import { cn } from "@/utils/cn";
-import React, { useEffect, useState, useMemo } from "react";
-import { TypeIcon } from "@/features/dashboard/components/issue-table-row";
-import { Issue } from "@/types/issue.types";
 import { useQueryClient } from "@tanstack/react-query";
-import { useProject } from "@/features/projects/hooks/use-project";
-import { useIssue } from "@/features/projects/hooks/use-issues";
-import { NotificationsDrawer } from "@/components/layout/notifications-drawer";
+import { AnimatePresence, Variants, motion } from "framer-motion";
 
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { NotificationsDrawer } from "@/components/layout/notifications-drawer";
+import { TypeIcon } from "@/features/dashboard/components/issue-table-row";
+import { useIssue } from "@/features/projects/hooks/use-issues";
+import { useProject } from "@/features/projects/hooks/use-project";
+import { Issue } from "@/types/issue.types";
+import { cn } from "@/utils/cn";
 
 interface BreadcrumbNode {
   id: string;

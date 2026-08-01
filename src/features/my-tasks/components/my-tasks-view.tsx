@@ -1,26 +1,27 @@
 "use client";
+import { useMemo, useState } from "react";
+
 import {
-  MagnifyingGlassIcon,
+  CalendarIcon,
+  CalendarXIcon,
   CaretDownIcon,
   ChecksIcon,
-  CalendarIcon,
+  MagnifyingGlassIcon,
   WarningCircleIcon,
-  CalendarXIcon,
 } from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
 
-import { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { PageContainer } from "@/components/layout/page-container";
+import { SegmentedControl } from "@/components/ui/forms/segmented-control";
+import { PageHeader } from "@/components/ui/layout/page-header";
+import { APP_CONFIG } from "@/config/app.config";
+import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
+import { useMyTasks } from "@/features/projects/hooks/use-issues";
 import { useRouter } from "@/i18n/routing";
 import { useWorkspaceStore } from "@/store/workspace.store";
-import { TAB_CONTENT_VARIANTS } from "@/constants/animations";
-import { PageHeader } from "@/components/ui/layout/page-header";
-import { SegmentedControl } from "@/components/ui/forms/segmented-control";
-import { MyTasksList } from "./my-tasks-list";
-import { PageContainer } from "@/components/layout/page-container";
-import { useMyTasks } from "@/features/projects/hooks/use-issues";
 import { Issue } from "@/types/issue.types";
 
-import { APP_CONFIG } from "@/config/app.config";
+import { MyTasksList } from "./my-tasks-list";
 
 const tabs = [
   { id: "all", label: "All", icon: ChecksIcon },

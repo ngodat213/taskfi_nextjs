@@ -1,9 +1,10 @@
 import { ReactNode } from "react";
+
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import {
   SearchSelect,
   SearchSelectOption,
 } from "@/components/ui/forms/search-select";
-import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { cn } from "@/utils/cn";
 
 export interface PropertySelectProps {

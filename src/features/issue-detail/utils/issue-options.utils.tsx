@@ -1,11 +1,11 @@
 import { SearchSelectOption } from "@/components/ui/forms/search-select";
-import { Issue, IssueType, IssueStatus } from "@/types/issue.types";
 import {
-  TypeIcon,
   StatusBadge,
+  TypeIcon,
 } from "@/features/dashboard/components/issue-table-row";
-import { WorkspaceConfig, WorkspaceMember } from "@/types/workspace.types";
 import { DEFAULT_RELATIONSHIP_OPTIONS } from "@/features/issue-detail/constants/issue-detail.constants";
+import { Issue, IssueStatus, IssueType } from "@/types/issue.types";
+import { WorkspaceConfig, WorkspaceMember } from "@/types/workspace.types";
 
 export function mapIssueToSearchOption(
   issue:

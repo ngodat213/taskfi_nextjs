@@ -1,11 +1,11 @@
-import { apiFetch } from "@/lib/api-fetch";
 import { API_ENDPOINTS } from "@/config/api-endpoints";
+import { apiFetch } from "@/lib/api-fetch";
 import {
   BaseResponse,
   PaginatedResponse,
   PaginationParams,
 } from "@/types/api.types";
-import { Project, CreateProjectRequest } from "@/types/project.types";
+import { CreateProjectRequest, Project } from "@/types/project.types";
 
 export const projectService = {
   getProjects: async (groupId: string, params?: PaginationParams) => {

@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
+import { motion } from "framer-motion";
+
 import { Sidebar } from "@/components/layout/sidebar";
 import { TopNav } from "@/components/layout/top-nav";
 import { usePathname, useRouter } from "@/i18n/routing";
 import { useWorkspaceStore } from "@/store/workspace.store";
-import { motion } from "framer-motion";
 
 export default function DashboardLayout({
   children,

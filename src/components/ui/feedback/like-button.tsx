@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+
 import { ThumbsUpIcon } from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
+
 import { cn } from "@/utils/cn";
 
 interface LikeButtonProps {

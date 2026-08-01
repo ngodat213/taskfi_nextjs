@@ -1,16 +1,18 @@
 "use client";
+import React, { useRef, useState } from "react";
+
 import {
   CloudArrowUpIcon,
-  XIcon,
   FileIcon,
   FolderIcon,
+  XIcon,
 } from "@phosphor-icons/react/dist/ssr";
 
-import React, { useRef, useState } from "react";
-import { cn } from "@/utils/cn";
-import { InputLabel } from "./input-label";
 import { DocumentPickerModal } from "@/features/documents/components/document-picker-modal";
 import { DocumentItem } from "@/features/documents/types/documents.types";
+import { cn } from "@/utils/cn";
+
+import { InputLabel } from "./input-label";
 
 export interface FileUploaderProps {
   label?: string;

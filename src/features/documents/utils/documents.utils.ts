@@ -1,4 +1,12 @@
-import { FileTextIcon, FilePdfIcon, FigmaLogoIcon, CodeIcon, TableIcon, ArchiveIcon } from "@phosphor-icons/react/dist/ssr";
+import {
+  ArchiveIcon,
+  CodeIcon,
+  FigmaLogoIcon,
+  FilePdfIcon,
+  FileTextIcon,
+  TableIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { DocumentFileType } from "@/features/documents/types/documents.types";
 
 export function getFileTypeStyle(type: DocumentFileType) {

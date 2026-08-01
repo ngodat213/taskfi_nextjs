@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { XIcon, CheckIcon } from "@phosphor-icons/react/dist/ssr";
+import { useEffect, useRef, useState } from "react";
+
+import { CheckIcon, XIcon } from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
+
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
 import { cn } from "@/utils/cn";
 

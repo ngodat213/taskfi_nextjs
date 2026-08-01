@@ -1,10 +1,5 @@
 export type DocumentFileType =
-  | "pdf"
-  | "figma"
-  | "markdown"
-  | "spreadsheet"
-  | "image"
-  | "archive";
+  "pdf" | "figma" | "markdown" | "spreadsheet" | "image" | "archive";
 
 export type FolderGroupType = "team" | "project";
 

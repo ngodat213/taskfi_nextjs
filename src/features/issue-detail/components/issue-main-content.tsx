@@ -1,21 +1,22 @@
 import { useState } from "react";
+
 import { useTranslations } from "next-intl";
-import { TRANSLATION_KEYS } from "@/constants/translations";
+
+import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { AttachmentUploader } from "@/components/ui/forms/attachment-uploader";
 import { SearchSelect } from "@/components/ui/forms/search-select";
 import { TextEditor } from "@/components/ui/forms/text-editor";
-import { AttachmentUploader } from "@/components/ui/forms/attachment-uploader";
-import { useParentOptions } from "@/features/projects/hooks/use-issues";
-import { Issue } from "@/types/issue.types";
-import { IssueItemCard } from "./issue-item-card";
-import { IssueSubtasks } from "./issue-subtasks";
-import { IssueLinkedIssues } from "./issue-linked-issues";
-import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 import { mapIssueToSearchOption } from "@/features/issue-detail/utils/issue-options.utils";
-
+import { useParentOptions } from "@/features/projects/hooks/use-issues";
 import { useDeleteImage } from "@/hooks/use-upload";
+import { Issue } from "@/types/issue.types";
 import { getPublicIdFromAttachment } from "@/utils/cloudinary";
 
 import { IssueComments } from "./issue-comments";
+import { IssueItemCard } from "./issue-item-card";
+import { IssueLinkedIssues } from "./issue-linked-issues";
+import { IssueSubtasks } from "./issue-subtasks";
 
 interface IssueMainContentProps {
   issue: Issue;

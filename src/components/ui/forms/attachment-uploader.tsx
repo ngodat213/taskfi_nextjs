@@ -1,15 +1,22 @@
 "use client";
 
-import { PaperclipIcon, CircleNotchIcon, FolderIcon } from "@phosphor-icons/react/dist/ssr";
-import React, { useState, useRef, useCallback } from "react";
-import { cn } from "@/utils/cn";
-import { IssueAttachment } from "@/types/issue.types";
-import { AttachmentCard, LocalFileCard } from "./attachment-card";
-import { useUploadImage } from "@/hooks/use-upload";
-import { extractApiError } from "@/utils/error";
+import React, { useCallback, useRef, useState } from "react";
+
+import {
+  CircleNotchIcon,
+  FolderIcon,
+  PaperclipIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
 import { DocumentPickerModal } from "@/features/documents/components/document-picker-modal";
 import { DocumentItem } from "@/features/documents/types/documents.types";
+import { useUploadImage } from "@/hooks/use-upload";
+import { IssueAttachment } from "@/types/issue.types";
+import { cn } from "@/utils/cn";
+import { extractApiError } from "@/utils/error";
+
+import { AttachmentCard, LocalFileCard } from "./attachment-card";
 
 export interface AttachmentUploaderProps {
   label?: string;

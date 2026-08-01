@@ -1,27 +1,34 @@
 "use client";
 
-import { CheckIcon, ArrowRightIcon, CircleNotchIcon, FolderOpenIcon } from "@phosphor-icons/react/dist/ssr";
-
 import { useState } from "react";
-import { motion, Variants } from "framer-motion";
+
+import { useTranslations } from "next-intl";
+
+import {
+  ArrowRightIcon,
+  CheckIcon,
+  CircleNotchIcon,
+  FolderOpenIcon,
+} from "@phosphor-icons/react/dist/ssr";
+import { Variants, motion } from "framer-motion";
+
 import {
   Button,
-  ButtonVariant,
   ButtonSize,
+  ButtonVariant,
 } from "@/components/ui/actions/button";
+import { EmptyState } from "@/components/ui/data-display/empty-state";
+import { SegmentedControl } from "@/components/ui/forms/segmented-control";
 import { Select } from "@/components/ui/forms/select";
 import { PageHeader } from "@/components/ui/layout/page-header";
-import { SegmentedControl } from "@/components/ui/forms/segmented-control";
+import { APP_CONFIG } from "@/config/app.config";
+import { TRANSLATION_KEYS } from "@/constants/translations";
+import { PROJECT_VIEW_TABS } from "@/features/projects/constants";
 import { useGroups } from "@/features/workspace-settings/hooks/use-groups";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
+import { Project } from "@/types/project.types";
+
 import { AddNewProjectModal } from "./add-new-project-modal";
 import { ProjectGroupSection } from "./project-group-section";
-import { PROJECT_VIEW_TABS } from "@/features/projects/constants";
-import { useTranslations } from "next-intl";
-import { TRANSLATION_KEYS } from "@/constants/translations";
-
-import { Project } from "@/types/project.types";
-import { APP_CONFIG } from "@/config/app.config";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -185,7 +192,10 @@ export function ProjectsView() {
 
               <label className="flex items-center gap-1.5 cursor-pointer group select-none bg-card border border-border shadow-sm h-8 px-2.5 rounded-md hover:border-border transition-all">
                 <div className="relative w-3.5 h-3.5 rounded-[3px] border border-blue-500 flex items-center justify-center bg-blue-500 shrink-0">
-                  <CheckIcon className="w-2.5 h-2.5 text-white" strokeWidth={3} />
+                  <CheckIcon
+                    className="w-2.5 h-2.5 text-white"
+                    strokeWidth={3}
+                  />
                 </div>
                 <span className="text-[12px] sm:text-[12.5px] font-medium text-muted-foreground group-hover:text-slate-900 transition-colors whitespace-nowrap">
                   {t(TK.groupByProject)}

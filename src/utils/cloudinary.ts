@@ -34,7 +34,10 @@ export function getFileNameFromUrl(url: string): string {
 
 export function isImageUrl(url: string): boolean {
   if (!url) return false;
-  return /\.(jpg|jpeg|png|webp|avif|gif|svg)(\?.*)?$/i.test(url) || url.includes("/image/upload/");
+  return (
+    /\.(jpg|jpeg|png|webp|avif|gif|svg)(\?.*)?$/i.test(url) ||
+    url.includes("/image/upload/")
+  );
 }
 
 export function getPublicIdFromAttachment(item: unknown): string | null {
@@ -42,7 +45,8 @@ export function getPublicIdFromAttachment(item: unknown): string | null {
   if (typeof item === "object") {
     const obj = item as Record<string, unknown>;
     if (typeof obj.publicId === "string" && obj.publicId) return obj.publicId;
-    if (typeof obj.public_id === "string" && obj.public_id) return obj.public_id;
+    if (typeof obj.public_id === "string" && obj.public_id)
+      return obj.public_id;
   }
   const url =
     typeof item === "string"

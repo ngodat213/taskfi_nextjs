@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { StatCard } from "@/components/ui/data-display/stat-card";
 
 export function CapacitySummaryCards() {

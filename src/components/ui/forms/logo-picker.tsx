@@ -1,5 +1,7 @@
 import Image from "next/image";
+
 import { PlusIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { cn } from "@/utils/cn";
 
 interface LogoPickerProps {

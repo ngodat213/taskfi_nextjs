@@ -1,9 +1,9 @@
-import { Issue } from "@/types/issue.types";
 import {
   DependencyItem,
   DependencyRiskLevel,
   DependencyType,
 } from "@/features/deps/types/deps.types";
+import { Issue } from "@/types/issue.types";
 
 /**
  * Normalizes issue status string into a clean UI status type

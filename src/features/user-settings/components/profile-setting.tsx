@@ -1,23 +1,36 @@
 "use client";
 
-import { CopyIcon, CheckIcon, CameraIcon, UserIcon, EnvelopeSimpleIcon, IdentificationCardIcon, ShieldCheckIcon, TrashIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+
 import Image from "next/image";
-import { useUserStore } from "@/store/user.store";
+
+import {
+  CameraIcon,
+  CheckIcon,
+  CircleNotchIcon,
+  CopyIcon,
+  EnvelopeSimpleIcon,
+  IdentificationCardIcon,
+  ShieldCheckIcon,
+  TrashIcon,
+  UserIcon,
+} from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
+
+import {
+  Button,
+  ButtonSize,
+  ButtonVariant,
+} from "@/components/ui/actions/button";
+import { Input } from "@/components/ui/forms/input";
 import {
   useCurrentUser,
   useUpdateProfile,
 } from "@/features/auth/hooks/use-auth";
 import { useUploadImage } from "@/hooks/use-upload";
-import { getInitials } from "@/utils/string";
-import {
-  Button,
-  ButtonVariant,
-  ButtonSize,
-} from "@/components/ui/actions/button";
-import { Input } from "@/components/ui/forms/input";
+import { useUserStore } from "@/store/user.store";
 import { cn } from "@/utils/cn";
+import { getInitials } from "@/utils/string";
 
 export function ProfileSetting() {
   const { data: meResponse, isLoading } = useCurrentUser();

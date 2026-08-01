@@ -6,10 +6,7 @@ export type AiIntent =
   | "SUGGEST_SPRINT";
 
 export type AiActionType =
-  | "ISSUE_DRAFT"
-  | "ISSUE_UPDATE"
-  | "SUBTASK_LIST"
-  | "SPRINT_RECOMMENDATION";
+  "ISSUE_DRAFT" | "ISSUE_UPDATE" | "SUBTASK_LIST" | "SPRINT_RECOMMENDATION";
 
 export interface AiStep {
   id: string;

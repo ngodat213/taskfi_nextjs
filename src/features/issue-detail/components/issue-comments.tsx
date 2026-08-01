@@ -1,22 +1,24 @@
 import { useState } from "react";
+
 import { useTranslations } from "next-intl";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
-import { TextEditor } from "@/components/ui/forms/text-editor";
+
 import {
   Button,
-  ButtonVariant,
   ButtonSize,
+  ButtonVariant,
 } from "@/components/ui/actions/button";
-import {
-  useIssueComments,
-  useAddComment,
-} from "@/features/projects/hooks/use-issues";
+import { EmptyState } from "@/components/ui/data-display/empty-state";
+import { TextEditor } from "@/components/ui/forms/text-editor";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 import { useCurrentUser } from "@/features/auth/hooks/use-auth";
+import { CommentItem } from "@/features/issue-detail/components/comment-item";
+import { getUserAvatarUrl } from "@/features/issue-detail/utils/comment-user.utils";
+import {
+  useAddComment,
+  useIssueComments,
+} from "@/features/projects/hooks/use-issues";
 import { useUserStore } from "@/store/user.store";
 import { Issue, IssueComment } from "@/types/issue.types";
-import { TRANSLATION_KEYS } from "@/constants/translations";
-import { getUserAvatarUrl } from "@/features/issue-detail/utils/comment-user.utils";
-import { CommentItem } from "@/features/issue-detail/components/comment-item";
 
 interface IssueCommentsProps {
   issue: Issue;

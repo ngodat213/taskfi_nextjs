@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
-import { Select } from "@/components/ui/forms/select";
+
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { Select } from "@/components/ui/forms/select";
 import { cn } from "@/utils/cn";
 
 export interface PropertyUserSelectProps {

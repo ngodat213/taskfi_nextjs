@@ -1,4 +1,5 @@
 import React from "react";
+
 import { ChatMessage } from "@/features/ai-assistant/types/ai-chat.types";
 import { cn } from "@/utils/cn";
 

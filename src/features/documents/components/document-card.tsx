@@ -1,11 +1,17 @@
 "use client";
 
-import { StarIcon, DownloadSimpleIcon, ShareNetworkIcon, ClockIcon } from "@phosphor-icons/react/dist/ssr";
+import {
+  ClockIcon,
+  DownloadSimpleIcon,
+  ShareNetworkIcon,
+  StarIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import { motion } from "framer-motion";
-import { cn } from "@/utils/cn";
+
+import { TableCell, TableRow } from "@/components/ui/data-display/table";
 import { DocumentItem } from "@/features/documents/types/documents.types";
 import { getFileTypeStyle } from "@/features/documents/utils/documents.utils";
-import { TableRow, TableCell } from "@/components/ui/data-display/table";
+import { cn } from "@/utils/cn";
 
 interface DocumentCardProps {
   doc: DocumentItem;

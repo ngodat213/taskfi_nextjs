@@ -1,27 +1,29 @@
+import { useTranslations } from "next-intl";
+
 import {
-  DotsThreeIcon,
-  UsersIcon,
-  PencilSimpleIcon,
   CircleNotchIcon,
+  DotsThreeIcon,
+  PencilSimpleIcon,
+  UsersIcon,
 } from "@phosphor-icons/react/dist/ssr";
+
+import { Avatar } from "@/components/ui/data-display/avatar";
+import { EmptyState } from "@/components/ui/data-display/empty-state";
 import {
   Table,
-  TableHeader,
   TableBody,
-  TableRow,
-  TableHead,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/data-display/table";
-import { useGroups } from "@/features/workspace-settings/hooks/use-groups";
-import { APP_CONFIG } from "@/config/app.config";
-import { EmptyState } from "@/components/ui/data-display/empty-state";
-import { Avatar } from "@/components/ui/data-display/avatar";
 import { TableActionBtn } from "@/components/ui/data-display/table-action-btn";
-import { Group } from "@/types/group.types";
-import { useTranslations } from "next-intl";
+import { APP_CONFIG } from "@/config/app.config";
 import { TRANSLATION_KEYS } from "@/constants/translations";
 import { EntityMemberCount } from "@/features/workspace-settings/components/entity-member-count";
+import { useGroups } from "@/features/workspace-settings/hooks/use-groups";
 import { useWorkspaceStore } from "@/store/workspace.store";
+import { Group } from "@/types/group.types";
 
 interface GroupsTableProps {
   onEdit?: (group: Group) => void;

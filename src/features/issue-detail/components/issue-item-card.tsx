@@ -1,10 +1,11 @@
 import { XIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
-import { Issue, IssueStatus, IssueType } from "@/types/issue.types";
 import {
-  TypeIcon,
   StatusBadge,
+  TypeIcon,
 } from "@/features/dashboard/components/issue-table-row";
+import { Issue, IssueStatus, IssueType } from "@/types/issue.types";
 import { cn } from "@/utils/cn";
 
 interface IssueItemCardProps {

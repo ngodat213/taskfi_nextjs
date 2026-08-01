@@ -1,26 +1,27 @@
+import { useEffect } from "react";
+
 import { useTranslations } from "next-intl";
-import { TRANSLATION_KEYS } from "@/constants/translations";
-import { useIssue, useUpdateIssue } from "@/features/projects/hooks/use-issues";
-import { Issue, IssueType } from "@/types/issue.types";
+
+import { motion } from "framer-motion";
+
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
+import {
+  FADE_SLIDE_UP_VARIANTS,
+  SLIDE_IN_LEFT_VARIANTS,
+  SLIDE_IN_RIGHT_VARIANTS,
+  STAGGER_CONTAINER_VARIANTS,
+} from "@/constants/animations";
+import { TRANSLATION_KEYS } from "@/constants/translations";
+import { AiChatSidebar, IssueFormDraft } from "@/features/ai-assistant";
 import { TypeIcon } from "@/features/dashboard/components/issue-table-row";
 import { IssueMainContent } from "@/features/issue-detail/components/issue-main-content";
 import { IssueProperties } from "@/features/issue-detail/components/issue-properties";
 import { IssueSummaryInput } from "@/features/issue-detail/components/issue-summary-input";
-import { useAutoError } from "@/hooks/use-auto-error";
 import { updateIssueSchema } from "@/features/issue-detail/schemas/issue-detail.schema";
-
-import { useEffect } from "react";
-import { motion } from "framer-motion";
+import { useIssue, useUpdateIssue } from "@/features/projects/hooks/use-issues";
+import { useAutoError } from "@/hooks/use-auto-error";
 import { useNavigationStore } from "@/store/navigation.store";
-import {
-  STAGGER_CONTAINER_VARIANTS,
-  SLIDE_IN_LEFT_VARIANTS,
-  SLIDE_IN_RIGHT_VARIANTS,
-  FADE_SLIDE_UP_VARIANTS,
-} from "@/constants/animations";
-
-import { AiChatSidebar, IssueFormDraft } from "@/features/ai-assistant";
+import { Issue, IssueType } from "@/types/issue.types";
 
 interface IssueDetailViewProps {
   projectId: string;

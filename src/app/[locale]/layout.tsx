@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import localFont from "next/font/local";
 import { notFound } from "next/navigation";
+
+import "@/app/globals.css";
 import { routing } from "@/i18n/routing";
+import { QueryProvider } from "@/providers/query-provider";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 const googleSans = localFont({
   src: [
@@ -30,10 +34,6 @@ const googleSans = localFont({
   ],
   variable: "--font-google-sans",
 });
-
-import "@/app/globals.css";
-import { QueryProvider } from "@/providers/query-provider";
-import { ThemeProvider } from "@/providers/theme-provider";
 
 export const metadata: Metadata = {
   title: "Obvious",

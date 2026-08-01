@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Select, SelectProps } from "@/components/ui/forms/select";
-import { InputLabel } from "@/components/ui/forms/input-label";
+
 import { ErrorTooltip } from "@/components/ui/feedback/error-tooltip";
+import { InputLabel } from "@/components/ui/forms/input-label";
+import { Select, SelectProps } from "@/components/ui/forms/select";
 import { cn } from "@/utils/cn";
 
 export interface FormSelectProps extends SelectProps {

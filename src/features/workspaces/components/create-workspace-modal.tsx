@@ -1,16 +1,18 @@
-import { BriefcaseIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalScrollArea,
-  ModalFooter,
-} from "@/components/ui/layout/modal";
-import { LogoPicker } from "@/components/ui/forms/logo-picker";
+
+import { BriefcaseIcon, CircleNotchIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { FormInput } from "@/components/ui/forms/form-input";
 import { FormTextarea } from "@/components/ui/forms/form-textarea";
+import { LogoPicker } from "@/components/ui/forms/logo-picker";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalScrollArea,
+} from "@/components/ui/layout/modal";
 import { useCreateWorkspace } from "@/features/workspaces/hooks/use-workspaces";
 import { uploadService } from "@/services/upload.service";
 

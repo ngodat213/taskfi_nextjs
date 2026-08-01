@@ -1,19 +1,22 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+
+import { useTranslations } from "next-intl";
+
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import { Button } from "@/components/ui/actions/button";
 import { Input } from "@/components/ui/forms/input";
 import { Label } from "@/components/ui/forms/label";
 import { useForgotPassword } from "@/features/auth/hooks/use-auth";
-import { handleFormError } from "@/utils/error";
-import { useState, useMemo } from "react";
-import { Link } from "@/i18n/routing";
-import { useTranslations } from "next-intl";
 import {
-  getForgotPasswordSchema,
   ForgotPasswordValues,
+  getForgotPasswordSchema,
 } from "@/features/auth/schemas/auth.schema";
+import { Link } from "@/i18n/routing";
+import { handleFormError } from "@/utils/error";
 
 export function ForgotPasswordForm() {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -92,7 +95,9 @@ export function ForgotPasswordForm() {
             }
           />
           {errors.email && (
-            <p className="mt-1 text-xs text-destructive">{errors.email.message}</p>
+            <p className="mt-1 text-xs text-destructive">
+              {errors.email.message}
+            </p>
           )}
         </div>
 

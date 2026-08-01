@@ -1,19 +1,35 @@
 "use client";
 
-import { FolderIcon, CheckSquareIcon, CalendarBlankIcon, BookOpenIcon, TreeStructureIcon, KanbanIcon, ChartLineUpIcon, FileTextIcon, GearIcon, ChartPieIcon, PaintBrushIcon, PenNibIcon, CaretDownIcon, CaretUpIcon } from "@phosphor-icons/react/dist/ssr";
+import { useEffect, useMemo, useState } from "react";
+
+import {
+  BookOpenIcon,
+  CalendarBlankIcon,
+  CaretDownIcon,
+  CaretUpIcon,
+  ChartLineUpIcon,
+  ChartPieIcon,
+  CheckSquareIcon,
+  FileTextIcon,
+  FolderIcon,
+  GearIcon,
+  KanbanIcon,
+  PaintBrushIcon,
+  PenNibIcon,
+  TreeStructureIcon,
+} from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { Link, usePathname } from "@/i18n/routing";
-import { cn } from "@/utils/cn";
-import { getInitials } from "@/utils/string";
-import { useState, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useNavigationStore } from "@/store/navigation.store";
 import { useUserStore } from "@/store/user.store";
+import { cn } from "@/utils/cn";
+import { getInitials } from "@/utils/string";
 
-import { SidebarWorkspaceHeader } from "./sidebar-workspace-header";
 import { SidebarActionBar } from "./sidebar-action-bar";
 import { SidebarNavItem } from "./sidebar-nav-item";
 import { SidebarUserFooter } from "./sidebar-user-footer";
+import { SidebarWorkspaceHeader } from "./sidebar-workspace-header";
 
 const navItems = [
   { icon: FolderIcon, label: "Projects", href: "/" },

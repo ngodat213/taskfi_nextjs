@@ -28,12 +28,52 @@
   --hljs-class: #e6c07b;
 }
 
-.hljs { background: var(--hljs-bg); color: var(--hljs-fg); }
-.hljs-keyword, .hljs-selector-tag { color: var(--hljs-keyword); }
-.hljs-string, .hljs-type, .hljs-built_in, .hljs-builtin-name, .hljs-selector-id, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-addition, .hljs-variable, .hljs-template-variable { color: var(--hljs-string); }
-.hljs-title, .hljs-title.class_, .hljs-section { color: var(--hljs-title); }
-.hljs-comment, .hljs-quote, .hljs-deletion, .hljs-meta { color: var(--hljs-comment); font-style: italic; }
-.hljs-number, .hljs-literal, .hljs-link { color: var(--hljs-number); }
-.hljs-operator, .hljs-punctuation { color: var(--hljs-operator); }
-.hljs-attr, .hljs-attribute, .hljs-property { color: var(--hljs-attr); }
-.hljs-params { color: var(--hljs-params); }
+.hljs {
+  background: var(--hljs-bg);
+  color: var(--hljs-fg);
+}
+.hljs-keyword,
+.hljs-selector-tag {
+  color: var(--hljs-keyword);
+}
+.hljs-string,
+.hljs-type,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-selector-id,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-addition,
+.hljs-variable,
+.hljs-template-variable {
+  color: var(--hljs-string);
+}
+.hljs-title,
+.hljs-title.class_,
+.hljs-section {
+  color: var(--hljs-title);
+}
+.hljs-comment,
+.hljs-quote,
+.hljs-deletion,
+.hljs-meta {
+  color: var(--hljs-comment);
+  font-style: italic;
+}
+.hljs-number,
+.hljs-literal,
+.hljs-link {
+  color: var(--hljs-number);
+}
+.hljs-operator,
+.hljs-punctuation {
+  color: var(--hljs-operator);
+}
+.hljs-attr,
+.hljs-attribute,
+.hljs-property {
+  color: var(--hljs-attr);
+}
+.hljs-params {
+  color: var(--hljs-params);
+}

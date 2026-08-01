@@ -1,18 +1,19 @@
 "use client";
 
 import {
-  MagnifyingGlassIcon,
-  SquaresFourIcon,
-  ListBulletsIcon,
   CheckSquareIcon,
+  ListBulletsIcon,
+  MagnifyingGlassIcon,
   SquareIcon,
+  SquaresFourIcon,
 } from "@phosphor-icons/react/dist/ssr";
+
 import { Input } from "@/components/ui/forms/input";
-import { Select } from "@/components/ui/forms/select";
 import {
   SegmentedControl,
   SegmentedControlTab,
 } from "@/components/ui/forms/segmented-control";
+import { Select } from "@/components/ui/forms/select";
 import { StatusBadge } from "@/features/dashboard/components/issue-table-row";
 import { IssueStatus } from "@/types/issue.types";
 import { cn } from "@/utils/cn";

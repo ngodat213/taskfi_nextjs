@@ -1,6 +1,7 @@
 "use client";
 
 import { MagnifyingGlassIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { Input } from "@/components/ui/forms/input";
 import { Select } from "@/components/ui/forms/select";
 

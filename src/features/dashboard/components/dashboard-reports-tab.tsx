@@ -1,20 +1,21 @@
 "use client";
 
 import { useMemo } from "react";
-import { motion, type Variants } from "framer-motion";
-import { VelocityMetricsCards } from "@/features/reports/components/velocity-metrics-cards";
-import { BurndownChart } from "@/features/reports/components/burndown-chart";
-import {
-  WorkBreakdownCard,
-  VelocityGrowthCard,
-} from "@/features/reports/components/category-distribution-card";
-import { DailyBurnTable } from "@/features/reports/components/daily-burn-table";
-import { getReportDataByProject } from "@/features/reports/mocks/reports.mocks";
+
+import { type Variants, motion } from "framer-motion";
 
 import {
-  STAGGER_CONTAINER_VARIANTS,
   SPRING_CARD_VARIANTS,
+  STAGGER_CONTAINER_VARIANTS,
 } from "@/constants/animations";
+import { BurndownChart } from "@/features/reports/components/burndown-chart";
+import {
+  VelocityGrowthCard,
+  WorkBreakdownCard,
+} from "@/features/reports/components/category-distribution-card";
+import { DailyBurnTable } from "@/features/reports/components/daily-burn-table";
+import { VelocityMetricsCards } from "@/features/reports/components/velocity-metrics-cards";
+import { getReportDataByProject } from "@/features/reports/mocks/reports.mocks";
 
 const containerVariants: Variants = STAGGER_CONTAINER_VARIANTS;
 const itemVariants: Variants = SPRING_CARD_VARIANTS;

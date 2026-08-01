@@ -1,14 +1,19 @@
-import { CircleNotchIcon, PencilSimpleIcon } from "@phosphor-icons/react/dist/ssr";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Badge } from "@/components/ui/data-display/badge";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+
+import {
+  CircleNotchIcon,
+  PencilSimpleIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { Avatar } from "@/components/ui/data-display/avatar";
 import { AvatarGroup } from "@/components/ui/data-display/avatar-group";
+import { Badge } from "@/components/ui/data-display/badge";
+import { APP_CONFIG } from "@/config/app.config";
+import { TRANSLATION_KEYS } from "@/constants/translations";
 import { useProjects } from "@/features/projects/hooks/use-projects";
 import { Project } from "@/types/project.types";
-import { TRANSLATION_KEYS } from "@/constants/translations";
-import { APP_CONFIG } from "@/config/app.config";
-import { useRouter } from "next/navigation";
 
 export function ProjectGroupSection({
   group,

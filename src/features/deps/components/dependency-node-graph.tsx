@@ -1,39 +1,40 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+
+import { LinkBreakIcon, SparkleIcon } from "@phosphor-icons/react/dist/ssr";
 import {
-  ReactFlow,
   Background,
-  Controls,
-  MiniMap,
-  useNodesState,
-  useEdgesState,
-  addEdge,
-  Connection,
-  Edge,
-  Node,
   BackgroundVariant,
+  Connection,
+  Controls,
+  Edge,
   MarkerType,
+  MiniMap,
+  Node,
+  ReactFlow,
+  addEdge,
+  useEdgesState,
+  useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { LinkBreakIcon, SparkleIcon } from "@phosphor-icons/react/dist/ssr";
-import { DependencyCustomNode } from "./dependency-custom-node";
-import { useIssues } from "@/features/projects/hooks/use-issues";
-import { Issue } from "@/types/issue.types";
+
 import {
   Button,
-  ButtonVariant,
   ButtonSize,
+  ButtonVariant,
 } from "@/components/ui/actions/button";
 import { EmptyState } from "@/components/ui/data-display/empty-state";
-
+import { APP_CONFIG } from "@/config/app.config";
 import {
-  formatDependencyLabel,
   calculateDependencyRiskLevel,
-  getAssigneeName,
+  formatDependencyLabel,
   getAssigneeAvatar,
+  getAssigneeName,
   isStatusSelected,
 } from "@/features/deps/utils/deps.utils";
+import { useIssues } from "@/features/projects/hooks/use-issues";
+import { Issue } from "@/types/issue.types";
 
-import { APP_CONFIG } from "@/config/app.config";
+import { DependencyCustomNode } from "./dependency-custom-node";
 
 interface DependencyNodeGraphProps {
   projectId?: string;

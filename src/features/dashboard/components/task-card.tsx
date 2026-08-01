@@ -1,29 +1,33 @@
+import { useMemo } from "react";
+
 import Image from "next/image";
-import { getInitials } from "@/utils/string";
-import { Tooltip } from "@/components/ui/feedback/tooltip";
+
+import { useQueryClient } from "@tanstack/react-query";
+
 import { Badge } from "@/components/ui/data-display/badge";
 import { PriorityBadge } from "@/components/ui/data-display/priority-badge";
-import { cn } from "@/utils/cn";
-import { Issue } from "@/types/issue.types";
-import { TypeIcon } from "@/features/dashboard/components/issue-table-row";
-import { useQueryClient } from "@tanstack/react-query";
-import { useMemo } from "react";
-import { PaginatedResponse } from "@/types/api.types";
-
+import {
+  DueDatePill,
+  SubtaskProgressRing,
+} from "@/components/ui/data-display/task-card-pills";
 import { TypeBadge } from "@/components/ui/data-display/type-badge";
-import { DueDatePill, SubtaskProgressRing } from "@/components/ui/data-display/task-card-pills";
+import { Tooltip } from "@/components/ui/feedback/tooltip";
+import { TypeIcon } from "@/features/dashboard/components/issue-table-row";
+import {
+  TYPE_BORDER_CLASSES,
+  getTypeOrStatusColor,
+} from "@/features/dashboard/constants/issue-ui.constants";
+import { useProject } from "@/features/projects/hooks/use-project";
+import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
+import { PaginatedResponse } from "@/types/api.types";
+import { Issue } from "@/types/issue.types";
+import { cn } from "@/utils/cn";
+import { getInitials } from "@/utils/string";
 
 interface TaskCardProps {
   issue: Issue;
   onIssueClick?: (issueId: string) => void;
 }
-
-import { useProject } from "@/features/projects/hooks/use-project";
-import { useWorkspaceConfig } from "@/features/workspaces/hooks/use-workspaces";
-import {
-  TYPE_BORDER_CLASSES,
-  getTypeOrStatusColor,
-} from "@/features/dashboard/constants/issue-ui.constants";
 
 export function TaskCard({ issue, onIssueClick }: TaskCardProps) {
   const queryClient = useQueryClient();

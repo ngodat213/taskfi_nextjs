@@ -1,7 +1,7 @@
 "use client";
 
-import { PlusIcon, MagnifyingGlassIcon } from "@phosphor-icons/react/dist/ssr";
-import { motion, AnimatePresence } from "framer-motion";
+import { MagnifyingGlassIcon, PlusIcon } from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
 
 export interface SidebarActionBarProps {
   isCollapsed: boolean;

@@ -1,7 +1,9 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { TaskCard } from "./task-card";
+
 import { Issue } from "@/types/issue.types";
+
+import { TaskCard } from "./task-card";
 
 export function SortableTaskCard({
   issue,
@@ -36,9 +38,7 @@ export function SortableTaskCard({
       style={style}
       {...attributes}
       {...listeners}
-      className={
-        isMobile ? "min-w-55 max-w-55 snap-center shrink-0" : "w-full"
-      }
+      className={isMobile ? "min-w-55 max-w-55 snap-center shrink-0" : "w-full"}
     >
       <TaskCard issue={issue} onIssueClick={onIssueClick} />
     </div>

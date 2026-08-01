@@ -1,19 +1,22 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
+
 import { SidebarSimpleIcon } from "@phosphor-icons/react";
+
 import {
   Modal,
+  ModalBody,
   ModalContent,
   ModalHeader,
-  ModalBody,
 } from "@/components/ui/layout/modal";
 import {
-  ChatMessage,
   AgentStep,
+  ChatMessage,
   IssueFormDraft,
 } from "@/features/ai-assistant/types/ai-chat.types";
-import { AiChatMessageList } from "./ai-chat-message-list";
+
 import { AgentStreamView } from "./agent-stream-view";
 import { AiChatInputArea } from "./ai-chat-input-area";
+import { AiChatMessageList } from "./ai-chat-message-list";
 
 interface AiChatModalProps {
   isOpen: boolean;

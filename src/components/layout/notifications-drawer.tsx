@@ -1,15 +1,28 @@
 "use client";
 
 import { useState } from "react";
-import { BellIcon, XIcon, CheckCircleIcon, CheckSquareIcon, BookmarkSimpleIcon, BugIcon, GitBranchIcon, GitPullRequestIcon, TrashIcon, CheckIcon } from "@phosphor-icons/react/dist/ssr";
-import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/utils/cn";
-import { getInitials } from "@/utils/string";
+
+import {
+  BellIcon,
+  BookmarkSimpleIcon,
+  BugIcon,
+  CheckCircleIcon,
+  CheckIcon,
+  CheckSquareIcon,
+  GitBranchIcon,
+  GitPullRequestIcon,
+  TrashIcon,
+  XIcon,
+} from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
+
 import {
   Button,
-  ButtonVariant,
   ButtonSize,
+  ButtonVariant,
 } from "@/components/ui/actions/button";
+import { cn } from "@/utils/cn";
+import { getInitials } from "@/utils/string";
 
 export interface TaskFiNotificationItem {
   id: string;
@@ -130,7 +143,9 @@ export function NotificationsDrawer({
   const getItemTypeIcon = (type: TaskFiNotificationItem["itemType"]) => {
     switch (type) {
       case "task":
-        return <CheckSquareIcon className="w-3.5 h-3.5 text-blue-500 shrink-0" />;
+        return (
+          <CheckSquareIcon className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+        );
       case "subtask":
         return <GitBranchIcon className="w-3.5 h-3.5 text-teal-500 shrink-0" />;
       case "bug":
@@ -144,7 +159,9 @@ export function NotificationsDrawer({
           <GitPullRequestIcon className="w-3.5 h-3.5 text-purple-500 shrink-0" />
         );
       default:
-        return <CheckSquareIcon className="w-3.5 h-3.5 text-blue-500 shrink-0" />;
+        return (
+          <CheckSquareIcon className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+        );
     }
   };
 

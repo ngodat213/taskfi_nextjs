@@ -1,18 +1,18 @@
+import { API_ENDPOINTS } from "@/config/api-endpoints";
 import { apiClient } from "@/lib/axios";
 import {
-  LoginRequest,
-  SignupRequest,
-  VerifyEmailRequest,
-  ForgotPasswordRequest,
-  ResetPasswordRequest,
   FcmTokenRequest,
+  ForgotPasswordRequest,
+  LoginRequest,
   LogoutRequest,
+  ResetPasswordRequest,
+  SignupRequest,
   UpdateProfileRequest,
+  VerifyEmailRequest,
+  WrappedStatusResponseDto,
   WrappedTokenResponseDto,
   WrappedUserResponseDto,
-  WrappedStatusResponseDto,
 } from "@/types/auth.types";
-import { API_ENDPOINTS } from "@/config/api-endpoints";
 
 export const authService = {
   login: async (data: LoginRequest) => {

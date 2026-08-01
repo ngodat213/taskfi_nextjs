@@ -1,8 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState, useId } from "react";
-import { CodeIcon, CopyIcon, CheckIcon, WarningCircleIcon, EyeIcon } from "@phosphor-icons/react/dist/ssr";
+import { useEffect, useId, useRef, useState } from "react";
+
 import { useTheme } from "next-themes";
+
+import {
+  CheckIcon,
+  CodeIcon,
+  CopyIcon,
+  EyeIcon,
+  WarningCircleIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { cn } from "@/utils/cn";
 
 interface MermaidDiagramProps {

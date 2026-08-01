@@ -1,7 +1,9 @@
 "use client";
 
 import * as React from "react";
+
 import { PlusIcon } from "@phosphor-icons/react/dist/ssr";
+
 import { cn } from "@/utils/cn";
 
 export interface KanbanColumnProps extends React.HTMLAttributes<HTMLDivElement> {

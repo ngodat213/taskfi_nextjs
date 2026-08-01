@@ -1,10 +1,11 @@
 "use client";
+import Link from "next/link";
+
 import { WarningCircleIcon } from "@phosphor-icons/react/dist/ssr";
 
-import Link from "next/link";
-import "./globals.css";
 import { Button, ButtonVariant } from "@/components/ui/actions/button";
-;
+
+import "./globals.css";
 
 export default function NotFound() {
   return (

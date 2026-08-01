@@ -1,9 +1,14 @@
 "use client";
 
 import Image from "next/image";
+
+import {
+  CaretDownIcon,
+  SidebarSimpleIcon,
+} from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "framer-motion";
+
 import { Link } from "@/i18n/routing";
-import { CaretDownIcon, SidebarSimpleIcon } from "@phosphor-icons/react/dist/ssr";
-import { motion, AnimatePresence } from "framer-motion";
 
 export interface SidebarWorkspaceHeaderProps {
   currentNav?: {
